@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumen Goods — Objects Worth Keeping</title>
+<meta name="description" content="Lumen Goods crafts timeless home and lifestyle objects designed to last and made to matter. Sustainable, thoughtful design for everyday living.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & BASE ========== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --cream: #faf8f4;
+  --cream-dark: #f0ece4;
+  --charcoal: #1a1a1a;
+  --charcoal-light: #3a3a3a;
+  --gold: #b8860b;
+  --gold-light: #d4a843;
+  --sage: #7c8c6e;
+  --sage-light: #a3b293;
+  --rose: #c4a68a;
+  --rose-light: #d9c4af;
+  --font-serif: 'Cormorant Garamond', 'Georgia', serif;
+  --font-sans: 'Outfit', 'Helvetica Neue', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--cream);
+  color: var(--charcoal);
+  line-height: 1.7;
+  font-weight: 300;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+img { max-width: 100%; }
+
+::selection {
+  background-color: var(--gold);
+  color: var(--cream);
+}
+
+/* ========== TYPOGRAPHY ========== */
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  line-height: 1.15;
+}
+
+/* ========== NAV ========== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.5s ease, padding 0.3s ease;
+}
+
+.nav.scrolled {
+  background-color: rgba(250, 248, 244, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 1rem 3rem;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+}
+
+.nav-logo {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-logo span {
+  color: var(--gold);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--gold);
+  transition: width 0.4s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-links a:hover {
+  color: var(--gold);
+}
+
+.nav-menu-btn {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+
+.nav-menu-btn span {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background-color: var(--charcoal);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Mobile menu */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--cream);
+  z-index: 999;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.mobile-menu.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile-menu a {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  transition: color 0.3s ease;
+}
+
+.mobile-menu a:hover {
+  color: var(--gold);
+}
+
+/* ========== HERO ========== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 6rem 2rem 4rem;
+  background: linear-gradient(175deg, #faf8f4 0%, #f5f0e8 40%, #f0ece4 70%, #ede6da 100%);
+  overflow: hidden;
+}
+
+.hero-ornament {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+/* CSS-only product silhouette: abstract vessels/containers */
+.hero-silhouette {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  pointer-events: none;
+  opacity: 0.045;
+}
+
+.vessel {
+  position: absolute;
+  border: 2px solid var(--charcoal);
+}
+
+.vessel-1 {
+  width: 80px;
+  height: 160px;
+  border-radius: 40px 40px 20px 20px;
+  top: 30%;
+  left: 20%;
+}
+
+.vessel-2 {
+  width: 120px;
+  height: 100px;
+  border-radius: 60px 60px 10px 10px;
+  top: 45%;
+  right: 18%;
+}
+
+.vessel-3 {
+  width: 50px;
+  height: 200px;
+  border-radius: 25px 25px 8px 8px;
+  bottom: 15%;
+  left: 40%;
+}
+
+.vessel-4 {
+  width: 140px;
+  height: 70px;
+  border-radius: 70px 70px 12px 12px;
+  top: 18%;
+  right: 30%;
+}
+
+.vessel-5 {
+  width: 60px;
+  height: 120px;
+  border-radius: 6px;
+  bottom: 25%;
+  right: 28%;
+  transform: rotate(-5deg);
+}
+
+.vessel-6 {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  top: 60%;
+  left: 15%;
+}
+
+.hero-overline {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  opacity: 0;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 7.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  margin-bottom: 2rem;
+  max-width: 900px;
+  opacity: 0;
+}
+
+.hero h1 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--charcoal-light);
+}
+
+.hero-sub {
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--charcoal-light);
+  max-width: 440px;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+  opacity: 0;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  border: 1px solid var(--charcoal);
+  padding: 1rem 2.5rem;
+  transition: all 0.4s ease;
+  opacity: 0;
+}
+
+.hero-cta:hover {
+  background-color: var(--charcoal);
+  color: var(--cream);
+}
+
+.hero-cta svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.hero-cta:hover svg {
+  transform: translateX(4px);
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+}
+
+.hero-scroll-hint span {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--charcoal-light);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--charcoal), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* ========== PHILOSOPHY ========== */
+.philosophy {
+  padding: 8rem 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.philosophy-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: start;
+}
+
+.philosophy-left {
+  position: sticky;
+  top: 8rem;
+}
+
+.section-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.philosophy h2 {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  line-height: 1.15;
+  margin-bottom: 2rem;
+}
+
+.philosophy-divider {
+  width: 60px;
+  height: 1px;
+  background-color: var(--gold);
+  margin-bottom: 2rem;
+}
+
+.philosophy-right p {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--charcoal-light);
+  margin-bottom: 1.8rem;
+}
+
+.philosophy-right p:first-child::first-letter {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  float: left;
+  line-height: 1;
+  margin-right: 0.5rem;
+  margin-top: 0.15rem;
+  color: var(--gold);
+  font-weight: 400;
+}
+
+.philosophy-values {
+  display: flex;
+  gap: 3rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(26, 26, 26, 0.08);
+}
+
+.philosophy-value h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+
+.philosophy-value p {
+  font-size: 0.9rem !important;
+  line-height: 1.7 !important;
+  color: var(--charcoal-light);
+}
+
+/* ========== COLLECTIONS ========== */
+.collections {
+  padding: 6rem 3rem 8rem;
+  background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+}
+
+.collections-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 5rem;
+}
+
+.collections-header h2 {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  margin-bottom: 1.2rem;
+}
+
+.collections-header p {
+  font-size: 1.05rem;
+  color: var(--charcoal-light);
+  line-height: 1.8;
+}
+
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.collection-card {
+  position: relative;
+  height: 520px;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+.collection-card:hover {
+  transform: translateY(-6px);
+}
+
+.card-bg {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.5s ease;
+}
+
+.collection-card:nth-child(1) .card-bg {
+  background: linear-gradient(170deg, #f5ede0 0%, #e8dbc5 50%, #d9c9a8 100%);
+}
+.collection-card:nth-child(2) .card-bg {
+  background: linear-gradient(170deg, #e8ece4 0%, #d4dbc9 50%, #bfc9b0 100%);
+}
+.collection-card:nth-child(3) .card-bg {
+  background: linear-gradient(170deg, #f0e8e0 0%, #e2d5c7 50%, #d4c4b0 100%);
+}
+.collection-card:nth-child(4) .card-bg {
+  background: linear-gradient(170deg, #e8e4e0 0%, #d8d0c8 50%, #c8bdb2 100%);
+}
+
+.card-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5rem 2rem;
+}
+
+.card-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+}
+
+.card-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--charcoal);
+  stroke-width: 1;
+  fill: none;
+}
+
+.card-number {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  color: var(--charcoal-light);
+  opacity: 0.4;
+  margin-bottom: auto;
+}
+
+.card-bottom {
+  transform: translateY(20px);
+  transition: transform 0.5s ease;
+}
+
+.collection-card:hover .card-bottom {
+  transform: translateY(0);
+}
+
+.card-bottom h3 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+
+.card-bottom .card-desc {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--charcoal-light);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+  max-width: 240px;
+}
+
+.collection-card:hover .card-desc {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 400;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
+}
+
+.collection-card:hover .card-explore {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-explore svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+}
+
+.collection-card:hover .card-explore svg {
+  transform: translateX(3px);
+}
+
+/* ========== FEATURED ========== */
+.featured {
+  padding: 8rem 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.featured-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.featured-visual {
+  position: relative;
+  height: 600px;
+  background: linear-gradient(160deg, #f0ece4 0%, #e6dfd4 50%, #ddd4c4 100%);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* CSS-only abstract lamp silhouette */
+.lamp-silhouette {
+  position: relative;
+  width: 200px;
+  height: 400px;
+}
+
+.lamp-shade {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 120px;
+  border-left: 2px solid var(--charcoal);
+  border-right: 2px solid var(--charcoal);
+  border-bottom: 2px solid var(--charcoal);
+  border-radius: 0 0 50% 50%;
+  opacity: 0.2;
+}
+
+.lamp-shade::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -10px;
+  right: -10px;
+  height: 2px;
+  background: var(--charcoal);
+  opacity: 1;
+  border-radius: 1px;
+}
+
+.lamp-neck {
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 180px;
+  background: var(--charcoal);
+  opacity: 0.2;
+}
+
+.lamp-neck::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+  opacity: 1;
+}
+
+.lamp-base {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 40px;
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+  opacity: 0.2;
+}
+
+.lamp-base::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 2px;
+  background: var(--charcoal);
+  opacity: 1;
+}
+
+.lamp-glow {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(184, 134, 11, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.featured-badge {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(250, 248, 244, 0.85);
+  padding: 0.5rem 1rem;
+  border-radius: 2px;
+}
+
+.featured-info {
+  padding: 2rem 0;
+}
+
+.featured-info .section-label {
+  margin-bottom: 1rem;
+}
+
+.featured-info h2 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+
+.featured-price {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+.featured-desc {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--charcoal-light);
+  margin-bottom: 2.5rem;
+  max-width: 480px;
+}
+
+.featured-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(26, 26, 26, 0.08);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+}
+
+.spec-item h4 {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--charcoal-light);
+  margin-bottom: 0.3rem;
+  font-family: var(--font-sans);
+}
+
+.spec-item p {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: var(--charcoal);
+  color: var(--cream);
+  padding: 1.1rem 2.8rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
+  border-radius: 2px;
+}
+
+.btn-primary:hover {
+  background-color: var(--gold);
+  color: var(--cream);
+}
+
+.btn-primary svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.btn-primary:hover svg {
+  transform: translateX(4px);
+}
+
+/* ========== TESTIMONIAL ========== */
+.testimonial {
+  padding: 8rem 3rem;
+  background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 50%, var(--cream) 100%);
+  text-align: center;
+}
+
+.testimonial-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.testimonial-quote-mark {
+  font-family: var(--font-serif);
+  font-size: 6rem;
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.3;
+  margin-bottom: -1rem;
+  display: block;
+}
+
+.testimonial blockquote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.5;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--charcoal);
+  margin-bottom: 2.5rem;
+}
+
+.testimonial-attribution {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.testimonial-attribution .attr-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.testimonial-attribution .attr-title {
+  font-size: 0.85rem;
+  color: var(--charcoal-light);
+}
+
+.testimonial-stars {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.testimonial-stars svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--gold);
+}
+
+/* ========== NEWSLETTER ========== */
+.newsletter {
+  padding: 8rem 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.newsletter-inner {
+  background: linear-gradient(160deg, var(--charcoal) 0%, #2a2a2a 100%);
+  border-radius: 6px;
+  padding: 5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.newsletter-left h2 {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  color: var(--cream);
+  margin-bottom: 1rem;
+}
+
+.newsletter-left p {
+  font-size: 1.05rem;
+  color: rgba(250, 248, 244, 0.6);
+  line-height: 1.8;
+  max-width: 400px;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.newsletter-input-group {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(250, 248, 244, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.newsletter-input-group:focus-within {
+  border-color: var(--gold);
+}
+
+.newsletter-input-group input {
+  flex: 1;
+  padding: 1.1rem 1.5rem;
+  background: transparent;
+  border: none;
+  color: var(--cream);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 300;
+  outline: none;
+}
+
+.newsletter-input-group input::placeholder {
+  color: rgba(250, 248, 244, 0.35);
+}
+
+.newsletter-input-group button {
+  padding: 1.1rem 2rem;
+  background-color: var(--gold);
+  color: var(--cream);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.newsletter-input-group button:hover {
+  background-color: var(--gold-light);
+}
+
+.newsletter-consent {
+  font-size: 0.78rem;
+  color: rgba(250, 248, 244, 0.35);
+  line-height: 1.6;
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  padding: 4rem 3rem;
+  border-top: 1px solid rgba(26, 26, 26, 0.08);
+}
+
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.footer-brand .nav-logo {
+  margin-bottom: 1rem;
+}
+
+.footer-brand p {
+  font-size: 0.9rem;
+  color: var(--charcoal-light);
+  line-height: 1.7;
+  max-width: 260px;
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.footer-nav-col h4 {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  color: var(--charcoal);
+}
+
+.footer-nav-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.footer-nav-col a {
+  font-size: 0.9rem;
+  color: var(--charcoal-light);
+  transition: color 0.3s ease;
+}
+
+.footer-nav-col a:hover {
+  color: var(--gold);
+}
+
+.footer-social {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.footer-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(26, 26, 26, 0.12);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.footer-social a:hover {
+  border-color: var(--gold);
+  background-color: var(--gold);
+  color: var(--cream);
+}
+
+.footer-social svg {
+  width: 16px;
+  height: 16px;
+}
+
+.footer-bottom {
+  max-width: 1400px;
+  margin: 3rem auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(26, 26, 26, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-bottom p {
+  font-size: 0.78rem;
+  color: var(--charcoal-light);
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.footer-bottom-links a {
+  font-size: 0.78rem;
+  color: var(--charcoal-light);
+  transition: color 0.3s ease;
+}
+
+.footer-bottom-links a:hover {
+  color: var(--gold);
+}
+
+/* ========== ANIMATIONS ========== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* ========== REDUCED MOTION ========== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero-overline,
+  .hero h1,
+  .hero-sub,
+  .hero-cta,
+  .hero-scroll-hint {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .scroll-line {
+    animation: none;
+  }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .collections-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .collection-card {
+    height: 420px;
+  }
+
+  .featured-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .featured-visual {
+    height: 450px;
+  }
+
+  .newsletter-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding: 4rem;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-social {
+    justify-content: flex-start;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-menu-btn {
+    display: flex;
+  }
+
+  .mobile-menu {
+    display: flex;
+  }
+
+  .nav {
+    padding: 1.2rem 1.5rem;
+  }
+
+  .nav.scrolled {
+    padding: 1rem 1.5rem;
+  }
+
+  .hero {
+    padding: 5rem 1.5rem 3rem;
+  }
+
+  .hero-silhouette {
+    width: 350px;
+    height: 350px;
+  }
+
+  .philosophy {
+    padding: 5rem 1.5rem;
+  }
+
+  .philosophy-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .philosophy-left {
+    position: static;
+  }
+
+  .philosophy-values {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .collections {
+    padding: 5rem 1.5rem;
+  }
+
+  .collections-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .collection-card {
+    height: 360px;
+  }
+
+  .card-desc {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .card-explore {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .featured {
+    padding: 5rem 1.5rem;
+  }
+
+  .featured-visual {
+    height: 380px;
+  }
+
+  .featured-specs {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .testimonial {
+    padding: 5rem 1.5rem;
+  }
+
+  .newsletter {
+    padding: 5rem 1.5rem;
+  }
+
+  .newsletter-inner {
+    padding: 3rem 2rem;
+  }
+
+  .newsletter-input-group {
+    flex-direction: column;
+  }
+
+  .newsletter-input-group button {
+    padding: 1rem;
+  }
+
+  .footer {
+    padding: 3rem 1.5rem;
+  }
+
+  .footer-nav {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-specs {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-nav {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">Lumen<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#collections">Collections</a></li>
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#featured">Featured</a></li>
+    <li><a href="#newsletter">Journal</a></li>
+  </ul>
+  <button class="nav-menu-btn" id="menuBtn" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#collections" onclick="closeMobileMenu()">Collections</a>
+  <a href="#philosophy" onclick="closeMobileMenu()">Philosophy</a>
+  <a href="#featured" onclick="closeMobileMenu()">Featured</a>
+  <a href="#newsletter" onclick="closeMobileMenu()">Journal</a>
+</div>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-silhouette">
+    <div class="vessel vessel-1"></div>
+    <div class="vessel vessel-2"></div>
+    <div class="vessel vessel-3"></div>
+    <div class="vessel vessel-4"></div>
+    <div class="vessel vessel-5"></div>
+    <div class="vessel vessel-6"></div>
+  </div>
+
+  <span class="hero-overline">Lumen Goods &mdash; Est. 2019</span>
+  <h1>Objects <em>worth</em><br>keeping.</h1>
+  <p class="hero-sub">Timeless home goods designed with intention, crafted with care, and built to become part of your story.</p>
+  <a href="#collections" class="hero-cta">
+    Explore the collection
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- Philosophy -->
+<section class="philosophy" id="philosophy">
+  <div class="philosophy-inner">
+    <div class="philosophy-left reveal">
+      <span class="section-label">Our Philosophy</span>
+      <h2>Designed to last,<br>made to matter.</h2>
+      <div class="philosophy-divider"></div>
+    </div>
+    <div class="philosophy-right">
+      <p class="reveal">We started Lumen Goods with a simple conviction: the objects we live with shape how we feel at home. In a world saturated with disposable things, we believe there is room for fewer, better pieces &mdash; ones that earn their place on your shelf, your table, your counter.</p>
+      <p class="reveal">Every item in our collection begins with a question: will this still feel right in ten years? We work with independent makers and small-batch manufacturers who share our commitment to honest materials, considered proportions, and the kind of quiet refinement that reveals itself over time.</p>
+      <p class="reveal">Sustainability is not a marketing angle for us &mdash; it is simply the consequence of making things that people actually want to keep. When a product is built to last and designed to age with grace, it never becomes waste.</p>
+      <div class="philosophy-values reveal">
+        <div class="philosophy-value">
+          <h4>Honest Materials</h4>
+          <p>Solid hardwoods, hand-thrown ceramics, mouth-blown glass. Nothing laminated, nothing hollow.</p>
+        </div>
+        <div class="philosophy-value">
+          <h4>Considered Design</h4>
+          <p>Every curve, joint, and finish is deliberate. We prototype obsessively until nothing can be removed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Collections -->
+<section class="collections" id="collections">
+  <div class="collections-header">
+    <span class="section-label reveal">Collections</span>
+    <h2 class="reveal">Four rooms,<br>one intention.</h2>
+    <p class="reveal">Each collection is curated around the rituals of a single space &mdash; the objects that make daily life feel a little more intentional.</p>
+  </div>
+
+  <div class="collections-grid">
+    <!-- Kitchen -->
+    <div class="collection-card reveal">
+      <div class="card-bg"></div>
+      <div class="card-content">
+        <div>
+          <div class="card-icon">
+            <svg viewBox="0 0 64 64">
+              <path d="M16 48h32M20 48V24c0-6.627 5.373-12 12-12s12 5.373 12 12v24" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M28 20v8M32 18v10M36 20v8" stroke-linecap="round"/>
+              <ellipse cx="32" cy="48" rx="16" ry="4"/>
+            </svg>
+          </div>
+          <span class="card-number">01</span>
+        </div>
+        <div class="card-bottom">
+          <h3>Kitchen</h3>
+          <p class="card-desc">Ceramics, cutting boards, and vessels for the rituals of nourishment. Every piece shaped by how hands actually move in a kitchen.</p>
+          <span class="card-explore">
+            Explore
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Living -->
+    <div class="collection-card reveal">
+      <div class="card-bg"></div>
+      <div class="card-content">
+        <div>
+          <div class="card-icon">
+            <svg viewBox="0 0 64 64">
+              <rect x="12" y="28" width="40" height="20" rx="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 36v12h4V36a4 4 0 014-4h0M52 36v12h-4V36a4 4 0 00-4-4h0" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 28v-4a2 2 0 012-2h20a2 2 0 012 2v4" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="12" y1="48" x2="8" y2="52" stroke-linecap="round"/>
+              <line x1="52" y1="48" x2="56" y2="52" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="card-number">02</span>
+        </div>
+        <div class="card-bottom">
+          <h3>Living</h3>
+          <p class="card-desc">Throws, lighting, and surfaces for the space where you actually spend your time. Warm textures that invite you to stay a little longer.</p>
+          <span class="card-explore">
+            Explore
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bath -->
+    <div class="collection-card reveal">
+      <div class="card-bg"></div>
+      <div class="card-content">
+        <div>
+          <div class="card-icon">
+            <svg viewBox="0 0 64 64">
+              <path d="M14 32h36a2 2 0 012 2v4a14 14 0 01-14 14H22a14 14 0 01-14-14v-4a2 2 0 012-2z" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M14 32V16a4 4 0 014-4h4a4 4 0 014 4v2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="24" y1="52" x2="22" y2="58" stroke-linecap="round"/>
+              <line x1="40" y1="52" x2="42" y2="58" stroke-linecap="round"/>
+              <circle cx="36" cy="24" r="1.5" fill="currentColor" stroke="none"/>
+              <circle cx="42" cy="22" r="1.5" fill="currentColor" stroke="none"/>
+              <circle cx="39" cy="28" r="1.5" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <span class="card-number">03</span>
+        </div>
+        <div class="card-bottom">
+          <h3>Bath</h3>
+          <p class="card-desc">Stone soap dishes, organic cotton towels, and apothecary vessels. Turning a utilitarian room into a place of calm.</p>
+          <span class="card-explore">
+            Explore
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workspace -->
+    <div class="collection-card reveal">
+      <div class="card-bg"></div>
+      <div class="card-content">
+        <div>
+          <div class="card-icon">
+            <svg viewBox="0 0 64 64">
+              <rect x="14" y="12" width="36" height="28" rx="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="18" y="16" width="28" height="20" rx="1" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M24 44h16" stroke-linecap="round"/>
+              <path d="M32 40v4" stroke-linecap="round"/>
+              <path d="M10 52h44" stroke-linecap="round"/>
+              <path d="M28 48h8v4H28z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="card-number">04</span>
+        </div>
+        <div class="card-bottom">
+          <h3>Workspace</h3>
+          <p class="card-desc">Desk objects, organizers, and lighting designed for focused work. Clean lines that keep your mind clear and your desk honest.</p>
+          <span class="card-explore">
+            Explore
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured -->
+<section class="featured" id="featured">
+  <div class="featured-inner">
+    <div class="featured-visual reveal">
+      <div class="lamp-silhouette">
+        <div class="lamp-shade"></div>
+        <div class="lamp-neck"></div>
+        <div class="lamp-base"></div>
+        <div class="lamp-glow"></div>
+      </div>
+      <span class="featured-badge">New Arrival</span>
+    </div>
+    <div class="featured-info">
+      <span class="section-label reveal">Featured</span>
+      <h2 class="reveal">The Arc Lamp</h2>
+      <p class="featured-price reveal">$485</p>
+      <p class="featured-desc reveal">A study in restraint. The Arc Lamp pairs a hand-spun brass shade with a solid walnut stem, joined without visible hardware. The warm, downward-facing light creates a pool of focus &mdash; ideal for reading, drawing, or simply sitting with your thoughts.</p>
+      <div class="featured-specs reveal">
+        <div class="spec-item">
+          <h4>Material</h4>
+          <p>Solid walnut &amp; brass</p>
+        </div>
+        <div class="spec-item">
+          <h4>Height</h4>
+          <p>62 inches</p>
+        </div>
+        <div class="spec-item">
+          <h4>Light Source</h4>
+          <p>Warm LED, 2700K</p>
+        </div>
+        <div class="spec-item">
+          <h4>Origin</h4>
+          <p>Portland, Oregon</p>
+        </div>
+      </div>
+      <a href="#" class="btn-primary reveal">
+        Shop now
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonial -->
+<section class="testimonial" id="testimonial">
+  <div class="testimonial-inner">
+    <span class="testimonial-quote-mark reveal">&ldquo;</span>
+    <div class="testimonial-stars reveal">
+      <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+      <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+      <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+      <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+      <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+    </div>
+    <blockquote class="reveal">Every piece feels intentional. Like they actually thought about how you&rsquo;d live with it. Our kitchen has never felt more like ours.</blockquote>
+    <div class="testimonial-attribution reveal">
+      <span class="attr-name">Sarah Lindqvist</span>
+      <span class="attr-title">Architect &amp; Homeowner, Copenhagen</span>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter" id="newsletter">
+  <div class="newsletter-inner reveal">
+    <div class="newsletter-left">
+      <span class="section-label" style="color: var(--gold);">Newsletter</span>
+      <h2>Join the edit.</h2>
+      <p>A bi-weekly letter on living with less but better &mdash; new arrivals, maker stories, and the thinking behind what we make. No noise, just substance.</p>
+    </div>
+    <div class="newsletter-right">
+      <form class="newsletter-form" onsubmit="handleSubscribe(event)">
+        <div class="newsletter-input-group">
+          <input type="email" placeholder="Your email address" required aria-label="Email address">
+          <button type="submit">Subscribe</button>
+        </div>
+        <p class="newsletter-consent">By subscribing, you agree to our privacy policy. We send two emails per month, and you can unsubscribe at any time.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">Lumen<span>.</span></a>
+      <p>Timeless objects for considered living. Designed in New York, crafted with care.</p>
+    </div>
+    <div class="footer-nav">
+      <div class="footer-nav-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#">Kitchen</a></li>
+          <li><a href="#">Living</a></li>
+          <li><a href="#">Bath</a></li>
+          <li><a href="#">Workspace</a></li>
+          <li><a href="#">Gift Cards</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Our Makers</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Care Guide</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-social">
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="5"/>
+          <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="Pinterest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6c-3.3 0-6 2.2-6 5.5 0 2 1.2 3.8 3 4.5 0-.5.1-1.3.2-1.8l.8-3.2s-.2-.4-.2-1c0-1 .6-1.7 1.3-1.7.6 0 .9.5.9 1 0 .6-.4 1.6-.6 2.4-.2.7.3 1.3 1 1.3 1.3 0 2.2-1.6 2.2-3.5 0-1.4-1-2.5-2.8-2.5-2 0-3.3 1.5-3.3 3.2 0 .6.2 1 .4 1.3.1.1.1.2.1.3l-.2.6c0 .1-.1.2-.3.1C8 15.4 7.4 14 7.4 12.7 7.4 9.5 9.5 7 13 7c2.8 0 4.6 2 4.6 4.2 0 2.8-1.6 4.9-3.8 4.9-.7 0-1.4-.4-1.7-.9l-.4 1.7c-.2.6-.5 1.2-.8 1.7.6.2 1.3.3 2 .3 5 0 9-3.6 9-8s-4-8-9-8z"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Lumen Goods. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Accessibility</a>
+    </div>
+  </div>
+</footer>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+(function() {
+  'use strict';
+
+  // ========== REDUCED MOTION CHECK ==========
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ========== NAV SCROLL ==========
+  const nav = document.getElementById('nav');
+  let lastScroll = 0;
+
+  window.addEventListener('scroll', function() {
+    const scrollY = window.scrollY;
+    if (scrollY > 80) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+    lastScroll = scrollY;
+  }, { passive: true });
+
+  // ========== MOBILE MENU ==========
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+
+  menuBtn.addEventListener('click', function() {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('open', menuOpen);
+    const spans = menuBtn.querySelectorAll('span');
+    if (menuOpen) {
+      spans[0].style.transform = 'rotate(45deg) translate(4px, 4px)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'rotate(-45deg) translate(4px, -4px)';
+    } else {
+      spans[0].style.transform = '';
+      spans[1].style.opacity = '';
+      spans[2].style.transform = '';
+    }
+  });
+
+  window.closeMobileMenu = function() {
+    menuOpen = false;
+    mobileMenu.classList.remove('open');
+    const spans = menuBtn.querySelectorAll('span');
+    spans[0].style.transform = '';
+    spans[1].style.opacity = '';
+    spans[2].style.transform = '';
+  };
+
+  // ========== NEWSLETTER ==========
+  window.handleSubscribe = function(e) {
+    e.preventDefault();
+    const input = e.target.querySelector('input');
+    const btn = e.target.querySelector('button');
+    const originalText = btn.textContent;
+    btn.textContent = 'Thank you!';
+    btn.style.backgroundColor = 'var(--sage)';
+    input.value = '';
+    setTimeout(function() {
+      btn.textContent = originalText;
+      btn.style.backgroundColor = '';
+    }, 3000);
+  };
+
+  // ========== GSAP ANIMATIONS ==========
+  if (prefersReducedMotion || window.self !== window.top) {
+    // Make everything visible immediately
+    document.querySelectorAll('.reveal, .hero-overline, .hero h1, .hero-sub, .hero-cta, .hero-scroll-hint').forEach(function(el) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ===== HERO ENTRANCE =====
+  const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+  heroTl
+    .to('.hero-overline', {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      delay: 0.3
+    })
+    .fromTo('.hero h1', {
+      opacity: 0,
+      y: 40
+    }, {
+      opacity: 1,
+      y: 0,
+      duration: 1.4
+    }, '-=0.6')
+    .to('.hero-sub', {
+      opacity: 1,
+      y: 0,
+      duration: 1
+    }, '-=0.8')
+    .to('.hero-cta', {
+      opacity: 1,
+      y: 0,
+      duration: 0.8
+    }, '-=0.6')
+    .to('.hero-scroll-hint', {
+      opacity: 0.6,
+      duration: 1
+    }, '-=0.4');
+
+  // Subtle parallax on hero vessels
+  gsap.to('.hero-silhouette', {
+    yPercent: -15,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1
+    }
+  });
+
+  // ===== REVEAL ANIMATIONS =====
+  const reveals = document.querySelectorAll('.reveal');
+
+  reveals.forEach(function(el) {
+    gsap.fromTo(el, {
+      opacity: 0,
+      y: 30
+    }, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 88%',
+        end: 'top 60%',
+        toggleActions: 'play none none none'
+      }
+    });
+  });
+
+  // ===== PHILOSOPHY SECTION =====
+  gsap.fromTo('.philosophy-divider', {
+    width: 0
+  }, {
+    width: 60,
+    duration: 1.2,
+    ease: 'power2.inOut',
+    scrollTrigger: {
+      trigger: '.philosophy-divider',
+      start: 'top 85%'
+    }
+  });
+
+  // ===== COLLECTION CARDS STAGGER =====
+  gsap.fromTo('.collection-card', {
+    opacity: 0,
+    y: 50
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 0.9,
+    stagger: 0.15,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.collections-grid',
+      start: 'top 80%'
+    }
+  });
+
+  // ===== FEATURED LAMP GLOW =====
+  gsap.fromTo('.lamp-glow', {
+    opacity: 0,
+    scale: 0.5
+  }, {
+    opacity: 1,
+    scale: 1,
+    duration: 2,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.featured-visual',
+      start: 'top 70%'
+    }
+  });
+
+  gsap.fromTo('.lamp-shade, .lamp-neck, .lamp-base', {
+    opacity: 0
+  }, {
+    opacity: 0.2,
+    duration: 1.5,
+    stagger: 0.2,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.featured-visual',
+      start: 'top 70%'
+    }
+  });
+
+  // ===== TESTIMONIAL =====
+  gsap.fromTo('.testimonial-quote-mark', {
+    opacity: 0,
+    scale: 0.7
+  }, {
+    opacity: 0.3,
+    scale: 1,
+    duration: 1,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.testimonial',
+      start: 'top 75%'
+    }
+  });
+
+  // ===== NEWSLETTER SLIDE =====
+  gsap.fromTo('.newsletter-inner', {
+    opacity: 0,
+    y: 40
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 1.2,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.newsletter',
+      start: 'top 80%'
+    }
+  });
+
+  // ===== SMOOTH PARALLAX ON FEATURED VISUAL =====
+  gsap.to('.featured-visual', {
+    yPercent: -5,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.featured',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>

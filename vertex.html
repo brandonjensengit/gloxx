@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertex Labs — Trust Nothing. Verify Everything.</title>
+<meta name="description" content="Vertex Labs is an elite cybersecurity firm specializing in threat detection, zero-trust architecture, and adversary simulation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   RESET & FOUNDATION
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --green: #00ff41;
+  --green-dim: #0a3d1f;
+  --green-mid: #00cc33;
+  --surface: #0a0a0a;
+  --gray: #6b7280;
+  --white: #e0e0e0;
+  --glow: 0 0 20px rgba(0,255,65,0.15), 0 0 60px rgba(0,255,65,0.05);
+  --glow-strong: 0 0 10px rgba(0,255,65,0.3), 0 0 40px rgba(0,255,65,0.1);
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-heading: 'Space Grotesk', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--black);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+::selection {
+  background: var(--green);
+  color: var(--black);
+}
+
+a { color: var(--green); text-decoration: none; transition: opacity 0.2s; }
+a:hover { opacity: 0.8; }
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .rain-column { opacity: 0 !important; }
+  .log-scroll { animation: none !important; }
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section {
+  padding: 120px 0;
+  position: relative;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--green);
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--green-dim), transparent);
+  margin: 0;
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 20px 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,255,65,0.06);
+  transition: padding 0.3s;
+}
+
+nav.scrolled { padding: 12px 0; }
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.nav-logo span { color: var(--green); }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gray);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--green); opacity: 1; }
+
+.nav-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--green);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--green); }
+  50% { opacity: 0.4; box-shadow: none; }
+}
+
+.nav-mobile-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--green-dim);
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 80px;
+}
+
+/* Code rain - CSS only */
+.rain-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.rain-column {
+  position: absolute;
+  top: -100%;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--green);
+  opacity: 0.06;
+  animation: rain-fall linear infinite;
+  white-space: pre;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 6px;
+}
+
+.rain-column:nth-child(1)  { left: 2%;  animation-duration: 18s; animation-delay: 0s; opacity: 0.04; }
+.rain-column:nth-child(2)  { left: 7%;  animation-duration: 22s; animation-delay: -3s; opacity: 0.07; }
+.rain-column:nth-child(3)  { left: 12%; animation-duration: 16s; animation-delay: -7s; opacity: 0.03; }
+.rain-column:nth-child(4)  { left: 18%; animation-duration: 25s; animation-delay: -2s; opacity: 0.05; }
+.rain-column:nth-child(5)  { left: 24%; animation-duration: 19s; animation-delay: -9s; opacity: 0.06; }
+.rain-column:nth-child(6)  { left: 30%; animation-duration: 21s; animation-delay: -4s; opacity: 0.04; }
+.rain-column:nth-child(7)  { left: 36%; animation-duration: 17s; animation-delay: -11s; opacity: 0.07; }
+.rain-column:nth-child(8)  { left: 42%; animation-duration: 23s; animation-delay: -1s; opacity: 0.03; }
+.rain-column:nth-child(9)  { left: 48%; animation-duration: 20s; animation-delay: -6s; opacity: 0.05; }
+.rain-column:nth-child(10) { left: 54%; animation-duration: 15s; animation-delay: -8s; opacity: 0.06; }
+.rain-column:nth-child(11) { left: 60%; animation-duration: 24s; animation-delay: -3s; opacity: 0.04; }
+.rain-column:nth-child(12) { left: 66%; animation-duration: 18s; animation-delay: -10s; opacity: 0.07; }
+.rain-column:nth-child(13) { left: 72%; animation-duration: 22s; animation-delay: -5s; opacity: 0.03; }
+.rain-column:nth-child(14) { left: 78%; animation-duration: 16s; animation-delay: -7s; opacity: 0.05; }
+.rain-column:nth-child(15) { left: 84%; animation-duration: 26s; animation-delay: -2s; opacity: 0.06; }
+.rain-column:nth-child(16) { left: 90%; animation-duration: 19s; animation-delay: -12s; opacity: 0.04; }
+.rain-column:nth-child(17) { left: 95%; animation-duration: 21s; animation-delay: -4s; opacity: 0.05; }
+
+@keyframes rain-fall {
+  0%   { transform: translateY(-10%); }
+  100% { transform: translateY(120vh); }
+}
+
+/* Hero glow */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(0,255,65,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 800px;
+}
+
+.hero-prefix {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--green);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  opacity: 0;
+}
+
+.hero-prefix::before {
+  content: '> ';
+  opacity: 0.5;
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 24px;
+  opacity: 0;
+}
+
+.hero-title em {
+  font-style: normal;
+  color: var(--green);
+  text-shadow: 0 0 30px rgba(0,255,65,0.2);
+}
+
+.hero-sub {
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--gray);
+  max-width: 560px;
+  margin: 0 auto 48px;
+  line-height: 1.7;
+  opacity: 0;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  opacity: 0;
+}
+
+.btn-primary {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  background: var(--green);
+  color: var(--black);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background: #00e639;
+  box-shadow: var(--glow-strong);
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  background: transparent;
+  color: var(--green);
+  border: 1px solid var(--green-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-ghost:hover {
+  border-color: var(--green);
+  box-shadow: var(--glow);
+  opacity: 1;
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gray);
+  letter-spacing: 2px;
+  opacity: 0.4;
+  animation: scroll-hint 2s ease-in-out infinite;
+}
+
+@keyframes scroll-hint {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ============================================================
+   THREAT DASHBOARD
+   ============================================================ */
+.dashboard {
+  background: var(--surface);
+  border-top: 1px solid rgba(0,255,65,0.08);
+  border-bottom: 1px solid rgba(0,255,65,0.08);
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.dashboard-header h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.dash-panel {
+  background: var(--black);
+  border: 1px solid rgba(0,255,65,0.1);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.dash-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--green-dim), transparent);
+}
+
+.panel-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+
+.panel-title::before {
+  content: '// ';
+  opacity: 0.4;
+}
+
+.threat-counter {
+  font-family: var(--font-mono);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 700;
+  color: var(--green);
+  text-shadow: 0 0 20px rgba(0,255,65,0.2);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.threat-label {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gray);
+}
+
+/* Scrolling log - CSS only */
+.log-container {
+  height: 280px;
+  overflow: hidden;
+  position: relative;
+}
+
+.log-container::before,
+.log-container::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.log-container::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--black), transparent);
+}
+
+.log-container::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--black), transparent);
+}
+
+.log-scroll {
+  animation: log-scroll-up 30s linear infinite;
+}
+
+.log-entry {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 2;
+  color: var(--gray);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.log-entry .time {
+  color: var(--green);
+  opacity: 0.6;
+}
+
+.log-entry .action-block {
+  color: #ff4444;
+}
+
+.log-entry .action-quarantine {
+  color: #ffaa00;
+}
+
+.log-entry .action-detect {
+  color: var(--green);
+}
+
+.log-entry .action-deny {
+  color: #ff6b6b;
+}
+
+@keyframes log-scroll-up {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+/* Mini stat panels */
+.dash-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.dash-stat {
+  background: var(--black);
+  border: 1px solid rgba(0,255,65,0.1);
+  padding: 28px;
+  text-align: center;
+}
+
+.dash-stat-value {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+.dash-stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.uptime-bar {
+  margin-top: 16px;
+  display: flex;
+  gap: 2px;
+}
+
+.uptime-bar span {
+  flex: 1;
+  height: 4px;
+  background: var(--green);
+  opacity: 0.3;
+}
+
+.uptime-bar span.active { opacity: 1; }
+
+/* ============================================================
+   SERVICES
+   ============================================================ */
+.services-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.services-header h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.services-header p {
+  font-size: 16px;
+  color: var(--gray);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: rgba(0,255,65,0.06);
+}
+
+.service-card {
+  background: var(--black);
+  padding: 48px 40px;
+  transition: all 0.3s;
+  position: relative;
+  cursor: default;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--green);
+  transition: width 0.4s;
+}
+
+.service-card:hover::before { width: 100%; }
+
+.service-card:hover {
+  background: var(--surface);
+}
+
+.service-icon {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  color: var(--green);
+  margin-bottom: 24px;
+  line-height: 1;
+  text-shadow: 0 0 15px rgba(0,255,65,0.15);
+}
+
+.service-card h3 {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.service-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.service-card p {
+  font-size: 14px;
+  color: var(--gray);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   BY THE NUMBERS
+   ============================================================ */
+.numbers {
+  background: var(--surface);
+  border-top: 1px solid rgba(0,255,65,0.08);
+  border-bottom: 1px solid rgba(0,255,65,0.08);
+}
+
+.numbers-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.numbers-header h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.numbers-header p {
+  font-size: 16px;
+  color: var(--gray);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px;
+  text-align: center;
+}
+
+.number-item {
+  position: relative;
+}
+
+.number-value {
+  font-family: var(--font-mono);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  color: var(--green);
+  text-shadow: 0 0 20px rgba(0,255,65,0.15);
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.number-label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--gray);
+  line-height: 1.5;
+}
+
+.number-item::after {
+  content: '';
+  position: absolute;
+  right: -24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 60%;
+  background: rgba(0,255,65,0.1);
+}
+
+.number-item:last-child::after { display: none; }
+
+/* ============================================================
+   CLIENTS
+   ============================================================ */
+.clients-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.clients-header h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.clients-header p {
+  font-size: 16px;
+  color: var(--gray);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: rgba(0,255,65,0.06);
+  margin-bottom: 60px;
+}
+
+.client-block {
+  background: var(--black);
+  padding: 48px 32px;
+  text-align: center;
+  transition: background 0.3s;
+}
+
+.client-block:hover {
+  background: var(--surface);
+}
+
+.client-icon {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  color: var(--green);
+  margin-bottom: 20px;
+  opacity: 0.6;
+}
+
+.client-block h4 {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.client-block p {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.clients-disclaimer {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gray);
+  opacity: 0.5;
+}
+
+.clients-disclaimer::before {
+  content: '[ ';
+  color: var(--green-dim);
+}
+
+.clients-disclaimer::after {
+  content: ' ]';
+  color: var(--green-dim);
+}
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.cta {
+  background: var(--surface);
+  border-top: 1px solid rgba(0,255,65,0.08);
+  text-align: center;
+}
+
+.cta h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.cta h2 em {
+  font-style: normal;
+  color: var(--green);
+  text-shadow: 0 0 30px rgba(0,255,65,0.2);
+}
+
+.cta > .container > p {
+  font-size: 16px;
+  color: var(--gray);
+  max-width: 500px;
+  margin: 0 auto 48px;
+  line-height: 1.7;
+}
+
+.cta-actions {
+  margin-bottom: 60px;
+}
+
+.cta-secure {
+  max-width: 560px;
+  margin: 0 auto;
+  background: var(--black);
+  border: 1px solid rgba(0,255,65,0.1);
+  padding: 32px;
+}
+
+.cta-secure-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+
+.pgp-fingerprint {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gray);
+  word-break: break-all;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.pgp-fingerprint strong {
+  color: var(--white);
+  font-weight: 500;
+}
+
+.cta-email {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--green);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  padding: 40px 0;
+  border-top: 1px solid rgba(0,255,65,0.06);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-left {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gray);
+}
+
+.footer-left .canary {
+  color: var(--green);
+  opacity: 0.5;
+  margin-left: 4px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.footer-links a {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gray);
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--green); opacity: 1; }
+
+/* ============================================================
+   SCANLINE OVERLAY (subtle)
+   ============================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.015) 2px,
+    rgba(0,0,0,0.015) 4px
+  );
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .numbers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+  .number-item::after { display: none; }
+  .clients-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  section { padding: 80px 0; }
+
+  .nav-links { display: none; }
+  .nav-mobile-toggle { display: block; }
+
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.95);
+    padding: 24px;
+    gap: 16px;
+    border-bottom: 1px solid rgba(0,255,65,0.1);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card { padding: 36px 28px; }
+
+  .numbers-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .clients-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .dash-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .numbers-grid { grid-template-columns: 1fr; }
+  .clients-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">Vertex<span>.</span></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#numbers">Intel</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      <span>Systems nominal</span>
+    </div>
+    <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle navigation">[=]</button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="hero">
+  <div class="rain-container" aria-hidden="true">
+    <div class="rain-column">0x4A 1F E9 7C 3D B8 02 A5 6E D1 8F 44 C7 9A 23 F0 5B 1C 6D E2 A8 37 0B 94 D5 4F 72 BB 18 63 CF 2A 91</div>
+    <div class="rain-column">SYN ACK RST FIN PSH URG ECE CWR SYN ACK RST FIN PSH URG ECE CWR SYN ACK RST FIN PSH URG ECE CWR SYN ACK</div>
+    <div class="rain-column">7F 45 4C 46 02 01 01 00 00 00 00 00 00 00 00 00 03 00 3E 00 01 00 00 00 50 10 40 00 00 00 00 00 40 00</div>
+    <div class="rain-column">chmod 700 0xDEAD 0xBEEF 0xCAFE SHA256 AES256 RSA4096 ECDSA ED25519 BLAKE3 ARGON2 SCRYPT HMAC PBKDF2</div>
+    <div class="rain-column">192 168 001 001 010 000 000 001 172 016 000 001 255 255 255 000 0A 0A 0A 01 FE 80 00 00 00 00 00 00 FF 02</div>
+    <div class="rain-column">DROP INPUT ACCEPT FORWARD REJECT OUTPUT MASQUERADE SNAT DNAT LOG RETURN QUEUE DROP INPUT ACCEPT FORWARD</div>
+    <div class="rain-column">BEGIN PGP SIGNED MESSAGE HASH SHA512 VERIFY TRUST REVOKE CERTIFY ENCRYPT DECRYPT ARMOR DETACH CLEARSIGN</div>
+    <div class="rain-column">ps aux kill -9 netstat -tlnp ss -tulpn lsof -i :443 strace tcpdump nmap -sS iptables -L nft list audit</div>
+    <div class="rain-column">CVE 2024 0001 CRITICAL CVSS 9.8 REMOTE CODE EXECUTION BUFFER OVERFLOW USE AFTER FREE NULL POINTER DEREF</div>
+    <div class="rain-column">0A 4E 2F 8B C3 D7 91 55 6A E0 1D 83 F4 27 BC 69 3C A2 5F 70 DB 0E 96 48 B1 64 CC 2D 87 FA 3B 0A 4E</div>
+    <div class="rain-column">SELinux ENFORCING AppArmor ENABLED seccomp STRICT ASLR ON NX ENABLED KASLR PIE RELRO FULL CANARY STACK</div>
+    <div class="rain-column">AUTH DENIED ESCALATION DETECTED LATERAL MOVEMENT EXFIL ATTEMPT C2 BEACON PERSISTENCE MECHANISM ROOTKIT</div>
+    <div class="rain-column">eth0 wlan0 lo bond0 br0 veth tun0 tap0 ens192 enp0s3 docker0 cni0 flannel virbr0 wg0 ipsec0 gre0 sit0</div>
+    <div class="rain-column">22 80 443 3389 8080 8443 53 25 587 993 143 110 3306 5432 6379 27017 9200 5601 8888 2049 111 445 139 21</div>
+    <div class="rain-column">MITRE ATT CK T1059 T1053 T1547 T1078 T1110 T1190 T1566 T1055 T1071 T1082 T1083 T1057 T1049 T1016 T1033</div>
+    <div class="rain-column">root toor admin user guest nobody www-data daemon sys bin sshd ntp postfix mysql postgres redis nginx</div>
+    <div class="rain-column">YARA RULE SNORT SIGNATURE SURICATA ALERT SIGMA DETECTION OSQUERY VELOCIRAPTOR SYSMON EVENT WAZUH AGENT</div>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-prefix" id="heroPrefix">Vertex Labs Threat Intelligence</p>
+    <h1 class="hero-title" id="heroTitle">Trust nothing.<br><em>Verify everything.</em></h1>
+    <p class="hero-sub" id="heroSub">We are the last line of defense between your organization and the adversaries who never sleep. Elite threat detection. Zero-trust architecture. Absolute vigilance.</p>
+    <div class="hero-actions" id="heroActions">
+      <a href="#contact" class="btn-primary">Request Assessment</a>
+      <a href="#dashboard" class="btn-ghost">View Threat Feed</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint" aria-hidden="true">scroll</div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ============================================================
+     THREAT DASHBOARD
+     ============================================================ -->
+<section class="dashboard" id="dashboard">
+  <div class="container">
+    <div class="dashboard-header">
+      <p class="section-label">Live Threat Intelligence</p>
+      <h2>Operations Dashboard</h2>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- Counter Panel -->
+      <div class="dash-panel">
+        <div class="panel-title">Threats neutralized today</div>
+        <div class="threat-counter" id="threatCounter">0</div>
+        <div class="threat-label">Attacks blocked across all monitored endpoints</div>
+        <div class="uptime-bar" aria-hidden="true">
+          <span class="active"></span><span class="active"></span><span class="active"></span>
+          <span class="active"></span><span class="active"></span><span class="active"></span>
+          <span class="active"></span><span class="active"></span><span class="active"></span>
+          <span class="active"></span><span class="active"></span><span class="active"></span>
+          <span class="active"></span><span class="active"></span><span class="active"></span>
+          <span class="active"></span><span class="active"></span><span class="active"></span>
+          <span class="active"></span><span class="active"></span><span class="active"></span>
+          <span class="active"></span><span class="active"></span><span></span>
+        </div>
+      </div>
+
+      <!-- Live Log Panel -->
+      <div class="dash-panel">
+        <div class="panel-title">Real-time event log</div>
+        <div class="log-container">
+          <div class="log-scroll" id="logScroll">
+            <div class="log-entry"><span class="time">[14:23:07]</span> <span class="action-block">BLOCKED</span> brute-force attempt from 194.61.24.xxx &mdash; 2,847 attempts in 60s</div>
+            <div class="log-entry"><span class="time">[14:23:09]</span> <span class="action-quarantine">QUARANTINED</span> malware SHA256:a3f8c9...e7d1 &mdash; polymorphic loader variant</div>
+            <div class="log-entry"><span class="time">[14:23:11]</span> <span class="action-detect">DETECTED</span> anomalous lateral movement &mdash; Workstation-0447 to DC-PROD-01</div>
+            <div class="log-entry"><span class="time">[14:23:14]</span> <span class="action-deny">DENIED</span> unauthorized API call &mdash; token scope violation &mdash; /api/v2/admin/users</div>
+            <div class="log-entry"><span class="time">[14:23:16]</span> <span class="action-block">BLOCKED</span> C2 beacon to 45.33.xx.xx:8443 &mdash; Cobalt Strike profile match</div>
+            <div class="log-entry"><span class="time">[14:23:18]</span> <span class="action-detect">DETECTED</span> credential stuffing &mdash; 14,291 unique credentials tested in 120s</div>
+            <div class="log-entry"><span class="time">[14:23:21]</span> <span class="action-quarantine">QUARANTINED</span> phishing payload &mdash; weaponized .docm with macro dropper</div>
+            <div class="log-entry"><span class="time">[14:23:23]</span> <span class="action-block">BLOCKED</span> DNS exfiltration attempt &mdash; base64 encoded queries to rogue NS</div>
+            <div class="log-entry"><span class="time">[14:23:25]</span> <span class="action-deny">DENIED</span> privilege escalation &mdash; CVE-2024-3094 exploit attempt on sshd</div>
+            <div class="log-entry"><span class="time">[14:23:28]</span> <span class="action-detect">DETECTED</span> TLS certificate anomaly &mdash; MITM proxy signature on egress</div>
+            <div class="log-entry"><span class="time">[14:23:30]</span> <span class="action-block">BLOCKED</span> port scan from 103.xx.xx.xx &mdash; SYN sweep across /24 subnet</div>
+            <div class="log-entry"><span class="time">[14:23:33]</span> <span class="action-quarantine">QUARANTINED</span> ransomware binary &mdash; entropy analysis: 7.98/8.00</div>
+            <div class="log-entry"><span class="time">[14:23:35]</span> <span class="action-deny">DENIED</span> cloud IAM role assumption &mdash; impossible travel detected</div>
+            <div class="log-entry"><span class="time">[14:23:37]</span> <span class="action-detect">DETECTED</span> supply chain anomaly &mdash; npm package integrity mismatch</div>
+            <div class="log-entry"><span class="time">[14:23:40]</span> <span class="action-block">BLOCKED</span> SQL injection &mdash; UNION SELECT on /search endpoint</div>
+            <div class="log-entry"><span class="time">[14:23:42]</span> <span class="action-block">BLOCKED</span> zero-day exploit attempt &mdash; heap spray in PDF renderer</div>
+
+            <!-- Duplicate for seamless loop -->
+            <div class="log-entry"><span class="time">[14:23:07]</span> <span class="action-block">BLOCKED</span> brute-force attempt from 194.61.24.xxx &mdash; 2,847 attempts in 60s</div>
+            <div class="log-entry"><span class="time">[14:23:09]</span> <span class="action-quarantine">QUARANTINED</span> malware SHA256:a3f8c9...e7d1 &mdash; polymorphic loader variant</div>
+            <div class="log-entry"><span class="time">[14:23:11]</span> <span class="action-detect">DETECTED</span> anomalous lateral movement &mdash; Workstation-0447 to DC-PROD-01</div>
+            <div class="log-entry"><span class="time">[14:23:14]</span> <span class="action-deny">DENIED</span> unauthorized API call &mdash; token scope violation &mdash; /api/v2/admin/users</div>
+            <div class="log-entry"><span class="time">[14:23:16]</span> <span class="action-block">BLOCKED</span> C2 beacon to 45.33.xx.xx:8443 &mdash; Cobalt Strike profile match</div>
+            <div class="log-entry"><span class="time">[14:23:18]</span> <span class="action-detect">DETECTED</span> credential stuffing &mdash; 14,291 unique credentials tested in 120s</div>
+            <div class="log-entry"><span class="time">[14:23:21]</span> <span class="action-quarantine">QUARANTINED</span> phishing payload &mdash; weaponized .docm with macro dropper</div>
+            <div class="log-entry"><span class="time">[14:23:23]</span> <span class="action-block">BLOCKED</span> DNS exfiltration attempt &mdash; base64 encoded queries to rogue NS</div>
+            <div class="log-entry"><span class="time">[14:23:25]</span> <span class="action-deny">DENIED</span> privilege escalation &mdash; CVE-2024-3094 exploit attempt on sshd</div>
+            <div class="log-entry"><span class="time">[14:23:28]</span> <span class="action-detect">DETECTED</span> TLS certificate anomaly &mdash; MITM proxy signature on egress</div>
+            <div class="log-entry"><span class="time">[14:23:30]</span> <span class="action-block">BLOCKED</span> port scan from 103.xx.xx.xx &mdash; SYN sweep across /24 subnet</div>
+            <div class="log-entry"><span class="time">[14:23:33]</span> <span class="action-quarantine">QUARANTINED</span> ransomware binary &mdash; entropy analysis: 7.98/8.00</div>
+            <div class="log-entry"><span class="time">[14:23:35]</span> <span class="action-deny">DENIED</span> cloud IAM role assumption &mdash; impossible travel detected</div>
+            <div class="log-entry"><span class="time">[14:23:37]</span> <span class="action-detect">DETECTED</span> supply chain anomaly &mdash; npm package integrity mismatch</div>
+            <div class="log-entry"><span class="time">[14:23:40]</span> <span class="action-block">BLOCKED</span> SQL injection &mdash; UNION SELECT on /search endpoint</div>
+            <div class="log-entry"><span class="time">[14:23:42]</span> <span class="action-block">BLOCKED</span> zero-day exploit attempt &mdash; heap spray in PDF renderer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-stats" style="margin-top: 24px;">
+      <div class="dash-stat">
+        <div class="dash-stat-value" id="endpointCount">0</div>
+        <div class="dash-stat-label">Monitored Endpoints</div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-stat-value" id="uptimeValue">0%</div>
+        <div class="dash-stat-label">SOC Uptime (365d)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ============================================================
+     SERVICES
+     ============================================================ -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="services-header">
+      <p class="section-label">Capabilities</p>
+      <h2>Adversary-Grade Defense</h2>
+      <p>We don't just detect threats. We hunt them. Every service is built on the assumption that your perimeter has already been breached.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon" aria-hidden="true">[&gt;_]</div>
+        <h3>Threat Detection & Response</h3>
+        <div class="service-tag">24/7 SOC Operations</div>
+        <p>Our security operations center never sleeps. Machine-speed detection paired with human-led threat hunting across your entire attack surface. Sub-four-minute mean time to respond. Every alert triaged. Every anomaly investigated.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon" aria-hidden="true">{0:0}</div>
+        <h3>Zero Trust Architecture</h3>
+        <div class="service-tag">Never Trust, Always Verify</div>
+        <p>Perimeter security is dead. We architect identity-aware, microsegmented environments where every access request is authenticated, authorized, and encrypted. No implicit trust. No exceptions. Every session earned.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon" aria-hidden="true">~/r00t</div>
+        <h3>Penetration Testing</h3>
+        <div class="service-tag">Red Team Operations</div>
+        <p>Our offensive security team thinks like adversaries because many of them were. Full-scope red team engagements, application security testing, and adversary simulation using the same TTPs as nation-state actors.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon" aria-hidden="true">[===]</div>
+        <h3>Compliance & Audit</h3>
+        <div class="service-tag">SOC 2 / ISO 27001 / HIPAA</div>
+        <p>Compliance is a byproduct of real security, not a substitute. We engineer audit-ready environments and continuous compliance monitoring that satisfies regulators without compromising your operational tempo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ============================================================
+     BY THE NUMBERS
+     ============================================================ -->
+<section class="numbers" id="numbers">
+  <div class="container">
+    <div class="numbers-header">
+      <p class="section-label">Field Intelligence</p>
+      <h2>By The Numbers</h2>
+      <p>Our track record isn't marketing. It's math.</p>
+    </div>
+
+    <div class="numbers-grid">
+      <div class="number-item">
+        <div class="number-value" data-target="142">0</div>
+        <div class="number-label">Zero-days discovered<br>and responsibly disclosed</div>
+      </div>
+      <div class="number-item">
+        <div class="number-value" data-target="0" data-static="true">0</div>
+        <div class="number-label">Breaches on our watch.<br>Zero. Ever.</div>
+      </div>
+      <div class="number-item">
+        <div class="number-value" data-target="99.998" data-decimal="true">0</div>
+        <div class="number-label">Detection rate<br>across all threat vectors</div>
+      </div>
+      <div class="number-item">
+        <div class="number-value">&lt; 4<span style="font-size:0.5em; opacity:0.6">min</span></div>
+        <div class="number-label">Mean time to respond<br>across all severity levels</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ============================================================
+     CLIENTS
+     ============================================================ -->
+<section class="clients" id="clients">
+  <div class="container">
+    <div class="clients-header">
+      <p class="section-label">Trust Perimeter</p>
+      <h2>Trusted by Organizations That Can't Afford to Be Wrong</h2>
+      <p>Our clients operate in environments where a single breach means regulatory action, national security risk, or existential threat. They chose us because failure is not an option.</p>
+    </div>
+
+    <div class="clients-grid">
+      <div class="client-block">
+        <div class="client-icon" aria-hidden="true">&lt;/&gt;</div>
+        <h4>Fortune 500</h4>
+        <p>Enterprise Security</p>
+      </div>
+      <div class="client-block">
+        <div class="client-icon" aria-hidden="true">[G]</div>
+        <h4>Government Agencies</h4>
+        <p>Classified Programs</p>
+      </div>
+      <div class="client-block">
+        <div class="client-icon" aria-hidden="true">$$$</div>
+        <h4>Financial Institutions</h4>
+        <p>Transaction Security</p>
+      </div>
+      <div class="client-block">
+        <div class="client-icon" aria-hidden="true">/!\\</div>
+        <h4>Critical Infrastructure</h4>
+        <p>ICS/SCADA Defense</p>
+      </div>
+    </div>
+
+    <p class="clients-disclaimer">Client identities are protected under mutual NDA. We don't name-drop. We deliver.</p>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ============================================================
+     CTA
+     ============================================================ -->
+<section class="cta" id="contact">
+  <div class="container">
+    <p class="section-label">Initiate Contact</p>
+    <h2>Think you're secure?<br><em>Prove it.</em></h2>
+    <p>Most organizations discover their vulnerabilities after the breach. We find them before the adversary does. Request a penetration test and find out where you really stand.</p>
+
+    <div class="cta-actions">
+      <a href="mailto:security@vertexlabs.io?subject=Pentest%20Request" class="btn-primary">Request a Pentest</a>
+    </div>
+
+    <div class="cta-secure">
+      <div class="cta-secure-title">Secure Communication</div>
+      <div class="pgp-fingerprint">
+        <strong>PGP Fingerprint:</strong><br>
+        4A1F 8C3E 92D7 0B56 E1A4&nbsp;&nbsp;3F89 C720 5DE6 B841 F2A9
+      </div>
+      <div class="cta-email">
+        <span style="color: var(--gray); font-size: 12px;">Email:</span> <a href="mailto:security@vertexlabs.io">security@vertexlabs.io</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-left">
+        &copy; 2026 Vertex Labs.<span class="canary">Warrant canary active.</span>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#disclosure">Responsible Disclosure</a></li>
+        <li><a href="#pgp">PGP Key</a></li>
+        <li><a href="#status">Status Page</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // Check reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- NAV SCROLL ----
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
+
+  // ---- MOBILE NAV ----
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    navToggle.textContent = navLinks.classList.contains('open') ? '[x]' : '[=]';
+  });
+
+  // Close on link click
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.textContent = '[=]';
+    });
+  });
+
+  if (prefersReducedMotion || window.self !== window.top) {
+    // Show all content immediately
+    document.querySelectorAll('.hero-prefix, .hero-title, .hero-sub, .hero-actions').forEach(el => {
+      el.style.opacity = '1';
+    });
+    document.getElementById('threatCounter').textContent = '2,847,391';
+    document.getElementById('endpointCount').textContent = '48,219';
+    document.getElementById('uptimeValue').textContent = '99.999%';
+    document.querySelectorAll('.number-value[data-target]').forEach(el => {
+      const target = el.getAttribute('data-target');
+      if (el.getAttribute('data-decimal') === 'true') {
+        el.textContent = target + '%';
+      } else {
+        el.textContent = parseInt(target).toLocaleString();
+      }
+    });
+    return;
+  }
+
+  // ---- GSAP Setup ----
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ---- HERO ANIMATIONS ----
+  const heroTL = gsap.timeline({ delay: 0.3 });
+
+  heroTL
+    .to('#heroPrefix', {
+      opacity: 1,
+      duration: 0.6,
+      ease: 'power2.out'
+    })
+    .to('#heroTitle', {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, '-=0.3')
+    .to('#heroSub', {
+      opacity: 1,
+      duration: 0.6,
+      ease: 'power2.out'
+    }, '-=0.4')
+    .to('#heroActions', {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      ease: 'power2.out'
+    }, '-=0.3');
+
+  // Set initial states for hero elements
+  gsap.set('#heroTitle', { y: 20 });
+  gsap.set('#heroActions', { y: 10 });
+
+  // ---- ANIMATED COUNTER ----
+  function animateCounter(el, target, duration, isDecimal) {
+    const obj = { val: 0 };
+    gsap.to(obj, {
+      val: target,
+      duration: duration,
+      ease: 'power2.out',
+      onUpdate: () => {
+        if (isDecimal) {
+          el.textContent = obj.val.toFixed(3) + '%';
+        } else {
+          el.textContent = Math.floor(obj.val).toLocaleString();
+        }
+      }
+    });
+  }
+
+  // Threat counter
+  ScrollTrigger.create({
+    trigger: '#dashboard',
+    start: 'top 80%',
+    once: true,
+    onEnter: () => {
+      animateCounter(document.getElementById('threatCounter'), 2847391, 2.5, false);
+      animateCounter(document.getElementById('endpointCount'), 48219, 2, false);
+
+      // Uptime counter
+      const uptimeEl = document.getElementById('uptimeValue');
+      const uptimeObj = { val: 0 };
+      gsap.to(uptimeObj, {
+        val: 99.999,
+        duration: 2,
+        ease: 'power2.out',
+        onUpdate: () => {
+          uptimeEl.textContent = uptimeObj.val.toFixed(3) + '%';
+        }
+      });
+    }
+  });
+
+  // ---- DASHBOARD PANELS ----
+  gsap.utils.toArray('.dash-panel, .dash-stat').forEach((panel, i) => {
+    gsap.from(panel, {
+      scrollTrigger: {
+        trigger: panel,
+        start: 'top 85%',
+        once: true
+      },
+      opacity: 0,
+      y: 30,
+      duration: 0.6,
+      delay: i * 0.1,
+      ease: 'power2.out'
+    });
+  });
+
+  // ---- SERVICE CARDS ----
+  gsap.utils.toArray('.service-card').forEach((card, i) => {
+    gsap.from(card, {
+      scrollTrigger: {
+        trigger: card,
+        start: 'top 85%',
+        once: true
+      },
+      opacity: 0,
+      y: 40,
+      duration: 0.5,
+      delay: i * 0.08,
+      ease: 'power2.out'
+    });
+  });
+
+  // ---- NUMBERS ----
+  gsap.utils.toArray('.number-item').forEach((item, i) => {
+    const valueEl = item.querySelector('.number-value');
+    const target = valueEl.getAttribute('data-target');
+    const isDecimal = valueEl.getAttribute('data-decimal') === 'true';
+    const isStatic = valueEl.getAttribute('data-static') === 'true';
+
+    gsap.from(item, {
+      scrollTrigger: {
+        trigger: item,
+        start: 'top 85%',
+        once: true,
+        onEnter: () => {
+          if (target && !isStatic) {
+            animateCounter(valueEl, parseFloat(target), 2, isDecimal);
+          }
+        }
+      },
+      opacity: 0,
+      y: 30,
+      duration: 0.5,
+      delay: i * 0.1,
+      ease: 'power2.out'
+    });
+  });
+
+  // ---- CLIENT BLOCKS ----
+  gsap.utils.toArray('.client-block').forEach((block, i) => {
+    gsap.from(block, {
+      scrollTrigger: {
+        trigger: block,
+        start: 'top 85%',
+        once: true
+      },
+      opacity: 0,
+      y: 30,
+      duration: 0.5,
+      delay: i * 0.08,
+      ease: 'power2.out'
+    });
+  });
+
+  // ---- CTA ----
+  gsap.from('.cta h2', {
+    scrollTrigger: {
+      trigger: '.cta',
+      start: 'top 75%',
+      once: true
+    },
+    opacity: 0,
+    y: 30,
+    duration: 0.7,
+    ease: 'power2.out'
+  });
+
+  gsap.from('.cta-secure', {
+    scrollTrigger: {
+      trigger: '.cta-secure',
+      start: 'top 85%',
+      once: true
+    },
+    opacity: 0,
+    y: 20,
+    duration: 0.6,
+    ease: 'power2.out'
+  });
+
+  // ---- SECTION LABELS ----
+  gsap.utils.toArray('.section-label').forEach(label => {
+    gsap.from(label, {
+      scrollTrigger: {
+        trigger: label,
+        start: 'top 85%',
+        once: true
+      },
+      opacity: 0,
+      x: -20,
+      duration: 0.5,
+      ease: 'power2.out'
+    });
+  });
+
+  // ---- SECTION HEADERS ----
+  gsap.utils.toArray('.services-header h2, .numbers-header h2, .clients-header h2, .dashboard-header h2').forEach(h2 => {
+    gsap.from(h2, {
+      scrollTrigger: {
+        trigger: h2,
+        start: 'top 85%',
+        once: true
+      },
+      opacity: 0,
+      y: 20,
+      duration: 0.6,
+      ease: 'power2.out'
+    });
+  });
+
+})();
+</script>
+</body>
+</html>

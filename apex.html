@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apex Robotics — Built to Perform</title>
+<meta name="description" content="Apex Robotics delivers industrial-grade robotic systems for precision assembly, autonomous navigation, and computer vision. Built to perform.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --dark-steel: #0c0e14;
+  --amber: #f59e0b;
+  --amber-glow: #f59e0b33;
+  --amber-dim: #f59e0b99;
+  --warm-white: #f5f5f0;
+  --gunmetal: #374151;
+  --dark-surface: #1a1d28;
+  --text-secondary: #9ca3af;
+  --text-dim: #6b7280;
+  --border-subtle: #ffffff0a;
+  --font-heading: 'Chakra Petch', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--dark-steel);
+  color: var(--warm-white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img { max-width: 100%; }
+
+/* ============================================
+   UTILITY
+   ============================================ */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-label {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--amber);
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1.25rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s, backdrop-filter 0.3s;
+}
+
+nav.scrolled {
+  background: #0c0e14e6;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.nav-logo {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-logo svg {
+  width: 28px;
+  height: 28px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--amber);
+}
+
+.nav-cta {
+  background: var(--amber);
+  color: var(--dark-steel) !important;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600 !important;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  transition: opacity 0.2s !important;
+}
+
+.nav-cta:hover { opacity: 0.9; }
+
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.mobile-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--warm-white);
+  margin: 5px 0;
+  transition: 0.3s;
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 6rem 0;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Blueprint grid */
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--amber-glow) 1px, transparent 1px),
+    linear-gradient(90deg, var(--amber-glow) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.15;
+  mask-image: radial-gradient(ellipse 70% 60% at 65% 50%, black 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 65% 50%, black 20%, transparent 70%);
+}
+
+/* CSS robotic arm wireframe */
+.arm-wireframe {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 500px;
+  height: 600px;
+  opacity: 0.25;
+}
+
+.arm-segment {
+  position: absolute;
+  background: var(--amber);
+  border-radius: 2px;
+}
+
+.arm-joint {
+  position: absolute;
+  border: 2px solid var(--amber);
+  border-radius: 50%;
+  background: transparent;
+}
+
+/* Base */
+.arm-base {
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 160px; height: 8px;
+}
+.arm-base-vert {
+  bottom: 8px; left: 50%; transform: translateX(-50%);
+  width: 6px; height: 80px;
+}
+.arm-joint-1 {
+  bottom: 80px; left: 50%; transform: translate(-50%, 50%);
+  width: 32px; height: 32px;
+}
+
+/* Lower arm */
+.arm-lower {
+  bottom: 96px; left: 50%; transform: translateX(-50%) rotate(-30deg);
+  transform-origin: bottom center;
+  width: 6px; height: 180px;
+}
+.arm-joint-2 {
+  bottom: 266px; left: calc(50% - 90px);
+  transform: translate(-50%, 50%);
+  width: 28px; height: 28px;
+}
+
+/* Upper arm */
+.arm-upper {
+  bottom: 258px; left: calc(50% - 104px);
+  transform: rotate(45deg);
+  transform-origin: bottom center;
+  width: 5px; height: 150px;
+}
+.arm-joint-3 {
+  top: 80px; left: calc(50% - 180px);
+  width: 24px; height: 24px;
+}
+
+/* Wrist */
+.arm-wrist {
+  top: 86px; left: calc(50% - 192px);
+  transform: rotate(90deg);
+  width: 4px; height: 60px;
+}
+
+/* Gripper */
+.arm-grip-l {
+  top: 68px; left: calc(50% - 256px);
+  transform: rotate(20deg);
+  width: 3px; height: 40px;
+}
+.arm-grip-r {
+  top: 68px; left: calc(50% - 244px);
+  transform: rotate(-20deg);
+  width: 3px; height: 40px;
+}
+
+/* Dimension lines */
+.dim-line {
+  position: absolute;
+  border: 1px dashed var(--amber-dim);
+}
+
+.dim-h1 {
+  bottom: 45px; left: 10%; width: 30%; border-top: 1px dashed var(--amber-dim); border-bottom: none;
+  height: 0;
+}
+.dim-v1 {
+  right: 15%; top: 20%; height: 35%; width: 0;
+  border-left: 1px dashed var(--amber-dim); border-top: none;
+}
+
+/* Circle accents */
+.circle-accent {
+  position: absolute;
+  border: 1px solid var(--amber);
+  border-radius: 50%;
+  opacity: 0.15;
+}
+
+.circle-1 { width: 300px; height: 300px; top: 15%; right: 0; }
+.circle-2 { width: 180px; height: 180px; bottom: 20%; right: 15%; }
+.circle-3 { width: 80px; height: 80px; top: 40%; right: 25%; }
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+}
+
+.hero-label {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero-label::before {
+  content: '';
+  width: 40px;
+  height: 2px;
+  background: var(--amber);
+  display: block;
+}
+
+.hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 span {
+  display: block;
+  color: var(--amber);
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 480px;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--amber);
+  color: var(--dark-steel);
+  padding: 1rem 2rem;
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover { opacity: 0.9; }
+
+.btn-secondary {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--warm-white);
+  padding: 1rem 2rem;
+  border: 1px solid var(--gunmetal);
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+
+.hero-scroll-cue {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--amber), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.2); }
+}
+
+/* ============================================
+   PRODUCTS
+   ============================================ */
+.products {
+  padding: 8rem 0;
+  background: var(--dark-surface);
+  position: relative;
+}
+
+.products::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--amber-glow), transparent);
+}
+
+.products-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.products-header .section-label {
+  justify-content: center;
+}
+
+.products-header .section-label::before { display: none; }
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.product-card {
+  background: var(--dark-steel);
+  border: 1px solid #ffffff08;
+  padding: 2.5rem 2rem;
+  position: relative;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.product-card:hover {
+  border-color: var(--amber-glow);
+  transform: translateY(-4px);
+}
+
+.product-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  border-left: 1px solid var(--amber);
+  border-bottom: 1px solid var(--amber);
+  opacity: 0.4;
+  transform: translate(-1px, 1px) rotate(0deg);
+}
+
+.product-visual {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.product-visual svg {
+  width: 100%;
+  height: 100%;
+}
+
+.product-model {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.product-name {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.product-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+}
+
+.product-specs {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid #ffffff08;
+  padding-top: 1.25rem;
+}
+
+.product-specs li {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-body);
+}
+
+.product-specs li strong {
+  color: var(--warm-white);
+  font-weight: 500;
+  font-family: var(--font-heading);
+  letter-spacing: 0.02em;
+}
+
+/* ============================================
+   CAPABILITIES
+   ============================================ */
+.capabilities {
+  padding: 8rem 0;
+  position: relative;
+}
+
+.capabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.capability-card {
+  padding: 2rem;
+  border: 1px solid #ffffff08;
+  background: var(--dark-surface);
+  transition: border-color 0.3s;
+  position: relative;
+}
+
+.capability-card:hover {
+  border-color: var(--amber-glow);
+}
+
+.capability-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1.5rem;
+}
+
+.capability-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.capability-title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.capability-stat {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  color: var(--amber);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.capability-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* ============================================
+   NUMBERS
+   ============================================ */
+.numbers {
+  padding: 5rem 0;
+  background: var(--dark-surface);
+  border-top: 1px solid #ffffff08;
+  border-bottom: 1px solid #ffffff08;
+  position: relative;
+  overflow: hidden;
+}
+
+.numbers::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--amber-glow) 1px, transparent 1px),
+    linear-gradient(90deg, var(--amber-glow) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 0.05;
+}
+
+.numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.number-item {
+  padding: 1rem;
+}
+
+.number-value {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--amber);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.number-suffix {
+  font-size: 0.6em;
+  opacity: 0.8;
+}
+
+.number-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================
+   INDUSTRIES
+   ============================================ */
+.industries {
+  padding: 8rem 0;
+  overflow: hidden;
+}
+
+.industries-header {
+  margin-bottom: 3rem;
+}
+
+.marquee-container {
+  overflow: hidden;
+  padding: 2rem 0;
+  border-top: 1px solid #ffffff08;
+  border-bottom: 1px solid #ffffff08;
+}
+
+.marquee-track {
+  display: flex;
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-item {
+  flex-shrink: 0;
+  padding: 0 3rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 600;
+  color: var(--gunmetal);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  transition: color 0.3s;
+}
+
+.marquee-item:hover {
+  color: var(--warm-white);
+}
+
+.marquee-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--amber);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.industries-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.industry-tag {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid #ffffff08;
+  background: var(--dark-surface);
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.industry-tag:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+
+.industry-tag::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--amber);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  flex-shrink: 0;
+}
+
+/* ============================================
+   CTA
+   ============================================ */
+.cta {
+  padding: 8rem 0;
+  background: var(--dark-surface);
+  position: relative;
+}
+
+.cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--amber-glow), transparent);
+}
+
+.cta-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.cta-text {
+  position: sticky;
+  top: 8rem;
+}
+
+.cta-text .section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.cta-desc {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.cta-contact-line {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.cta-contact-line svg {
+  width: 16px;
+  height: 16px;
+  color: var(--amber);
+}
+
+.cta-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.form-group input,
+.form-group textarea {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: var(--dark-steel);
+  border: 1px solid #ffffff0f;
+  color: var(--warm-white);
+  padding: 0.9rem 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--amber);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-submit {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--amber);
+  color: var(--dark-steel);
+  padding: 1.1rem 2.5rem;
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  align-self: flex-start;
+  transition: opacity 0.2s;
+}
+
+.form-submit:hover { opacity: 0.9; }
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer {
+  padding: 4rem 0 2rem;
+  border-top: 1px solid #ffffff08;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr);
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footer-brand .nav-logo {
+  margin-bottom: 1rem;
+}
+
+.footer-brand p {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  max-width: 280px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.footer-col h4 {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer-col a {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  transition: color 0.2s;
+}
+
+.footer-col a:hover { color: var(--amber); }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+  border-top: 1px solid #ffffff08;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.footer-legal {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-legal a:hover { color: var(--amber); }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+  .products-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+  .capabilities-grid { grid-template-columns: repeat(2, 1fr); }
+  .numbers-grid { grid-template-columns: repeat(2, 1fr); }
+  .cta-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .cta-text { position: static; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .arm-wireframe { width: 350px; height: 420px; opacity: 0.15; right: 0; }
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 1.25rem; }
+  .nav-links { display: none; }
+  .mobile-toggle { display: block; }
+  .hero { min-height: 90vh; padding: 5rem 0; }
+  .hero h1 { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .products { padding: 5rem 0; }
+  .capabilities { padding: 5rem 0; }
+  .capabilities-grid { grid-template-columns: 1fr; }
+  .numbers-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .industries { padding: 5rem 0; }
+  .industries-grid { grid-template-columns: 1fr; }
+  .cta { padding: 5rem 0; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+  .arm-wireframe { display: none; }
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track { animation: none; }
+  .scroll-line { animation: none; opacity: 0.5; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 2L26 9V19L14 26L2 19V9L14 2Z" stroke="#f59e0b" stroke-width="1.5" fill="none"/>
+      <path d="M14 8L20 11.5V18.5L14 22L8 18.5V11.5L14 8Z" fill="#f59e0b"/>
+    </svg>
+    APEX ROBOTICS
+  </a>
+  <ul class="nav-links">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#capabilities">Capabilities</a></li>
+    <li><a href="#industries">Industries</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <button class="mobile-toggle" aria-label="Toggle menu" onclick="this.classList.toggle('active')">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- ============================================
+     HERO
+     ============================================ -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="circle-accent circle-1"></div>
+    <div class="circle-accent circle-2"></div>
+    <div class="circle-accent circle-3"></div>
+    <div class="arm-wireframe">
+      <div class="arm-segment arm-base"></div>
+      <div class="arm-segment arm-base-vert"></div>
+      <div class="arm-joint arm-joint-1"></div>
+      <div class="arm-segment arm-lower"></div>
+      <div class="arm-joint arm-joint-2"></div>
+      <div class="arm-segment arm-upper"></div>
+      <div class="arm-joint arm-joint-3"></div>
+      <div class="arm-segment arm-wrist"></div>
+      <div class="arm-segment arm-grip-l"></div>
+      <div class="arm-segment arm-grip-r"></div>
+      <div class="dim-line dim-h1"></div>
+      <div class="dim-line dim-v1"></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-label">Industrial Robotics & Automation</div>
+      <h1>
+        Built to<br>
+        <span>perform.</span>
+      </h1>
+      <p class="hero-sub">
+        We engineer robotic systems that transform manufacturing floors into precision powerhouses. From assembly arms to autonomous platforms, every Apex system is designed for relentless performance.
+      </p>
+      <div class="hero-buttons">
+        <a href="#products" class="btn-primary">Explore Systems</a>
+        <a href="#contact" class="btn-secondary">Request Demo</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-cue">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ============================================
+     PRODUCTS
+     ============================================ -->
+<section class="products" id="products">
+  <div class="container">
+    <div class="products-header">
+      <div class="section-label">Product Line</div>
+      <h2 class="section-title">Engineered for the factory floor.</h2>
+      <p style="color: var(--text-secondary); max-width: 560px; margin: 0 auto; font-weight: 300; line-height: 1.7;">
+        Three platform systems. Thousands of configurations. Each built from the ground up to handle the demands of modern industrial environments.
+      </p>
+    </div>
+    <div class="products-grid">
+
+      <!-- APEX-7 -->
+      <div class="product-card">
+        <div class="product-visual">
+          <svg viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Base platform -->
+            <rect x="70" y="170" width="100" height="10" rx="2" stroke="#f59e0b" stroke-width="1.2" fill="none"/>
+            <line x1="120" y1="170" x2="120" y2="130" stroke="#f59e0b" stroke-width="1.5"/>
+            <!-- Joint 1 -->
+            <circle cx="120" cy="130" r="8" stroke="#f59e0b" stroke-width="1.2" fill="none"/>
+            <circle cx="120" cy="130" r="3" fill="#f59e0b" opacity="0.4"/>
+            <!-- Lower arm -->
+            <line x1="120" y1="130" x2="80" y2="80" stroke="#f59e0b" stroke-width="1.5"/>
+            <!-- Joint 2 -->
+            <circle cx="80" cy="80" r="7" stroke="#f59e0b" stroke-width="1.2" fill="none"/>
+            <circle cx="80" cy="80" r="2.5" fill="#f59e0b" opacity="0.4"/>
+            <!-- Upper arm -->
+            <line x1="80" y1="80" x2="130" y2="40" stroke="#f59e0b" stroke-width="1.5"/>
+            <!-- Joint 3 -->
+            <circle cx="130" cy="40" r="6" stroke="#f59e0b" stroke-width="1.2" fill="none"/>
+            <circle cx="130" cy="40" r="2" fill="#f59e0b" opacity="0.4"/>
+            <!-- Wrist -->
+            <line x1="130" y1="40" x2="170" y2="35" stroke="#f59e0b" stroke-width="1.2"/>
+            <!-- End effector -->
+            <line x1="170" y1="35" x2="185" y2="25" stroke="#f59e0b" stroke-width="1"/>
+            <line x1="170" y1="35" x2="185" y2="45" stroke="#f59e0b" stroke-width="1"/>
+            <!-- Dimension annotations -->
+            <line x1="40" y1="170" x2="40" y2="35" stroke="#f59e0b" stroke-width="0.5" stroke-dasharray="3,3" opacity="0.3"/>
+            <text x="35" y="100" fill="#f59e0b" font-size="7" font-family="monospace" text-anchor="end" opacity="0.4">1350mm</text>
+            <!-- Range arc -->
+            <path d="M 60 130 A 80 80 0 0 1 180 130" stroke="#f59e0b" stroke-width="0.5" stroke-dasharray="2,4" fill="none" opacity="0.2"/>
+            <text x="120" y="60" fill="#f59e0b" font-size="6" font-family="monospace" text-anchor="middle" opacity="0.3">WORK ENVELOPE</text>
+            <!-- Crosshair at base -->
+            <line x1="115" y1="175" x2="125" y2="175" stroke="#f59e0b" stroke-width="0.5" opacity="0.3"/>
+            <line x1="120" y1="172" x2="120" y2="178" stroke="#f59e0b" stroke-width="0.5" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="product-model">Series 7</div>
+        <h3 class="product-name">APEX-7 Assembly Arm</h3>
+        <p class="product-desc">Six-axis articulated arm built for high-speed precision assembly. Sub-millimeter repeatability across the full work envelope.</p>
+        <ul class="product-specs">
+          <li><span>Payload</span> <strong>7 kg</strong></li>
+          <li><span>Reach</span> <strong>1,350 mm</strong></li>
+          <li><span>Repeatability</span> <strong>+/- 0.02 mm</strong></li>
+          <li><span>Speed</span> <strong>8.5 m/s</strong></li>
+          <li><span>Axes</span> <strong>6 DOF</strong></li>
+        </ul>
+      </div>
+
+      <!-- APEX-M -->
+      <div class="product-card">
+        <div class="product-visual">
+          <svg viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Body -->
+            <rect x="55" y="90" width="130" height="60" rx="6" stroke="#f59e0b" stroke-width="1.2" fill="none"/>
+            <!-- Top sensor dome -->
+            <rect x="85" y="70" width="70" height="20" rx="4" stroke="#f59e0b" stroke-width="1" fill="none"/>
+            <circle cx="120" cy="80" r="4" stroke="#f59e0b" stroke-width="0.8" fill="none"/>
+            <circle cx="120" cy="80" r="1.5" fill="#f59e0b" opacity="0.5"/>
+            <!-- LiDAR unit -->
+            <rect x="95" y="58" width="50" height="12" rx="6" stroke="#f59e0b" stroke-width="1" fill="none"/>
+            <line x1="105" y1="64" x2="135" y2="64" stroke="#f59e0b" stroke-width="0.5" opacity="0.4"/>
+            <!-- LiDAR scan lines -->
+            <line x1="120" y1="58" x2="80" y2="30" stroke="#f59e0b" stroke-width="0.4" stroke-dasharray="2,3" opacity="0.25"/>
+            <line x1="120" y1="58" x2="120" y2="25" stroke="#f59e0b" stroke-width="0.4" stroke-dasharray="2,3" opacity="0.25"/>
+            <line x1="120" y1="58" x2="160" y2="30" stroke="#f59e0b" stroke-width="0.4" stroke-dasharray="2,3" opacity="0.25"/>
+            <text x="120" y="22" fill="#f59e0b" font-size="6" font-family="monospace" text-anchor="middle" opacity="0.3">LIDAR FOV 360deg</text>
+            <!-- Wheels -->
+            <circle cx="80" cy="160" r="12" stroke="#f59e0b" stroke-width="1.2" fill="none"/>
+            <circle cx="80" cy="160" r="5" stroke="#f59e0b" stroke-width="0.6" fill="none" opacity="0.4"/>
+            <circle cx="160" cy="160" r="12" stroke="#f59e0b" stroke-width="1.2" fill="none"/>
+            <circle cx="160" cy="160" r="5" stroke="#f59e0b" stroke-width="0.6" fill="none" opacity="0.4"/>
+            <!-- Axle lines -->
+            <line x1="55" y1="150" x2="80" y2="160" stroke="#f59e0b" stroke-width="0.6" opacity="0.3"/>
+            <line x1="185" y1="150" x2="160" y2="160" stroke="#f59e0b" stroke-width="0.6" opacity="0.3"/>
+            <!-- Panel lines -->
+            <line x1="55" y1="110" x2="185" y2="110" stroke="#f59e0b" stroke-width="0.4" opacity="0.2"/>
+            <line x1="120" y1="90" x2="120" y2="150" stroke="#f59e0b" stroke-width="0.3" stroke-dasharray="4,4" opacity="0.15"/>
+            <!-- Dimension -->
+            <line x1="55" y1="185" x2="185" y2="185" stroke="#f59e0b" stroke-width="0.5" stroke-dasharray="3,3" opacity="0.3"/>
+            <text x="120" y="195" fill="#f59e0b" font-size="7" font-family="monospace" text-anchor="middle" opacity="0.4">860mm</text>
+            <!-- Status indicators -->
+            <rect x="65" y="100" width="6" height="6" rx="1" fill="#f59e0b" opacity="0.3"/>
+            <rect x="75" y="100" width="6" height="6" rx="1" fill="#f59e0b" opacity="0.2"/>
+          </svg>
+        </div>
+        <div class="product-model">Series M</div>
+        <h3 class="product-name">APEX-M Mobile Platform</h3>
+        <p class="product-desc">Autonomous mobile robot with integrated SLAM navigation. Moves material through complex environments without infrastructure changes.</p>
+        <ul class="product-specs">
+          <li><span>Payload</span> <strong>300 kg</strong></li>
+          <li><span>Speed</span> <strong>2.0 m/s</strong></li>
+          <li><span>Navigation</span> <strong>SLAM + LiDAR</strong></li>
+          <li><span>Runtime</span> <strong>12 hrs</strong></li>
+          <li><span>Charging</span> <strong>45 min</strong></li>
+        </ul>
+      </div>
+
+      <!-- APEX-V -->
+      <div class="product-card">
+        <div class="product-visual">
+          <svg viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Camera housing -->
+            <rect x="75" y="60" width="90" height="70" rx="4" stroke="#f59e0b" stroke-width="1.2" fill="none"/>
+            <!-- Lens -->
+            <circle cx="120" cy="95" r="22" stroke="#f59e0b" stroke-width="1.2" fill="none"/>
+            <circle cx="120" cy="95" r="15" stroke="#f59e0b" stroke-width="0.8" fill="none" opacity="0.5"/>
+            <circle cx="120" cy="95" r="8" stroke="#f59e0b" stroke-width="0.6" fill="none" opacity="0.3"/>
+            <circle cx="120" cy="95" r="3" fill="#f59e0b" opacity="0.5"/>
+            <!-- IR illuminator -->
+            <rect x="80" y="65" width="10" height="6" rx="1" stroke="#f59e0b" stroke-width="0.6" fill="none" opacity="0.5"/>
+            <rect x="150" y="65" width="10" height="6" rx="1" stroke="#f59e0b" stroke-width="0.6" fill="none" opacity="0.5"/>
+            <!-- Status LED -->
+            <circle cx="120" cy="67" r="2" fill="#f59e0b" opacity="0.4"/>
+            <!-- Mounting bracket -->
+            <rect x="95" y="130" width="50" height="12" rx="2" stroke="#f59e0b" stroke-width="1" fill="none"/>
+            <line x1="110" y1="142" x2="110" y2="165" stroke="#f59e0b" stroke-width="1"/>
+            <line x1="130" y1="142" x2="130" y2="165" stroke="#f59e0b" stroke-width="1"/>
+            <rect x="100" y="165" width="40" height="8" rx="2" stroke="#f59e0b" stroke-width="1" fill="none"/>
+            <!-- Vision cone -->
+            <line x1="75" y1="95" x2="30" y2="60" stroke="#f59e0b" stroke-width="0.4" stroke-dasharray="3,3" opacity="0.2"/>
+            <line x1="75" y1="95" x2="30" y2="130" stroke="#f59e0b" stroke-width="0.4" stroke-dasharray="3,3" opacity="0.2"/>
+            <path d="M 30 60 A 50 50 0 0 0 30 130" stroke="#f59e0b" stroke-width="0.4" stroke-dasharray="2,3" fill="none" opacity="0.2"/>
+            <text x="20" y="98" fill="#f59e0b" font-size="6" font-family="monospace" text-anchor="middle" opacity="0.3" transform="rotate(-90, 20, 98)">FOV 82deg</text>
+            <!-- Detection box overlay -->
+            <rect x="185" y="50" width="40" height="35" rx="1" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="2,2" fill="none" opacity="0.3"/>
+            <text x="205" y="47" fill="#f59e0b" font-size="5" font-family="monospace" text-anchor="middle" opacity="0.3">OBJ_01</text>
+            <text x="205" y="92" fill="#f59e0b" font-size="5" font-family="monospace" text-anchor="middle" opacity="0.3">98.7%</text>
+            <rect x="185" y="95" width="40" height="30" rx="1" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="2,2" fill="none" opacity="0.3"/>
+            <!-- Spec label -->
+            <text x="120" y="190" fill="#f59e0b" font-size="6" font-family="monospace" text-anchor="middle" opacity="0.3">20MP / 120FPS</text>
+          </svg>
+        </div>
+        <div class="product-model">Series V</div>
+        <h3 class="product-name">APEX-V Vision System</h3>
+        <p class="product-desc">Multi-spectral machine vision with onboard neural processing. Real-time defect detection and object classification at production speed.</p>
+        <ul class="product-specs">
+          <li><span>Resolution</span> <strong>20 MP</strong></li>
+          <li><span>Frame Rate</span> <strong>120 fps</strong></li>
+          <li><span>Latency</span> <strong>&lt; 8 ms</strong></li>
+          <li><span>Detection</span> <strong>99.4% accuracy</strong></li>
+          <li><span>Interface</span> <strong>GigE Vision</strong></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     CAPABILITIES
+     ============================================ -->
+<section class="capabilities" id="capabilities">
+  <div class="container">
+    <div class="section-label">Engineering Excellence</div>
+    <h2 class="section-title">What we engineer.</h2>
+    <p style="color: var(--text-secondary); max-width: 540px; font-weight: 300; line-height: 1.7;">
+      Four core disciplines. Decades of R&D. Systems engineered to perform in environments where failure is not an option.
+    </p>
+    <div class="capabilities-grid">
+
+      <!-- Precision Assembly -->
+      <div class="capability-card">
+        <div class="capability-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="18" stroke="#f59e0b" stroke-width="1.2" fill="none"/>
+            <circle cx="24" cy="24" r="10" stroke="#f59e0b" stroke-width="1" fill="none" opacity="0.5"/>
+            <circle cx="24" cy="24" r="3" fill="#f59e0b"/>
+            <line x1="24" y1="2" x2="24" y2="10" stroke="#f59e0b" stroke-width="0.8"/>
+            <line x1="24" y1="38" x2="24" y2="46" stroke="#f59e0b" stroke-width="0.8"/>
+            <line x1="2" y1="24" x2="10" y2="24" stroke="#f59e0b" stroke-width="0.8"/>
+            <line x1="38" y1="24" x2="46" y2="24" stroke="#f59e0b" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <h3 class="capability-title">Precision Assembly</h3>
+        <div class="capability-stat">+/- 0.02mm accuracy</div>
+        <p class="capability-desc">Micron-level repeatability across all six axes. Our assembly systems maintain tolerances tighter than the width of a human hair, cycle after cycle.</p>
+      </div>
+
+      <!-- Autonomous Navigation -->
+      <div class="capability-card">
+        <div class="capability-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 4L44 24L24 44L4 24L24 4Z" stroke="#f59e0b" stroke-width="1.2" fill="none"/>
+            <circle cx="24" cy="24" r="6" stroke="#f59e0b" stroke-width="1" fill="none"/>
+            <circle cx="24" cy="24" r="2" fill="#f59e0b"/>
+            <line x1="24" y1="18" x2="24" y2="8" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="2,2" opacity="0.5"/>
+            <line x1="30" y1="24" x2="40" y2="24" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="2,2" opacity="0.5"/>
+            <line x1="24" y1="30" x2="24" y2="40" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="2,2" opacity="0.5"/>
+            <line x1="18" y1="24" x2="8" y2="24" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="2,2" opacity="0.5"/>
+            <circle cx="12" cy="12" r="2" stroke="#f59e0b" stroke-width="0.6" fill="none" opacity="0.4"/>
+            <circle cx="36" cy="36" r="2" stroke="#f59e0b" stroke-width="0.6" fill="none" opacity="0.4"/>
+          </svg>
+        </div>
+        <h3 class="capability-title">Autonomous Navigation</h3>
+        <div class="capability-stat">SLAM + LiDAR fusion</div>
+        <p class="capability-desc">Real-time simultaneous localization and mapping with 360-degree LiDAR perception. Dynamic obstacle avoidance in unstructured environments.</p>
+      </div>
+
+      <!-- Computer Vision -->
+      <div class="capability-card">
+        <div class="capability-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="10" width="36" height="28" rx="3" stroke="#f59e0b" stroke-width="1.2" fill="none"/>
+            <circle cx="24" cy="24" r="8" stroke="#f59e0b" stroke-width="1" fill="none"/>
+            <circle cx="24" cy="24" r="3" fill="#f59e0b" opacity="0.6"/>
+            <rect x="12" y="16" width="8" height="6" rx="1" stroke="#f59e0b" stroke-width="0.6" fill="none" opacity="0.3"/>
+            <rect x="28" y="26" width="10" height="8" rx="1" stroke="#f59e0b" stroke-width="0.6" fill="none" opacity="0.3"/>
+            <line x1="6" y1="14" x2="3" y2="11" stroke="#f59e0b" stroke-width="0.6" opacity="0.4"/>
+            <line x1="42" y1="14" x2="45" y2="11" stroke="#f59e0b" stroke-width="0.6" opacity="0.4"/>
+          </svg>
+        </div>
+        <h3 class="capability-title">Computer Vision</h3>
+        <div class="capability-stat">Real-time object detection</div>
+        <p class="capability-desc">Onboard neural processing for defect detection, object classification, and dimensional measurement. Processes 120 frames per second with sub-8ms latency.</p>
+      </div>
+
+      <!-- Human-Robot Collaboration -->
+      <div class="capability-card">
+        <div class="capability-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Human figure (simplified) -->
+            <circle cx="16" cy="12" r="4" stroke="#f59e0b" stroke-width="1" fill="none"/>
+            <line x1="16" y1="16" x2="16" y2="28" stroke="#f59e0b" stroke-width="1.2"/>
+            <line x1="16" y1="20" x2="10" y2="26" stroke="#f59e0b" stroke-width="1"/>
+            <line x1="16" y1="20" x2="22" y2="24" stroke="#f59e0b" stroke-width="1"/>
+            <line x1="16" y1="28" x2="12" y2="36" stroke="#f59e0b" stroke-width="1"/>
+            <line x1="16" y1="28" x2="20" y2="36" stroke="#f59e0b" stroke-width="1"/>
+            <!-- Robot arm (simplified) -->
+            <rect x="30" y="30" width="14" height="6" rx="1" stroke="#f59e0b" stroke-width="1" fill="none"/>
+            <line x1="37" y1="30" x2="37" y2="20" stroke="#f59e0b" stroke-width="1.2"/>
+            <circle cx="37" cy="20" r="3" stroke="#f59e0b" stroke-width="0.8" fill="none"/>
+            <line x1="37" y1="17" x2="32" y2="10" stroke="#f59e0b" stroke-width="1"/>
+            <circle cx="32" cy="10" r="2" stroke="#f59e0b" stroke-width="0.6" fill="none"/>
+            <!-- Connection/collaboration indicator -->
+            <path d="M 22 24 Q 26 22 30 24" stroke="#f59e0b" stroke-width="0.6" stroke-dasharray="2,2" fill="none" opacity="0.5"/>
+            <!-- Safety zone -->
+            <circle cx="26" cy="24" r="16" stroke="#f59e0b" stroke-width="0.5" stroke-dasharray="3,3" fill="none" opacity="0.2"/>
+          </svg>
+        </div>
+        <h3 class="capability-title">Human-Robot Collaboration</h3>
+        <div class="capability-stat">ISO 15066 certified</div>
+        <p class="capability-desc">Force-limited collaborative operation with predictive safety zones. Certified for direct human interaction without safety caging.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     NUMBERS
+     ============================================ -->
+<section class="numbers" id="numbers">
+  <div class="container">
+    <div class="numbers-grid">
+      <div class="number-item">
+        <div class="number-value"><span class="counter" data-target="1200">0</span><span class="number-suffix">+</span></div>
+        <div class="number-label">Robots deployed worldwide</div>
+      </div>
+      <div class="number-item">
+        <div class="number-value"><span class="counter" data-target="99.97" data-decimals="2">0</span><span class="number-suffix">%</span></div>
+        <div class="number-label">System uptime guaranteed</div>
+      </div>
+      <div class="number-item">
+        <div class="number-value"><span class="counter" data-target="14">0</span></div>
+        <div class="number-label">Countries with active deployments</div>
+      </div>
+      <div class="number-item">
+        <div class="number-value"><span class="counter" data-target="8">0</span></div>
+        <div class="number-label">Granted patents in robotics</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     INDUSTRIES
+     ============================================ -->
+<section class="industries" id="industries">
+  <div class="container">
+    <div class="industries-header">
+      <div class="section-label">Sectors</div>
+      <h2 class="section-title">Trusted across industries.</h2>
+      <p style="color: var(--text-secondary); max-width: 520px; font-weight: 300; line-height: 1.7;">
+        From automotive assembly lines to pharmaceutical cleanrooms, Apex systems operate in the world's most demanding production environments.
+      </p>
+    </div>
+  </div>
+
+  <div class="marquee-container">
+    <div class="marquee-track">
+      <div class="marquee-item">Automotive<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Electronics<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Logistics<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Aerospace<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Pharma<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Food & Beverage<span class="marquee-dot"></span></div>
+      <!-- Duplicate for seamless loop -->
+      <div class="marquee-item">Automotive<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Electronics<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Logistics<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Aerospace<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Pharma<span class="marquee-dot"></span></div>
+      <div class="marquee-item">Food & Beverage<span class="marquee-dot"></span></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="industries-grid">
+      <div class="industry-tag">Automotive Manufacturing</div>
+      <div class="industry-tag">Consumer Electronics</div>
+      <div class="industry-tag">Warehouse & Logistics</div>
+      <div class="industry-tag">Aerospace & Defense</div>
+      <div class="industry-tag">Pharmaceutical</div>
+      <div class="industry-tag">Food & Beverage</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     CTA / CONTACT
+     ============================================ -->
+<section class="cta" id="contact">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-text">
+        <div class="section-label">Get Started</div>
+        <h2 class="section-title">Ready to<br>automate?</h2>
+        <p class="cta-desc">
+          Tell us about your production challenges. Our engineering team will design a system configuration matched to your throughput, precision, and safety requirements.
+        </p>
+        <div class="cta-contact-line">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M2 4l6 4 6-4" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="3" width="14" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+          <span>sales@apexrobotics.com</span>
+        </div>
+        <div class="cta-contact-line">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M10 8a2 2 0 11-4 0 2 2 0 014 0z" stroke="currentColor" stroke-width="1.2"/><path d="M8 1C4.7 1 2 3.7 2 7c0 4.5 6 8 6 8s6-3.5 6-8c0-3.3-2.7-6-6-6z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+          <span>San Francisco, CA / Munich, DE / Tokyo, JP</span>
+        </div>
+      </div>
+      <form class="cta-form" onsubmit="event.preventDefault(); this.querySelector('.form-submit').textContent='Message sent.'; this.querySelector('.form-submit').style.opacity='0.7';">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Jane Chen" required>
+          </div>
+          <div class="form-group">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" placeholder="Acme Manufacturing">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Work Email</label>
+          <input type="email" id="email" name="email" placeholder="jane@acme.com" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Project Details</label>
+          <textarea id="message" name="message" placeholder="Tell us about your automation goals, production volume, and timeline..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Inquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2L26 9V19L14 26L2 19V9L14 2Z" stroke="#f59e0b" stroke-width="1.5" fill="none"/>
+            <path d="M14 8L20 11.5V18.5L14 22L8 18.5V11.5L14 8Z" fill="#f59e0b"/>
+          </svg>
+          APEX ROBOTICS
+        </a>
+        <p>Industrial robotics and automation systems. Engineered for precision. Built to perform.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="#products">APEX-7 Assembly Arm</a></li>
+          <li><a href="#products">APEX-M Mobile Platform</a></li>
+          <li><a href="#products">APEX-V Vision System</a></li>
+          <li><a href="#">Software Suite</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">News</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Industries</h4>
+        <ul>
+          <li><a href="#industries">Automotive</a></li>
+          <li><a href="#industries">Electronics</a></li>
+          <li><a href="#industries">Aerospace</a></li>
+          <li><a href="#industries">Logistics</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Apex Robotics, Inc. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Settings</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================
+     SCRIPTS
+     ============================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // ---- Respect reduced motion ----
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- Nav scroll behavior ----
+  const navbar = document.getElementById('navbar');
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 80);
+  }, { passive: true });
+
+  if (prefersReducedMotion || window.self !== window.top) return;
+
+  // ---- Register GSAP ScrollTrigger ----
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ---- Hero animations ----
+  const heroTl = gsap.timeline({ defaults: { duration: 0.8, ease: 'power3.out' } });
+
+  heroTl
+    .from('.hero-label', { opacity: 0, x: -30 })
+    .from('.hero h1', { opacity: 0, y: 40 }, '-=0.5')
+    .from('.hero-sub', { opacity: 0, y: 20 }, '-=0.5')
+    .from('.hero-buttons', { opacity: 0, y: 20 }, '-=0.4')
+    .from('.hero-scroll-cue', { opacity: 0 }, '-=0.2')
+    .from('.arm-wireframe', { opacity: 0, scale: 0.9, duration: 1.2 }, '-=1')
+    .from('.circle-accent', { opacity: 0, scale: 0.8, stagger: 0.15, duration: 1 }, '-=1');
+
+  // ---- Product cards ----
+  gsap.from('.product-card', {
+    scrollTrigger: {
+      trigger: '.products-grid',
+      start: 'top 80%',
+    },
+    opacity: 0,
+    y: 50,
+    stagger: 0.15,
+    duration: 0.7,
+    ease: 'power3.out'
+  });
+
+  // ---- Capabilities ----
+  gsap.from('.capability-card', {
+    scrollTrigger: {
+      trigger: '.capabilities-grid',
+      start: 'top 80%',
+    },
+    opacity: 0,
+    y: 40,
+    stagger: 0.1,
+    duration: 0.6,
+    ease: 'power3.out'
+  });
+
+  // ---- Section headers ----
+  document.querySelectorAll('.section-label, .section-title').forEach(el => {
+    gsap.from(el, {
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 85%',
+      },
+      opacity: 0,
+      y: 25,
+      duration: 0.6,
+      ease: 'power3.out'
+    });
+  });
+
+  // ---- Animated counters ----
+  const counters = document.querySelectorAll('.counter');
+  counters.forEach(counter => {
+    const target = parseFloat(counter.dataset.target);
+    const decimals = parseInt(counter.dataset.decimals) || 0;
+
+    ScrollTrigger.create({
+      trigger: counter,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        gsap.to(counter, {
+          duration: 1.8,
+          ease: 'power2.out',
+          onUpdate: function() {
+            const progress = this.progress();
+            const current = target * progress;
+            if (decimals > 0) {
+              counter.textContent = current.toFixed(decimals);
+            } else {
+              counter.textContent = Math.round(current).toLocaleString();
+            }
+          }
+        });
+      }
+    });
+  });
+
+  // ---- Number items stagger ----
+  gsap.from('.number-item', {
+    scrollTrigger: {
+      trigger: '.numbers-grid',
+      start: 'top 80%',
+    },
+    opacity: 0,
+    y: 30,
+    stagger: 0.1,
+    duration: 0.6,
+    ease: 'power3.out'
+  });
+
+  // ---- Industries ----
+  gsap.from('.industry-tag', {
+    scrollTrigger: {
+      trigger: '.industries-grid',
+      start: 'top 85%',
+    },
+    opacity: 0,
+    x: -20,
+    stagger: 0.08,
+    duration: 0.5,
+    ease: 'power3.out'
+  });
+
+  // ---- CTA ----
+  gsap.from('.cta-text', {
+    scrollTrigger: {
+      trigger: '.cta-inner',
+      start: 'top 75%',
+    },
+    opacity: 0,
+    x: -40,
+    duration: 0.8,
+    ease: 'power3.out'
+  });
+
+  gsap.from('.cta-form', {
+    scrollTrigger: {
+      trigger: '.cta-inner',
+      start: 'top 75%',
+    },
+    opacity: 0,
+    x: 40,
+    duration: 0.8,
+    ease: 'power3.out'
+  });
+
+  // ---- Parallax on hero wireframe ----
+  gsap.to('.arm-wireframe', {
+    scrollTrigger: {
+      trigger: '.hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 0.5,
+    },
+    y: -80,
+    ease: 'none'
+  });
+
+  gsap.to('.circle-accent', {
+    scrollTrigger: {
+      trigger: '.hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 0.5,
+    },
+    y: -40,
+    ease: 'none'
+  });
+
+})();
+</script>
+</body>
+</html>

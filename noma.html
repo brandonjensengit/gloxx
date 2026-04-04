@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noma Wines — Terroir Tells the Truth</title>
+<meta name="description" content="Noma Wines. A luxury boutique winery in Sonoma Valley, California. Estate wines crafted with patience, precision, and reverence for the land. Est. 2008.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ========================================
+   RESET & BASE
+   ======================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --burgundy: #1a0a10;
+  --burgundy-deep: #0f0609;
+  --gold: #c9a96e;
+  --gold-light: #d4b97e;
+  --cream: #f5efe6;
+  --rose: #3d1a28;
+  --rose-light: #4d2535;
+  --brown: #a09080;
+  --brown-light: #b8a898;
+  --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-medium: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  background-color: var(--burgundy);
+  color: var(--cream);
+  line-height: 1.8;
+  overflow-x: hidden;
+  letter-spacing: 0.02em;
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cormorant', serif;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+}
+
+.section-label {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  display: inline-block;
+  position: relative;
+}
+
+.section-label::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 2rem;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.4;
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--burgundy-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+/* ========================================
+   NAVIGATION
+   ======================================== */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background var(--transition-medium), padding var(--transition-medium);
+}
+
+nav.scrolled {
+  background: rgba(26, 10, 16, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 1rem 3rem;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.08);
+}
+
+.nav-logo {
+  font-family: 'Cormorant', serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--brown);
+  text-decoration: none;
+  transition: color var(--transition-medium);
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width var(--transition-medium);
+}
+
+.nav-links a:hover {
+  color: var(--gold);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 5px;
+  background: none;
+  border: none;
+}
+
+.nav-hamburger span {
+  width: 24px;
+  height: 1px;
+  background: var(--gold);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(4px, 4px);
+}
+.nav-hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.nav-hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(4px, -4px);
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(15, 6, 9, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 999;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.mobile-menu.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile-menu a {
+  font-family: 'Cormorant', serif;
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--cream);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  transition: color 0.3s ease;
+}
+
+.mobile-menu a:hover {
+  color: var(--gold);
+}
+
+/* ========================================
+   HERO
+   ======================================== */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  background: var(--burgundy);
+}
+
+.hero-landscape {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hill {
+  position: absolute;
+  bottom: 0;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.hill-1 {
+  width: 140%;
+  height: 350px;
+  left: -20%;
+  bottom: -120px;
+  background: linear-gradient(180deg, #2a1520 0%, #1e0e16 100%);
+  z-index: 5;
+}
+
+.hill-2 {
+  width: 120%;
+  height: 300px;
+  left: -10%;
+  bottom: -60px;
+  background: linear-gradient(180deg, #251320 0%, #1c0c14 100%);
+  z-index: 4;
+}
+
+.hill-3 {
+  width: 100%;
+  height: 400px;
+  left: 10%;
+  bottom: -80px;
+  background: linear-gradient(180deg, #301828 0%, #200f18 100%);
+  z-index: 3;
+}
+
+.hill-4 {
+  width: 80%;
+  height: 250px;
+  left: -5%;
+  bottom: 20px;
+  background: linear-gradient(180deg, #3d1a28 0%, #2a1420 100%);
+  z-index: 2;
+}
+
+.hill-5 {
+  width: 90%;
+  height: 280px;
+  left: 30%;
+  bottom: -20px;
+  background: linear-gradient(180deg, #351628 0%, #251220 100%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  padding: 0 2rem;
+}
+
+.hero-tagline {
+  font-family: 'Cormorant', serif;
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--cream);
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  letter-spacing: 0.02em;
+}
+
+.hero-rule {
+  width: 80px;
+  height: 1px;
+  background: var(--gold);
+  margin: 0 auto 2.5rem;
+  opacity: 0;
+}
+
+.hero-sub {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  color: var(--brown);
+  opacity: 0;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  opacity: 0;
+}
+
+.hero-scroll span {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--brown);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* ========================================
+   STORY
+   ======================================== */
+.story {
+  padding: 10rem 2rem;
+  background: var(--burgundy-deep);
+  position: relative;
+  overflow: hidden;
+}
+
+.story::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.15), transparent);
+}
+
+.story-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+.story-text {
+  padding-right: 2rem;
+}
+
+.story-heading {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  color: var(--cream);
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+
+.story-text p {
+  font-size: 0.95rem;
+  color: var(--brown-light);
+  margin-bottom: 1.8rem;
+  line-height: 2;
+}
+
+.story-text p:first-of-type::first-letter {
+  font-family: 'Cormorant', serif;
+  font-size: 3.5rem;
+  float: left;
+  line-height: 1;
+  margin-right: 0.5rem;
+  margin-top: 0.1rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.story-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 500px;
+}
+
+.bottle-silhouette {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.bottle-silhouette svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ========================================
+   WINES
+   ======================================== */
+.wines {
+  padding: 10rem 2rem;
+  background: var(--burgundy);
+  position: relative;
+}
+
+.wines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.15), transparent);
+}
+
+.wines-header {
+  max-width: 1200px;
+  margin: 0 auto 6rem;
+  text-align: center;
+}
+
+.wines-heading {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  color: var(--cream);
+  margin-bottom: 1rem;
+  font-weight: 300;
+}
+
+.wines-header p {
+  font-size: 0.85rem;
+  color: var(--brown);
+  letter-spacing: 0.1em;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.wines-list {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+.wine-item {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 4rem;
+  align-items: center;
+  padding: 3rem;
+  border: 1px solid rgba(201, 169, 110, 0.06);
+  border-radius: 2px;
+  transition: border-color var(--transition-slow), background var(--transition-slow);
+  position: relative;
+}
+
+.wine-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(61, 26, 40, 0.15) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity var(--transition-slow);
+  pointer-events: none;
+}
+
+.wine-item:hover {
+  border-color: rgba(201, 169, 110, 0.2);
+}
+
+.wine-item:hover::before {
+  opacity: 1;
+}
+
+.wine-bottle-svg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform var(--transition-slow);
+}
+
+.wine-item:hover .wine-bottle-svg {
+  transform: translateY(-8px);
+}
+
+.wine-bottle-svg svg {
+  width: 60px;
+  height: auto;
+}
+
+.wine-info {
+  position: relative;
+  z-index: 1;
+}
+
+.wine-vintage {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.wine-name {
+  font-family: 'Cormorant', serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+.wine-notes {
+  font-size: 0.85rem;
+  color: var(--brown-light);
+  margin-bottom: 1.5rem;
+  line-height: 1.9;
+  font-style: italic;
+}
+
+.wine-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.wine-tasting {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.wine-tasting span {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--brown);
+  padding: 0.4rem 1rem;
+  border: 1px solid rgba(160, 144, 128, 0.2);
+  border-radius: 1px;
+  transition: border-color var(--transition-medium), color var(--transition-medium);
+}
+
+.wine-item:hover .wine-tasting span {
+  border-color: rgba(201, 169, 110, 0.3);
+  color: var(--gold);
+}
+
+.wine-price {
+  font-family: 'Cormorant', serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* ========================================
+   ESTATE
+   ======================================== */
+.estate {
+  padding: 10rem 2rem;
+  background: var(--burgundy-deep);
+  position: relative;
+  overflow: hidden;
+}
+
+.estate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.15), transparent);
+}
+
+.estate-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+.estate-text {
+  padding-right: 2rem;
+}
+
+.estate-heading {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  color: var(--cream);
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+
+.estate-text p {
+  font-size: 0.95rem;
+  color: var(--brown-light);
+  margin-bottom: 1.8rem;
+  line-height: 2;
+}
+
+.estate-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+  padding-top: 3rem;
+  border-top: 1px solid rgba(201, 169, 110, 0.1);
+}
+
+.estate-stat-number {
+  font-family: 'Cormorant', serif;
+  font-size: 2.4rem;
+  font-weight: 300;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.estate-stat-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--brown);
+}
+
+.estate-visual {
+  position: relative;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topo-map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.topo-map svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ========================================
+   VISIT
+   ======================================== */
+.visit {
+  padding: 10rem 2rem;
+  background: var(--burgundy);
+  position: relative;
+  text-align: center;
+}
+
+.visit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.15), transparent);
+}
+
+.visit-inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.visit-heading {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  color: var(--cream);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.visit-subtitle {
+  font-family: 'Cormorant', serif;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+
+.visit-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  text-align: left;
+  margin-bottom: 4rem;
+}
+
+.visit-block h4 {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+  font-weight: 400;
+}
+
+.visit-block p {
+  font-size: 0.9rem;
+  color: var(--brown-light);
+  line-height: 2;
+}
+
+.visit-cta {
+  display: inline-block;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 1.2rem 3.5rem;
+  text-decoration: none;
+  transition: background var(--transition-medium), color var(--transition-medium), transform var(--transition-medium);
+  cursor: pointer;
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.visit-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gold);
+  transition: left var(--transition-slow);
+  z-index: 0;
+}
+
+.visit-cta:hover::before {
+  left: 0;
+}
+
+.visit-cta span {
+  position: relative;
+  z-index: 1;
+}
+
+.visit-cta:hover {
+  color: var(--burgundy);
+}
+
+.visit-cta:hover span {
+  color: var(--burgundy);
+}
+
+.visit-appointment {
+  margin-top: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--brown);
+  font-style: italic;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+footer {
+  padding: 4rem 2rem;
+  background: var(--burgundy-deep);
+  border-top: 1px solid rgba(201, 169, 110, 0.08);
+  text-align: center;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  font-family: 'Cormorant', serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.footer-socials {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.footer-socials a {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--brown);
+  text-decoration: none;
+  transition: color var(--transition-medium);
+}
+
+.footer-socials a:hover {
+  color: var(--gold);
+}
+
+.footer-legal {
+  font-size: 0.7rem;
+  color: var(--brown);
+  margin-bottom: 0.8rem;
+  opacity: 0.7;
+}
+
+.footer-copyright {
+  font-size: 0.65rem;
+  color: var(--brown);
+  opacity: 0.5;
+}
+
+/* ========================================
+   ANIMATIONS — SHARED
+   ======================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+/* ========================================
+   RESPONSIVE — TABLET
+   ======================================== */
+@media (max-width: 1024px) {
+  .story-grid,
+  .estate-inner {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  .story-text,
+  .estate-text {
+    padding-right: 0;
+    order: 2;
+  }
+
+  .story-visual,
+  .estate-visual {
+    height: 350px;
+    order: 1;
+  }
+
+  .wine-item {
+    grid-template-columns: 120px 1fr;
+    gap: 2.5rem;
+    padding: 2rem;
+  }
+}
+
+/* ========================================
+   RESPONSIVE — MOBILE
+   ======================================== */
+@media (max-width: 768px) {
+  nav {
+    padding: 1.2rem 1.5rem;
+  }
+
+  nav.scrolled {
+    padding: 0.8rem 1.5rem;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-hamburger {
+    display: flex;
+    z-index: 1001;
+  }
+
+  .mobile-menu {
+    display: flex;
+  }
+
+  .hero {
+    min-height: 600px;
+  }
+
+  .story,
+  .wines,
+  .estate,
+  .visit {
+    padding: 6rem 1.5rem;
+  }
+
+  .wine-item {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .wine-bottle-svg {
+    justify-content: center;
+  }
+
+  .wine-details {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .wine-tasting {
+    justify-content: center;
+  }
+
+  .visit-details {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .estate-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .estate-stat-number {
+    font-size: 1.8rem;
+  }
+
+  .estate-visual {
+    height: 280px;
+  }
+
+  .story-visual {
+    height: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-tagline {
+    font-size: 2.2rem;
+  }
+
+  .estate-stats {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================
+     NAVIGATION
+     ============================ -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">Noma</a>
+  <ul class="nav-links">
+    <li><a href="#story">Story</a></li>
+    <li><a href="#wines">Wines</a></li>
+    <li><a href="#estate">Estate</a></li>
+    <li><a href="#visit">Visit</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#story">Story</a>
+  <a href="#wines">Wines</a>
+  <a href="#estate">Estate</a>
+  <a href="#visit">Visit</a>
+</div>
+
+<!-- ============================
+     HERO
+     ============================ -->
+<section class="hero" id="hero">
+  <div class="hero-landscape">
+    <div class="hill hill-5"></div>
+    <div class="hill hill-4"></div>
+    <div class="hill hill-3"></div>
+    <div class="hill hill-2"></div>
+    <div class="hill hill-1"></div>
+  </div>
+  <div class="hero-content">
+    <h1 class="hero-tagline">Terroir tells the truth.</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Sonoma Valley, California &mdash; Est. 2008</p>
+  </div>
+  <div class="hero-scroll">
+    <span>Discover</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ============================
+     STORY
+     ============================ -->
+<section class="story" id="story">
+  <div class="story-grid">
+    <div class="story-text">
+      <span class="section-label reveal">Our Story</span>
+      <h2 class="story-heading reveal">Three generations<br>of patience.</h2>
+      <p class="reveal">When Elena Marchetti planted the first Pinot Noir rootstock on this hillside in 2008, she wasn't building a brand. She was making a promise to the earth beneath her feet: that nothing would leave this land until it was ready to speak for itself. Her grandmother had tended vines in Piedmont with the same quiet conviction, believing that great wine is not made &mdash; it is waited for.</p>
+      <p class="reveal">Today, Noma remains fiercely small. Forty-two acres of volcanic loam and ancient seabed, tilted just so toward the afternoon fog that rolls through the Petaluma Gap. Every vintage is a conversation between the winemaker and the soil, guided by instinct, restrained by discipline. We ferment with native yeasts. We age in French oak from the Allier forests. We bottle only what moves us.</p>
+      <p class="reveal">There are no shortcuts here. Each bottle carries the weight of seasons, the memory of rain, the patience of years spent in darkness. This is wine that remembers where it came from.</p>
+    </div>
+    <div class="story-visual reveal-right">
+      <div class="bottle-silhouette">
+        <svg viewBox="0 0 200 600" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bottleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3d1a28;stop-opacity:0.6" />
+              <stop offset="50%" style="stop-color:#c9a96e;stop-opacity:0.15" />
+              <stop offset="100%" style="stop-color:#3d1a28;stop-opacity:0.4" />
+            </linearGradient>
+            <linearGradient id="bottleShine" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:transparent" />
+              <stop offset="40%" style="stop-color:rgba(201,169,110,0.08)" />
+              <stop offset="60%" style="stop-color:rgba(201,169,110,0.12)" />
+              <stop offset="100%" style="stop-color:transparent" />
+            </linearGradient>
+          </defs>
+          <!-- Bottle body -->
+          <path d="M 85 50 L 85 120 Q 50 160 50 220 L 50 530 Q 50 560 70 570 L 130 570 Q 150 560 150 530 L 150 220 Q 150 160 115 120 L 115 50 Z"
+                fill="url(#bottleGrad)" stroke="rgba(201,169,110,0.2)" stroke-width="0.5"/>
+          <!-- Shine -->
+          <path d="M 85 50 L 85 120 Q 50 160 50 220 L 50 530 Q 50 560 70 570 L 130 570 Q 150 560 150 530 L 150 220 Q 150 160 115 120 L 115 50 Z"
+                fill="url(#bottleShine)"/>
+          <!-- Neck ring -->
+          <ellipse cx="100" cy="50" rx="16" ry="4" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.5"/>
+          <!-- Cork top -->
+          <rect x="88" y="20" width="24" height="32" rx="3" fill="rgba(61,26,40,0.5)" stroke="rgba(201,169,110,0.2)" stroke-width="0.5"/>
+          <!-- Label area -->
+          <rect x="60" y="320" width="80" height="120" rx="1" fill="rgba(245,239,230,0.04)" stroke="rgba(201,169,110,0.15)" stroke-width="0.5"/>
+          <!-- Label text lines -->
+          <line x1="72" y1="355" x2="128" y2="355" stroke="rgba(201,169,110,0.2)" stroke-width="0.5"/>
+          <line x1="78" y1="370" x2="122" y2="370" stroke="rgba(201,169,110,0.12)" stroke-width="0.3"/>
+          <line x1="82" y1="385" x2="118" y2="385" stroke="rgba(201,169,110,0.12)" stroke-width="0.3"/>
+          <!-- Small N monogram -->
+          <text x="100" y="410" text-anchor="middle" font-family="Cormorant, serif" font-size="18" fill="rgba(201,169,110,0.25)" font-weight="300">N</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     WINES
+     ============================ -->
+<section class="wines" id="wines">
+  <div class="wines-header">
+    <span class="section-label reveal">The Collection</span>
+    <h2 class="wines-heading reveal">Wines of place<br>and memory.</h2>
+    <p class="reveal">Each vintage is released only when it has found its voice.</p>
+  </div>
+
+  <div class="wines-list">
+    <!-- Wine 1: Pinot Noir -->
+    <div class="wine-item reveal">
+      <div class="wine-bottle-svg">
+        <svg viewBox="0 0 60 220" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="pn-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#4a1525;stop-opacity:0.8"/>
+              <stop offset="100%" style="stop-color:#2a0d18;stop-opacity:0.9"/>
+            </linearGradient>
+          </defs>
+          <rect x="24" y="5" width="12" height="18" rx="2" fill="rgba(61,26,40,0.6)" stroke="rgba(201,169,110,0.2)" stroke-width="0.4"/>
+          <ellipse cx="30" cy="24" rx="8" ry="2" fill="none" stroke="rgba(201,169,110,0.25)" stroke-width="0.4"/>
+          <path d="M 25 24 L 25 52 Q 12 65 12 85 L 12 195 Q 12 207 20 210 L 40 210 Q 48 207 48 195 L 48 85 Q 48 65 35 52 L 35 24" fill="url(#pn-grad)" stroke="rgba(201,169,110,0.2)" stroke-width="0.4"/>
+          <rect x="17" y="120" width="26" height="45" rx="1" fill="rgba(245,239,230,0.04)" stroke="rgba(201,169,110,0.12)" stroke-width="0.3"/>
+          <line x1="21" y1="138" x2="39" y2="138" stroke="rgba(201,169,110,0.18)" stroke-width="0.3"/>
+          <line x1="24" y1="146" x2="36" y2="146" stroke="rgba(201,169,110,0.1)" stroke-width="0.2"/>
+        </svg>
+      </div>
+      <div class="wine-info">
+        <span class="wine-vintage">Vintage 2021</span>
+        <h3 class="wine-name">Estate Pinot Noir</h3>
+        <p class="wine-notes">A wine of quiet intensity. Dark cherry and wild raspberry weave through a perfume of crushed violet, forest floor, and the faintest breath of cedar. The palate unfolds in silk &mdash; poised, layered, endlessly graceful &mdash; with tannins so fine they dissolve like morning fog over the valley. A velvet finish that lingers like the last note of a cello.</p>
+        <div class="wine-details">
+          <div class="wine-tasting">
+            <span>Dark Cherry</span>
+            <span>Cedar</span>
+            <span>Velvet Finish</span>
+          </div>
+          <span class="wine-price">$85</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wine 2: Chardonnay -->
+    <div class="wine-item reveal">
+      <div class="wine-bottle-svg">
+        <svg viewBox="0 0 60 220" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ch-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3d3020;stop-opacity:0.6"/>
+              <stop offset="100%" style="stop-color:#2a2015;stop-opacity:0.7"/>
+            </linearGradient>
+          </defs>
+          <rect x="24" y="5" width="12" height="18" rx="2" fill="rgba(61,48,32,0.5)" stroke="rgba(201,169,110,0.2)" stroke-width="0.4"/>
+          <ellipse cx="30" cy="24" rx="8" ry="2" fill="none" stroke="rgba(201,169,110,0.25)" stroke-width="0.4"/>
+          <path d="M 25 24 L 25 50 Q 8 68 8 90 L 8 190 Q 8 205 18 210 L 42 210 Q 52 205 52 190 L 52 90 Q 52 68 35 50 L 35 24" fill="url(#ch-grad)" stroke="rgba(201,169,110,0.2)" stroke-width="0.4"/>
+          <rect x="15" y="115" width="30" height="48" rx="1" fill="rgba(245,239,230,0.04)" stroke="rgba(201,169,110,0.12)" stroke-width="0.3"/>
+          <line x1="20" y1="134" x2="40" y2="134" stroke="rgba(201,169,110,0.18)" stroke-width="0.3"/>
+          <line x1="23" y1="142" x2="37" y2="142" stroke="rgba(201,169,110,0.1)" stroke-width="0.2"/>
+        </svg>
+      </div>
+      <div class="wine-info">
+        <span class="wine-vintage">Vintage 2022</span>
+        <h3 class="wine-name">Chardonnay Reserve</h3>
+        <p class="wine-notes">Golden-hued and luminous. Aromas of ripe Bartlett pear, honeyed brioche, and white blossoms give way to a palate of remarkable depth &mdash; lemon curd, toasted almond, and a minerality that speaks unmistakably of the ancient limestone beneath our vines. Whole-cluster pressed and aged twelve months in Allier oak, this is a Chardonnay of restraint and radiance.</p>
+        <div class="wine-details">
+          <div class="wine-tasting">
+            <span>Golden Pear</span>
+            <span>Brioche</span>
+            <span>Mineral</span>
+          </div>
+          <span class="wine-price">$62</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wine 3: Cabernet Sauvignon -->
+    <div class="wine-item reveal">
+      <div class="wine-bottle-svg">
+        <svg viewBox="0 0 60 220" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="cs-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#2a0d18;stop-opacity:0.9"/>
+              <stop offset="100%" style="stop-color:#1a0810;stop-opacity:0.95"/>
+            </linearGradient>
+          </defs>
+          <rect x="24" y="5" width="12" height="18" rx="2" fill="rgba(42,13,24,0.7)" stroke="rgba(201,169,110,0.2)" stroke-width="0.4"/>
+          <ellipse cx="30" cy="24" rx="8" ry="2" fill="none" stroke="rgba(201,169,110,0.25)" stroke-width="0.4"/>
+          <path d="M 25 24 L 25 55 Q 10 70 10 90 L 10 192 Q 10 206 20 210 L 40 210 Q 50 206 50 192 L 50 90 Q 50 70 35 55 L 35 24" fill="url(#cs-grad)" stroke="rgba(201,169,110,0.2)" stroke-width="0.4"/>
+          <rect x="16" y="118" width="28" height="46" rx="1" fill="rgba(245,239,230,0.04)" stroke="rgba(201,169,110,0.12)" stroke-width="0.3"/>
+          <line x1="20" y1="136" x2="40" y2="136" stroke="rgba(201,169,110,0.18)" stroke-width="0.3"/>
+          <line x1="23" y1="144" x2="37" y2="144" stroke="rgba(201,169,110,0.1)" stroke-width="0.2"/>
+        </svg>
+      </div>
+      <div class="wine-info">
+        <span class="wine-vintage">Vintage 2020</span>
+        <h3 class="wine-name">Cabernet Sauvignon</h3>
+        <p class="wine-notes">Our most contemplative wine. Blackcurrant and cassis form the dark heart, framed by notes of cigar box tobacco, graphite, and dried herbs from the surrounding hillside scrub. The structure is monumental yet never heavy &mdash; fine-grained tannins provide architecture for a wine that will reward patience for decades. Aged twenty-two months in new and once-used French oak.</p>
+        <div class="wine-details">
+          <div class="wine-tasting">
+            <span>Blackcurrant</span>
+            <span>Tobacco</span>
+            <span>Structured Tannins</span>
+          </div>
+          <span class="wine-price">$120</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     ESTATE
+     ============================ -->
+<section class="estate" id="estate">
+  <div class="estate-inner">
+    <div class="estate-text">
+      <span class="section-label reveal">The Estate</span>
+      <h2 class="estate-heading reveal">The Land.</h2>
+      <p class="reveal">Our forty-two acres occupy a singular crease in the western Sonoma hillside where volcanic soils meet ancient marine sediment &mdash; a geological seam that gives our wines their distinctive mineral backbone and aromatic complexity. The vines are planted at elevations between 400 and 800 feet, capturing the cool maritime influence of the Pacific while sheltering from its harshest winds.</p>
+      <p class="reveal">The morning fog arrives like clockwork, slowing ripening and preserving the natural acidity that gives our wines their tension and longevity. By afternoon, the sun warms the fractured basalt and sandstone, coaxing depth and concentration from every cluster. It is a place of contrasts &mdash; warm days and cold nights, ancient rock and young vines, wild silence and patient labor.</p>
+      <div class="estate-stats reveal">
+        <div>
+          <span class="estate-stat-number">42</span>
+          <span class="estate-stat-label">Acres</span>
+        </div>
+        <div>
+          <span class="estate-stat-number">800</span>
+          <span class="estate-stat-label">Ft Elevation</span>
+        </div>
+        <div>
+          <span class="estate-stat-number">16</span>
+          <span class="estate-stat-label">Vintages</span>
+        </div>
+      </div>
+    </div>
+    <div class="estate-visual reveal-right">
+      <div class="topo-map">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="topoGlow">
+              <feGaussianBlur stdDeviation="1" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <!-- Contour lines - topographic map effect -->
+          <ellipse cx="200" cy="200" rx="180" ry="170" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="0.5" filter="url(#topoGlow)"/>
+          <ellipse cx="195" cy="205" rx="160" ry="150" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="0.5"/>
+          <ellipse cx="190" cy="200" rx="140" ry="125" fill="none" stroke="rgba(201,169,110,0.1)" stroke-width="0.5"/>
+          <ellipse cx="185" cy="195" rx="120" ry="105" fill="none" stroke="rgba(201,169,110,0.12)" stroke-width="0.5"/>
+          <ellipse cx="180" cy="190" rx="100" ry="88" fill="none" stroke="rgba(201,169,110,0.14)" stroke-width="0.5"/>
+          <ellipse cx="178" cy="188" rx="82" ry="72" fill="none" stroke="rgba(201,169,110,0.16)" stroke-width="0.5"/>
+          <ellipse cx="175" cy="185" rx="65" ry="58" fill="none" stroke="rgba(201,169,110,0.18)" stroke-width="0.5"/>
+          <ellipse cx="172" cy="182" rx="50" ry="44" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="0.5"/>
+          <ellipse cx="170" cy="180" rx="35" ry="30" fill="none" stroke="rgba(201,169,110,0.22)" stroke-width="0.6"/>
+          <ellipse cx="168" cy="178" rx="22" ry="18" fill="none" stroke="rgba(201,169,110,0.25)" stroke-width="0.6"/>
+          <ellipse cx="167" cy="176" rx="10" ry="8" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.6"/>
+
+          <!-- Secondary contour cluster -->
+          <ellipse cx="290" cy="280" rx="80" ry="70" fill="none" stroke="rgba(201,169,110,0.07)" stroke-width="0.5"/>
+          <ellipse cx="288" cy="278" rx="60" ry="52" fill="none" stroke="rgba(201,169,110,0.09)" stroke-width="0.5"/>
+          <ellipse cx="286" cy="276" rx="42" ry="36" fill="none" stroke="rgba(201,169,110,0.11)" stroke-width="0.5"/>
+          <ellipse cx="284" cy="274" rx="26" ry="22" fill="none" stroke="rgba(201,169,110,0.14)" stroke-width="0.5"/>
+          <ellipse cx="283" cy="273" rx="12" ry="10" fill="none" stroke="rgba(201,169,110,0.18)" stroke-width="0.5"/>
+
+          <!-- Ridge lines -->
+          <path d="M 60 340 Q 120 280 170 180 Q 200 130 250 100 Q 300 75 360 60" fill="none" stroke="rgba(201,169,110,0.1)" stroke-width="0.4" stroke-dasharray="4,6"/>
+          <path d="M 40 280 Q 100 240 160 200 Q 220 165 300 140" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="0.3" stroke-dasharray="3,5"/>
+
+          <!-- Elevation markers -->
+          <text x="167" y="180" text-anchor="middle" font-family="Lato, sans-serif" font-size="7" fill="rgba(201,169,110,0.35)" letter-spacing="0.1em">800</text>
+          <text x="178" y="210" text-anchor="middle" font-family="Lato, sans-serif" font-size="6" fill="rgba(201,169,110,0.25)" letter-spacing="0.1em">650</text>
+          <text x="200" y="248" text-anchor="middle" font-family="Lato, sans-serif" font-size="6" fill="rgba(201,169,110,0.2)" letter-spacing="0.1em">500</text>
+          <text x="283" y="277" text-anchor="middle" font-family="Lato, sans-serif" font-size="6" fill="rgba(201,169,110,0.25)" letter-spacing="0.1em">400</text>
+
+          <!-- Vineyard block markers -->
+          <rect x="145" y="145" width="18" height="12" rx="1" fill="rgba(201,169,110,0.06)" stroke="rgba(201,169,110,0.15)" stroke-width="0.3"/>
+          <text x="154" y="154" text-anchor="middle" font-family="Lato, sans-serif" font-size="5" fill="rgba(201,169,110,0.3)">PN</text>
+
+          <rect x="210" y="170" width="18" height="12" rx="1" fill="rgba(201,169,110,0.06)" stroke="rgba(201,169,110,0.15)" stroke-width="0.3"/>
+          <text x="219" y="179" text-anchor="middle" font-family="Lato, sans-serif" font-size="5" fill="rgba(201,169,110,0.3)">CH</text>
+
+          <rect x="260" y="240" width="18" height="12" rx="1" fill="rgba(201,169,110,0.06)" stroke="rgba(201,169,110,0.15)" stroke-width="0.3"/>
+          <text x="269" y="249" text-anchor="middle" font-family="Lato, sans-serif" font-size="5" fill="rgba(201,169,110,0.3)">CS</text>
+
+          <!-- Compass -->
+          <g transform="translate(350, 50)">
+            <line x1="0" y1="-15" x2="0" y2="15" stroke="rgba(201,169,110,0.2)" stroke-width="0.4"/>
+            <line x1="-15" y1="0" x2="15" y2="0" stroke="rgba(201,169,110,0.15)" stroke-width="0.3"/>
+            <text x="0" y="-20" text-anchor="middle" font-family="Lato, sans-serif" font-size="7" fill="rgba(201,169,110,0.35)" font-weight="400">N</text>
+            <circle cx="0" cy="0" r="3" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="0.3"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     VISIT
+     ============================ -->
+<section class="visit" id="visit">
+  <div class="visit-inner">
+    <span class="section-label reveal">Visit</span>
+    <h2 class="visit-heading reveal">Experience Noma.</h2>
+    <p class="visit-subtitle reveal">Where the vineyard meets the glass.</p>
+
+    <div class="visit-details reveal">
+      <div class="visit-block">
+        <h4>Tasting Room</h4>
+        <p>
+          Thursday &ndash; Sunday<br>
+          10:00 am &ndash; 5:00 pm<br><br>
+          Private tastings daily<br>
+          by reservation
+        </p>
+      </div>
+      <div class="visit-block">
+        <h4>Location</h4>
+        <p>
+          2847 Vineyard Lane<br>
+          Sonoma, CA 95476<br><br>
+          Estate tours available<br>
+          by appointment
+        </p>
+      </div>
+    </div>
+
+    <a href="#" class="visit-cta reveal" role="button"><span>Reserve Your Visit</span></a>
+    <p class="visit-appointment reveal">By appointment only. Intimate groups of eight or fewer.</p>
+  </div>
+</section>
+
+<!-- ============================
+     FOOTER
+     ============================ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Noma</div>
+    <div class="footer-socials">
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+      <a href="#">Newsletter</a>
+    </div>
+    <p class="footer-legal">Must be 21+ to purchase. Please drink responsibly.</p>
+    <p class="footer-copyright">&copy; 2024 Noma Wines, Sonoma Valley. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ============================
+     SCRIPTS
+     ============================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // ========================================
+  // REDUCED MOTION CHECK
+  // ========================================
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ========================================
+  // NAVIGATION
+  // ========================================
+  const nav = document.getElementById('mainNav');
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 80) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }, { passive: true });
+
+  hamburger.addEventListener('click', function() {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+
+  // Close mobile menu on link click
+  document.querySelectorAll('.mobile-menu a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // ========================================
+  // GSAP ANIMATIONS
+  // ========================================
+  if (prefersReducedMotion || window.self !== window.top) {
+    // If reduced motion or iframe, just show everything
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .hero-tagline, .hero-rule, .hero-sub, .hero-scroll').forEach(function(el) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero entrance
+  const heroTl = gsap.timeline({ delay: 0.5 });
+
+  heroTl
+    .to('.hero-tagline', {
+      opacity: 1,
+      y: 0,
+      duration: 2,
+      ease: 'power3.out',
+      clearProps: 'transform'
+    })
+    .to('.hero-rule', {
+      opacity: 1,
+      width: '80px',
+      duration: 1.5,
+      ease: 'power2.out'
+    }, '-=1.2')
+    .to('.hero-sub', {
+      opacity: 1,
+      y: 0,
+      duration: 1.5,
+      ease: 'power3.out',
+      clearProps: 'transform'
+    }, '-=0.8')
+    .to('.hero-scroll', {
+      opacity: 0.6,
+      duration: 1.2,
+      ease: 'power2.out'
+    }, '-=0.5');
+
+  // Parallax hills
+  document.querySelectorAll('.hill').forEach(function(hill, i) {
+    gsap.to(hill, {
+      y: -(20 + i * 15),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.5
+      }
+    });
+  });
+
+  // General reveal animations
+  function createReveal(selector, fromVars) {
+    document.querySelectorAll(selector).forEach(function(el) {
+      gsap.to(el, Object.assign({
+        opacity: 1,
+        x: 0,
+        y: 0,
+        duration: 1.6,
+        ease: 'power3.out',
+        clearProps: 'transform',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          end: 'top 50%',
+          toggleActions: 'play none none none'
+        }
+      }, fromVars || {}));
+    });
+  }
+
+  createReveal('.reveal');
+  createReveal('.reveal-left');
+  createReveal('.reveal-right');
+
+  // Wine items - stagger children
+  document.querySelectorAll('.wine-item').forEach(function(item) {
+    gsap.to(item, {
+      opacity: 1,
+      y: 0,
+      duration: 1.8,
+      ease: 'power3.out',
+      clearProps: 'transform',
+      scrollTrigger: {
+        trigger: item,
+        start: 'top 85%',
+        toggleActions: 'play none none none'
+      }
+    });
+  });
+
+  // Topographic map subtle rotation
+  gsap.to('.topo-map svg', {
+    rotation: 3,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.estate',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 2
+    }
+  });
+
+  // Bottle silhouette float
+  gsap.to('.bottle-silhouette svg', {
+    y: -20,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.story',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 2
+    }
+  });
+
+  // Estate stats counter animation
+  document.querySelectorAll('.estate-stat-number').forEach(function(el) {
+    var target = parseInt(el.textContent);
+    var obj = { val: 0 };
+    gsap.to(obj, {
+      val: target,
+      duration: 2.5,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 85%',
+        toggleActions: 'play none none none'
+      },
+      onUpdate: function() {
+        el.textContent = Math.round(obj.val);
+      }
+    });
+  });
+
+  // Section divider lines
+  document.querySelectorAll('.story::before, .wines::before, .estate::before, .visit::before').forEach(function(el) {
+    // These are pseudo-elements, handled by CSS
+  });
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        gsap.to(window, {
+          scrollTo: { y: target, offsetY: 0 },
+          duration: 1.5,
+          ease: 'power3.inOut'
+        });
+      }
+    });
+  });
+
+  // Refresh ScrollTrigger on resize
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      ScrollTrigger.refresh();
+    }, 250);
+  }, { passive: true });
+
+})();
+</script>
+</body>
+</html>

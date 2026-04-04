@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forma Studio — Space, considered.</title>
+  <meta name="description" content="Forma Studio is an architecture and interior design practice creating spaces of considered restraint.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --white: #ffffff;
+      --black: #111111;
+      --stone: #a39382;
+      --warm-gray: #f5f0eb;
+      --terracotta: #c4704a;
+      --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-body: 'Work Sans', -apple-system, Helvetica Neue, sans-serif;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      color: var(--black);
+      background-color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ========================================
+       NAVIGATION
+       ======================================== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      mix-blend-mode: difference;
+    }
+
+    .nav-logo {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--white);
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      opacity: 0.5;
+    }
+
+    /* ========================================
+       HERO
+       ======================================== */
+    .hero {
+      height: 100vh;
+      height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background: var(--white);
+      padding: 0 4rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: clamp(3.5rem, 10vw, 9rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      text-align: center;
+      color: var(--black);
+      overflow: hidden;
+    }
+
+    .hero-title .word {
+      display: inline-block;
+      overflow: hidden;
+    }
+
+    .hero-title .char {
+      display: inline-block;
+      transform: translateY(120%);
+    }
+
+    .hero-line {
+      width: 60px;
+      height: 1px;
+      background: var(--stone);
+      margin-top: 3rem;
+      transform: scaleX(0);
+      transform-origin: center;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-top: 1.5rem;
+      opacity: 0;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      opacity: 0;
+    }
+
+    .scroll-indicator span {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: var(--stone);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--black);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0% { top: -100%; }
+      50% { top: 100%; }
+      100% { top: 100%; }
+    }
+
+    /* ========================================
+       SECTION COMMONS
+       ======================================== */
+    section {
+      padding: 10rem 4rem;
+    }
+
+    .section-label {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 4rem;
+    }
+
+    /* ========================================
+       PROJECTS
+       ======================================== */
+    .projects {
+      background: var(--white);
+      padding-bottom: 6rem;
+    }
+
+    .project-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 3rem 0;
+      border-top: 1px solid rgba(17, 17, 17, 0.08);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: padding 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-row:last-child {
+      border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+    }
+
+    .project-row:hover {
+      padding: 4rem 0;
+    }
+
+    .project-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .project-row:nth-child(1) .project-gradient {
+      background: linear-gradient(135deg, rgba(196, 112, 74, 0.06) 0%, rgba(163, 147, 130, 0.08) 50%, rgba(245, 240, 235, 0.12) 100%);
+    }
+
+    .project-row:nth-child(2) .project-gradient {
+      background: linear-gradient(135deg, rgba(163, 147, 130, 0.08) 0%, rgba(196, 112, 74, 0.05) 50%, rgba(245, 240, 235, 0.1) 100%);
+    }
+
+    .project-row:nth-child(3) .project-gradient {
+      background: linear-gradient(135deg, rgba(245, 240, 235, 0.15) 0%, rgba(196, 112, 74, 0.07) 50%, rgba(163, 147, 130, 0.06) 100%);
+    }
+
+    .project-row:hover .project-gradient {
+      opacity: 1;
+    }
+
+    .project-name {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: clamp(2.5rem, 6vw, 5.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-row:hover .project-name {
+      transform: translateX(1rem);
+    }
+
+    .project-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.25rem;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-row:hover .project-meta {
+      transform: translateX(-1rem);
+    }
+
+    .project-year {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: var(--black);
+    }
+
+    .project-category {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+
+    .project-arrow {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translate(2rem, -50%);
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1;
+      color: var(--terracotta);
+      font-size: 1.5rem;
+    }
+
+    .project-row:hover .project-arrow {
+      opacity: 1;
+      transform: translate(-1rem, -50%);
+    }
+
+    /* ========================================
+       PHILOSOPHY
+       ======================================== */
+    .philosophy {
+      background: var(--warm-gray);
+      padding: 12rem 4rem;
+    }
+
+    .philosophy-quote {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: clamp(2rem, 4.5vw, 4rem);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      max-width: 900px;
+      color: var(--black);
+      margin-bottom: 6rem;
+    }
+
+    .philosophy-quote em {
+      font-style: italic;
+      color: var(--terracotta);
+    }
+
+    .philosophy-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      max-width: 900px;
+      margin-left: auto;
+    }
+
+    .philosophy-body p {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: rgba(17, 17, 17, 0.7);
+    }
+
+    /* ========================================
+       SERVICES
+       ======================================== */
+    .services {
+      background: var(--white);
+    }
+
+    .services-list {
+      list-style: none;
+      max-width: 600px;
+    }
+
+    .services-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+    }
+
+    .service-number {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--stone);
+      min-width: 2rem;
+    }
+
+    .service-name {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    /* ========================================
+       AWARDS MARQUEE
+       ======================================== */
+    .awards {
+      background: var(--black);
+      padding: 5rem 0;
+      overflow: hidden;
+    }
+
+    .awards .section-label {
+      color: rgba(255, 255, 255, 0.3);
+      padding-left: 4rem;
+      margin-bottom: 3rem;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      width: max-content;
+      will-change: transform;
+    }
+
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      padding: 0 3rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .marquee-item span {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: -0.01em;
+    }
+
+    .marquee-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       CONTACT
+       ======================================== */
+    .contact {
+      background: var(--warm-gray);
+      padding: 12rem 4rem;
+    }
+
+    .contact-heading {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: clamp(3rem, 7vw, 7rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 6rem;
+      color: var(--black);
+    }
+
+    .contact-heading em {
+      font-style: italic;
+      color: var(--terracotta);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4rem;
+      max-width: 900px;
+    }
+
+    .contact-block h4 {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-block p,
+    .contact-block a {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--black);
+    }
+
+    .contact-block a {
+      display: inline-block;
+      position: relative;
+    }
+
+    .contact-block a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--terracotta);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .contact-block a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    footer {
+      background: var(--white);
+      padding: 3rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(17, 17, 17, 0.06);
+    }
+
+    .footer-copy {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--stone);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--stone);
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--black);
+    }
+
+    /* ========================================
+       ANIMATION UTILITIES
+       ======================================== */
+    .reveal-line {
+      overflow: hidden;
+    }
+
+    .reveal-line-inner {
+      transform: translateY(110%);
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    /* ========================================
+       REDUCED MOTION
+       ======================================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .hero-title .char {
+        transform: none !important;
+      }
+
+      .hero-line {
+        transform: none !important;
+      }
+
+      .hero-subtitle,
+      .scroll-indicator {
+        opacity: 1 !important;
+      }
+
+      .reveal-line-inner {
+        transform: none !important;
+      }
+
+      .fade-up {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 1024px) {
+      section {
+        padding: 8rem 3rem;
+      }
+
+      nav {
+        padding: 1.5rem 3rem;
+      }
+
+      .philosophy {
+        padding: 10rem 3rem;
+      }
+
+      .contact {
+        padding: 10rem 3rem;
+      }
+
+      .contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      footer {
+        padding: 3rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      section {
+        padding: 6rem 1.5rem;
+      }
+
+      nav {
+        padding: 1.25rem 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 0 1.5rem;
+      }
+
+      .hero-title {
+        text-align: left;
+        align-self: flex-start;
+        padding-top: 30vh;
+      }
+
+      .hero-line {
+        align-self: flex-start;
+      }
+
+      .hero-subtitle {
+        align-self: flex-start;
+      }
+
+      .hero {
+        justify-content: flex-start;
+      }
+
+      .project-row {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 2.5rem 0;
+      }
+
+      .project-row:hover {
+        padding: 2.5rem 0;
+      }
+
+      .project-meta {
+        align-items: flex-start;
+      }
+
+      .project-row:hover .project-name,
+      .project-row:hover .project-meta {
+        transform: none;
+      }
+
+      .project-arrow {
+        display: none;
+      }
+
+      .philosophy {
+        padding: 8rem 1.5rem;
+      }
+
+      .philosophy-body {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-left: 0;
+      }
+
+      .contact {
+        padding: 8rem 1.5rem;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .services {
+        padding: 6rem 1.5rem;
+      }
+
+      .awards {
+        padding: 4rem 0;
+      }
+
+      .awards .section-label {
+        padding-left: 1.5rem;
+      }
+
+      footer {
+        padding: 2rem 1.5rem;
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: clamp(2.8rem, 12vw, 4rem);
+      }
+
+      .project-name {
+        font-size: 2rem;
+      }
+
+      .philosophy-quote {
+        font-size: 1.6rem;
+      }
+
+      .contact-heading {
+        font-size: clamp(2.5rem, 10vw, 4rem);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="#" class="nav-logo">Forma Studio</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#philosophy">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <h1 class="hero-title" aria-label="Space, considered.">
+      <span class="word">
+        <span class="char">S</span><span class="char">p</span><span class="char">a</span><span class="char">c</span><span class="char">e</span><span class="char">,</span>
+      </span>
+      <br>
+      <span class="word">
+        <span class="char">c</span><span class="char">o</span><span class="char">n</span><span class="char">s</span><span class="char">i</span><span class="char">d</span><span class="char">e</span><span class="char">r</span><span class="char">e</span><span class="char">d</span><span class="char">.</span>
+      </span>
+    </h1>
+    <div class="hero-line"></div>
+    <p class="hero-subtitle">Architecture &amp; Interior Design</p>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="projects" id="projects">
+    <p class="section-label fade-up">Selected Work</p>
+
+    <div class="project-row fade-up">
+      <div class="project-gradient"></div>
+      <h3 class="project-name">Horizon Residence</h3>
+      <div class="project-meta">
+        <span class="project-year">2024</span>
+        <span class="project-category">Residential</span>
+      </div>
+      <span class="project-arrow">&rarr;</span>
+    </div>
+
+    <div class="project-row fade-up">
+      <div class="project-gradient"></div>
+      <h3 class="project-name">Tidal Gallery</h3>
+      <div class="project-meta">
+        <span class="project-year">2023</span>
+        <span class="project-category">Cultural</span>
+      </div>
+      <span class="project-arrow">&rarr;</span>
+    </div>
+
+    <div class="project-row fade-up">
+      <div class="project-gradient"></div>
+      <h3 class="project-name">Ember House</h3>
+      <div class="project-meta">
+        <span class="project-year">2025</span>
+        <span class="project-category">Hospitality</span>
+      </div>
+      <span class="project-arrow">&rarr;</span>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section class="philosophy" id="philosophy">
+    <p class="section-label fade-up">Our Philosophy</p>
+    <blockquote class="philosophy-quote">
+      <span class="reveal-line"><span class="reveal-line-inner">"Architecture should <em>disappear</em>.</span></span><br>
+      <span class="reveal-line"><span class="reveal-line-inner">What remains is how a space</span></span><br>
+      <span class="reveal-line"><span class="reveal-line-inner">makes you feel."</span></span>
+    </blockquote>
+    <div class="philosophy-body">
+      <p class="fade-up">We begin every project with a question, not a plan. By understanding how people move, breathe, and live within a space, we arrive at forms that feel inevitable rather than imposed. Our work is rooted in material honesty and spatial clarity.</p>
+      <p class="fade-up">Forma Studio was founded on the belief that restraint is a form of generosity. We strip away the unnecessary to reveal what matters: light, proportion, the quiet dialogue between structure and inhabitant. Every detail serves the whole.</p>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <p class="section-label fade-up">What We Do</p>
+    <ul class="services-list">
+      <li class="fade-up">
+        <span class="service-number">01</span>
+        <span class="service-name">Architecture</span>
+      </li>
+      <li class="fade-up">
+        <span class="service-number">02</span>
+        <span class="service-name">Interior Design</span>
+      </li>
+      <li class="fade-up">
+        <span class="service-number">03</span>
+        <span class="service-name">Spatial Strategy</span>
+      </li>
+      <li class="fade-up">
+        <span class="service-number">04</span>
+        <span class="service-name">Furniture Design</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- AWARDS -->
+  <section class="awards" id="awards">
+    <p class="section-label">Recognition</p>
+    <div class="marquee-track" aria-label="Awards: AIA Gold Medal 2024, Dezeen Awards, Wallpaper Design Award, AD100">
+      <div class="marquee-item"><div class="marquee-dot"></div><span>AIA Gold Medal 2024</span></div>
+      <div class="marquee-item"><div class="marquee-dot"></div><span>Dezeen Awards</span></div>
+      <div class="marquee-item"><div class="marquee-dot"></div><span>Wallpaper* Design Award</span></div>
+      <div class="marquee-item"><div class="marquee-dot"></div><span>AD100</span></div>
+      <div class="marquee-item"><div class="marquee-dot"></div><span>AIA Gold Medal 2024</span></div>
+      <div class="marquee-item"><div class="marquee-dot"></div><span>Dezeen Awards</span></div>
+      <div class="marquee-item"><div class="marquee-dot"></div><span>Wallpaper* Design Award</span></div>
+      <div class="marquee-item"><div class="marquee-dot"></div><span>AD100</span></div>
+      <div class="marquee-item"><div class="marquee-dot"></div><span>AIA Gold Medal 2024</span></div>
+      <div class="marquee-item"><div class="marquee-dot"></div><span>Dezeen Awards</span></div>
+      <div class="marquee-item"><div class="marquee-dot"></div><span>Wallpaper* Design Award</span></div>
+      <div class="marquee-item"><div class="marquee-dot"></div><span>AD100</span></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <h2 class="contact-heading">
+      <span class="reveal-line"><span class="reveal-line-inner">Let's build</span></span><br>
+      <span class="reveal-line"><span class="reveal-line-inner"><em>something</em>.</span></span>
+    </h2>
+    <div class="contact-grid">
+      <div class="contact-block fade-up">
+        <h4>Studio</h4>
+        <p>47 Concrete Lane<br>Los Angeles, CA 90012<br>United States</p>
+      </div>
+      <div class="contact-block fade-up">
+        <h4>Email</h4>
+        <a href="mailto:hello@formastudio.com">hello@formastudio.com</a>
+      </div>
+      <div class="contact-block fade-up">
+        <h4>Phone</h4>
+        <a href="tel:+12135550147">+1 213 555 0147</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-copy">&copy; 2026 Forma Studio. All rights reserved.</p>
+    <ul class="footer-links">
+      <li><a href="#" aria-label="Instagram">Instagram</a></li>
+      <li><a href="#" aria-label="LinkedIn">LinkedIn</a></li>
+      <li><a href="#" aria-label="Pinterest">Pinterest</a></li>
+    </ul>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      // Respect reduced motion
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReducedMotion || window.self !== window.top) {
+        // Make everything visible immediately
+        document.querySelectorAll('.char').forEach(el => el.style.transform = 'none');
+        document.querySelectorAll('.hero-line').forEach(el => el.style.transform = 'none');
+        document.querySelectorAll('.hero-subtitle, .scroll-indicator').forEach(el => el.style.opacity = '1');
+        document.querySelectorAll('.fade-up').forEach(el => {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+        document.querySelectorAll('.reveal-line-inner').forEach(el => el.style.transform = 'none');
+
+        // Still set up marquee but without GSAP (use CSS animation)
+        setupMarqueeCSS();
+        return;
+      }
+
+      // Register ScrollTrigger
+      gsap.registerPlugin(ScrollTrigger);
+
+      // ============================
+      // HERO ANIMATIONS
+      // ============================
+      const heroTl = gsap.timeline({ delay: 0.3 });
+
+      heroTl.to('.hero-title .char', {
+        y: 0,
+        duration: 1.2,
+        stagger: 0.04,
+        ease: 'power4.out'
+      })
+      .to('.hero-line', {
+        scaleX: 1,
+        duration: 1,
+        ease: 'power3.inOut'
+      }, '-=0.4')
+      .to('.hero-subtitle', {
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, '-=0.5')
+      .to('.scroll-indicator', {
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, '-=0.3');
+
+      // ============================
+      // FADE UP ELEMENTS
+      // ============================
+      gsap.utils.toArray('.fade-up').forEach(function (el) {
+        gsap.to(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            end: 'top 60%',
+            toggleActions: 'play none none none'
+          },
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power3.out'
+        });
+      });
+
+      // ============================
+      // REVEAL LINE ANIMATIONS
+      // ============================
+      gsap.utils.toArray('.reveal-line').forEach(function (line) {
+        var inner = line.querySelector('.reveal-line-inner');
+        if (!inner) return;
+
+        gsap.to(inner, {
+          scrollTrigger: {
+            trigger: line,
+            start: 'top 85%',
+            end: 'top 60%',
+            toggleActions: 'play none none none'
+          },
+          y: 0,
+          duration: 1.2,
+          ease: 'power4.out'
+        });
+      });
+
+      // ============================
+      // MARQUEE
+      // ============================
+      var track = document.querySelector('.marquee-track');
+      if (track) {
+        var trackWidth = track.scrollWidth;
+        var singleSetWidth = trackWidth / 3; // We have 3 copies of 4 items
+
+        gsap.to(track, {
+          x: -singleSetWidth,
+          duration: 30,
+          ease: 'none',
+          repeat: -1,
+          modifiers: {
+            x: function (x) {
+              return (parseFloat(x) % singleSetWidth) + 'px';
+            }
+          }
+        });
+      }
+
+      // ============================
+      // SCROLL INDICATOR FADE
+      // ============================
+      gsap.to('.scroll-indicator', {
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: '30% top',
+          scrub: true
+        },
+        opacity: 0,
+        y: -20,
+        ease: 'none'
+      });
+
+      // ============================
+      // PROJECT ROWS STAGGER
+      // ============================
+      gsap.utils.toArray('.project-row').forEach(function (row, i) {
+        gsap.to(row, {
+          scrollTrigger: {
+            trigger: row,
+            start: 'top 90%',
+            toggleActions: 'play none none none'
+          },
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          delay: i * 0.1,
+          ease: 'power3.out'
+        });
+      });
+
+    })();
+
+    // CSS-only marquee fallback for reduced motion
+    function setupMarqueeCSS() {
+      var style = document.createElement('style');
+      style.textContent =
+        '@keyframes marqueeSlide { from { transform: translateX(0); } to { transform: translateX(-33.333%); } }' +
+        '.marquee-track { animation: marqueeSlide 30s linear infinite; }';
+      document.head.appendChild(style);
+    }
+  </script>
+</body>
+</html>

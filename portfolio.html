@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Portfolio — Gloxx</title>
+  <meta name="description" content="Websites and digital experiences built by Gloxx. High-performance, beautifully crafted sites for ambitious brands.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08080a;
+      --bg-2: #0f0f12;
+      --bg-3: #141418;
+      --text: #ededed;
+      --text-2: #898989;
+      --text-3: #555;
+      --accent-1: #6366f1;
+      --accent-2: #a855f7;
+      --accent-3: #ec4899;
+      --border: rgba(255,255,255,0.07);
+      --surface: rgba(255,255,255,0.03);
+      --heading: 'Space Grotesk', -apple-system, sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--accent-1); color: #fff; }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: #333 var(--bg);
+    }
+    html::-webkit-scrollbar { width: 5px; }
+    html::-webkit-scrollbar-track { background: var(--bg); }
+    html::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+    body {
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--text-2);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      cursor: none;
+    }
+
+    a { color: inherit; text-decoration: none; cursor: none; }
+    button { cursor: none; border: none; background: none; font-family: inherit; }
+
+    :focus-visible {
+      outline: 2px solid var(--accent-1);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ═══════ GRAIN ═══════ */
+    .grain {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 9000;
+      isolation: isolate;
+      mix-blend-mode: overlay;
+    }
+    .grain svg { width: 100%; height: 100%; }
+
+    /* ═══════ CURSOR ═══════ */
+    .cur-dot {
+      position: fixed; top: 0; left: 0;
+      width: 5px; height: 5px;
+      background: var(--text);
+      border-radius: 50%;
+      pointer-events: none; z-index: 10003;
+      transform: translate(-50%, -50%);
+      transition: width .2s, height .2s;
+      mix-blend-mode: difference;
+    }
+    .cur-ring {
+      position: fixed; top: 0; left: 0;
+      width: 40px; height: 40px;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 50%;
+      pointer-events: none; z-index: 10002;
+      transform: translate(-50%, -50%);
+      transition: width .35s cubic-bezier(.22,1,.36,1),
+                  height .35s cubic-bezier(.22,1,.36,1),
+                  border-color .3s;
+      mix-blend-mode: difference;
+    }
+    body.cur-hover .cur-dot { width: 12px; height: 12px; }
+    body.cur-hover .cur-ring { width: 56px; height: 56px; border-color: rgba(255,255,255,0.4); }
+    @media(pointer:coarse) {
+      .cur-dot, .cur-ring { display: none; }
+      body, a, button { cursor: auto; }
+    }
+
+    /* ═══════ NAV ═══════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 8000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem clamp(1.5rem, 5vw, 3rem);
+      background: rgba(8,8,10,0.8);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+    .nav-logo {
+      font-family: var(--heading);
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: .25em; color: var(--text);
+    }
+    .nav-back {
+      font-size: .82rem; font-weight: 400;
+      color: var(--text-2); letter-spacing: .03em;
+      display: flex; align-items: center; gap: .4rem;
+      transition: color .3s;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    /* ═══════ CONTAINER ═══════ */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 5vw, 3rem);
+    }
+
+    /* ═══════ HERO ═══════ */
+    .port-hero {
+      padding: 10rem 0 5rem;
+      position: relative; overflow: hidden;
+    }
+    .port-hero::before {
+      content: ''; position: absolute;
+      top: -200px; left: -100px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: rgba(99,102,241,.08);
+      filter: blur(100px);
+      pointer-events: none;
+    }
+    .port-label {
+      display: inline-flex; align-items: center; gap: .75rem;
+      font-size: .72rem; font-weight: 500;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 1.5rem;
+    }
+    .port-label::before {
+      content: ''; display: block;
+      width: 28px; height: 1px;
+      background: var(--text-3);
+    }
+    .port-title {
+      font-family: var(--heading);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 700; color: var(--text);
+      line-height: 1.12; letter-spacing: -.02em;
+      margin-bottom: 1rem;
+    }
+    .port-sub {
+      font-size: clamp(.92rem, 1.3vw, 1.05rem);
+      color: var(--text-2); line-height: 1.6;
+      max-width: 520px;
+    }
+
+    /* ═══════ GRID ═══════ */
+    .port-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      padding-bottom: 6rem;
+    }
+
+    .p-card {
+      position: relative; border-radius: 8px;
+      overflow: hidden; background: var(--bg-2);
+      border: 1px solid var(--border);
+      transition: transform .6s cubic-bezier(.22,1,.36,1), box-shadow .6s, border-color .4s;
+      display: flex; flex-direction: column;
+    }
+    .p-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(0,0,0,.4);
+      border-color: rgba(255,255,255,.1);
+    }
+
+    .p-card-img {
+      aspect-ratio: 16/10;
+      position: relative; overflow: hidden;
+    }
+    .p-card-img::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+    }
+
+    /* Each card gets a unique gradient */
+    .p-card:nth-child(1) .p-card-img::before { background: linear-gradient(135deg, #0c0f2e, #111640 40%, #1a1050 70%, #0e0c28); }
+    .p-card:nth-child(2) .p-card-img::before { background: linear-gradient(135deg, #1a1408, #2a2010 40%, #1e180a 70%, #141008); }
+    .p-card:nth-child(3) .p-card-img::before { background: linear-gradient(135deg, #020808, #041410 40%, #061e14 70%, #030a08); }
+    .p-card:nth-child(4) .p-card-img::before { background: linear-gradient(135deg, #f5f0eb, #ede5da 40%, #e8ddd0 70%, #f0e8de); }
+    .p-card:nth-child(5) .p-card-img::before { background: linear-gradient(135deg, #e8f4f8, #d0eef5 40%, #c0e8f0 70%, #daf0f6); }
+    .p-card:nth-child(6) .p-card-img::before { background: linear-gradient(135deg, #f0efe8, #e8e6e0 40%, #e0ddd6 70%, #eae8e2); }
+    .p-card:nth-child(7) .p-card-img::before { background: linear-gradient(135deg, #0c0e14, #141820 40%, #1a1d28 70%, #0e1018); }
+    .p-card:nth-child(8) .p-card-img::before { background: linear-gradient(135deg, #1a0a10, #28101a 40%, #1e0814 70%, #140610); }
+    .p-card:nth-child(9) .p-card-img::before { background: linear-gradient(135deg, #000000, #040a04 40%, #081408 70%, #020602); }
+    .p-card:nth-child(10) .p-card-img::before { background: linear-gradient(135deg, #fef3c7, #fde68a 40%, #fcd34d 70%, #fef3c7); }
+
+    .p-card-frame {
+      position: absolute; inset: 0; z-index: 2;
+      overflow: hidden;
+    }
+    .p-card-frame iframe {
+      position: absolute; top: 0; left: 0;
+      width: 400%; height: 400%;
+      border: none;
+      pointer-events: none;
+      transform: scale(.25);
+      transform-origin: 0 0;
+    }
+
+    .p-card-glow {
+      position: absolute; z-index: 3;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0; transition: opacity .5s;
+    }
+    .p-card:hover .p-card-glow { opacity: 1; }
+    .p-card:nth-child(1) .p-card-glow { background: rgba(34,211,238,.18); top: 25%; left: 35%; }
+    .p-card:nth-child(2) .p-card-glow { background: rgba(184,134,11,.14); top: 30%; left: 40%; }
+    .p-card:nth-child(3) .p-card-glow { background: rgba(16,185,129,.16); top: 25%; left: 30%; }
+    .p-card:nth-child(4) .p-card-glow { background: rgba(196,112,74,.12); top: 30%; left: 35%; }
+    .p-card:nth-child(5) .p-card-glow { background: rgba(20,184,166,.14); top: 25%; left: 40%; }
+    .p-card:nth-child(6) .p-card-glow { background: rgba(220,38,38,.12); top: 30%; left: 30%; }
+    .p-card:nth-child(7) .p-card-glow { background: rgba(245,158,11,.16); top: 25%; left: 35%; }
+    .p-card:nth-child(8) .p-card-glow { background: rgba(201,169,110,.14); top: 30%; left: 40%; }
+    .p-card:nth-child(9) .p-card-glow { background: rgba(0,255,65,.16); top: 25%; left: 30%; }
+    .p-card:nth-child(10) .p-card-glow { background: rgba(245,158,11,.18); top: 30%; left: 35%; }
+
+    .p-card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .p-card-tags {
+      display: flex; gap: .5rem; flex-wrap: wrap;
+      margin-bottom: .6rem;
+    }
+    .p-tag {
+      font-size: .6rem; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--text-3);
+      padding: .2rem .6rem;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+    }
+    .p-card h3 {
+      font-family: var(--heading);
+      font-size: 1.2rem; font-weight: 600;
+      color: var(--text); margin-bottom: .3rem;
+      letter-spacing: -.01em;
+    }
+    .p-card-desc {
+      font-size: .85rem; color: var(--text-2);
+      line-height: 1.5; margin-bottom: .8rem;
+      flex: 1;
+    }
+    .p-card-link {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-size: .78rem; font-weight: 500;
+      color: var(--text-3);
+      opacity: 0; transform: translateY(4px);
+      transition: opacity .3s, transform .3s, color .3s;
+      letter-spacing: .03em;
+      margin-top: auto;
+    }
+    .p-card:hover .p-card-link { opacity: 1; transform: none; }
+
+    .p-coming-soon {
+      position: absolute; top: 1rem; right: 1rem; z-index: 4;
+      font-size: .6rem; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent-1);
+      padding: .3rem .7rem;
+      background: rgba(99,102,241,.1);
+      border: 1px solid rgba(99,102,241,.2);
+      border-radius: 100px;
+    }
+
+    /* ═══════ FOOTER ═══════ */
+    footer {
+      padding: 2.5rem 0;
+      position: relative;
+    }
+    footer::before {
+      content: ''; display: block;
+      height: 1px; margin-bottom: 2.5rem;
+      background: linear-gradient(90deg, transparent, var(--border) 50%, transparent);
+    }
+    .footer-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy { font-size: .78rem; color: var(--text-3); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: .78rem; color: var(--text-3);
+      transition: color .3s; letter-spacing: .02em;
+    }
+    .footer-links a:hover { color: var(--text-2); }
+    .footer-tag {
+      font-size: .7rem; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--text-3);
+      opacity: .5;
+    }
+
+    /* ═══════ RESPONSIVE ═══════ */
+    @media(max-width:768px) {
+      .port-grid { grid-template-columns: 1fr; max-width: 540px; }
+      .port-hero { padding: 8rem 0 3rem; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+    @media(max-width:480px) {
+      .port-hero { padding: 7rem 0 2.5rem; }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+      .cur-dot, .cur-ring { display: none; }
+      body, a, button { cursor: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Grain -->
+  <div class="grain" aria-hidden="true">
+    <svg viewBox="0 0 512 512" preserveAspectRatio="none">
+      <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+      <rect width="100%" height="100%" filter="url(#g)" opacity=".018"/>
+    </svg>
+  </div>
+
+  <!-- Cursor -->
+  <div class="cur-dot"></div>
+  <div class="cur-ring"></div>
+
+  <!-- Nav -->
+  <header class="nav">
+    <a href="index.html" class="nav-logo">GLOXX</a>
+    <a href="index.html#work" class="nav-back"><span>&larr;</span> Back to home</a>
+  </header>
+
+  <!-- Hero -->
+  <section class="port-hero">
+    <div class="container">
+      <span class="port-label">Web Portfolio</span>
+      <h1 class="port-title">Sites we've shipped.</h1>
+      <p class="port-sub">Ten high-performance, beautifully crafted websites — each a unique design system built for brands that demand more than a template.</p>
+    </div>
+  </section>
+
+  <!-- Grid -->
+  <section>
+    <div class="container">
+      <div class="port-grid">
+
+        <!-- 1. Vantage AI -->
+        <a href="vantage.html" class="p-card">
+          <div class="p-card-img">
+            <div class="p-card-glow"></div>
+            <div class="p-card-frame"><iframe src="vantage.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+          </div>
+          <div class="p-card-body">
+            <div class="p-card-tags"><span class="p-tag">SaaS</span><span class="p-tag">Data Analytics</span></div>
+            <h3>Vantage AI</h3>
+            <p class="p-card-desc">Dark-mode analytics platform with real-time data visualizations, animated counters, and integration grid.</p>
+            <span class="p-card-link">View project <span aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+
+        <!-- 2. Lumen Goods -->
+        <a href="lumen.html" class="p-card">
+          <div class="p-card-img">
+            <div class="p-card-glow"></div>
+            <div class="p-card-frame"><iframe src="lumen.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+          </div>
+          <div class="p-card-body">
+            <div class="p-card-tags"><span class="p-tag">E-Commerce</span><span class="p-tag">Lifestyle</span></div>
+            <h3>Lumen Goods</h3>
+            <p class="p-card-desc">Warm, editorial e-commerce experience with serif typography and tactile product showcases.</p>
+            <span class="p-card-link">View project <span aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+
+        <!-- 3. Orbis Capital -->
+        <a href="orbis.html" class="p-card">
+          <div class="p-card-img">
+            <div class="p-card-glow"></div>
+            <div class="p-card-frame"><iframe src="orbis.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+          </div>
+          <div class="p-card-body">
+            <div class="p-card-tags"><span class="p-tag">FinTech</span><span class="p-tag">Quantitative</span></div>
+            <h3>Orbis Capital</h3>
+            <p class="p-card-desc">Ultra-minimal institutional site with monospace typography, ticker grid, and cold precision.</p>
+            <span class="p-card-link">View project <span aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+
+        <!-- 4. Forma Studio -->
+        <a href="forma.html" class="p-card">
+          <div class="p-card-img">
+            <div class="p-card-glow"></div>
+            <div class="p-card-frame"><iframe src="forma.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+          </div>
+          <div class="p-card-body">
+            <div class="p-card-tags"><span class="p-tag">Architecture</span><span class="p-tag">Design Studio</span></div>
+            <h3>Forma Studio</h3>
+            <p class="p-card-desc">Gallery-like white-space design with hover-reveal projects, serif typography, and awards marquee.</p>
+            <span class="p-card-link">View project <span aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+
+        <!-- 5. Clarity Health -->
+        <a href="clarity.html" class="p-card">
+          <div class="p-card-img">
+            <div class="p-card-glow"></div>
+            <div class="p-card-frame"><iframe src="clarity.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+          </div>
+          <div class="p-card-body">
+            <div class="p-card-tags"><span class="p-tag">Healthcare</span><span class="p-tag">Telehealth</span></div>
+            <h3>Clarity Health</h3>
+            <p class="p-card-desc">Friendly, accessible health platform with soft teal palette, rounded cards, and trust-building design.</p>
+            <span class="p-card-link">View project <span aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+
+        <!-- 6. The Brief -->
+        <a href="thebrief.html" class="p-card">
+          <div class="p-card-img">
+            <div class="p-card-glow"></div>
+            <div class="p-card-frame"><iframe src="thebrief.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+          </div>
+          <div class="p-card-body">
+            <div class="p-card-tags"><span class="p-tag">Media</span><span class="p-tag">Editorial</span></div>
+            <h3>The Brief</h3>
+            <p class="p-card-desc">Bold newspaper-meets-digital editorial with strong typographic hierarchy and article grid layout.</p>
+            <span class="p-card-link">View project <span aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+
+        <!-- 7. Apex Robotics -->
+        <a href="apex.html" class="p-card">
+          <div class="p-card-img">
+            <div class="p-card-glow"></div>
+            <div class="p-card-frame"><iframe src="apex.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+          </div>
+          <div class="p-card-body">
+            <div class="p-card-tags"><span class="p-tag">Industrial</span><span class="p-tag">Robotics</span></div>
+            <h3>Apex Robotics</h3>
+            <p class="p-card-desc">Technical dark-mode industrial site with blueprint wireframes, angular cuts, and amber accents.</p>
+            <span class="p-card-link">View project <span aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+
+        <!-- 8. Noma Wines -->
+        <a href="noma.html" class="p-card">
+          <div class="p-card-img">
+            <div class="p-card-glow"></div>
+            <div class="p-card-frame"><iframe src="noma.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+          </div>
+          <div class="p-card-body">
+            <div class="p-card-tags"><span class="p-tag">Luxury</span><span class="p-tag">Wine</span></div>
+            <h3>Noma Wines</h3>
+            <p class="p-card-desc">Rich burgundy and gold luxury winery site with elegant serif type, parallax hills, and sommelier copy.</p>
+            <span class="p-card-link">View project <span aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+
+        <!-- 9. Vertex Labs -->
+        <a href="vertex.html" class="p-card">
+          <div class="p-card-img">
+            <div class="p-card-glow"></div>
+            <div class="p-card-frame"><iframe src="vertex.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+          </div>
+          <div class="p-card-body">
+            <div class="p-card-tags"><span class="p-tag">Cybersecurity</span><span class="p-tag">Terminal</span></div>
+            <h3>Vertex Labs</h3>
+            <p class="p-card-desc">Green-on-black terminal aesthetic with code rain, live threat dashboard, and CRT scanline overlay.</p>
+            <span class="p-card-link">View project <span aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+
+        <!-- 10. Solara Energy -->
+        <a href="solara.html" class="p-card">
+          <div class="p-card-img">
+            <div class="p-card-glow"></div>
+            <div class="p-card-frame"><iframe src="solara.html" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+          </div>
+          <div class="p-card-body">
+            <div class="p-card-tags"><span class="p-tag">Clean Energy</span><span class="p-tag">Solar</span></div>
+            <h3>Solara Energy</h3>
+            <p class="p-card-desc">Bright, optimistic solar energy site with sunrise gradient hero, animated sun, and warm amber palette.</p>
+            <span class="p-card-link">View project <span aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <span class="footer-copy">&copy; 2026 Gloxx</span>
+      <div class="footer-links">
+        <a href="#">LinkedIn</a>
+        <a href="#">X</a>
+        <a href="#">GitHub</a>
+      </div>
+      <span class="footer-tag">Wisdom engineered.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+  (function(){
+    'use strict';
+    const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    const touch = matchMedia('(pointer:coarse)').matches;
+
+    /* Cursor */
+    if (!touch && !reduced) {
+      const dot = document.querySelector('.cur-dot');
+      const ring = document.querySelector('.cur-ring');
+      let mx = 0, my = 0, rx = 0, ry = 0;
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+      });
+      (function loop() {
+        rx += (mx - rx) * .12; ry += (my - ry) * .12;
+        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        requestAnimationFrame(loop);
+      })();
+      document.querySelectorAll('a, button, .p-card').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cur-hover'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cur-hover'));
+      });
+    } else {
+      document.querySelector('.cur-dot').style.display = 'none';
+      document.querySelector('.cur-ring').style.display = 'none';
+    }
+
+    /* GSAP */
+    if (reduced) return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from('.port-label', { opacity: 0, y: 16, duration: .5, delay: .2 });
+    gsap.from('.port-title', { opacity: 0, y: 24, duration: .6, delay: .3 });
+    gsap.from('.port-sub', { opacity: 0, y: 16, duration: .5, delay: .4 });
+
+    gsap.from('.p-card', {
+      scrollTrigger: { trigger: '.port-grid', start: 'top 85%' },
+      opacity: 0, y: 40, duration: .6,
+      stagger: .1, ease: 'power3.out'
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Brief — Stories that matter.</title>
+<meta name="description" content="The Brief is an independent digital media company covering technology, culture, and power. Stories that matter, delivered daily.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;0,6..72,800;1,6..72,400;1,6..72,500;1,6..72,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg: #fafaf8;
+    --black: #000000;
+    --red: #dc2626;
+    --gray: #6b7280;
+    --divider: #e5e5e5;
+    --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --sans: 'Source Sans 3', 'Source Sans Pro', -apple-system, sans-serif;
+    --max-width: 1200px;
+    --gutter: 24px;
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--black);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* -- Utility -- */
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--divider);
+  }
+
+  .divider--bold {
+    border-top: 3px solid var(--black);
+  }
+
+  .divider--thin {
+    border-top: 1px solid var(--black);
+  }
+
+  /* -- Top Bar / Nav -- */
+  .topbar {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .topbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .topbar__date {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .topbar__links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+  }
+
+  .topbar__links a {
+    color: var(--gray);
+    transition: color 0.2s;
+  }
+
+  .topbar__links a:hover {
+    color: var(--black);
+  }
+
+  .topbar__tagline {
+    font-style: italic;
+    font-family: var(--serif);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.9rem;
+    color: var(--gray);
+  }
+
+  /* -- Masthead / Hero -- */
+  .masthead {
+    padding: 48px 0 0;
+    text-align: center;
+  }
+
+  .masthead__title {
+    font-family: var(--serif);
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    line-height: 0.9;
+    text-transform: uppercase;
+    padding: 28px 0 24px;
+  }
+
+  .masthead__subtitle {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--gray);
+    margin-bottom: 32px;
+    letter-spacing: 0.02em;
+  }
+
+  /* -- Featured Article -- */
+  .featured {
+    padding: 48px 0 56px;
+  }
+
+  .featured__inner {
+    max-width: 820px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .featured__category {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 20px;
+  }
+
+  .featured__headline {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+  }
+
+  .featured__excerpt {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--gray);
+    max-width: 620px;
+    margin: 0 auto 24px;
+  }
+
+  .featured__meta {
+    font-size: 0.85rem;
+    color: var(--gray);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .featured__author {
+    font-weight: 600;
+    color: var(--black);
+  }
+
+  .featured__meta-sep {
+    color: var(--divider);
+  }
+
+  .featured__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 28px;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--red);
+    transition: gap 0.3s ease;
+  }
+
+  .featured__cta:hover {
+    gap: 12px;
+  }
+
+  .featured__cta-arrow {
+    transition: transform 0.3s ease;
+    font-size: 1.1em;
+  }
+
+  .featured__cta:hover .featured__cta-arrow {
+    transform: translateX(3px);
+  }
+
+  /* -- Latest Stories -- */
+  .latest {
+    padding: 0 0 64px;
+  }
+
+  .section-label {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--black);
+    display: inline-block;
+  }
+
+  .stories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .story-card {
+    padding: 24px 28px 32px 0;
+    border-top: 1px solid var(--divider);
+    position: relative;
+  }
+
+  .story-card:nth-child(3n+2),
+  .story-card:nth-child(3n+3) {
+    padding-left: 28px;
+    border-left: 1px solid var(--divider);
+  }
+
+  .story-card:nth-child(1),
+  .story-card:nth-child(2),
+  .story-card:nth-child(3) {
+    border-top: none;
+  }
+
+  .story-card__category {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+
+  .story-card__headline {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 10px;
+    letter-spacing: -0.005em;
+    transition: color 0.2s;
+  }
+
+  .story-card:hover .story-card__headline {
+    color: var(--red);
+  }
+
+  .story-card__excerpt {
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.55;
+    margin-bottom: 14px;
+  }
+
+  .story-card__meta {
+    font-size: 0.78rem;
+    color: var(--gray);
+  }
+
+  .story-card__author {
+    font-weight: 600;
+    color: #374151;
+  }
+
+  /* -- Newsletter -- */
+  .newsletter {
+    background: var(--black);
+    color: #ffffff;
+    padding: 72px 0;
+  }
+
+  .newsletter__inner {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .newsletter__heading {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .newsletter__sub {
+    font-size: 0.95rem;
+    color: #9ca3af;
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  .newsletter__form {
+    display: flex;
+    gap: 0;
+    max-width: 480px;
+    margin: 0 auto 20px;
+  }
+
+  .newsletter__input {
+    flex: 1;
+    padding: 14px 18px;
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    border: 1px solid #374151;
+    border-right: none;
+    background: #111111;
+    color: #ffffff;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .newsletter__input::placeholder {
+    color: #6b7280;
+  }
+
+  .newsletter__input:focus {
+    border-color: var(--red);
+  }
+
+  .newsletter__btn {
+    padding: 14px 28px;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: var(--red);
+    color: #ffffff;
+    border: 1px solid var(--red);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+  }
+
+  .newsletter__btn:hover {
+    background: #b91c1c;
+    border-color: #b91c1c;
+  }
+
+  .newsletter__btn:active {
+    transform: scale(0.97);
+  }
+
+  .newsletter__readers {
+    font-size: 0.8rem;
+    color: #6b7280;
+    letter-spacing: 0.02em;
+  }
+
+  .newsletter__readers strong {
+    color: #9ca3af;
+    font-weight: 600;
+  }
+
+  /* -- Sections -- */
+  .sections {
+    padding: 72px 0 64px;
+  }
+
+  .sections-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .section-col {
+    padding: 28px 32px 28px 0;
+    border-top: none;
+  }
+
+  .section-col:nth-child(2),
+  .section-col:nth-child(3) {
+    padding-left: 32px;
+    border-left: 1px solid var(--divider);
+  }
+
+  .section-col__label {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+
+  .section-col__title {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+
+  .section-col__desc {
+    font-size: 0.95rem;
+    color: var(--gray);
+    line-height: 1.65;
+  }
+
+  .section-col__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--black);
+    transition: color 0.2s, gap 0.3s;
+  }
+
+  .section-col__link:hover {
+    color: var(--red);
+    gap: 10px;
+  }
+
+  /* -- Pull Quote -- */
+  .pullquote {
+    padding: 80px 0;
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .pullquote__inner {
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+
+  .pullquote__mark {
+    font-family: var(--serif);
+    font-size: 6rem;
+    line-height: 1;
+    color: var(--red);
+    opacity: 0.2;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .pullquote__text {
+    font-family: var(--serif);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.45;
+    letter-spacing: -0.005em;
+    color: var(--black);
+    position: relative;
+    z-index: 1;
+  }
+
+  .pullquote__attr {
+    margin-top: 24px;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  /* -- Footer -- */
+  .footer {
+    padding: 48px 0 56px;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+
+  .footer__brand {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    list-style: none;
+  }
+
+  .footer__links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--gray);
+    transition: color 0.2s;
+  }
+
+  .footer__links a:hover {
+    color: var(--black);
+  }
+
+  .footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 24px;
+    border-top: 1px solid var(--divider);
+    font-size: 0.8rem;
+    color: var(--gray);
+  }
+
+  .footer__indie {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--gray);
+  }
+
+  /* -- Animations (base hidden states) -- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .reveal-fade {
+    opacity: 0;
+  }
+
+  .reveal-line {
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  /* -- Reduced Motion -- */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-fade,
+    .reveal-line {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
+  /* -- Responsive: Tablet -- */
+  @media (max-width: 900px) {
+    .stories-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .story-card {
+      padding: 20px 24px 28px 0;
+    }
+
+    .story-card:nth-child(3n+2),
+    .story-card:nth-child(3n+3) {
+      padding-left: 0;
+      border-left: none;
+    }
+
+    .story-card:nth-child(odd) {
+      padding-right: 24px;
+    }
+
+    .story-card:nth-child(even) {
+      padding-left: 24px;
+      border-left: 1px solid var(--divider);
+    }
+
+    .story-card:nth-child(1),
+    .story-card:nth-child(2) {
+      border-top: none;
+    }
+
+    .story-card:nth-child(3) {
+      border-top: 1px solid var(--divider);
+    }
+
+    .sections-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .section-col {
+      padding: 24px 0;
+      border-top: 1px solid var(--divider);
+    }
+
+    .section-col:first-child {
+      border-top: none;
+    }
+
+    .section-col:nth-child(2),
+    .section-col:nth-child(3) {
+      padding-left: 0;
+      border-left: none;
+    }
+  }
+
+  /* -- Responsive: Mobile -- */
+  @media (max-width: 600px) {
+    :root {
+      --gutter: 18px;
+    }
+
+    .topbar__links {
+      display: none;
+    }
+
+    .topbar__inner {
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .masthead {
+      padding: 32px 0 0;
+    }
+
+    .masthead__title {
+      padding: 20px 0 16px;
+      letter-spacing: 0.03em;
+    }
+
+    .featured {
+      padding: 32px 0 40px;
+    }
+
+    .featured__excerpt {
+      font-size: 1.05rem;
+    }
+
+    .stories-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .story-card,
+    .story-card:nth-child(odd),
+    .story-card:nth-child(even),
+    .story-card:nth-child(3n+2),
+    .story-card:nth-child(3n+3) {
+      padding: 20px 0 24px;
+      border-left: none !important;
+      border-top: 1px solid var(--divider);
+    }
+
+    .story-card:first-child {
+      border-top: none;
+    }
+
+    .newsletter {
+      padding: 48px 0;
+    }
+
+    .newsletter__form {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .newsletter__input {
+      border-right: 1px solid #374151;
+      border-bottom: none;
+    }
+
+    .newsletter__btn {
+      padding: 14px;
+    }
+
+    .sections {
+      padding: 48px 0;
+    }
+
+    .pullquote {
+      padding: 48px 0;
+    }
+
+    .footer__top {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .footer__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  /* -- Selection color -- */
+  ::selection {
+    background: var(--red);
+    color: #ffffff;
+  }
+
+  /* subtle link underlines */
+  .story-card__headline a,
+  .featured__headline a {
+    text-decoration: none;
+    background-image: linear-gradient(var(--black), var(--black));
+    background-size: 0% 1px;
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s ease;
+  }
+
+  .story-card:hover .story-card__headline a,
+  .featured__headline a:hover {
+    background-size: 100% 1px;
+  }
+
+  .story-card:hover .story-card__headline a {
+    background-image: linear-gradient(var(--red), var(--red));
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<nav class="topbar" role="navigation" aria-label="Top navigation">
+  <div class="container topbar__inner">
+    <span class="topbar__date">Thursday, April 3, 2026</span>
+    <span class="topbar__tagline">Stories that matter.</span>
+    <ul class="topbar__links">
+      <li><a href="#sections">Sections</a></li>
+      <li><a href="#newsletter">Subscribe</a></li>
+      <li><a href="#latest">Latest</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Masthead -->
+<header class="masthead">
+  <div class="container">
+    <hr class="divider divider--bold reveal-line">
+    <h1 class="masthead__title reveal">THE BRIEF</h1>
+    <hr class="divider divider--thin reveal-line">
+    <p class="masthead__subtitle reveal-fade">Independent journalism for a complex world</p>
+  </div>
+</header>
+
+<!-- Featured Article -->
+<section class="featured" aria-label="Featured story">
+  <div class="container">
+    <hr class="divider">
+    <div class="featured__inner">
+      <span class="featured__category reveal-fade">Investigation</span>
+      <h2 class="featured__headline reveal">
+        <a href="#">The Real Cost of AI Infrastructure&hairsp;&mdash;&hairsp;And Who's Paying For It</a>
+      </h2>
+      <p class="featured__excerpt reveal-fade">
+        As tech giants race to build the largest data centers in history, rural communities face soaring energy costs, strained water supplies, and promises of prosperity that rarely materialize.
+      </p>
+      <div class="featured__meta reveal-fade">
+        <span class="featured__author">Clara Mendoza</span>
+        <span class="featured__meta-sep">/</span>
+        <span>April 3, 2026</span>
+        <span class="featured__meta-sep">/</span>
+        <span>14 min read</span>
+      </div>
+      <a href="#" class="featured__cta reveal-fade">
+        Read the full investigation <span class="featured__cta-arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Latest Stories -->
+<section class="latest" id="latest" aria-label="Latest stories">
+  <div class="container">
+    <h2 class="section-label">Latest Stories</h2>
+    <div class="stories-grid">
+
+      <article class="story-card reveal">
+        <div class="story-card__category">Tech</div>
+        <h3 class="story-card__headline"><a href="#">Apple's Quiet Pivot: Why the Company Is Betting Everything on On-Device AI</a></h3>
+        <p class="story-card__excerpt">Internal documents reveal a sweeping reorganization that puts machine learning at the center of every product team.</p>
+        <div class="story-card__meta">
+          <span class="story-card__author">James Welker</span> &middot; Apr 2, 2026
+        </div>
+      </article>
+
+      <article class="story-card reveal">
+        <div class="story-card__category">Power</div>
+        <h3 class="story-card__headline"><a href="#">The FTC's New Antitrust Framework Could Reshape How We Define Monopoly</a></h3>
+        <p class="story-card__excerpt">A proposed rule change would shift the burden of proof in platform dominance cases for the first time in decades.</p>
+        <div class="story-card__meta">
+          <span class="story-card__author">Priya Chatterjee</span> &middot; Apr 2, 2026
+        </div>
+      </article>
+
+      <article class="story-card reveal">
+        <div class="story-card__category">Culture</div>
+        <h3 class="story-card__headline"><a href="#">The Death of the Algorithm Feed&hairsp;&mdash;&hairsp;And What Comes Next</a></h3>
+        <p class="story-card__excerpt">A generation raised on infinite scroll is choosing curated newsletters, group chats, and intentional media diets.</p>
+        <div class="story-card__meta">
+          <span class="story-card__author">Tomoko Ishida</span> &middot; Apr 1, 2026
+        </div>
+      </article>
+
+      <article class="story-card reveal">
+        <div class="story-card__category">Tech</div>
+        <h3 class="story-card__headline"><a href="#">Inside the Race to Build a Reliable Quantum Computer by 2028</a></h3>
+        <p class="story-card__excerpt">Three startups and two national labs are closer than anyone expected, but the engineering challenges remain immense.</p>
+        <div class="story-card__meta">
+          <span class="story-card__author">Daniel Okafor</span> &middot; Mar 31, 2026
+        </div>
+      </article>
+
+      <article class="story-card reveal">
+        <div class="story-card__category">Power</div>
+        <h3 class="story-card__headline"><a href="#">How Sovereign Wealth Funds Became Silicon Valley's Most Important Investors</a></h3>
+        <p class="story-card__excerpt">Middle Eastern and Asian state funds now lead or co-lead more than a third of all mega-rounds globally.</p>
+        <div class="story-card__meta">
+          <span class="story-card__author">Rachel Goldstein</span> &middot; Mar 30, 2026
+        </div>
+      </article>
+
+      <article class="story-card reveal">
+        <div class="story-card__category">Culture</div>
+        <h3 class="story-card__headline"><a href="#">The Analog Office: Why Some Companies Are Banning Screens From Meetings</a></h3>
+        <p class="story-card__excerpt">A growing counter-movement argues that whiteboards, paper, and face-to-face conversation produce better decisions.</p>
+        <div class="story-card__meta">
+          <span class="story-card__author">Elise Barnard</span> &middot; Mar 29, 2026
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter" id="newsletter" aria-label="Newsletter signup">
+  <div class="container">
+    <div class="newsletter__inner">
+      <h2 class="newsletter__heading reveal">Get The Brief every morning.</h2>
+      <p class="newsletter__sub reveal-fade">The stories, analysis, and context you need to start your day&hairsp;&mdash;&hairsp;in&nbsp;one concise email.</p>
+      <form class="newsletter__form reveal-fade" onsubmit="event.preventDefault(); this.querySelector('button').textContent = 'Subscribed!'; this.querySelector('input').value = '';">
+        <input type="email" class="newsletter__input" placeholder="your@email.com" aria-label="Email address" required>
+        <button type="submit" class="newsletter__btn">Subscribe</button>
+      </form>
+      <p class="newsletter__readers reveal-fade">Join <strong>48,000+ readers</strong> who start their day informed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Sections -->
+<section class="sections" id="sections" aria-label="Editorial sections">
+  <div class="container">
+    <h2 class="section-label">Our Sections</h2>
+    <div class="sections-grid">
+
+      <div class="section-col reveal">
+        <div class="section-col__label">Section</div>
+        <h3 class="section-col__title">Tech</h3>
+        <p class="section-col__desc">
+          Silicon Valley and far beyond. We cover the companies, products, and infrastructure decisions that reshape industries&hairsp;&mdash;&hairsp;with an eye on what the press releases leave out.
+        </p>
+        <a href="#" class="section-col__link">Explore Tech <span aria-hidden="true">&rarr;</span></a>
+      </div>
+
+      <div class="section-col reveal">
+        <div class="section-col__label">Section</div>
+        <h3 class="section-col__title">Culture</h3>
+        <p class="section-col__desc">
+          The ideas, movements, and shifts shaping how we live, work, and relate to each other. From digital life to design, education to entertainment&hairsp;&mdash;&hairsp;the undercurrents that matter.
+        </p>
+        <a href="#" class="section-col__link">Explore Culture <span aria-hidden="true">&rarr;</span></a>
+      </div>
+
+      <div class="section-col reveal">
+        <div class="section-col__label">Section</div>
+        <h3 class="section-col__title">Power</h3>
+        <p class="section-col__desc">
+          Politics, policy, regulation, and the people who shape them. We follow the money, the lobbying, and the legislation that determines who wins and who gets left behind.
+        </p>
+        <a href="#" class="section-col__link">Explore Power <span aria-hidden="true">&rarr;</span></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Pull Quote -->
+<section class="pullquote" aria-label="Editorial quote">
+  <div class="container">
+    <div class="pullquote__inner">
+      <span class="pullquote__mark reveal-fade" aria-hidden="true">&ldquo;</span>
+      <blockquote class="pullquote__text reveal">
+        In an era of infinite content, what matters is judgment&hairsp;&mdash;&hairsp;knowing what to pay attention to, and what to ignore.
+      </blockquote>
+      <p class="pullquote__attr reveal-fade">The Brief, Founding Editorial</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">The Brief</div>
+      <ul class="footer__links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Masthead</a></li>
+        <li><a href="#">Ethics Policy</a></li>
+        <li><a href="#">Advertise</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">RSS</a></li>
+      </ul>
+    </div>
+    <div class="footer__bottom">
+      <span>&copy; 2026 The Brief Media, Inc. All rights reserved.</span>
+      <span class="footer__indie">Independent journalism, reader-supported.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function() {
+  "use strict";
+
+  // Respect reduced motion
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (prefersReducedMotion || window.self !== window.top) {
+    // Make everything visible immediately
+    document.querySelectorAll(".reveal, .reveal-fade, .reveal-line").forEach(function(el) {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    });
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Defaults
+  const defaults = {
+    duration: 0.8,
+    ease: "power3.out"
+  };
+
+  // -- Masthead entrance (no scroll trigger, plays on load) --
+  const mastheadTl = gsap.timeline({ delay: 0.15 });
+
+  mastheadTl
+    .to(".masthead .divider--bold", {
+      opacity: 1,
+      scaleX: 1,
+      duration: 0.6,
+      ease: "power2.out"
+    })
+    .to(".masthead__title", {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "power3.out"
+    }, "-=0.2")
+    .to(".masthead .divider--thin", {
+      opacity: 1,
+      scaleX: 1,
+      duration: 0.6,
+      ease: "power2.out"
+    }, "-=0.5")
+    .to(".masthead__subtitle", {
+      opacity: 1,
+      duration: 0.8,
+      ease: "power2.out"
+    }, "-=0.3");
+
+  // -- Featured article --
+  const featuredTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".featured",
+      start: "top 80%",
+      once: true
+    }
+  });
+
+  featuredTl
+    .to(".featured__category", {
+      opacity: 1,
+      duration: 0.5,
+      ease: "power2.out"
+    })
+    .to(".featured__headline", {
+      opacity: 1,
+      y: 0,
+      duration: defaults.duration,
+      ease: defaults.ease
+    }, "-=0.2")
+    .to(".featured__excerpt", {
+      opacity: 1,
+      duration: 0.6,
+      ease: "power2.out"
+    }, "-=0.4")
+    .to(".featured__meta", {
+      opacity: 1,
+      duration: 0.5,
+      ease: "power2.out"
+    }, "-=0.3")
+    .to(".featured__cta", {
+      opacity: 1,
+      duration: 0.5,
+      ease: "power2.out"
+    }, "-=0.2");
+
+  // -- Story cards stagger --
+  gsap.utils.toArray(".stories-grid .story-card").forEach(function(card, i) {
+    gsap.to(card, {
+      scrollTrigger: {
+        trigger: card,
+        start: "top 88%",
+        once: true
+      },
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      delay: (i % 3) * 0.1,
+      ease: "power3.out"
+    });
+  });
+
+  // -- Newsletter --
+  const nlTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".newsletter",
+      start: "top 75%",
+      once: true
+    }
+  });
+
+  nlTl
+    .to(".newsletter__heading", {
+      opacity: 1,
+      y: 0,
+      duration: defaults.duration,
+      ease: defaults.ease
+    })
+    .to(".newsletter__sub", {
+      opacity: 1,
+      duration: 0.6
+    }, "-=0.4")
+    .to(".newsletter__form", {
+      opacity: 1,
+      duration: 0.6
+    }, "-=0.3")
+    .to(".newsletter__readers", {
+      opacity: 1,
+      duration: 0.5
+    }, "-=0.2");
+
+  // -- Sections --
+  gsap.utils.toArray(".sections-grid .section-col").forEach(function(col, i) {
+    gsap.to(col, {
+      scrollTrigger: {
+        trigger: col,
+        start: "top 85%",
+        once: true
+      },
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      delay: i * 0.12,
+      ease: "power3.out"
+    });
+  });
+
+  // -- Pull Quote --
+  const pqTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".pullquote",
+      start: "top 75%",
+      once: true
+    }
+  });
+
+  pqTl
+    .to(".pullquote__mark", {
+      opacity: 0.2,
+      duration: 0.6
+    })
+    .to(".pullquote__text", {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "power3.out"
+    }, "-=0.3")
+    .to(".pullquote__attr", {
+      opacity: 1,
+      duration: 0.6
+    }, "-=0.3");
+
+})();
+</script>
+
+</body>
+</html>

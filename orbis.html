@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orbis Capital — Precision at Scale</title>
+<meta name="description" content="Orbis Capital is a quantitative trading and investment firm. Systematic strategies. Institutional grade. Precision at scale.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--black:#050508;
+--emerald:#10b981;
+--dim-green:#064e3b;
+--gray:#9ca3af;
+--white:#e5e7eb;
+--mono:'IBM Plex Mono',monospace;
+--body:'Inter',sans-serif;
+--heading:'Space Grotesk',sans-serif;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+background:var(--black);
+color:var(--white);
+font-family:var(--body);
+font-weight:300;
+line-height:1.6;
+overflow-x:hidden;
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+}
+::selection{background:var(--dim-green);color:var(--white)}
+
+/* ---- NAV ---- */
+.nav{
+position:fixed;top:0;left:0;width:100%;z-index:100;
+padding:1.5rem 3rem;
+display:flex;justify-content:space-between;align-items:center;
+background:rgba(5,5,8,0.8);
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+border-bottom:1px solid rgba(255,255,255,0.04);
+transition:padding 0.3s ease;
+}
+.nav.scrolled{padding:1rem 3rem}
+.nav-logo{
+font-family:var(--heading);
+font-weight:600;
+font-size:1.1rem;
+letter-spacing:0.08em;
+text-transform:uppercase;
+color:var(--white);
+text-decoration:none;
+}
+.nav-logo span{color:var(--emerald)}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{
+font-family:var(--mono);
+font-size:0.7rem;
+font-weight:400;
+letter-spacing:0.12em;
+text-transform:uppercase;
+color:var(--gray);
+text-decoration:none;
+transition:color 0.3s ease;
+}
+.nav-links a:hover{color:var(--emerald)}
+.nav-mobile-toggle{display:none;background:none;border:none;cursor:pointer;padding:0.5rem}
+.nav-mobile-toggle span{display:block;width:20px;height:1px;background:var(--white);margin:5px 0;transition:all 0.3s ease}
+
+/* ---- GRID BACKGROUND ---- */
+.grid-bg{
+position:fixed;top:0;left:0;width:100%;height:100%;
+pointer-events:none;z-index:0;
+opacity:0.03;
+background-image:
+linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+background-size:60px 60px;
+}
+
+/* ---- SECTIONS ---- */
+section{position:relative;z-index:1}
+.container{
+max-width:1200px;
+margin:0 auto;
+padding:0 3rem;
+}
+.section-pad{padding:10rem 0}
+
+/* ---- HERO ---- */
+.hero{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+overflow:hidden;
+}
+.hero-content{
+text-align:center;
+position:relative;
+z-index:2;
+}
+.hero-tagline{
+font-family:var(--heading);
+font-weight:700;
+font-size:clamp(2.8rem, 7vw, 6.5rem);
+line-height:1.05;
+letter-spacing:-0.03em;
+color:var(--white);
+margin-bottom:1.5rem;
+}
+.hero-tagline .accent{color:var(--emerald)}
+.hero-sub{
+font-family:var(--mono);
+font-size:clamp(0.7rem, 1.2vw, 0.85rem);
+font-weight:400;
+letter-spacing:0.15em;
+text-transform:uppercase;
+color:var(--gray);
+margin-bottom:3rem;
+}
+.hero-line{
+width:40px;height:1px;
+background:var(--emerald);
+margin:0 auto;
+}
+.hero-scroll-hint{
+position:absolute;
+bottom:3rem;
+left:50%;
+transform:translateX(-50%);
+font-family:var(--mono);
+font-size:0.65rem;
+letter-spacing:0.15em;
+text-transform:uppercase;
+color:rgba(156,163,175,0.4);
+}
+.hero-scroll-hint::after{
+content:'';
+display:block;
+width:1px;height:30px;
+background:linear-gradient(to bottom,rgba(16,185,129,0.4),transparent);
+margin:0.8rem auto 0;
+}
+
+/* Ticker grid */
+.ticker-grid{
+position:absolute;
+top:0;left:0;width:100%;height:100%;
+z-index:0;
+display:grid;
+grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
+grid-template-rows:repeat(auto-fill, minmax(50px, 1fr));
+gap:0;
+opacity:0.06;
+overflow:hidden;
+}
+.ticker-cell{
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:var(--mono);
+font-size:0.72rem;
+font-weight:400;
+color:var(--emerald);
+opacity:0;
+animation:tickerPulse 6s ease-in-out infinite;
+}
+.ticker-cell.negative{color:#ef4444}
+@keyframes tickerPulse{
+0%,100%{opacity:0}
+30%,70%{opacity:1}
+}
+
+/* ---- ABOUT ---- */
+.about{border-top:1px solid rgba(255,255,255,0.04)}
+.about-label{
+font-family:var(--mono);
+font-size:0.7rem;
+font-weight:500;
+letter-spacing:0.2em;
+text-transform:uppercase;
+color:var(--emerald);
+margin-bottom:2rem;
+}
+.about-heading{
+font-family:var(--heading);
+font-weight:600;
+font-size:clamp(1.8rem, 3.5vw, 2.8rem);
+line-height:1.2;
+letter-spacing:-0.02em;
+color:var(--white);
+margin-bottom:2.5rem;
+max-width:700px;
+}
+.about-text{
+color:var(--gray);
+font-size:0.95rem;
+line-height:1.8;
+max-width:620px;
+}
+.about-text p+p{margin-top:1.2rem}
+
+/* ---- PERFORMANCE ---- */
+.performance{border-top:1px solid rgba(255,255,255,0.04)}
+.perf-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:2rem;
+}
+.perf-card{
+padding:3rem 2rem;
+border:1px solid rgba(255,255,255,0.06);
+border-radius:2px;
+background:rgba(255,255,255,0.01);
+transition:border-color 0.4s ease, background 0.4s ease;
+}
+.perf-card:hover{
+border-color:rgba(16,185,129,0.2);
+background:rgba(16,185,129,0.02);
+}
+.perf-number{
+font-family:var(--mono);
+font-weight:600;
+font-size:clamp(2.2rem, 4vw, 3.5rem);
+color:var(--emerald);
+margin-bottom:0.5rem;
+letter-spacing:-0.02em;
+}
+.perf-number .suffix{
+font-size:0.6em;
+font-weight:400;
+color:var(--emerald);
+opacity:0.7;
+}
+.perf-label{
+font-family:var(--mono);
+font-size:0.7rem;
+font-weight:400;
+letter-spacing:0.15em;
+text-transform:uppercase;
+color:var(--gray);
+}
+.perf-sub{
+font-size:0.78rem;
+color:rgba(156,163,175,0.5);
+margin-top:0.6rem;
+font-family:var(--mono);
+font-weight:300;
+}
+
+/* ---- APPROACH ---- */
+.approach{border-top:1px solid rgba(255,255,255,0.04)}
+.approach-header{margin-bottom:5rem}
+.approach-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:1px;
+background:rgba(255,255,255,0.04);
+}
+.approach-col{
+background:var(--black);
+padding:3rem;
+}
+.approach-num{
+font-family:var(--mono);
+font-size:0.7rem;
+font-weight:400;
+color:var(--emerald);
+margin-bottom:1.5rem;
+opacity:0.6;
+}
+.approach-title{
+font-family:var(--heading);
+font-weight:600;
+font-size:1.3rem;
+color:var(--white);
+margin-bottom:1.2rem;
+letter-spacing:-0.01em;
+}
+.approach-desc{
+color:var(--gray);
+font-size:0.88rem;
+line-height:1.75;
+}
+
+/* ---- TEAM ---- */
+.team{border-top:1px solid rgba(255,255,255,0.04)}
+.team-content{max-width:700px}
+.team-heading{
+font-family:var(--heading);
+font-weight:600;
+font-size:clamp(1.6rem, 3vw, 2.4rem);
+line-height:1.2;
+letter-spacing:-0.02em;
+color:var(--white);
+margin-bottom:2rem;
+}
+.team-text{
+color:var(--gray);
+font-size:0.95rem;
+line-height:1.8;
+margin-bottom:1.5rem;
+}
+.team-credentials{
+font-family:var(--mono);
+font-size:0.78rem;
+line-height:2;
+color:var(--gray);
+padding-left:1rem;
+border-left:1px solid rgba(16,185,129,0.3);
+}
+.team-credentials span{
+display:block;
+}
+.team-credentials .em{color:var(--white);font-weight:500}
+
+/* ---- CONTACT ---- */
+.contact{
+border-top:1px solid rgba(255,255,255,0.04);
+text-align:center;
+}
+.contact-label{
+font-family:var(--mono);
+font-size:0.7rem;
+font-weight:500;
+letter-spacing:0.2em;
+text-transform:uppercase;
+color:var(--emerald);
+margin-bottom:2rem;
+}
+.contact-heading{
+font-family:var(--heading);
+font-weight:600;
+font-size:clamp(1.6rem, 3vw, 2.4rem);
+color:var(--white);
+margin-bottom:1rem;
+}
+.contact-note{
+font-size:0.85rem;
+color:var(--gray);
+margin-bottom:2.5rem;
+}
+.contact-email{
+font-family:var(--mono);
+font-size:clamp(0.85rem, 1.5vw, 1.1rem);
+font-weight:400;
+color:var(--emerald);
+text-decoration:none;
+letter-spacing:0.02em;
+padding:1rem 2.5rem;
+border:1px solid rgba(16,185,129,0.3);
+border-radius:2px;
+display:inline-block;
+transition:all 0.3s ease;
+}
+.contact-email:hover{
+background:rgba(16,185,129,0.08);
+border-color:var(--emerald);
+}
+
+/* ---- FOOTER ---- */
+.footer{
+border-top:1px solid rgba(255,255,255,0.04);
+padding:3rem;
+text-align:center;
+}
+.footer-copy{
+font-family:var(--mono);
+font-size:0.68rem;
+color:rgba(156,163,175,0.4);
+letter-spacing:0.05em;
+margin-bottom:0.8rem;
+}
+.footer-disclaimer{
+font-size:0.62rem;
+color:rgba(156,163,175,0.25);
+max-width:700px;
+margin:0 auto;
+line-height:1.7;
+}
+
+/* ---- ANIMATIONS ---- */
+.reveal{
+opacity:0;
+transform:translateY(20px);
+transition:opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+}
+
+/* ---- RESPONSIVE ---- */
+@media(max-width:1024px){
+.perf-grid{grid-template-columns:1fr}
+.approach-grid{grid-template-columns:1fr;gap:0;background:none}
+.approach-col{border-bottom:1px solid rgba(255,255,255,0.04)}
+.approach-col:last-child{border-bottom:none}
+.container{padding:0 2rem}
+.nav{padding:1.2rem 2rem}
+.section-pad{padding:7rem 0}
+}
+@media(max-width:768px){
+.nav-links{
+position:fixed;top:0;right:-100%;width:70%;max-width:300px;height:100vh;
+background:rgba(5,5,8,0.97);
+backdrop-filter:blur(20px);
+flex-direction:column;
+justify-content:center;
+padding:2rem;
+gap:2rem;
+transition:right 0.4s ease;
+border-left:1px solid rgba(255,255,255,0.04);
+}
+.nav-links.open{right:0}
+.nav-links a{font-size:0.85rem}
+.nav-mobile-toggle{display:block}
+.container{padding:0 1.5rem}
+.section-pad{padding:5rem 0}
+.perf-card{padding:2rem 1.5rem}
+.approach-col{padding:2rem 1.5rem}
+}
+
+/* ---- REDUCED MOTION ---- */
+@media(prefers-reduced-motion:reduce){
+*,*::before,*::after{
+animation-duration:0.01ms !important;
+animation-iteration-count:1 !important;
+transition-duration:0.01ms !important;
+}
+.ticker-cell{opacity:0.5;animation:none}
+.reveal{opacity:1;transform:none}
+html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+<a href="#" class="nav-logo">Orbis<span>.</span></a>
+<div class="nav-links" id="navLinks">
+<a href="#about">About</a>
+<a href="#performance">Performance</a>
+<a href="#approach">Approach</a>
+<a href="#contact">Contact</a>
+</div>
+<button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle navigation">
+<span></span><span></span><span></span>
+</button>
+</nav>
+
+<!-- GRID BG -->
+<div class="grid-bg"></div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+<div class="ticker-grid" id="tickerGrid"></div>
+<div class="hero-content">
+<p class="hero-sub">Quantitative Trading &amp; Investment</p>
+<h1 class="hero-tagline">Precision<br>at <span class="accent">scale.</span></h1>
+<div class="hero-line"></div>
+</div>
+<div class="hero-scroll-hint">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section class="about section-pad" id="about">
+<div class="container">
+<p class="about-label reveal">001 / About</p>
+<h2 class="about-heading reveal">We build algorithms that find alpha in noise.</h2>
+<div class="about-text reveal">
+<p>Orbis Capital deploys systematic, research-driven strategies across global equity, fixed income, and derivatives markets. Our models process terabytes of structured and alternative data daily, identifying statistical edges invisible to conventional analysis.</p>
+<p>We do not speculate. We do not follow narratives. Every position is the output of rigorous quantitative research, tested against decades of market data and stress-tested across regimes. Our edge is not a single insight -- it is a compounding architecture of thousands of small, uncorrelated advantages.</p>
+</div>
+</div>
+</section>
+
+<!-- PERFORMANCE -->
+<section class="performance section-pad" id="performance">
+<div class="container">
+<p class="about-label reveal">002 / Performance</p>
+<div class="perf-grid">
+<div class="perf-card reveal">
+<div class="perf-number"><span class="counter" data-target="18.4" data-decimals="1">0.0</span><span class="suffix">%</span></div>
+<div class="perf-label">Annualized Return</div>
+<div class="perf-sub">Net of fees, since inception</div>
+</div>
+<div class="perf-card reveal">
+<div class="perf-number"><span class="suffix">$</span><span class="counter" data-target="12.8" data-decimals="1">0.0</span><span class="suffix">B</span></div>
+<div class="perf-label">Assets Under Management</div>
+<div class="perf-sub">As of Q1 2026</div>
+</div>
+<div class="perf-card reveal">
+<div class="perf-number"><span class="counter" data-target="340" data-decimals="0">0</span><span class="suffix">+</span></div>
+<div class="perf-label">Signals Monitored</div>
+<div class="perf-sub">Across 47 markets</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- APPROACH -->
+<section class="approach section-pad" id="approach">
+<div class="container">
+<div class="approach-header">
+<p class="about-label reveal">003 / Approach</p>
+<h2 class="about-heading reveal">Three pillars.<br>No shortcuts.</h2>
+</div>
+<div class="approach-grid">
+<div class="approach-col reveal">
+<div class="approach-num">01</div>
+<h3 class="approach-title">Research</h3>
+<p class="approach-desc">Our research team operates at the intersection of statistical physics, machine learning, and market microstructure. Every hypothesis is formalized, backtested across multiple regimes, and subjected to rigorous out-of-sample validation before capital allocation. We publish internally at the rate of a top research lab.</p>
+</div>
+<div class="approach-col reveal">
+<div class="approach-num">02</div>
+<h3 class="approach-title">Execution</h3>
+<p class="approach-desc">Latency-optimized infrastructure spanning co-located servers in NY4, LD4, and TY3. Our execution algorithms minimize market impact through intelligent order routing, adaptive scheduling, and real-time transaction cost analysis. Every microsecond is accounted for. Every basis point of slippage is measured.</p>
+</div>
+<div class="approach-col reveal">
+<div class="approach-num">03</div>
+<h3 class="approach-title">Risk Management</h3>
+<p class="approach-desc">Risk is not a department. It is the architecture. Position-level, strategy-level, and portfolio-level risk controls operate continuously, with automated circuit breakers calibrated to tail scenarios derived from 90+ years of market data. We size for survival first, returns second.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- TEAM -->
+<section class="team section-pad" id="team">
+<div class="container">
+<p class="about-label reveal">004 / Team</p>
+<div class="team-content">
+<h2 class="team-heading reveal">Founded by engineers and mathematicians.</h2>
+<p class="team-text reveal">Orbis Capital was built by people who understand that markets are complex adaptive systems, not stories. Our founders and senior researchers come from the most demanding quantitative environments in the world, united by a conviction that disciplined, systematic approaches compound where discretionary intuition decays.</p>
+<div class="team-credentials reveal">
+<span><span class="em">Education</span> -- PhDs from MIT, Stanford, CMU, Princeton, ETH Zurich</span>
+<span><span class="em">Research</span> -- 60+ published papers in statistical learning and stochastic processes</span>
+<span><span class="em">Industry</span> -- Previously at Citadel, Two Sigma, DE Shaw, Renaissance, Jane Street</span>
+<span><span class="em">Infrastructure</span> -- Former systems architects at Google, Meta, and Bloomberg</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact section-pad" id="contact">
+<div class="container">
+<p class="contact-label reveal">005 / Contact</p>
+<h2 class="contact-heading reveal">Institutional inquiries only.</h2>
+<p class="contact-note reveal">We do not accept retail capital. Minimum allocation: $50M.</p>
+<a href="mailto:ir@orbiscapital.com" class="contact-email reveal">ir@orbiscapital.com</a>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<p class="footer-copy">&copy; 2026 Orbis Capital. All rights reserved.</p>
+<p class="footer-disclaimer">This website does not constitute an offer to sell or a solicitation of an offer to buy any securities. Past performance is not indicative of future results. All investments involve risk, including loss of principal. Orbis Capital Management LLC is a registered investment adviser. Registration does not imply a certain level of skill or training.</p>
+</footer>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+(function(){
+"use strict";
+
+// ---- TICKER GRID ----
+const tickerData = [
+"+2.41%","-0.87%","$184.2B","+1.12%","0.034","$7.9T","-1.34%","+0.52%",
+"$42.6B","+3.18%","-0.21%","$1.2T","+0.08%","$290.4B","-2.73%","+1.87%",
+"$63.1B","+0.44%","-0.09%","$18.7B","+4.21%","$512.8M","-1.06%","+0.73%",
+"$2.4T","+1.95%","-0.38%","$88.3B","+0.16%","$4.7T","-3.12%","+2.64%",
+"$156.9B","+0.91%","-0.55%","$31.2B","+1.47%","$729.1M","-0.14%","+3.82%",
+"$9.1T","+0.27%","-1.88%","$445.6B","+2.09%","$67.4B","-0.63%","+1.31%",
+"0.892","+0.04%","$11.3B","-2.15%","+1.76%","$384.0B","+0.58%","$5.6T",
+"-0.47%","+3.44%","$203.7B","+0.12%","-1.59%","$78.2B","+2.88%","$1.8T"
+];
+
+const grid = document.getElementById("tickerGrid");
+const cellCount = 120;
+for(let i = 0; i < cellCount; i++){
+const cell = document.createElement("span");
+cell.className = "ticker-cell";
+const val = tickerData[i % tickerData.length];
+cell.textContent = val;
+if(val.startsWith("-")) cell.classList.add("negative");
+cell.style.animationDelay = (Math.random() * 8).toFixed(2) + "s";
+cell.style.animationDuration = (4 + Math.random() * 6).toFixed(2) + "s";
+grid.appendChild(cell);
+}
+
+// ---- NAV SCROLL ----
+const nav = document.getElementById("nav");
+let lastScroll = 0;
+window.addEventListener("scroll", function(){
+const y = window.scrollY;
+if(y > 80) nav.classList.add("scrolled");
+else nav.classList.remove("scrolled");
+lastScroll = y;
+}, {passive:true});
+
+// ---- MOBILE NAV ----
+const navToggle = document.getElementById("navToggle");
+const navLinks = document.getElementById("navLinks");
+navToggle.addEventListener("click", function(){
+navLinks.classList.toggle("open");
+});
+navLinks.querySelectorAll("a").forEach(function(a){
+a.addEventListener("click", function(){
+navLinks.classList.remove("open");
+});
+});
+
+// ---- CHECK REDUCED MOTION ----
+const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// ---- GSAP SETUP ----
+gsap.registerPlugin(ScrollTrigger);
+
+if(!prefersReduced && window.self === window.top){
+
+// Reveal animations
+document.querySelectorAll(".reveal").forEach(function(el){
+gsap.fromTo(el,
+{opacity:0, y:24},
+{
+opacity:1, y:0,
+duration:0.9,
+ease:"power3.out",
+scrollTrigger:{
+trigger:el,
+start:"top 88%",
+once:true,
+}
+}
+);
+});
+
+// Hero entrance
+gsap.fromTo(".hero-sub",
+{opacity:0, y:12},
+{opacity:1, y:0, duration:1, delay:0.3, ease:"power3.out"}
+);
+gsap.fromTo(".hero-tagline",
+{opacity:0, y:30},
+{opacity:1, y:0, duration:1.2, delay:0.5, ease:"power3.out"}
+);
+gsap.fromTo(".hero-line",
+{scaleX:0},
+{scaleX:1, duration:0.8, delay:1.2, ease:"power2.out"}
+);
+gsap.fromTo(".hero-scroll-hint",
+{opacity:0},
+{opacity:1, duration:1, delay:2, ease:"power2.out"}
+);
+
+// Counter animation
+document.querySelectorAll(".counter").forEach(function(counter){
+const target = parseFloat(counter.dataset.target);
+const decimals = parseInt(counter.dataset.decimals) || 0;
+const obj = {val:0};
+
+ScrollTrigger.create({
+trigger:counter,
+start:"top 85%",
+once:true,
+onEnter:function(){
+gsap.to(obj, {
+val:target,
+duration:2,
+ease:"power2.out",
+onUpdate:function(){
+counter.textContent = obj.val.toFixed(decimals);
+}
+});
+}
+});
+});
+
+// Approach columns stagger
+gsap.fromTo(".approach-col",
+{opacity:0, y:30},
+{
+opacity:1, y:0,
+duration:0.8,
+stagger:0.15,
+ease:"power3.out",
+scrollTrigger:{
+trigger:".approach-grid",
+start:"top 80%",
+once:true,
+}
+}
+);
+
+// Performance cards stagger
+gsap.fromTo(".perf-card",
+{opacity:0, y:30},
+{
+opacity:1, y:0,
+duration:0.8,
+stagger:0.12,
+ease:"power3.out",
+scrollTrigger:{
+trigger:".perf-grid",
+start:"top 82%",
+once:true,
+}
+}
+);
+
+} else {
+// Reduced motion -- just show everything
+document.querySelectorAll(".reveal").forEach(function(el){
+el.classList.add("active");
+});
+document.querySelectorAll(".counter").forEach(function(counter){
+counter.textContent = counter.dataset.target;
+});
+}
+
+})();
+</script>
+
+</body>
+</html>
