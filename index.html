@@ -1483,6 +1483,8 @@
   <script>
   (function(){
     'use strict';
+    window.history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
     const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
     const touch = matchMedia('(pointer:coarse)').matches;
 
