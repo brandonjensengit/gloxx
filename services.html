@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services — Gloxx</title>
+  <meta name="description" content="Four productized QA engagements for blockchain teams: QA Readiness Audit ($8k), Test Suite Rebuild ($18–35k), Fractional QA Leadership ($4–8k/mo), and Pre-Upgrade War Room ($12k). Each starts with the Audit.">
+
+  <link rel="canonical" href="https://brandonjensengit.github.io/gloxx/services.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Services — Gloxx">
+  <meta property="og:description" content="Four productized QA engagements for blockchain protocols and crypto-native fintech teams.">
+  <meta property="og:url" content="https://brandonjensengit.github.io/gloxx/services.html">
+  <meta property="og:image" content="/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Services — Gloxx">
+  <meta name="twitter:description" content="Four productized QA engagements for blockchain teams.">
+  <meta name="twitter:image" content="/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08080a;
+      --bg-2: #0f0f12;
+      --bg-3: #141418;
+      --text: #ededed;
+      --text-2: #898989;
+      --text-3: #555;
+      --accent-1: #7cf9b5;
+      --accent-2: #3ed8c1;
+      --accent-3: #6366f1;
+      --border: rgba(255,255,255,0.07);
+      --surface: rgba(255,255,255,0.03);
+      --heading: 'Space Grotesk', -apple-system, sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+
+      --gloxx-bg: var(--bg);
+      --gloxx-fg: var(--text);
+      --gloxx-muted: var(--text-2);
+      --gloxx-border: var(--border);
+      --gloxx-accent: #7cf9b5;
+      --gloxx-accent-ink: #0b0d10;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--gloxx-accent); color: var(--gloxx-accent-ink); }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 5rem;
+      scrollbar-width: thin;
+      scrollbar-color: #333 var(--bg);
+      overflow-x: hidden;
+    }
+    html::-webkit-scrollbar { width: 5px; }
+    html::-webkit-scrollbar-track { background: var(--bg); }
+    html::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+    body {
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--text-2);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { border: none; background: none; font-family: inherit; cursor: pointer; }
+
+    :focus-visible {
+      outline: 2px solid var(--gloxx-accent);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ═══════════ GRAIN OVERLAY ═══════════ */
+    .grain {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 9000;
+      isolation: isolate; mix-blend-mode: overlay;
+    }
+    .grain svg { width: 100%; height: 100%; }
+
+    /* ═══════════ NAV ═══════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      z-index: 8000;
+      background: rgba(8,8,10,.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--heading);
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      color: var(--text);
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a {
+      font-family: var(--heading);
+      font-size: .9rem;
+      color: var(--text-2);
+      transition: color .2s;
+    }
+    .nav-links a:hover,
+    .nav-links a[aria-current="page"] { color: var(--text); }
+    .nav-links a[aria-current="page"] {
+      border-bottom: 1px solid var(--gloxx-accent);
+      padding-bottom: 2px;
+    }
+    .nav-cta-link {
+      background: var(--gloxx-accent);
+      color: var(--gloxx-accent-ink) !important;
+      padding: .55rem 1.1rem;
+      border-radius: 999px;
+      font-weight: 500;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .nav-cta-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(124,249,181,.18);
+    }
+    .nav-ham {
+      display: none;
+      width: 28px; height: 20px;
+      position: relative;
+    }
+    .nav-ham span {
+      position: absolute; left: 0; right: 0;
+      height: 2px; background: var(--text);
+      transition: transform .3s, opacity .3s;
+    }
+    .nav-ham span:nth-child(1) { top: 0; }
+    .nav-ham span:nth-child(2) { top: 9px; }
+    .nav-ham span:nth-child(3) { top: 18px; }
+
+    /* ═══════════ PAGE LAYOUT ═══════════ */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
+    .section { padding: 7rem 0; position: relative; }
+    .section-label {
+      font-family: var(--heading);
+      font-size: .72rem;
+      letter-spacing: .25em;
+      color: var(--gloxx-accent);
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 1.25rem;
+    }
+    .section-title {
+      font-family: var(--heading);
+      font-size: clamp(2rem, 4.5vw, 3.25rem);
+      font-weight: 500;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      max-width: 20ch;
+    }
+    .section-lead {
+      font-size: 1.05rem;
+      color: var(--text-2);
+      max-width: 60ch;
+      line-height: 1.65;
+    }
+
+    /* ═══════════ SERVICES HERO ═══════════ */
+    .svc-hero { padding: 10rem 0 4rem; }
+    .svc-hero h1 {
+      font-family: var(--heading);
+      font-size: clamp(2.25rem, 5vw, 3.75rem);
+      font-weight: 500;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      max-width: 18ch;
+    }
+    .svc-hero .svc-hero-sub {
+      font-size: 1.15rem;
+      color: var(--text-2);
+      max-width: 55ch;
+      line-height: 1.6;
+    }
+    .svc-lead-rule {
+      border-left: 2px solid var(--gloxx-accent);
+      padding-left: 1.25rem;
+      margin-top: 2.5rem;
+      font-family: var(--heading);
+      font-size: 1rem;
+      color: var(--text);
+      max-width: 60ch;
+      line-height: 1.55;
+    }
+
+    /* ═══════════ TIER CARDS ═══════════ */
+    .tier-list {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .service-card {
+      padding: 2.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: border-color .3s, transform .3s, background .3s;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .service-card:hover {
+      border-color: var(--gloxx-accent);
+      background: rgba(124, 249, 181, .025);
+    }
+    .service-card .sc-num {
+      font-family: var(--heading);
+      font-size: 3.25rem;
+      font-weight: 300;
+      color: var(--gloxx-accent);
+      line-height: 1;
+    }
+    .service-card .sc-meta {
+      display: inline-block;
+      font-family: var(--heading);
+      font-size: .72rem;
+      letter-spacing: .15em;
+      color: var(--gloxx-accent);
+      text-transform: uppercase;
+      margin-top: 1rem;
+      margin-bottom: .75rem;
+    }
+    .service-card h2 {
+      font-family: var(--heading);
+      font-size: 1.65rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: .75rem;
+    }
+    .service-card p.sc-desc {
+      color: var(--text-2);
+      line-height: 1.65;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .service-card .sc-scope {
+      margin-top: .5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    .service-card .sc-scope-label {
+      font-family: var(--heading);
+      font-size: .72rem;
+      letter-spacing: .15em;
+      color: var(--text-3);
+      text-transform: uppercase;
+      margin-bottom: .75rem;
+    }
+    .service-card .sc-scope ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .5rem 1.5rem;
+    }
+    .service-card .sc-scope li {
+      color: var(--text-2);
+      font-size: .92rem;
+      line-height: 1.5;
+      padding-left: 1.1rem;
+      position: relative;
+    }
+    .service-card .sc-scope li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--gloxx-accent);
+    }
+
+    .sentinel-card {
+      margin-top: 2rem;
+      padding: 2rem 2.5rem;
+      border: 1px dashed var(--gloxx-accent);
+      border-radius: 12px;
+      background: rgba(124, 249, 181, .02);
+      display: flex;
+      align-items: flex-start;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .sentinel-card .sent-label {
+      font-family: var(--heading);
+      font-size: .72rem;
+      letter-spacing: .2em;
+      color: var(--gloxx-accent);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .sentinel-card .sent-body h3 {
+      font-family: var(--heading);
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: .5rem;
+    }
+    .sentinel-card .sent-body p {
+      color: var(--text-2);
+      font-size: .95rem;
+      line-height: 1.6;
+    }
+
+    /* ═══════════ CTA SECTION ═══════════ */
+    .cta-section {
+      text-align: center;
+      padding: 8rem 0;
+      border-top: 1px solid var(--border);
+      margin-top: 6rem;
+    }
+    .cta-section h2 {
+      font-family: var(--heading);
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+    .cta-section .cta-btn {
+      display: inline-block;
+      background: var(--gloxx-accent);
+      color: var(--gloxx-accent-ink);
+      padding: .9rem 1.75rem;
+      font-family: var(--heading);
+      font-weight: 500;
+      border-radius: 999px;
+      margin-top: 1.5rem;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cta-section .cta-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(124,249,181,.2);
+    }
+
+    /* ═══════════ FOOTER ═══════════ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .footer-copy {
+      color: var(--text-3);
+      font-size: .85rem;
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      color: var(--text-2);
+      font-size: .85rem;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--gloxx-accent); }
+    .footer-tag {
+      color: var(--text-3);
+      font-family: var(--heading);
+      font-size: .85rem;
+      letter-spacing: .02em;
+    }
+
+    /* ═══════════ RESPONSIVE ═══════════ */
+    @media (max-width: 900px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-ham { display: block; }
+      .container { padding: 0 1.5rem; }
+      .section { padding: 5rem 0; }
+      .service-card { grid-template-columns: 1fr; gap: 1.5rem; padding: 2rem 1.5rem; }
+      .service-card .sc-scope ul { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .svc-hero { padding: 7rem 0 2rem; }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Grain overlay -->
+  <div class="grain" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/></filter>
+      <rect width="100%" height="100%" filter="url(#g)" opacity=".018"/>
+    </svg>
+  </div>
+
+  <!-- Nav -->
+  <header class="nav">
+    <a href="index.html" class="nav-logo">GLOXX</a>
+    <div class="nav-links">
+      <a href="services.html" aria-current="page">Services</a>
+      <a href="approach.html">Approach</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="contact.html" class="nav-cta-link">Book a call</a>
+    </div>
+    <button class="nav-ham" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Hero -->
+  <section class="svc-hero">
+    <div class="container">
+      <span class="section-label">Services</span>
+      <h1>Four productized engagements. Every one starts with the Audit.</h1>
+      <p class="svc-hero-sub">We don't sell "consulting." We sell named offers with fixed deliverables and transparent pricing. Every new client starts with the two-week QA Readiness Audit — it's a paid diagnostic, not a sales call. From there, we agree on whatever comes next.</p>
+
+      <div class="svc-lead-rule">
+        "Every engagement starts with the QA Readiness Audit. It's a two-week paid diagnostic, not a sales call. From there, we agree on whatever comes next."
+      </div>
+    </div>
+  </section>
+
+  <!-- Tier cards -->
+  <section class="section" style="padding-top: 2rem;">
+    <div class="container">
+      <div class="tier-list">
+
+        <!-- Tier 1 -->
+        <article class="service-card">
+          <div><span class="sc-num">01</span></div>
+          <div>
+            <span class="sc-meta">2 weeks · $8,000</span>
+            <h2>QA Readiness Audit</h2>
+            <p class="sc-desc">The funnel-opener. A deep two-week diagnostic of your test coverage, tooling, and risk surface. You walk away with a written ~30-page roadmap you own — not a PDF of generic recommendations. Every retainer and rebuild starts here.</p>
+            <div class="sc-scope">
+              <div class="sc-scope-label">Typical scope</div>
+              <ul>
+                <li>Inventory of current test coverage (unit / integration / fork / invariant / fuzz)</li>
+                <li>Static analysis sweep (Slither, Mythril, Aderyn) with findings triaged</li>
+                <li>AI-assisted test gap analysis for your codebase</li>
+                <li>90-day QA roadmap with prioritized milestones</li>
+                <li>Tooling recommendations (Foundry / Hardhat / Halmos / Echidna + Claude Code)</li>
+                <li>Written report + 90-min findings review call + 30 days of async follow-up</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tier 2 -->
+        <article class="service-card">
+          <div><span class="sc-num">02</span></div>
+          <div>
+            <span class="sc-meta">4–6 weeks · $18,000–$35,000</span>
+            <h2>Test Suite Rebuild</h2>
+            <p class="sc-desc">We ship the regression, invariant, and fuzz tests your protocol should already have. Hybrid human-plus-agent authoring: Claude Code drafts candidates from your specs, our judgment decides what matters, humans author the invariants that protect money.</p>
+            <div class="sc-scope">
+              <div class="sc-scope-label">Typical scope</div>
+              <ul>
+                <li>Foundry invariant suite targeting protocol-level properties</li>
+                <li>Fork tests against the relevant mainnet/testnet state</li>
+                <li>Echidna / Halmos fuzz + symbolic execution configs</li>
+                <li>CI pipeline integration (GitHub Actions or equivalent)</li>
+                <li>Developer handoff doc + pairing sessions</li>
+                <li>30 days of post-delivery support on the suite we shipped</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tier 3 -->
+        <article class="service-card">
+          <div><span class="sc-num">03</span></div>
+          <div>
+            <span class="sc-meta">Ongoing · $4,000–$8,000 / month · 10–20 hrs/wk</span>
+            <h2>Fractional QA Leadership</h2>
+            <p class="sc-desc">We become your part-time head of QA. Weekly reviews, release gates, engineer enablement — without a $250k salary. This is the bread-and-butter retainer: the institutional memory your team keeps even after the engagement ends.</p>
+            <div class="sc-scope">
+              <div class="sc-scope-label">Typical scope</div>
+              <ul>
+                <li>Weekly QA review meeting</li>
+                <li>Maintain and extend the test suite</li>
+                <li>Gate releases against the Gloxx QA checklist</li>
+                <li>Train engineers on AI-assisted test authoring</li>
+                <li>Monthly written QA report to your leadership</li>
+                <li>First-response point for incidents affecting test confidence</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tier 4 -->
+        <article class="service-card">
+          <div><span class="sc-num">04</span></div>
+          <div>
+            <span class="sc-meta">2 weeks · $12,000 flat</span>
+            <h2>Pre-Upgrade War Room</h2>
+            <p class="sc-desc">Time-boxed, intense engagement around a major contract upgrade or protocol migration. High urgency, high price, clear scope. For teams with a hard date and a lot to lose.</p>
+            <div class="sc-scope">
+              <div class="sc-scope-label">Typical scope</div>
+              <ul>
+                <li>Migration-path regression suite (old state → new state invariants)</li>
+                <li>Storage-layout diff audit + slot collision checks</li>
+                <li>Fork test suite against live mainnet fork of the target block</li>
+                <li>Go/no-go checklist for deploy day</li>
+                <li>On-call presence during the upgrade window</li>
+                <li>48-hour post-deploy monitoring window</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Sentinel teaser -->
+        <div class="sentinel-card">
+          <span class="sent-label">Q3 2026 · From $1,500/mo</span>
+          <div class="sent-body">
+            <h3>Gloxx Sentinel (in soft-launch)</h3>
+            <p>Continuous fuzz + invariant testing run by agents against your deployed contracts, with monthly written reports and signed human review. Implemented as per-client <a href="approach.html" style="color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent);">Claude Code Routines</a>. Currently available as a bolt-on to existing Fractional QA Leadership retainers only — not sold standalone.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Not sure which fits?<br>Book a free 30-minute assessment.</h2>
+      <p style="color: var(--text-2); max-width: 48ch; margin: 0 auto;">We'll talk through what you're shipping, what your current QA looks like, and whether the Audit is the right first step. No pitch, no slides, no pressure.</p>
+      <a href="contact.html" class="cta-btn">Book the call →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <span class="footer-copy">&copy; 2026 Gloxx</span>
+      <div class="footer-links">
+        <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
+        <a href="index.html">Home</a>
+      </div>
+      <span class="footer-tag">Wisdom engineered.</span>
+    </div>
+  </footer>
+
+</body>
+</html>

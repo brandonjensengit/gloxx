@@ -1,0 +1,102 @@
+import { test, expect } from '@playwright/test';
+
+// ═══════════════════════════════════════
+// SERVICES PAGE — services.html
+// ═══════════════════════════════════════
+
+test.describe('Services Page', () => {
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/services.html');
+    await page.waitForLoadState('networkidle');
+  });
+
+  test('loads with correct title', async ({ page }) => {
+    await expect(page).toHaveTitle(/Services.*Gloxx/);
+  });
+
+  test('has no console errors', async ({ page }) => {
+    const errors = [];
+    page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()); });
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+    expect(errors).toHaveLength(0);
+  });
+
+  test('hero H1 positions service tiers', async ({ page }) => {
+    await expect(page.locator('.svc-hero h1')).toContainText('Four productized engagements');
+  });
+
+  test('lead-rule quote frames the Audit as entry point', async ({ page }) => {
+    await expect(page.locator('.svc-lead-rule')).toContainText('Every engagement starts with the QA Readiness Audit');
+  });
+
+  test('has exactly 4 service tier cards', async ({ page }) => {
+    await expect(page.locator('.service-card')).toHaveCount(4);
+  });
+
+  test('tier 1 is the QA Readiness Audit at $8k', async ({ page }) => {
+    const card = page.locator('.service-card').nth(0);
+    await expect(card.locator('h2')).toContainText('QA Readiness Audit');
+    await expect(card.locator('.sc-meta')).toContainText('$8,000');
+  });
+
+  test('tier 2 is Test Suite Rebuild', async ({ page }) => {
+    const card = page.locator('.service-card').nth(1);
+    await expect(card.locator('h2')).toContainText('Test Suite Rebuild');
+    await expect(card.locator('.sc-meta')).toContainText('$18,000');
+  });
+
+  test('tier 3 is Fractional QA Leadership', async ({ page }) => {
+    const card = page.locator('.service-card').nth(2);
+    await expect(card.locator('h2')).toContainText('Fractional QA Leadership');
+  });
+
+  test('tier 4 is Pre-Upgrade War Room', async ({ page }) => {
+    const card = page.locator('.service-card').nth(3);
+    await expect(card.locator('h2')).toContainText('Pre-Upgrade War Room');
+    await expect(card.locator('.sc-meta')).toContainText('$12,000');
+  });
+
+  test('Sentinel card is a bolt-on teaser', async ({ page }) => {
+    const sentinel = page.locator('.sentinel-card');
+    await expect(sentinel).toBeVisible();
+    await expect(sentinel).toContainText('Sentinel');
+    await expect(sentinel).toContainText('Q3 2026');
+  });
+
+  test('every tier card exposes a scope list', async ({ page }) => {
+    const cards = page.locator('.service-card');
+    const count = await cards.count();
+    for (let i = 0; i < count; i++) {
+      const items = cards.nth(i).locator('.sc-scope li');
+      expect(await items.count()).toBeGreaterThan(0);
+    }
+  });
+
+  test('CTA at bottom links to contact.html', async ({ page }) => {
+    const cta = page.locator('.cta-section .cta-btn');
+    await expect(cta).toBeVisible();
+    await expect(cta).toHaveAttribute('href', 'contact.html');
+  });
+
+  test('nav services link has aria-current', async ({ page }) => {
+    const activeLink = page.locator('.nav-links a[aria-current="page"]');
+    await expect(activeLink).toHaveText('Services');
+  });
+
+  test('nav logo links to home', async ({ page }) => {
+    await expect(page.locator('.nav-logo')).toHaveAttribute('href', 'index.html');
+  });
+
+  test('footer preserves Wisdom engineered tagline', async ({ page }) => {
+    await expect(page.locator('.footer-tag')).toContainText('Wisdom engineered.');
+  });
+
+  test('no horizontal overflow', async ({ page }) => {
+    const overflows = await page.evaluate(() => {
+      return document.documentElement.scrollWidth <= window.innerWidth;
+    });
+    expect(overflows).toBe(true);
+  });
+});
