@@ -17,12 +17,11 @@ Everything outstanding before the site goes live at **gloxx.ai**. Grouped by bla
 
 ## 3. Backend integrations to wire up
 
-- [ ] **Google Apps Script URL for the intake form**
-  - **`contact.html`** (line ~387) — a `TODO(backend)` comment marks where to swap `mailto:` for `fetch(APPS_SCRIPT_URL, ...)`. The new field schema is `name, company, what-building, current-qa, when-shipping, email, war-room` — make sure the Apps Script column headers match.
-  - **`index.html`** (line 1750) — `const SHEETS_URL = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';` powers the legacy 7-step survey. If you're keeping the survey, replace with the live URL. If you're retiring it in favor of `contact.html`, remove the `data-survey="true"` triggers from the three "Book a call" links in the home nav/hero/CTA.
-- [ ] **Mail: `hello@gloxx.ai`** — the entire site (mailto fallback, contact copy, footer-era SEO) assumes this inbox exists. Needs MX records + catch-all or forwarding set up on whatever provider you use.
-- [ ] **Cal.com (or Calendly) booking URL** — every "Book the call" currently routes to `contact.html`. If you want a direct scheduler embed on `contact.html`, drop the embed snippet into the `.ct-form` section and the test assertions will need updating. Optional for launch — the email fallback works.
-- [ ] **Footer social links** — `index.html` lines 1579–1581 have `<a href="#">LinkedIn</a>`, `<a href="#">X</a>`, `<a href="#">GitHub</a>`. Replace `#` with real profile URLs (or remove if you don't want them up yet).
+- [x] **Cal.com** — every "Book a call" / "Book the call" / "Book a 30-min QA assessment" CTA across the site now routes to `https://cal.com/gloxx/30min` with `target="_blank" rel="noopener"`. Link-out pattern; no embed.
+- [x] **Legacy 7-step survey retired** — the entire survey modal (HTML + ~259 lines of CSS + ~152 lines of JS) has been deleted from `index.html`. The stale `SHEETS_URL = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE'` placeholder went with it.
+- [ ] **Google Apps Script URL for the `contact.html` intake form** (line ~387) — a `TODO(backend)` comment marks where to swap `mailto:` for `fetch(APPS_SCRIPT_URL, ...)`. Field schema: `name, company, what-building, current-qa, when-shipping, email, war-room` — Apps Script column headers must match.
+- [ ] **Mail: `hello@gloxx.ai`** — contact.html's mailto fallback and the footer copy all point here. Needs MX records + catch-all or forwarding set up on whatever provider you use.
+- [ ] **Footer social links** — `index.html` home-page footer has `<a href="#">LinkedIn</a>`, `<a href="#">X</a>`, `<a href="#">GitHub</a>`. Replace `#` with real profile URLs (or delete if you're not ready to share them yet).
 
 ## 4. DNS + canonical-URL migration to `gloxx.ai`
 
