@@ -9,7 +9,7 @@ Everything outstanding before the site goes live at **gloxx.ai**. Grouped by bla
 ## 1. Assets to create + upload to repo root
 
 - [x] **Favicon pack** — `favicon.ico` + `favicon-16x16.png` + `favicon-32x32.png` + `apple-touch-icon.png` + `android-chrome-192x192.png` + `android-chrome-512x512.png` + `site.webmanifest`. Generated from favicon.io (Space Grotesk "G" in brand green on brand black). All 6 HTML files now link the full set, with `theme-color: #08080a` so mobile home-screen splash matches the site background.
-- [ ] **`og-image.png`** — 1200×630 PNG, referenced by `<meta property="og:image">` on all 5 Gloxx pages + 404. This is what LinkedIn / X / Slack previews render when someone pastes a Gloxx URL. "Ship blockchain code you can sleep through." or "AI-augmented QA for blockchain teams" over the brand background is a fine v1.
+- [x] **`og-image.png`** — 1200×1200 (square, 2.4 MB), portrait of Bran in the Gloxx hat at the podcast mic. Wired to all 5 Gloxx pages with explicit `og:image:width`/`height` so crawlers don't mis-crop. Works as-is on LinkedIn / Slack / X; X will render it centered in a 1.91:1 feed crop.
 
 ## 2. Content placeholders to fill in
 
