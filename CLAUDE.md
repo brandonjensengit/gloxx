@@ -8,7 +8,7 @@ Gloxx is an AI-augmented QA consultancy serving blockchain protocols and crypto-
 
 ## Migration status (resume here)
 
-**Branch:** `gloxx-repositioning` (not merged, not pushed). Working tree clean. 368 Playwright tests green.
+**Branch:** `gloxx-repositioning` (not merged, not pushed). Working tree clean. 378 Playwright tests green (including axe-core a11y smoke against all 5 Gloxx pages).
 
 ### Prompts done (committed)
 
@@ -21,13 +21,9 @@ Gloxx is an AI-augmented QA consultancy serving blockchain protocols and crypto-
 | 6 | `9d5c0be` | `about.html` — founder note (has `[TODO]` shipped-list placeholders Brandon still needs to fill) |
 | 7 | `9798916` | `contact.html` — new field schema, `mailto:hello@gloxx.ai` fallback (swap to Apps Script URL when wired — TODO comment in the inline JS marks the spot) |
 | 8 | `9be32d4` | Footer dogfood line on all 5 pages, `404.html`, move 10 portfolio HTMLs + `portfolio.html` to `/archive/` with `noindex`, `sitemap.xml`, `robots.txt`, `.gitignore` |
+| 9 | `9f4304b` | `.github/workflows/tests.yml` (Playwright + artifact upload, dogfood comment), `@axe-core/playwright` smoke spec for 5 Gloxx pages (WCAG 2.0+2.1 A/AA), `README.md` with tests badge. Fixed real a11y violations surfaced by axe: `--text-3` lifted from `#555` to `#8a8f98` (6:1 on `#08080a`), `--accent-3` brightened from `#6366f1` to `#818cf8` (6.4:1 on `#0f0f12`), removed `opacity:.5` on `.footer-tag`. |
 
 ### Prompts remaining
-
-- **Prompt 9** — CI workflow + accessibility smoke
-  - Add `.github/workflows/tests.yml` running Playwright on every push, publish HTML report as artifact, add a README badge.
-  - Install `@axe-core/playwright`, add an a11y smoke test for each of the 5 Gloxx pages.
-  - Add the one-line comment `# The Gloxx site is continuously tested with the same tooling we sell. Dogfood.` at top of the workflow.
 
 - **Prompt 10** — Final polish
   - Verify every internal link resolves.
