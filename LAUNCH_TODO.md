@@ -13,10 +13,7 @@ Everything outstanding before the site goes live at **gloxx.ai**. Grouped by bla
 
 ## 2. Content placeholders to fill in
 
-- [ ] **`about.html` — shipped-list bullets** (lines 231–232). Two `[TODO: fill in — …]` spans in the *"What I've shipped in 15 years of QA"* section:
-  - First bullet: the fintech/trading-platform stint.
-  - Second bullet: the DeFi team you led.
-  - These wrap in a `.todo` span that's currently styled only visually — safe to search-and-replace the whole `<span class="todo">[TODO: …]</span>` with inline text.
+- [x] **`about.html` — shipped-list bullets filled in with real QA wins**: Safemoon ($4B-peak token), LuminousDap (led QA at a blockchain dev agency), Proofpoint (senior QA at the enterprise security firm), ATF (government contractor, sensitive-data applications). Founder portrait (`bran.jpg`, 800×800 JPG, 126 KB) added to the hero. An HTML comment next to the Safemoon bullet contains an anonymized fallback ("a top-trending 2021 crypto token…") you can drop in with one edit if the name feels off in conversation with buyers.
 
 ## 3. Backend integrations to wire up
 

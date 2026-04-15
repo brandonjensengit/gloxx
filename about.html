@@ -76,6 +76,18 @@
 
     .container { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
     .ab-hero { padding: 9rem 0 2rem; }
+    .ab-hero-grid {
+      display: grid; grid-template-columns: 1fr 240px;
+      gap: 2.75rem; align-items: center;
+    }
+    .ab-hero-portrait {
+      width: 240px; height: 240px; border-radius: 14px;
+      overflow: hidden; border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .ab-hero-portrait img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
     .ab-hero .label {
       font-family: var(--heading); font-size: .72rem; letter-spacing: .25em;
       color: var(--gloxx-accent); text-transform: uppercase;
@@ -129,7 +141,7 @@
       content: "→"; position: absolute; left: 0; top: .65rem;
       color: var(--gloxx-accent);
     }
-    .todo { color: var(--text-3); font-style: italic; font-size: .88rem; }
+    .shipped-list li strong { color: var(--text); font-weight: 500; }
 
     .sig {
       margin-top: 3rem;
@@ -185,6 +197,11 @@
       .nav-ham { display: block; }
       .container { padding: 0 1.5rem; }
       .ab-hero { padding: 7rem 0 1.5rem; }
+      .ab-hero-grid {
+        grid-template-columns: 1fr; gap: 1.75rem;
+        justify-items: start;
+      }
+      .ab-hero-portrait { width: 180px; height: 180px; }
     }
   </style>
 </head>
@@ -213,9 +230,17 @@
 
   <section class="ab-hero">
     <div class="container">
-      <span class="label">About</span>
-      <h1>Bran · Founder, Gloxx.</h1>
-      <p class="subtitle">15 years in QA. Several in blockchain. One strongly-held opinion about how to use AI.</p>
+      <div class="ab-hero-grid">
+        <div class="ab-hero-text">
+          <span class="label">About</span>
+          <h1>Bran · Founder, Gloxx.</h1>
+          <p class="subtitle">15 years in QA. Several in blockchain. One strongly-held opinion about how to use AI.</p>
+        </div>
+        <div class="ab-hero-portrait">
+          <img src="/bran.jpg" width="800" height="800"
+               alt="Bran, Founder of Gloxx, at a podcast microphone wearing a green Gloxx cap">
+        </div>
+      </div>
     </div>
   </section>
 
@@ -233,10 +258,14 @@
       <h2>What I've shipped in 15 years of QA</h2>
 
       <div class="shipped-list">
-        <div class="shipped-list-title">Selected, anonymized</div>
+        <div class="shipped-list-title">Selected, across 15 years</div>
         <ul>
-          <li>Ran QA for a <span class="todo">[TODO: fill in — fintech/trading platform]</span> through three major rewrites without a user-visible regression on payment rails.</li>
-          <li>Led the test-engineering function at <span class="todo">[TODO: fill in — company name or "a Series-B DeFi team"]</span>, growing a two-person team to seven and taking smart-contract coverage from near-zero to full invariant discipline.</li>
+          <!-- To anonymize Safemoon, replace the <li> below with:
+               "Ran QA for a top-trending 2021 crypto token through its peak at a $4B market cap — release cadence, regression discipline, and on-chain behavior verification under genuine user load." -->
+          <li>Ran QA for <strong>Safemoon</strong> through the 2021 cycle — release cadence, regression discipline, and on-chain behavior verification while the token peaked around a $4B market cap and sustained genuine user load.</li>
+          <li>Led the QA function at <strong>LuminousDap</strong>, a blockchain development agency — setting how the team approached invariant testing, review rigor, and release gates across client protocols.</li>
+          <li>Senior QA engineer at <strong>Proofpoint</strong>, the multi-billion-dollar enterprise security firm — shipping release-critical work across threat protection, email security, and information governance for customers with no tolerance for regression.</li>
+          <li>Government contractor for the <strong>ATF</strong> (Bureau of Alcohol, Tobacco, Firearms and Explosives) — applications handling sensitive data, strict access controls, and the release discipline the federal threat model requires.</li>
           <li>Authored the release-gate checklist that's now the core of the Gloxx approach — refined over years of "what actually catches bugs before prod."</li>
           <li>Built internal AI-augmented testing tooling before Claude Code existed — early enough to know which parts of the workflow were genuinely improved by agents and which were just fashion.</li>
         </ul>
