@@ -36,11 +36,12 @@ test.describe('Main Site', () => {
     await expect(hero).toContainText('sleep through');
   });
 
-  test('hero CTAs link to contact and approach pages', async ({ page }) => {
+  test('hero primary CTA routes to Cal.com, secondary to approach', async ({ page }) => {
     const primary = page.locator('.hero-cta-primary');
     const secondary = page.locator('.hero-cta-secondary');
     await expect(primary).toBeVisible();
-    await expect(primary).toHaveAttribute('href', 'contact.html');
+    await expect(primary).toHaveAttribute('href', 'https://cal.com/gloxx/30min');
+    await expect(primary).toHaveAttribute('target', '_blank');
     await expect(secondary).toHaveAttribute('href', 'approach.html');
   });
 
@@ -172,21 +173,20 @@ test.describe('Main Site', () => {
   });
 
   // ─── CTA ROUTING ───
-  // The 7-step survey modal is retained as dead code. All "Book a call"
-  // CTAs route directly to contact.html, which is the live intake form.
-  test('nav CTA routes to contact.html', async ({ page }) => {
-    await expect(page.locator('.nav-cta-link')).toHaveAttribute('href', 'contact.html');
+  // All "Book a call" CTAs route externally to cal.com/gloxx/30min.
+  // The contact.html intake form remains for "I have a longer message" flow.
+  test('nav CTA routes to Cal.com', async ({ page }) => {
+    const cta = page.locator('.nav-cta-link');
+    await expect(cta).toHaveAttribute('href', 'https://cal.com/gloxx/30min');
+    await expect(cta).toHaveAttribute('target', '_blank');
+    await expect(cta).toHaveAttribute('rel', /noopener/);
   });
 
-  test('bottom CTA routes to contact.html', async ({ page }) => {
+  test('bottom CTA routes to Cal.com', async ({ page }) => {
     const bottomCta = page.locator('#cta .btn-mag');
-    await expect(bottomCta).toHaveAttribute('href', 'contact.html');
+    await expect(bottomCta).toHaveAttribute('href', 'https://cal.com/gloxx/30min');
+    await expect(bottomCta).toHaveAttribute('target', '_blank');
     await expect(bottomCta).toContainText('Book the call');
-  });
-
-  test('clicking bottom CTA navigates to contact page', async ({ page }) => {
-    await page.click('#cta .btn-mag');
-    await expect(page).toHaveURL(/contact\.html$/);
   });
 
   // ─── ACCESSIBILITY ───

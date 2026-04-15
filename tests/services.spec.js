@@ -74,10 +74,11 @@ test.describe('Services Page', () => {
     }
   });
 
-  test('CTA at bottom links to contact.html', async ({ page }) => {
+  test('CTA at bottom links to Cal.com booking', async ({ page }) => {
     const cta = page.locator('.cta-section .cta-btn');
     await expect(cta).toBeVisible();
-    await expect(cta).toHaveAttribute('href', 'contact.html');
+    await expect(cta).toHaveAttribute('href', 'https://cal.com/gloxx/30min');
+    await expect(cta).toHaveAttribute('target', '_blank');
   });
 
   test('nav services link has aria-current', async ({ page }) => {

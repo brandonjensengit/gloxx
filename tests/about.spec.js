@@ -34,7 +34,8 @@ test.describe('About Page', () => {
 
   test('CTA links to contact', async ({ page }) => {
     const cta = page.locator('.cta-section .cta-btn');
-    await expect(cta).toHaveAttribute('href', 'contact.html');
+    await expect(cta).toHaveAttribute('href', 'https://cal.com/gloxx/30min');
+    await expect(cta).toHaveAttribute('target', '_blank');
   });
 
   test('nav about link has aria-current', async ({ page }) => {
