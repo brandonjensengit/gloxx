@@ -8,7 +8,7 @@ Gloxx is an AI-augmented QA consultancy serving blockchain protocols and crypto-
 
 ## Migration status (resume here)
 
-**Branch:** `gloxx-repositioning` (not merged, not pushed). Working tree clean. 378 Playwright tests green (including axe-core a11y smoke against all 5 Gloxx pages).
+**Branch:** `gloxx-repositioning` (not merged, not pushed). All 10 repositioning Prompts complete. Working tree clean. 420 Playwright tests green (includes axe-core a11y smoke + polish audit: title/meta uniqueness, heading hierarchy, decorative-SVG a11y, internal-link resolution). Pre-launch punch list lives in `LAUNCH_TODO.md`.
 
 ### Prompts done (committed)
 
@@ -22,15 +22,11 @@ Gloxx is an AI-augmented QA consultancy serving blockchain protocols and crypto-
 | 7 | `9798916` | `contact.html` — new field schema, `mailto:hello@gloxx.ai` fallback (swap to Apps Script URL when wired — TODO comment in the inline JS marks the spot) |
 | 8 | `9be32d4` | Footer dogfood line on all 5 pages, `404.html`, move 10 portfolio HTMLs + `portfolio.html` to `/archive/` with `noindex`, `sitemap.xml`, `robots.txt`, `.gitignore` |
 | 9 | `9f4304b` | `.github/workflows/tests.yml` (Playwright + artifact upload, dogfood comment), `@axe-core/playwright` smoke spec for 5 Gloxx pages (WCAG 2.0+2.1 A/AA), `README.md` with tests badge. Fixed real a11y violations surfaced by axe: `--text-3` lifted from `#555` to `#8a8f98` (6:1 on `#08080a`), `--accent-3` brightened from `#6366f1` to `#818cf8` (6.4:1 on `#0f0f12`), removed `opacity:.5` on `.footer-tag`. |
+| 10 | `b1ed38f` | `tests/polish.spec.js` — 42 automated assertions covering unique `<title>` / meta description across pages, exactly-one-H1 + no-skipped-levels per page, decorative SVGs hidden from AT, every internal link returns <400. All passed on first run. `LAUNCH_TODO.md` inventories everything Brandon still needs before DNS flip (favicon, og-image, about.html `[TODO]` bullets, Apps Script wiring, `hello@gloxx.ai` mailbox, Cal.com URL, canonical/sitemap/robots swap to `gloxx.ai`). |
 
 ### Prompts remaining
 
-- **Prompt 10** — Final polish
-  - Verify every internal link resolves.
-  - Confirm unique `<title>` and meta description on every page (already done in Prompts 2–8 but re-audit).
-  - Mental Lighthouse pass: heading hierarchy, alt text on decorative SVGs, color contrast vs. new brand tokens, layout shift risks.
-  - Mobile viewport check (375px) on every page.
-  - Produce a TODO inventory for Brandon: `og-image.png` (1200×630), `favicon.svg`, Cal.com URL, Apps Script URL, the `[TODO]` bullets in `about.html`, DNS migration to `gloxx.ai`.
+All 10 Prompts committed. Pre-launch work is in `LAUNCH_TODO.md` — it's content + infra (assets, mailbox, DNS, filling two `[TODO]` bullets in `about.html`), not code.
 
 ### Running locally
 
