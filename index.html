@@ -3,8 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gloxx — AI Development Studio</title>
-  <meta name="description" content="Gloxx is a premium AI development studio. We build intelligent systems — agents, integrations, vision, and strategy — for ambitious teams.">
+  <title>Gloxx — AI-Augmented QA for Blockchain Teams</title>
+  <meta name="description" content="Gloxx is an AI-augmented QA partner for blockchain protocols and crypto-native fintech. 15 years of quality engineering leadership, agentic test workflows, and release gates you can trust.">
+
+  <link rel="canonical" href="https://brandonjensengit.github.io/gloxx/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Gloxx — AI-Augmented QA for Blockchain Teams">
+  <meta property="og:description" content="AI-augmented QA partner for blockchain protocols and crypto-native fintech. 15 years of QA leadership plus agentic test workflows.">
+  <meta property="og:url" content="https://brandonjensengit.github.io/gloxx/">
+  <meta property="og:image" content="/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gloxx — AI-Augmented QA for Blockchain Teams">
+  <meta name="twitter:description" content="AI-augmented QA partner for blockchain protocols and crypto-native fintech.">
+  <meta name="twitter:image" content="/og-image.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -23,6 +36,13 @@
       --surface: rgba(255,255,255,0.03);
       --heading: 'Space Grotesk', -apple-system, sans-serif;
       --body: 'Inter', -apple-system, sans-serif;
+
+      --gloxx-bg: var(--bg);
+      --gloxx-fg: var(--text);
+      --gloxx-muted: var(--text-2);
+      --gloxx-border: var(--border);
+      --gloxx-accent: #7cf9b5;
+      --gloxx-accent-ink: #0b0d10;
     }
 
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -1275,7 +1295,7 @@
     <div class="hero-vignette" aria-hidden="true"></div>
 
     <div class="hero-content">
-      <span class="hero-tag">AI Development Studio</span>
+      <span class="hero-tag">AI-Augmented QA for Blockchain Teams</span>
       <h1 class="hero-title">
         <span class="line"><span class="line-inner">We build</span></span>
         <span class="line"><span class="line-inner gradient-text">intelligence.</span></span>
@@ -1637,6 +1657,8 @@
       }
     }
 
+    const SHEETS_URL = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+
     function svSubmit() {
       svData.name = document.getElementById('svName').value;
       svData.company = document.getElementById('svCompany').value;
@@ -1644,7 +1666,17 @@
       svData.role = document.getElementById('svRole').value;
       svData.website = document.getElementById('svWebsite').value;
       svData.details = document.getElementById('svDetails').value;
-      console.log('Survey submitted:', svData);
+
+      // Send to Google Sheets
+      if (SHEETS_URL && !SHEETS_URL.includes('PASTE_YOUR')) {
+        fetch(SHEETS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(svData),
+        }).catch(err => console.warn('Sheet submit failed:', err));
+      }
+
       svGoTo(TOTAL_FORM_STEPS);
     }
 

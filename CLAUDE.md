@@ -1,188 +1,123 @@
-# Claude Code Configuration - RuFlo V3
+# Gloxx — AI-Augmented QA for Blockchain Teams
 
-## Behavioral Rules (Always Enforced)
+## Project Overview
 
-- Do what has been asked; nothing more, nothing less
-- NEVER create files unless they're absolutely necessary for achieving your goal
-- ALWAYS prefer editing an existing file to creating a new one
-- NEVER proactively create documentation files (*.md) or README files unless explicitly requested
-- NEVER save working files, text/mds, or tests to the root folder
-- Never continuously check status after spawning a swarm — wait for results
-- ALWAYS read a file before editing it
-- NEVER commit secrets, credentials, or .env files
+Gloxx is an AI-augmented QA consultancy serving blockchain protocols and crypto-native fintech teams. This repo is the public website + lead-gen funnel. All pages are static HTML with inline CSS/JS — no frameworks, no build tools in production.
 
-## File Organization
+**Current state (2026-04-14):** Repositioning in progress on branch `gloxx-repositioning`. The site is mid-migration from the prior "Premium AI Development Studio" framing. See `Obisidan-Bran/…` vault or `/Users/brando/obsidian/Gloxx/90-Day Launch Plan.md` for full launch plan.
 
-- NEVER save to root folder — use the directories below
-- Use `/src` for source code files
-- Use `/tests` for test files
-- Use `/docs` for documentation and markdown files
-- Use `/config` for configuration files
-- Use `/scripts` for utility scripts
-- Use `/examples` for example code
+## Positioning
 
-## Project Architecture
+- **Target audience:** CTOs and founders of DeFi protocols, L2s, wallets, crypto-native fintech, and TradFi teams building tokenization/stablecoin products.
+- **Core offer:** QA Readiness Audits ($8k / 2 weeks), Test Suite Rebuilds ($18–35k), Fractional QA Leadership retainers ($4–8k/mo), Pre-Upgrade War Rooms ($12k), and Gloxx Sentinel subscription (Q3 2026 soft-launch via Claude Code Routines).
+- **Differentiation:** 15 years QA leadership × blockchain specialization × AI-assisted test workflows (Slither, Mythril, Aderyn, Foundry, Halmos, Echidna + Claude Code).
 
-- Follow Domain-Driven Design with bounded contexts
-- Keep files under 500 lines
-- Use typed interfaces for all public APIs
-- Prefer TDD London School (mock-first) for new code
-- Use event sourcing for state changes
-- Ensure input validation at system boundaries
+## File Structure
 
-### Project Config
-
-- **Topology**: hierarchical-mesh
-- **Max Agents**: 15
-- **Memory**: hybrid
-- **HNSW**: Enabled
-- **Neural**: Enabled
-
-## Build & Test
-
-```bash
-# Build
-npm run build
-
-# Test
-npm test
-
-# Lint
-npm run lint
+```
+/                       — Root (all production HTML files)
+├── index.html          — Main Gloxx site (hero, about, services, work, process, CTA, survey)
+├── portfolio.html      — Legacy portfolio page (will move to /archive/ in a later step)
+├── services.html       — [TODO: create in Prompt 4] four service tiers
+├── approach.html       — [TODO: create in Prompt 5] six-principle Claude Code operating protocol + QA methodology
+├── about.html          — [TODO: create in Prompt 6] founder story
+├── contact.html        — [TODO: create in Prompt 7] intake form + email fallback
+├── 404.html            — [TODO: create in Prompt 8]
+├── archive/            — [TODO: move 10 portfolio HTMLs here in a later step]
+│   ├── vantage.html    — Vantage AI (SaaS analytics, dark mode)
+│   ├── lumen.html      — Lumen Goods (e-commerce, light mode, serif)
+│   ├── orbis.html      — Orbis Capital (fintech, ultra-minimal dark)
+│   ├── forma.html      — Forma Studio (architecture, white, editorial)
+│   ├── clarity.html    — Clarity Health (telehealth, light mode, teal)
+│   ├── thebrief.html   — The Brief (media, newspaper editorial)
+│   ├── apex.html       — Apex Robotics (industrial, dark, amber)
+│   ├── noma.html       — Noma Wines (luxury, burgundy/gold)
+│   ├── vertex.html     — Vertex Labs (cybersecurity, terminal green-on-black)
+│   └── solara.html     — Solara Energy (solar, sunrise gradients, light)
+├── tests/              — Playwright test suite
+├── playwright.config.js
+├── package.json
+└── CLAUDE.md           — This file
 ```
 
-- ALWAYS run tests after making code changes
-- ALWAYS verify build succeeds before committing
+Currently the 10 archive-bound HTMLs still live at repo root. They will be moved together in the archive step (not in Prompt 2).
 
-## Security Rules
+## Tech Stack
 
-- NEVER hardcode API keys, secrets, or credentials in source files
-- NEVER commit .env files or any file containing secrets
-- Always validate user input at system boundaries
-- Always sanitize file paths to prevent directory traversal
-- Run `npx @claude-flow/cli@latest security scan` after security-related changes
+- **HTML + CSS + vanilla JS** — All inline per file, no external stylesheets
+- **Google Fonts** — Space Grotesk (display) + Inter (body) across all Gloxx-branded pages; archived portfolio sites retain their distinct fonts
+- **GSAP 3.12.5** + **ScrollTrigger** — animation engine, loaded from CDN
+- **Google Apps Script** — backend for the intake form (post to Google Sheets). Endpoint placeholder until wired.
+- No build tools required for production. `vite.config.js` exists for local dev only.
 
-## Concurrency: 1 MESSAGE = ALL RELATED OPERATIONS
+## Design System
 
-- All operations MUST be concurrent/parallel in a single message
-- Use Claude Code's Task tool for spawning agents, not just MCP
-- ALWAYS batch ALL todos in ONE TodoWrite call (5-10+ minimum)
-- ALWAYS spawn ALL agents in ONE message with full instructions via Task tool
-- ALWAYS batch ALL file reads/writes/edits in ONE message
-- ALWAYS batch ALL Bash commands in ONE message
+### Brand tokens (2026-04-14 — introduced in Prompt 2 of the repositioning)
 
-## Swarm Orchestration
+Every page's `<style>` block declares these at `:root`:
 
-- MUST initialize the swarm using CLI tools when starting complex tasks
-- MUST spawn concurrent agents using Claude Code's Task tool
-- Never use CLI tools alone for execution — Task tool agents do the actual work
-- MUST call CLI tools AND Task tool in ONE message for complex work
-
-### 3-Tier Model Routing (ADR-026)
-
-| Tier | Handler | Latency | Cost | Use Cases |
-|------|---------|---------|------|-----------|
-| **1** | Agent Booster (WASM) | <1ms | $0 | Simple transforms (var→const, add types) — Skip LLM |
-| **2** | Haiku | ~500ms | $0.0002 | Simple tasks, low complexity (<30%) |
-| **3** | Sonnet/Opus | 2-5s | $0.003-0.015 | Complex reasoning, architecture, security (>30%) |
-
-- Always check for `[AGENT_BOOSTER_AVAILABLE]` or `[TASK_MODEL_RECOMMENDATION]` before spawning agents
-- Use Edit tool directly when `[AGENT_BOOSTER_AVAILABLE]`
-
-## Swarm Configuration & Anti-Drift
-
-- ALWAYS use hierarchical topology for coding swarms
-- Keep maxAgents at 6-8 for tight coordination
-- Use specialized strategy for clear role boundaries
-- Use `raft` consensus for hive-mind (leader maintains authoritative state)
-- Run frequent checkpoints via `post-task` hooks
-- Keep shared memory namespace for all agents
-
-```bash
-npx @claude-flow/cli@latest swarm init --topology hierarchical --max-agents 8 --strategy specialized
+```css
+--gloxx-bg: #0b0d10;           /* near-black canvas */
+--gloxx-fg: #f2f3f5;           /* primary text */
+--gloxx-muted: #8a8f98;        /* secondary text */
+--gloxx-border: #1b1f24;       /* subtle dividers */
+--gloxx-accent: #7cf9b5;       /* subtle green — trust + crypto-adjacent without being loud */
+--gloxx-accent-ink: #0b0d10;   /* text color that sits on accent */
 ```
 
-## Swarm Execution Rules
+The existing indigo/violet/pink accent vars (`--accent-1`, `--accent-2`, `--accent-3`) are retained on the home page for Prompt-2 visual continuity. The full accent re-skin to green happens in Prompt 3 when the home-page copy is rewritten.
 
-- ALWAYS use `run_in_background: true` for all agent Task calls
-- ALWAYS put ALL agent Task calls in ONE message for parallel execution
-- After spawning, STOP — do NOT add more tool calls or check status
-- Never poll TaskOutput or check swarm status — trust agents to return
-- When agent results arrive, review ALL results before proceeding
+### Typography
+- **Headings:** Space Grotesk 400/500/600/700
+- **Body:** Inter 300/400/500/600
 
-## V3 CLI Commands
+## Key Features
 
-### Core Commands
+- **Intake form** — 7-step wizard on `index.html` (will migrate to a dedicated `contact.html` in Prompt 7 with a new blockchain-QA field schema). Currently posts to a Google Apps Script URL that is still a placeholder (`PASTE_YOUR_APPS_SCRIPT_URL_HERE` — submits will silently fail until wired).
+- **Portfolio previews** — Live iframe embeds on `portfolio.html` at 25% scale. Legacy; will move to `/archive/` before launch.
+- **Custom cursor** — Dot + ring with `mix-blend-mode`, magnetic buttons, trail dots.
+- **Responsive** — Breakpoints at 1024 / 768 / 600 / 480 px + landscape-phone handling.
+- **Accessibility** — `focus-visible` styles, `prefers-reduced-motion` support, semantic HTML.
+- **Film grain** — SVG `feTurbulence` overlay at 1.8% opacity with `mix-blend-mode: overlay`.
 
-| Command | Subcommands | Description |
-|---------|-------------|-------------|
-| `init` | 4 | Project initialization |
-| `agent` | 8 | Agent lifecycle management |
-| `swarm` | 6 | Multi-agent swarm coordination |
-| `memory` | 11 | AgentDB memory with HNSW search |
-| `task` | 6 | Task creation and lifecycle |
-| `session` | 7 | Session state management |
-| `hooks` | 17 | Self-learning hooks + 12 workers |
-| `hive-mind` | 6 | Byzantine fault-tolerant consensus |
-
-### Quick CLI Examples
+## Running Locally
 
 ```bash
-npx @claude-flow/cli@latest init --wizard
-npx @claude-flow/cli@latest agent spawn -t coder --name my-coder
-npx @claude-flow/cli@latest swarm init --v3-mode
-npx @claude-flow/cli@latest memory search --query "authentication patterns"
-npx @claude-flow/cli@latest doctor --fix
+python3 -m http.server 8080
+# OR
+npx serve .
 ```
 
-## Available Agents (60+ Types)
-
-### Core Development
-`coder`, `reviewer`, `tester`, `planner`, `researcher`
-
-### Specialized
-`security-architect`, `security-auditor`, `memory-specialist`, `performance-engineer`
-
-### Swarm Coordination
-`hierarchical-coordinator`, `mesh-coordinator`, `adaptive-coordinator`
-
-### GitHub & Repository
-`pr-manager`, `code-review-swarm`, `issue-tracker`, `release-manager`
-
-### SPARC Methodology
-`sparc-coord`, `sparc-coder`, `specification`, `pseudocode`, `architecture`
-
-## Memory Commands Reference
+## Testing
 
 ```bash
-# Store (REQUIRED: --key, --value; OPTIONAL: --namespace, --ttl, --tags)
-npx @claude-flow/cli@latest memory store --key "pattern-auth" --value "JWT with refresh" --namespace patterns
-
-# Search (REQUIRED: --query; OPTIONAL: --namespace, --limit, --threshold)
-npx @claude-flow/cli@latest memory search --query "authentication patterns"
-
-# List (OPTIONAL: --namespace, --limit)
-npx @claude-flow/cli@latest memory list --namespace patterns --limit 10
-
-# Retrieve (REQUIRED: --key; OPTIONAL: --namespace)
-npx @claude-flow/cli@latest memory retrieve --key "pattern-auth" --namespace patterns
+npx playwright test           # full suite, desktop + mobile projects
+npx playwright test --ui      # interactive UI
 ```
 
-## Quick Setup
+Tests cover: page loads, hero rendering, navigation, scroll behavior, intake-form flow (full 7-step), responsive layout, horizontal-overflow regressions, portfolio page structure.
+
+## Deployment
+
+Currently GitHub Pages at `https://brandonjensengit.github.io/gloxx/`. DNS migration to `gloxx.ai` planned for Weeks 3–4 of the launch plan. Every push to `main` triggers an auto-rebuild.
 
 ```bash
-claude mcp add claude-flow -- npx -y @claude-flow/cli@latest
-npx @claude-flow/cli@latest daemon start
-npx @claude-flow/cli@latest doctor --fix
+git push origin main
 ```
 
-## Claude Code vs CLI Tools
+## Google Sheets Integration (intake form)
 
-- Claude Code's Task tool handles ALL execution: agents, file ops, code generation, git
-- CLI tools handle coordination via Bash: swarm init, memory, hooks, routing
-- NEVER use CLI tools as a substitute for Task tool agents
+1. Replace `PASTE_YOUR_APPS_SCRIPT_URL_HERE` in the form-submit JS with the deployed Apps Script URL.
+2. The old script expects fields: `step_0` … `step_6`, `details`, `name`, `company`, `email`, `role`, `website`.
+3. **Field schema changes in Prompt 7** — new `contact.html` form will use: `name`, `company` (or protocol), `what-building`, `current-qa`, `when-shipping`, `email`, `war-room` flag. The Apps Script will need its column headers updated when this lands.
 
-## Support
+During the gap where no Apps Script URL is live, `contact.html` falls back to a structured `mailto:hello@gloxx.ai` submission so no leads are lost.
 
-- Documentation: https://github.com/ruvnet/claude-flow
-- Issues: https://github.com/ruvnet/claude-flow/issues
+## Architectural Rules
+
+1. Each page is a single self-contained HTML file — keep it that way.
+2. All CSS and JS must be inline (no external stylesheets or script files).
+3. No Lorem ipsum — every line of copy must be real and compelling.
+4. Every Gloxx-branded page declares the `--gloxx-*` tokens at `:root` (added in Prompt 2).
+5. Test after changes: `npx playwright test`.
+6. Don't commit `node_modules`, `test-results`, or `.env`.
