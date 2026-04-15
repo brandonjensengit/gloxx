@@ -1191,7 +1191,7 @@
       <a href="approach.html">Approach</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
-      <a href="#" class="nav-cta-link" data-survey="true">Book a call</a>
+      <a href="contact.html" class="nav-cta-link">Book a call</a>
     </div>
     <button class="nav-ham" id="navHam" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -1204,7 +1204,7 @@
     <a href="approach.html" class="mob-link">Approach</a>
     <a href="about.html" class="mob-link">About</a>
     <a href="contact.html" class="mob-link">Contact</a>
-    <a href="#" class="mob-link" id="mobSurveyLink">Book a call</a>
+    <a href="contact.html" class="mob-link">Book a call</a>
   </div>
 
   <!-- ════════════ SURVEY ════════════ -->
@@ -1573,7 +1573,7 @@
       <p class="cta-sub">Book a free 30-minute QA assessment. If we're a fit, you'll walk away with a written opinion within a week. If we're not, you'll walk away with three concrete things to fix yourself.</p>
       <div class="cta-actions">
         <a href="mailto:hello@gloxx.ai" class="cta-email">hello@gloxx.ai</a>
-        <a href="#" class="btn-mag" id="ctaBtn" data-survey="true">Book the call</a>
+        <a href="contact.html" class="btn-mag">Book the call</a>
       </div>
     </div>
   </section>
@@ -1777,15 +1777,8 @@
       svGoTo(TOTAL_FORM_STEPS);
     }
 
-    // Wire triggers — open survey from any [data-survey] element + direct IDs
-    function wireSurveyTrigger(el) {
-      if (!el) return;
-      el.addEventListener('click', e => { e.preventDefault(); svOpen(); });
-    }
-    document.querySelectorAll('[data-survey]').forEach(wireSurveyTrigger);
-    wireSurveyTrigger(document.getElementById('ctaBtn'));
-    wireSurveyTrigger(document.querySelector('.nav-cta-link'));
-    wireSurveyTrigger(document.getElementById('mobSurveyLink'));
+    // Survey modal retained as dead code for now — no triggers wire to it.
+    // The 3 "Book a call" CTAs route directly to contact.html via <a href>.
 
     document.getElementById('svClose').addEventListener('click', svClose);
     document.getElementById('svDone').addEventListener('click', svClose);

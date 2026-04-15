@@ -171,96 +171,22 @@ test.describe('Main Site', () => {
     await expect(page.locator('.footer-tag')).toContainText('Wisdom engineered.');
   });
 
-  // ─── SURVEY ───
-  test('start a project opens survey', async ({ page }) => {
-    const overlay = page.locator('#survey');
-    await expect(overlay).not.toHaveClass(/active/);
-    await page.click('#ctaBtn');
-    await page.waitForTimeout(300);
-    await expect(overlay).toHaveClass(/active/);
+  // ─── CTA ROUTING ───
+  // The 7-step survey modal is retained as dead code. All "Book a call"
+  // CTAs route directly to contact.html, which is the live intake form.
+  test('nav CTA routes to contact.html', async ({ page }) => {
+    await expect(page.locator('.nav-cta-link')).toHaveAttribute('href', 'contact.html');
   });
 
-  test('survey shows first question', async ({ page }) => {
-    await page.click('#ctaBtn');
-    await page.waitForTimeout(300);
-    const q = page.locator('.sv-step.active .sv-q');
-    await expect(q).toContainText('What are you looking to build?');
+  test('bottom CTA routes to contact.html', async ({ page }) => {
+    const bottomCta = page.locator('#cta .btn-mag');
+    await expect(bottomCta).toHaveAttribute('href', 'contact.html');
+    await expect(bottomCta).toContainText('Book the call');
   });
 
-  test('survey card selection advances step', async ({ page }) => {
-    await page.click('#ctaBtn');
-    await page.waitForTimeout(300);
-    await page.click('.sv-card[data-value="AI-Powered Product"]');
-    await page.waitForTimeout(600);
-    const q = page.locator('.sv-overlay.active .sv-step.active .sv-q');
-    await expect(q).toContainText('Where are you in your journey?');
-  });
-
-  test('survey close button works', async ({ page }) => {
-    await page.click('#ctaBtn');
-    await page.waitForTimeout(300);
-    await page.click('#svClose');
-    await page.waitForTimeout(500);
-    await expect(page.locator('#survey')).not.toHaveClass(/active/);
-  });
-
-  test('survey escape key closes', async ({ page }) => {
-    await page.click('#ctaBtn');
-    await page.waitForTimeout(300);
-    await page.keyboard.press('Escape');
-    await page.waitForTimeout(500);
-    await expect(page.locator('#survey')).not.toHaveClass(/active/);
-  });
-
-  test('survey keyboard shortcuts select cards', async ({ page }) => {
-    await page.click('#ctaBtn');
-    await page.waitForTimeout(300);
-    await page.keyboard.press('1');
-    await page.waitForTimeout(600);
-    const q = page.locator('.sv-overlay.active .sv-step.active .sv-q');
-    await expect(q).toContainText('Where are you in your journey?');
-  });
-
-  test('survey back button works', async ({ page }) => {
-    await page.click('#ctaBtn');
-    await page.waitForTimeout(300);
-    await page.keyboard.press('1');
-    await page.waitForTimeout(600);
-    await page.click('#svBack');
-    await page.waitForTimeout(400);
-    const q = page.locator('.sv-overlay.active .sv-step.active .sv-q');
-    await expect(q).toContainText('What are you looking to build?');
-  });
-
-  test('survey full flow reaches confirmation', async ({ page }) => {
-    await page.click('#ctaBtn');
-    await page.waitForTimeout(300);
-    // Step 1: What to build
-    await page.keyboard.press('1');
-    await page.waitForTimeout(500);
-    // Step 2: Journey
-    await page.keyboard.press('2');
-    await page.waitForTimeout(500);
-    // Step 3: Budget
-    await page.keyboard.press('3');
-    await page.waitForTimeout(500);
-    // Step 4: Timeline
-    await page.keyboard.press('1');
-    await page.waitForTimeout(500);
-    // Step 5: Project details
-    await page.fill('#svDetails', 'Test project description');
-    await page.click('#svDetailsNext');
-    await page.waitForTimeout(500);
-    // Step 6: Contact
-    await page.fill('#svName', 'Test User');
-    await page.fill('#svEmail', 'test@example.com');
-    await page.click('#svContactNext');
-    await page.waitForTimeout(500);
-    // Step 7: How found us
-    await page.keyboard.press('1');
-    await page.waitForTimeout(600);
-    // Confirmation
-    await expect(page.locator('.sv-confirm h2')).toContainText('Your project is in good hands');
+  test('clicking bottom CTA navigates to contact page', async ({ page }) => {
+    await page.click('#cta .btn-mag');
+    await expect(page).toHaveURL(/contact\.html$/);
   });
 
   // ─── ACCESSIBILITY ───
