@@ -6,6 +6,53 @@ Gloxx is an AI-augmented QA consultancy serving blockchain protocols and crypto-
 
 **Current state (2026-04-14):** Repositioning in progress on branch `gloxx-repositioning`. The site is mid-migration from the prior "Premium AI Development Studio" framing. See `Obisidan-Bran/…` vault or `/Users/brando/obsidian/Gloxx/90-Day Launch Plan.md` for full launch plan.
 
+## Migration status (resume here)
+
+**Branch:** `gloxx-repositioning` (not merged, not pushed). Working tree clean. 368 Playwright tests green.
+
+### Prompts done (committed)
+
+| Prompt | Commit | Summary |
+| --- | --- | --- |
+| 2 | `ca086fb` | Brand tokens + global meta (title/OG/canonical/favicon) |
+| 3 | `d8a07e9` | Rewrite home: "Ship blockchain code you can sleep through." Hybrid green palette, new 3-section structure (What we do / Who we work with / Why Gloxx), new nav linking to pages |
+| 4 | `097fbf3` | `services.html` — 4 tier cards + Sentinel teaser |
+| 5 | `278114d` | `approach.html` — 6-section content moat with sticky TOC, Solidity code block, six-principle Claude Code protocol, test pyramid, 12-item release-gate checklist |
+| 6 | `9d5c0be` | `about.html` — founder note (has `[TODO]` shipped-list placeholders Brandon still needs to fill) |
+| 7 | `9798916` | `contact.html` — new field schema, `mailto:hello@gloxx.ai` fallback (swap to Apps Script URL when wired — TODO comment in the inline JS marks the spot) |
+| 8 | `9be32d4` | Footer dogfood line on all 5 pages, `404.html`, move 10 portfolio HTMLs + `portfolio.html` to `/archive/` with `noindex`, `sitemap.xml`, `robots.txt`, `.gitignore` |
+
+### Prompts remaining
+
+- **Prompt 9** — CI workflow + accessibility smoke
+  - Add `.github/workflows/tests.yml` running Playwright on every push, publish HTML report as artifact, add a README badge.
+  - Install `@axe-core/playwright`, add an a11y smoke test for each of the 5 Gloxx pages.
+  - Add the one-line comment `# The Gloxx site is continuously tested with the same tooling we sell. Dogfood.` at top of the workflow.
+
+- **Prompt 10** — Final polish
+  - Verify every internal link resolves.
+  - Confirm unique `<title>` and meta description on every page (already done in Prompts 2–8 but re-audit).
+  - Mental Lighthouse pass: heading hierarchy, alt text on decorative SVGs, color contrast vs. new brand tokens, layout shift risks.
+  - Mobile viewport check (375px) on every page.
+  - Produce a TODO inventory for Brandon: `og-image.png` (1200×630), `favicon.svg`, Cal.com URL, Apps Script URL, the `[TODO]` bullets in `about.html`, DNS migration to `gloxx.ai`.
+
+### Running locally
+
+Server already handled by Playwright's `webServer` config (`python3 -m http.server 8080`). Suite:
+
+```bash
+npx playwright test
+```
+
+### Open decisions (already made in prior session)
+
+- Email: `hello@gloxx.ai` (everywhere)
+- Portfolio files: **archived** at `/archive/`, not deleted
+- Footer tagline: "Wisdom engineered." stays; "Built and tested with the same stack we sell." added as a secondary dogfood line underneath
+- Palette approach: **hybrid** — flat accents swap to green `#7cf9b5`, but `.gradient-text` retains the linear-gradient shimmer (hue-shifted to green/teal/indigo family)
+- Apps Script URL: **not available yet** — `contact.html` uses `mailto:hello@gloxx.ai` fallback; swap when the URL is wired
+- Commit cadence: one commit per Prompt (clean `git bisect` trail)
+
 ## Positioning
 
 - **Target audience:** CTOs and founders of DeFi protocols, L2s, wallets, crypto-native fintech, and TradFi teams building tokenization/stablecoin products.
