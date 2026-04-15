@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Gloxx</title>
+  <meta name="description" content="Gloxx was started by Bran — 15 years of QA leadership, several of them in blockchain. The QA partner we wished every protocol team already had.">
+
+  <link rel="canonical" href="https://brandonjensengit.github.io/gloxx/about.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About — Gloxx">
+  <meta property="og:description" content="15 years in QA. Several in blockchain. The QA partner we wished every protocol team already had.">
+  <meta property="og:url" content="https://brandonjensengit.github.io/gloxx/about.html">
+  <meta property="og:image" content="/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About — Gloxx">
+  <meta name="twitter:description" content="15 years in QA. Several in blockchain.">
+  <meta name="twitter:image" content="/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08080a; --text: #ededed; --text-2: #898989; --text-3: #555;
+      --border: rgba(255,255,255,0.07); --surface: rgba(255,255,255,0.03);
+      --heading: 'Space Grotesk', -apple-system, sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+      --gloxx-accent: #7cf9b5; --gloxx-accent-ink: #0b0d10;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--gloxx-accent); color: var(--gloxx-accent-ink); }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; overflow-x: hidden; }
+    body {
+      font-family: var(--body); background: var(--bg); color: var(--text-2);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; }
+
+    .grain { position: fixed; inset: 0; pointer-events: none; z-index: 9000; mix-blend-mode: overlay; }
+    .grain svg { width: 100%; height: 100%; }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2.5rem; z-index: 8000;
+      background: rgba(8,8,10,.6);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--heading); font-size: 1.15rem; font-weight: 600; color: var(--text); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { font-family: var(--heading); font-size: .9rem; color: var(--text-2); transition: color .2s; }
+    .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--text); }
+    .nav-links a[aria-current="page"] { border-bottom: 1px solid var(--gloxx-accent); padding-bottom: 2px; }
+    .nav-cta-link {
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink) !important;
+      padding: .55rem 1.1rem; border-radius: 999px; font-weight: 500;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .nav-cta-link:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124,249,181,.18); }
+    .nav-ham { display: none; width: 28px; height: 20px; position: relative; }
+    .nav-ham span { position: absolute; left: 0; right: 0; height: 2px; background: var(--text); }
+    .nav-ham span:nth-child(1) { top: 0; }
+    .nav-ham span:nth-child(2) { top: 9px; }
+    .nav-ham span:nth-child(3) { top: 18px; }
+
+    .container { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
+    .ab-hero { padding: 9rem 0 2rem; }
+    .ab-hero .label {
+      font-family: var(--heading); font-size: .72rem; letter-spacing: .25em;
+      color: var(--gloxx-accent); text-transform: uppercase;
+      margin-bottom: 1.25rem; display: inline-block;
+    }
+    .ab-hero h1 {
+      font-family: var(--heading);
+      font-size: clamp(2rem, 4.5vw, 3.25rem);
+      font-weight: 500; line-height: 1.1; color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    .ab-hero .subtitle {
+      font-family: var(--heading); font-size: 1rem; color: var(--text-2);
+      letter-spacing: .01em;
+    }
+
+    .ab-body { padding: 2rem 0 4rem; }
+    .ab-body p {
+      font-size: 1.08rem; line-height: 1.75;
+      color: var(--text-2); margin-bottom: 1.25rem;
+    }
+    .ab-body p strong { color: var(--text); font-weight: 500; }
+    .ab-body h2 {
+      font-family: var(--heading);
+      font-size: 1.5rem; font-weight: 500; color: var(--text);
+      margin: 3rem 0 1rem;
+    }
+    .ab-body a.inline {
+      color: var(--gloxx-accent);
+      border-bottom: 1px dashed var(--gloxx-accent);
+    }
+
+    .shipped-list {
+      margin-top: 1.5rem;
+      padding: 1.75rem 2rem;
+      border: 1px solid var(--border); border-radius: 10px;
+      background: var(--surface);
+    }
+    .shipped-list-title {
+      font-family: var(--heading); font-size: .72rem; letter-spacing: .2em;
+      color: var(--gloxx-accent); text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .shipped-list ul { list-style: none; padding: 0; margin: 0; }
+    .shipped-list li {
+      padding: .65rem 0 .65rem 1.5rem; border-bottom: 1px solid var(--border);
+      color: var(--text-2); font-size: .98rem; line-height: 1.55; position: relative;
+    }
+    .shipped-list li:last-child { border-bottom: none; }
+    .shipped-list li::before {
+      content: "→"; position: absolute; left: 0; top: .65rem;
+      color: var(--gloxx-accent);
+    }
+    .todo { color: var(--text-3); font-style: italic; font-size: .88rem; }
+
+    .sig {
+      margin-top: 3rem;
+      font-family: var(--heading); font-size: 1rem; color: var(--text);
+      letter-spacing: .01em;
+    }
+    .sig-line { color: var(--text-3); font-size: .88rem; margin-top: .25rem; }
+
+    /* CTA */
+    .cta-section {
+      text-align: center; padding: 5rem 0 7rem; border-top: 1px solid var(--border);
+    }
+    .cta-section h2 {
+      font-family: var(--heading); font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 500; color: var(--text); margin-bottom: 1rem;
+    }
+    .cta-section p { color: var(--text-2); font-size: 1rem; margin-bottom: 1.5rem; }
+    .cta-btn {
+      display: inline-block; background: var(--gloxx-accent);
+      color: var(--gloxx-accent-ink); padding: .85rem 1.6rem;
+      font-family: var(--heading); font-weight: 500; border-radius: 999px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.2); }
+
+    footer { border-top: 1px solid var(--border); padding: 2.5rem 0; }
+    .footer-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 0 2.5rem;
+    }
+    .footer-copy { color: var(--text-3); font-size: .85rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { color: var(--text-2); font-size: .85rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--gloxx-accent); }
+    .footer-tag { color: var(--text-3); font-family: var(--heading); font-size: .85rem; }
+
+    @media (max-width: 900px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-ham { display: block; }
+      .container { padding: 0 1.5rem; }
+      .ab-hero { padding: 7rem 0 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/></filter>
+      <rect width="100%" height="100%" filter="url(#g)" opacity=".018"/>
+    </svg>
+  </div>
+
+  <header class="nav">
+    <a href="index.html" class="nav-logo">GLOXX</a>
+    <div class="nav-links">
+      <a href="services.html">Services</a>
+      <a href="approach.html">Approach</a>
+      <a href="about.html" aria-current="page">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="contact.html" class="nav-cta-link">Book a call</a>
+    </div>
+    <button class="nav-ham" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <section class="ab-hero">
+    <div class="container">
+      <span class="label">About</span>
+      <h1>Bran · Founder, Gloxx.</h1>
+      <p class="subtitle">15 years in QA. Several in blockchain. One strongly-held opinion about how to use AI.</p>
+    </div>
+  </section>
+
+  <article class="ab-body">
+    <div class="container">
+
+      <p>Fifteen years in QA — senior engineer, then manager — shipping software where bugs actually cost money. The last several have been in blockchain: smart contract testing, protocol regression, the particular quiet terror of deploying immutable code.</p>
+
+      <p>Gloxx is the QA partner I wished every blockchain team I'd worked with already had. Most have an auditor. Most don't have anyone making sure that <em>between</em> audits, the test suite stays honest and the release gate stays closed when it should. That's the gap we fill.</p>
+
+      <p>I built Gloxx because the industry has the wrong debate. The question isn't "can AI replace auditors?" The answer there is already clear: not yet, and probably not ever in the way the marketing decks promise. The real question is <strong>what a disciplined QA function looks like when you take AI seriously as a tool</strong> — not as a replacement for judgment, not as a shortcut past review, but as a force multiplier that still has to earn every line it ships.</p>
+
+      <p>That's the opinion behind every engagement: <a href="approach.html" class="inline">AI used carefully</a>, with humans accountable for the output. Slither, Mythril, Aderyn, Foundry, Halmos, Echidna, Claude Code — real tools, real workflow, real review. Every test that ships with my name on it has been read by me.</p>
+
+      <h2>What I've shipped in 15 years of QA</h2>
+
+      <div class="shipped-list">
+        <div class="shipped-list-title">Selected, anonymized</div>
+        <ul>
+          <li>Ran QA for a <span class="todo">[TODO: fill in — fintech/trading platform]</span> through three major rewrites without a user-visible regression on payment rails.</li>
+          <li>Led the test-engineering function at <span class="todo">[TODO: fill in — company name or "a Series-B DeFi team"]</span>, growing a two-person team to seven and taking smart-contract coverage from near-zero to full invariant discipline.</li>
+          <li>Authored the release-gate checklist that's now the core of the Gloxx approach — refined over years of "what actually catches bugs before prod."</li>
+          <li>Built internal AI-augmented testing tooling before Claude Code existed — early enough to know which parts of the workflow were genuinely improved by agents and which were just fashion.</li>
+        </ul>
+      </div>
+
+      <p style="margin-top: 2rem;">If any of that sounds like the kind of partner you want on your release-critical path, <a href="contact.html" class="inline">let's talk</a>.</p>
+
+      <div class="sig">
+        — Bran
+        <div class="sig-line">Founder, Gloxx · 2026</div>
+      </div>
+
+    </div>
+  </article>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Talk with me.</h2>
+      <p>30 minutes. No pitch. Just your shipping pressure and what I'd do about it.</p>
+      <a href="contact.html" class="cta-btn">Book the call →</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 Gloxx</span>
+      <div class="footer-links">
+        <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
+        <a href="index.html">Home</a>
+      </div>
+      <span class="footer-tag">Wisdom engineered.</span>
+    </div>
+  </footer>
+
+</body>
+</html>
