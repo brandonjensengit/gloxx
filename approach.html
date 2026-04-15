@@ -136,6 +136,28 @@
     .nav-ham span:nth-child(1) { top: 0; }
     .nav-ham span:nth-child(2) { top: 9px; }
     .nav-ham span:nth-child(3) { top: 18px; }
+    .nav-ham.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .nav-ham.active span:nth-child(2) { opacity: 0; }
+    .nav-ham.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+    .mob-menu {
+      position: fixed; inset: 0;
+      background: rgba(8,8,10,.97);
+      z-index: 7999;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 2.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity .4s;
+    }
+    .mob-menu.active { opacity: 1; pointer-events: all; }
+    .mob-menu a {
+      font-family: var(--heading);
+      font-size: 1.6rem; font-weight: 600;
+      color: var(--text-2); letter-spacing: .08em;
+      transition: color .3s;
+    }
+    .mob-menu a[aria-current="page"] { color: var(--gloxx-accent); }
+    .mob-menu a:hover { color: var(--text); }
 
     /* ═══════════ LAYOUT ═══════════ */
     .container { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
@@ -549,10 +571,19 @@
       <a href="contact.html">Contact</a>
       <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="nav-cta-link">Book a call</a>
     </div>
-    <button class="nav-ham" aria-label="Menu">
+    <button class="nav-ham" id="navHam" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </header>
+
+  <div class="mob-menu" id="mobMenu">
+    <a href="index.html" class="mob-link">Home</a>
+    <a href="services.html" class="mob-link">Services</a>
+    <a href="approach.html" class="mob-link" aria-current="page">Approach</a>
+    <a href="about.html" class="mob-link">About</a>
+    <a href="contact.html" class="mob-link">Contact</a>
+    <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="mob-link">Book a call</a>
+  </div>
 
   <!-- Hero -->
   <section class="ap-hero">
@@ -788,6 +819,23 @@
       Built and <a href="https://github.com/brandonjensengit/gloxx/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.
     </div>
   </footer>
+
+  <script>
+    const ham = document.getElementById('navHam');
+    const mob = document.getElementById('mobMenu');
+    ham.addEventListener('click', () => {
+      ham.classList.toggle('active');
+      mob.classList.toggle('active');
+      document.body.style.overflow = mob.classList.contains('active') ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mob-link').forEach(a => {
+      a.addEventListener('click', () => {
+        ham.classList.remove('active');
+        mob.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
 
   <!-- TOC active-link tracking -->
   <script>

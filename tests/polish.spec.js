@@ -81,6 +81,16 @@ test.describe('Polish', () => {
           expect(res.status(), `${href} on ${path} returned ${res.status()}`).toBeLessThan(400);
         }
       });
+
+      test('mobile hamburger toggles mobile menu', async ({ page }, testInfo) => {
+        test.skip(testInfo.project.name !== 'mobile', 'mobile viewport only');
+        const mob = page.locator('#mobMenu');
+        await expect(mob).not.toHaveClass(/active/);
+        await page.click('#navHam');
+        await expect(mob).toHaveClass(/active/);
+        await page.click('#navHam');
+        await expect(mob).not.toHaveClass(/active/);
+      });
     });
   }
 });
