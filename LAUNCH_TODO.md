@@ -38,6 +38,21 @@ Everything outstanding before the site goes live at **gloxx.ai**. Grouped by bla
 - [ ] Add a Plausible / Fathom / GA4 snippet — whichever analytics you're standardizing on.
 - [ ] Decide what goes in `archive/` long-term. Currently `noindex`, `Disallow: /archive/` in robots. Fine to leave, but after a quarter you may want to delete the portfolio demos entirely.
 
+## 6. Future: migrate repo to a Gloxx GitHub org
+
+Currently `github.com/brandonjensengit/gloxx` (personal account). For professionalism + future collaborators + clean separation from personal GitHub, move to a Gloxx org.
+
+- [ ] **Create GitHub org** at `github.com/organizations/new`. Suggested slugs: `gloxx-ai`, `gloxxai`, `gloxx-qa`. Free tier works (public repos, unlimited collaborators).
+- [ ] **Transfer repo** via Settings → Transfer ownership. GitHub preserves commit history, Pages config, custom domain, HTTPS cert, and sets up permanent URL redirects from the old path.
+- [ ] **Code updates** (I'll do these once the org exists):
+  - Footer "dogfood" link in all 5 pages: `github.com/brandonjensengit/gloxx/tree/main/tests` → new org path.
+  - README badge URL.
+  - Wire the home-footer `GitHub` placeholder link to the new public repo.
+- [ ] **GoDaddy DNS**: update `www` CNAME from `brandonjensengit.github.io.` to `<new-org>.github.io.`.
+- [ ] **GitHub Pages settings**: re-verify custom domain `gloxx.ai` is still set on the transferred repo (usually persists; occasionally needs re-entering). Re-tick Enforce HTTPS if it got unticked.
+
+Deferred per Brandon's preference — do after the site has stabilized with real reviewer feedback.
+
 ---
 
 ## What's *already_ done (no action needed)

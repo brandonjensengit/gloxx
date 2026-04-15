@@ -69,7 +69,11 @@
       padding: .55rem 1.1rem; border-radius: 999px; font-weight: 500;
     }
     .nav-cta-link:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124,249,181,.18); }
-    .nav-ham { display: none; width: 28px; height: 20px; position: relative; }
+    .nav-ham {
+      display: none; width: 28px; height: 20px; position: relative;
+      background: none; border: none; padding: 0;
+      -webkit-appearance: none; appearance: none; cursor: pointer;
+    }
     .nav-ham span { position: absolute; left: 0; right: 0; height: 2px; background: var(--text); }
     .nav-ham span:nth-child(1) { top: 0; }
     .nav-ham span:nth-child(2) { top: 9px; }
