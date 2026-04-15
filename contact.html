@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Gloxx</title>
+  <meta name="description" content="Tell us about your release risk. We reply within one business day. For urgent pre-upgrade engagements, put 'WAR ROOM' in the subject line of an email to hello@gloxx.ai.">
+
+  <link rel="canonical" href="https://brandonjensengit.github.io/gloxx/contact.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact — Gloxx">
+  <meta property="og:description" content="Tell us about your release risk. We reply within one business day.">
+  <meta property="og:url" content="https://brandonjensengit.github.io/gloxx/contact.html">
+  <meta property="og:image" content="/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contact — Gloxx">
+  <meta name="twitter:description" content="Tell us about your release risk.">
+  <meta name="twitter:image" content="/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08080a; --text: #ededed; --text-2: #898989; --text-3: #555;
+      --border: rgba(255,255,255,0.07); --surface: rgba(255,255,255,0.03);
+      --heading: 'Space Grotesk', -apple-system, sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+      --gloxx-accent: #7cf9b5; --gloxx-accent-ink: #0b0d10;
+      --accent-3: #6366f1;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--gloxx-accent); color: var(--gloxx-accent-ink); }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      font-family: var(--body); background: var(--bg); color: var(--text-2);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; }
+    button { border: none; font-family: inherit; cursor: pointer; }
+
+    .grain { position: fixed; inset: 0; pointer-events: none; z-index: 9000; mix-blend-mode: overlay; }
+    .grain svg { width: 100%; height: 100%; }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2.5rem; z-index: 8000;
+      background: rgba(8,8,10,.6);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--heading); font-size: 1.15rem; font-weight: 600; color: var(--text); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { font-family: var(--heading); font-size: .9rem; color: var(--text-2); transition: color .2s; }
+    .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--text); }
+    .nav-links a[aria-current="page"] { border-bottom: 1px solid var(--gloxx-accent); padding-bottom: 2px; }
+    .nav-cta-link {
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink) !important;
+      padding: .55rem 1.1rem; border-radius: 999px; font-weight: 500;
+    }
+    .nav-cta-link:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124,249,181,.18); }
+    .nav-ham { display: none; width: 28px; height: 20px; position: relative; }
+    .nav-ham span { position: absolute; left: 0; right: 0; height: 2px; background: var(--text); }
+    .nav-ham span:nth-child(1) { top: 0; }
+    .nav-ham span:nth-child(2) { top: 9px; }
+    .nav-ham span:nth-child(3) { top: 18px; }
+
+    .container { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
+
+    .ct-hero { padding: 9rem 0 2rem; }
+    .ct-hero .label {
+      font-family: var(--heading); font-size: .72rem; letter-spacing: .25em;
+      color: var(--gloxx-accent); text-transform: uppercase;
+      margin-bottom: 1.25rem; display: inline-block;
+    }
+    .ct-hero h1 {
+      font-family: var(--heading);
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 500; line-height: 1.1; color: var(--text);
+      margin-bottom: 1.25rem;
+    }
+    .ct-hero .lead {
+      font-size: 1.08rem; line-height: 1.65; color: var(--text-2);
+    }
+    .ct-hero .war-room-hint {
+      margin-top: 1.75rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--border); border-left: 2px solid var(--accent-3);
+      border-radius: 0 8px 8px 0;
+      background: rgba(99, 102, 241, .03);
+      font-size: .92rem; line-height: 1.55;
+      color: var(--text-2);
+    }
+    .ct-hero .war-room-hint strong {
+      color: var(--accent-3); font-weight: 500;
+      font-family: var(--heading); letter-spacing: .05em;
+    }
+
+    /* Form */
+    .ct-form {
+      padding: 1rem 0 4rem;
+    }
+    .ct-form form {
+      display: grid; gap: 1.5rem;
+      padding: 2.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .field { display: grid; gap: .5rem; }
+    .field label {
+      font-family: var(--heading); font-size: .85rem; color: var(--text);
+      letter-spacing: .01em;
+    }
+    .field .hint {
+      font-size: .82rem; color: var(--text-3); margin-top: -.25rem;
+    }
+    .field input[type="text"],
+    .field input[type="email"],
+    .field textarea,
+    .field select {
+      font-family: var(--body); font-size: 1rem;
+      padding: .75rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 6px;
+      transition: border-color .2s, background .2s;
+      outline: none;
+    }
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--gloxx-accent);
+      background: rgba(124, 249, 181, .02);
+    }
+    .field textarea { resize: vertical; min-height: 100px; line-height: 1.55; }
+    .field-check {
+      display: flex; align-items: flex-start; gap: .75rem;
+      padding: 1rem; border: 1px dashed var(--border); border-radius: 6px;
+      cursor: pointer; transition: border-color .2s, background .2s;
+    }
+    .field-check:hover { border-color: var(--accent-3); background: rgba(99,102,241,.02); }
+    .field-check input[type="checkbox"] {
+      width: 1.1rem; height: 1.1rem; margin-top: .15rem;
+      accent-color: var(--accent-3);
+    }
+    .field-check-body { font-size: .92rem; line-height: 1.5; color: var(--text-2); }
+    .field-check-body strong { color: var(--text); font-family: var(--heading); letter-spacing: .05em; }
+
+    .submit-btn {
+      background: var(--gloxx-accent);
+      color: var(--gloxx-accent-ink);
+      padding: .9rem 1.75rem;
+      font-family: var(--heading); font-weight: 500; font-size: 1rem;
+      border-radius: 999px;
+      transition: transform .2s, box-shadow .2s;
+      justify-self: start;
+    }
+    .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.2); }
+    .submit-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .submit-note {
+      font-size: .82rem; color: var(--text-3); line-height: 1.5;
+    }
+    .submit-note a.inline { color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent); }
+
+    /* Confirmation state */
+    .ct-confirm {
+      display: none;
+      padding: 3rem 2.5rem;
+      background: var(--surface);
+      border: 1px solid var(--gloxx-accent);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .ct-confirm.active { display: block; }
+    .ct-confirm .check {
+      display: inline-block; width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink);
+      line-height: 48px; font-size: 1.4rem;
+      margin-bottom: 1.25rem;
+    }
+    .ct-confirm h2 {
+      font-family: var(--heading); font-size: 1.5rem; color: var(--text);
+      margin-bottom: .75rem; font-weight: 500;
+    }
+    .ct-confirm p { font-size: 1rem; line-height: 1.6; color: var(--text-2); }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 2.5rem 0; }
+    .footer-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 0 2.5rem;
+    }
+    .footer-copy { color: var(--text-3); font-size: .85rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { color: var(--text-2); font-size: .85rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--gloxx-accent); }
+    .footer-tag { color: var(--text-3); font-family: var(--heading); font-size: .85rem; }
+
+    @media (max-width: 900px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-ham { display: block; }
+      .container { padding: 0 1.5rem; }
+      .ct-hero { padding: 7rem 0 1.5rem; }
+      .ct-form form { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/></filter>
+      <rect width="100%" height="100%" filter="url(#g)" opacity=".018"/>
+    </svg>
+  </div>
+
+  <header class="nav">
+    <a href="index.html" class="nav-logo">GLOXX</a>
+    <div class="nav-links">
+      <a href="services.html">Services</a>
+      <a href="approach.html">Approach</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+      <a href="#contact-form" class="nav-cta-link">Book a call</a>
+    </div>
+    <button class="nav-ham" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Hero -->
+  <section class="ct-hero">
+    <div class="container">
+      <span class="label">Contact</span>
+      <h1>Let's talk about your release risk.</h1>
+      <p class="lead">Tell me about what you're shipping. I'll reply within one business day. No sales sequence, no "Hey, just following up!" chain — one real human, one reply.</p>
+      <div class="war-room-hint">
+        For urgent pre-upgrade engagements, put <strong>WAR ROOM</strong> in the subject line of an email to <a href="mailto:hello@gloxx.ai?subject=WAR%20ROOM" style="color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent);">hello@gloxx.ai</a> — I'll respond the same day.
+      </div>
+    </div>
+  </section>
+
+  <!-- Form -->
+  <section class="ct-form">
+    <div class="container">
+
+      <form id="contact-form" novalidate>
+        <div class="field">
+          <label for="f-name">Your name</label>
+          <input type="text" id="f-name" name="name" required autocomplete="name">
+        </div>
+
+        <div class="field">
+          <label for="f-company">Company or protocol</label>
+          <input type="text" id="f-company" name="company" required autocomplete="organization" placeholder="e.g. Aave, Uniswap, your protocol name">
+        </div>
+
+        <div class="field">
+          <label for="f-email">Best email</label>
+          <input type="email" id="f-email" name="email" required autocomplete="email">
+        </div>
+
+        <div class="field">
+          <label for="f-what">What are you building?</label>
+          <span class="hint">One or two sentences. What does your protocol do?</span>
+          <textarea id="f-what" name="what-building" required></textarea>
+        </div>
+
+        <div class="field">
+          <label for="f-qa">What's your current QA situation?</label>
+          <span class="hint">Auditor? Internal test suite? Ad hoc? Be honest — we can't help from a pretty picture.</span>
+          <textarea id="f-qa" name="current-qa" required></textarea>
+        </div>
+
+        <div class="field">
+          <label for="f-when">When are you shipping next?</label>
+          <select id="f-when" name="when-shipping" required>
+            <option value="">Select a timeframe...</option>
+            <option value="this-week">This week</option>
+            <option value="next-30">Next 30 days</option>
+            <option value="next-90">Next 90 days</option>
+            <option value="exploring">Exploring — no hard date</option>
+          </select>
+        </div>
+
+        <label class="field-check" for="f-war-room">
+          <input type="checkbox" id="f-war-room" name="war-room" value="yes">
+          <div class="field-check-body">
+            <strong>WAR ROOM</strong> — I'm shipping something sensitive this week. Prioritize my reply.
+          </div>
+        </label>
+
+        <button type="submit" class="submit-btn" id="submit-btn">Send</button>
+
+        <p class="submit-note">
+          No Google Sheet or CRM hooked up yet — submitting opens your mail client pre-filled so I receive the message directly. If that's inconvenient, email me at <a href="mailto:hello@gloxx.ai" class="inline">hello@gloxx.ai</a>.
+        </p>
+      </form>
+
+      <!-- Confirmation state (shown after submit) -->
+      <div class="ct-confirm" id="contact-confirm" role="status" aria-live="polite">
+        <div class="check" aria-hidden="true">✓</div>
+        <h2>Got it — check your mail client.</h2>
+        <p>We've opened a pre-filled email. Send it from whichever address you want me to reply to. I'll get back to you within one business day.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 Gloxx</span>
+      <div class="footer-links">
+        <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
+        <a href="index.html">Home</a>
+      </div>
+      <span class="footer-tag">Wisdom engineered.</span>
+    </div>
+  </footer>
+
+  <!-- Form JS: builds a structured mailto: until Apps Script URL is wired -->
+  <script>
+    (function() {
+      const form = document.getElementById('contact-form');
+      const confirm = document.getElementById('contact-confirm');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Basic required-field check
+        const required = form.querySelectorAll('[required]');
+        for (const el of required) {
+          if (!el.value.trim()) {
+            el.focus();
+            return;
+          }
+        }
+
+        const data = new FormData(form);
+        const warRoom = data.get('war-room') === 'yes';
+        const subject = warRoom
+          ? 'WAR ROOM — ' + (data.get('company') || 'Gloxx enquiry')
+          : 'Gloxx enquiry — ' + (data.get('company') || data.get('name'));
+
+        const body = [
+          'Name: ' + data.get('name'),
+          'Company / protocol: ' + data.get('company'),
+          'Email: ' + data.get('email'),
+          '',
+          'What are you building?',
+          data.get('what-building'),
+          '',
+          "Current QA situation:",
+          data.get('current-qa'),
+          '',
+          'Shipping next: ' + data.get('when-shipping'),
+          'WAR ROOM flag: ' + (warRoom ? 'YES' : 'no'),
+          '',
+          '— Sent via the Gloxx contact form.',
+        ].join('\n');
+
+        // TODO(backend): once Apps Script URL is live, POST to it with this same payload
+        //   instead of — or in addition to — the mailto fallback below.
+        const mailto = 'mailto:hello@gloxx.ai'
+          + '?subject=' + encodeURIComponent(subject)
+          + '&body=' + encodeURIComponent(body);
+
+        window.location.href = mailto;
+
+        // Flip UI to confirmation state
+        form.style.display = 'none';
+        confirm.classList.add('active');
+      });
+    })();
+  </script>
+
+</body>
+</html>
