@@ -7,7 +7,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Portfolio Page', () => {
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/portfolio.html');
+    await page.goto('/archive/portfolio.html');
     await page.waitForLoadState('networkidle');
   });
 

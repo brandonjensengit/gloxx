@@ -637,6 +637,19 @@
     }
 
     /* ═══════════ FOOTER ═══════════ */
+    .footer-dogfood {
+      margin-top: 1.5rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 2.5rem; padding-right: 2.5rem;
+      font-family: var(--heading); font-size: .78rem; letter-spacing: .02em;
+      color: var(--text-3); text-align: center;
+    }
+    .footer-dogfood a {
+      color: var(--text-2);
+      border-bottom: 1px dashed var(--border);
+      transition: color .2s, border-color .2s;
+    }
+    .footer-dogfood a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
     footer {
       padding: 2.5rem 0;
       position: relative;
@@ -1569,6 +1582,9 @@
         <a href="#">GitHub</a>
       </div>
       <span class="footer-tag">Wisdom engineered.</span>
+    </div>
+    <div class="footer-dogfood">
+      Built and <a href="https://github.com/brandonjensengit/gloxx/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.
     </div>
   </footer>
 

@@ -1,0 +1,23 @@
+# Node
+node_modules/
+package-lock.json.bak
+
+# Playwright
+test-results/
+playwright-report/
+.playwright/
+
+# Claude / dev env
+.claude/
+.env
+.env.local
+
+# Editors
+.vscode/
+.idea/
+.DS_Store
+
+# Misc untracked scaffolding not part of the production site
+public/
+src/
+vite.config.js

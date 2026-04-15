@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Gloxx</title>
+  <meta name="description" content="This page failed a test.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://brandonjensengit.github.io/gloxx/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08080a; --text: #ededed; --text-2: #898989; --text-3: #555;
+      --border: rgba(255,255,255,0.07);
+      --heading: 'Space Grotesk', -apple-system, sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+      --gloxx-accent: #7cf9b5; --gloxx-accent-ink: #0b0d10;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--gloxx-accent); color: var(--gloxx-accent-ink); }
+    html, body { height: 100%; }
+    body {
+      font-family: var(--body); background: var(--bg); color: var(--text-2);
+      display: flex; flex-direction: column; min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; }
+
+    .grain { position: fixed; inset: 0; pointer-events: none; z-index: 9000; mix-blend-mode: overlay; }
+    .grain svg { width: 100%; height: 100%; }
+
+    .top { padding: 2rem 2.5rem; }
+    .logo {
+      font-family: var(--heading);
+      font-size: 1.15rem; font-weight: 600; color: var(--text);
+      letter-spacing: .02em;
+    }
+
+    main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+    .inner {
+      max-width: 560px; text-align: center;
+    }
+    .code {
+      font-family: var(--heading);
+      font-size: .75rem; letter-spacing: .3em;
+      color: var(--gloxx-accent);
+      text-transform: uppercase; margin-bottom: 1.5rem;
+      display: inline-block;
+    }
+    h1 {
+      font-family: var(--heading);
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 500; color: var(--text);
+      line-height: 1.1; margin-bottom: 1.5rem;
+    }
+    p {
+      font-size: 1.05rem; line-height: 1.7; color: var(--text-2);
+      margin-bottom: 2rem;
+    }
+    .ctas {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+    .btn {
+      font-family: var(--heading); font-weight: 500;
+      padding: .75rem 1.5rem;
+      border-radius: 999px;
+      transition: transform .2s, box-shadow .2s, background .2s, color .2s;
+    }
+    .btn-primary {
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.2); }
+    .btn-secondary {
+      color: var(--text); border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--gloxx-accent); color: var(--gloxx-accent); }
+
+    footer {
+      padding: 2rem 2.5rem; border-top: 1px solid var(--border);
+      text-align: center;
+      font-family: var(--heading); font-size: .78rem;
+      color: var(--text-3); letter-spacing: .02em;
+    }
+    footer a { color: var(--text-2); border-bottom: 1px dashed var(--border); transition: color .2s, border-color .2s; }
+    footer a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+  </style>
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/></filter>
+      <rect width="100%" height="100%" filter="url(#g)" opacity=".018"/>
+    </svg>
+  </div>
+
+  <div class="top">
+    <a href="index.html" class="logo">GLOXX</a>
+  </div>
+
+  <main>
+    <div class="inner">
+      <span class="code">404</span>
+      <h1>This page failed a test.</h1>
+      <p>Good thing we're paid to catch things like this. Head back home or pick up where you were going.</p>
+      <div class="ctas">
+        <a href="index.html" class="btn btn-primary">Back home →</a>
+        <a href="services.html" class="btn btn-secondary">See services</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Built and <a href="https://github.com/brandonjensengit/gloxx/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell. · Wisdom engineered.
+  </footer>
+
+</body>
+</html>

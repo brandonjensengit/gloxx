@@ -23,7 +23,7 @@ for (const site of sites) {
     test('page loads without errors', async ({ page }) => {
       const errors = [];
       page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()); });
-      const res = await page.goto(`/${site.file}`);
+      const res = await page.goto(`/archive/${site.file}`);
       expect(res.status()).toBe(200);
       await page.waitForLoadState('domcontentloaded');
       // Filter out non-critical errors (font loading, GSAP warnings)
@@ -32,32 +32,32 @@ for (const site of sites) {
     });
 
     test('has a title', async ({ page }) => {
-      await page.goto(`/${site.file}`);
+      await page.goto(`/archive/${site.file}`);
       const title = await page.title();
       expect(title.length).toBeGreaterThan(0);
     });
 
     test('hero text is visible', async ({ page }) => {
-      await page.goto(`/${site.file}`);
+      await page.goto(`/archive/${site.file}`);
       await page.waitForTimeout(3000); // wait for GSAP animations
       const body = await page.locator('body').innerText();
       expect(body).toMatch(site.hero);
     });
 
     test('has a navigation element', async ({ page }) => {
-      await page.goto(`/${site.file}`);
+      await page.goto(`/archive/${site.file}`);
       const nav = page.locator('nav, header, [class*="nav"]').first();
       await expect(nav).toBeVisible();
     });
 
     test('has a footer', async ({ page }) => {
-      await page.goto(`/${site.file}`);
+      await page.goto(`/archive/${site.file}`);
       const footer = page.locator('footer').first();
       await expect(footer).toBeVisible();
     });
 
     test('no horizontal overflow', async ({ page }) => {
-      await page.goto(`/${site.file}`);
+      await page.goto(`/archive/${site.file}`);
       await page.waitForLoadState('networkidle');
       const overflow = await page.evaluate(() =>
         document.documentElement.scrollWidth - window.innerWidth
@@ -66,7 +66,7 @@ for (const site of sites) {
     });
 
     test('page is scrollable (has content)', async ({ page }) => {
-      await page.goto(`/${site.file}`);
+      await page.goto(`/archive/${site.file}`);
       await page.waitForLoadState('networkidle');
       const height = await page.evaluate(() => document.body.scrollHeight);
       expect(height).toBeGreaterThan(800);
