@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Gloxx works — Approach</title>
+  <meta name="description" content="How Gloxx operates: the QA tool stack (Foundry, Slither, Mythril, Halmos, Echidna, Claude Code), the six-principle Claude Code operating protocol, our smart-contract test pyramid, and the release-gate checklist we give away.">
+
+  <link rel="canonical" href="https://brandonjensengit.github.io/gloxx/approach.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="How Gloxx works — Approach">
+  <meta property="og:description" content="The six-principle Claude Code operating protocol and the QA discipline that powers every Gloxx engagement.">
+  <meta property="og:url" content="https://brandonjensengit.github.io/gloxx/approach.html">
+  <meta property="og:image" content="/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Gloxx works — Approach">
+  <meta name="twitter:description" content="The technical methodology behind every Gloxx engagement.">
+  <meta name="twitter:image" content="/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08080a;
+      --bg-2: #0f0f12;
+      --bg-3: #141418;
+      --text: #ededed;
+      --text-2: #898989;
+      --text-3: #555;
+      --accent-1: #7cf9b5;
+      --accent-2: #3ed8c1;
+      --accent-3: #6366f1;
+      --border: rgba(255,255,255,0.07);
+      --surface: rgba(255,255,255,0.03);
+      --heading: 'Space Grotesk', -apple-system, sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+      --gloxx-bg: var(--bg);
+      --gloxx-fg: var(--text);
+      --gloxx-muted: var(--text-2);
+      --gloxx-border: var(--border);
+      --gloxx-accent: #7cf9b5;
+      --gloxx-accent-ink: #0b0d10;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--gloxx-accent); color: var(--gloxx-accent-ink); }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 5rem;
+      scrollbar-width: thin;
+      scrollbar-color: #333 var(--bg);
+      overflow-x: hidden;
+    }
+    html::-webkit-scrollbar { width: 5px; }
+    html::-webkit-scrollbar-track { background: var(--bg); }
+    html::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+    body {
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--text-2);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; border-radius: 2px; }
+
+    .grain {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 9000;
+      isolation: isolate; mix-blend-mode: overlay;
+    }
+    .grain svg { width: 100%; height: 100%; }
+
+    /* ═══════════ NAV ═══════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      z-index: 8000;
+      background: rgba(8,8,10,.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--heading);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a {
+      font-family: var(--heading);
+      font-size: .9rem;
+      color: var(--text-2);
+      transition: color .2s;
+    }
+    .nav-links a:hover,
+    .nav-links a[aria-current="page"] { color: var(--text); }
+    .nav-links a[aria-current="page"] {
+      border-bottom: 1px solid var(--gloxx-accent);
+      padding-bottom: 2px;
+    }
+    .nav-cta-link {
+      background: var(--gloxx-accent);
+      color: var(--gloxx-accent-ink) !important;
+      padding: .55rem 1.1rem;
+      border-radius: 999px;
+      font-weight: 500;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .nav-cta-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(124,249,181,.18);
+    }
+    .nav-ham { display: none; width: 28px; height: 20px; position: relative; }
+    .nav-ham span {
+      position: absolute; left: 0; right: 0;
+      height: 2px; background: var(--text);
+    }
+    .nav-ham span:nth-child(1) { top: 0; }
+    .nav-ham span:nth-child(2) { top: 9px; }
+    .nav-ham span:nth-child(3) { top: 18px; }
+
+    /* ═══════════ LAYOUT ═══════════ */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
+
+    .ap-hero { padding: 9rem 0 3rem; }
+    .ap-hero .label {
+      font-family: var(--heading);
+      font-size: .72rem; letter-spacing: .25em;
+      color: var(--gloxx-accent);
+      text-transform: uppercase; margin-bottom: 1.25rem;
+      display: inline-block;
+    }
+    .ap-hero h1 {
+      font-family: var(--heading);
+      font-size: clamp(2.25rem, 5vw, 3.75rem);
+      font-weight: 500;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      max-width: 18ch;
+    }
+    .ap-hero .ap-lead {
+      font-size: 1.15rem;
+      color: var(--text-2);
+      max-width: 55ch;
+      line-height: 1.65;
+    }
+
+    /* ═══════════ BODY: TWO-COLUMN WITH STICKY TOC ═══════════ */
+    .ap-body {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 4rem;
+      padding: 4rem 0 6rem;
+    }
+    .ap-toc {
+      position: sticky;
+      top: 6rem;
+      align-self: start;
+      border-left: 1px solid var(--border);
+      padding-left: 1.25rem;
+    }
+    .ap-toc-label {
+      font-family: var(--heading);
+      font-size: .7rem;
+      letter-spacing: .2em;
+      color: var(--text-3);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .ap-toc ol { list-style: none; padding: 0; margin: 0; counter-reset: toc; }
+    .ap-toc li {
+      counter-increment: toc;
+      margin-bottom: .6rem;
+    }
+    .ap-toc a {
+      font-family: var(--heading);
+      font-size: .88rem;
+      color: var(--text-2);
+      transition: color .2s, border-color .2s;
+      display: block;
+      padding-bottom: 2px;
+      border-bottom: 1px solid transparent;
+    }
+    .ap-toc a::before {
+      content: counter(toc, decimal-leading-zero) " · ";
+      color: var(--text-3);
+    }
+    .ap-toc a:hover,
+    .ap-toc a.toc-active {
+      color: var(--text);
+      border-color: var(--gloxx-accent);
+    }
+
+    .ap-main h2 {
+      font-family: var(--heading);
+      font-size: clamp(1.65rem, 3vw, 2.1rem);
+      font-weight: 500;
+      color: var(--text);
+      margin: 3.5rem 0 1.25rem;
+      line-height: 1.2;
+      scroll-margin-top: 6rem;
+    }
+    .ap-main h2:first-child { margin-top: 0; }
+    .ap-main h3 {
+      font-family: var(--heading);
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text);
+      margin: 2rem 0 .75rem;
+    }
+    .ap-main p {
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: var(--text-2);
+      margin-bottom: 1.1rem;
+    }
+    .ap-main p strong { color: var(--text); font-weight: 500; }
+    .ap-main a.inline {
+      color: var(--gloxx-accent);
+      border-bottom: 1px dashed var(--gloxx-accent);
+    }
+    .ap-main .section-intro {
+      color: var(--text);
+      font-size: 1.1rem;
+      line-height: 1.65;
+      font-weight: 300;
+      margin-bottom: 1.75rem;
+      max-width: 60ch;
+    }
+
+    /* Tool list */
+    .tool {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .tool:first-of-type { border-top: 1px solid var(--border); }
+    .tool-head {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: .5rem;
+    }
+    .tool-name {
+      font-family: var(--heading);
+      font-size: 1.15rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .tool-kind {
+      font-family: var(--heading);
+      font-size: .72rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gloxx-accent);
+    }
+    .tool p { font-size: .98rem; margin-bottom: 0; }
+
+    /* Principle list */
+    .protocol-list { counter-reset: proto; margin-top: 1.5rem; }
+    .protocol-item {
+      counter-increment: proto;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+    .protocol-item:last-child { border-bottom: 1px solid var(--border); }
+    .protocol-item::before {
+      content: counter(proto, decimal-leading-zero);
+      font-family: var(--heading);
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--gloxx-accent);
+      line-height: 1;
+    }
+    .protocol-item h3 { margin-top: 0; margin-bottom: .5rem; }
+    .protocol-item p { margin-bottom: 0; }
+    .protocol-item blockquote {
+      margin-top: .75rem;
+      padding: .75rem 1rem;
+      border-left: 2px solid var(--gloxx-accent);
+      background: rgba(124, 249, 181, .03);
+      font-family: var(--mono);
+      font-size: .88rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Code block */
+    .code-block {
+      margin: 1.5rem 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-head {
+      padding: .65rem 1rem;
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--text-3);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-2);
+    }
+    .code-body {
+      padding: 1.25rem;
+      font-family: var(--mono);
+      font-size: .85rem;
+      line-height: 1.55;
+      color: var(--text-2);
+      white-space: pre;
+      overflow-x: auto;
+      background: var(--bg-2);
+    }
+    .code-body .c-comment { color: var(--text-3); }
+    .code-body .c-keyword { color: var(--accent-3); }
+    .code-body .c-string { color: var(--gloxx-accent); }
+
+    /* Pyramid */
+    .pyramid {
+      margin: 2rem auto;
+      max-width: 560px;
+      font-family: var(--mono);
+      font-size: .82rem;
+      color: var(--text-2);
+      line-height: 1.9;
+    }
+    .pyramid .row {
+      display: block;
+      text-align: center;
+      padding: .35rem 0;
+      border-bottom: 1px dashed var(--border);
+    }
+    .pyramid .row:last-child { border-bottom: none; }
+    .pyramid .row .tier {
+      display: inline-block;
+      color: var(--text);
+      font-weight: 500;
+      letter-spacing: .02em;
+    }
+    .pyramid .row .count {
+      color: var(--gloxx-accent);
+      margin-left: .75rem;
+    }
+    .pyramid .narrower { max-width: 75%; margin: 0 auto; }
+    .pyramid .narrowest { max-width: 55%; margin: 0 auto; }
+
+    /* Checklist */
+    .checklist {
+      margin-top: 1.5rem;
+      padding: 1.75rem 2rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+    .checklist-title {
+      font-family: var(--heading);
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+      font-weight: 500;
+    }
+    .checklist ol {
+      list-style: none;
+      padding: 0;
+      counter-reset: ck;
+    }
+    .checklist li {
+      counter-increment: ck;
+      padding: .8rem 0 .8rem 3rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-2);
+      font-size: .96rem;
+      line-height: 1.55;
+      position: relative;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before {
+      content: "☐  " counter(ck, decimal-leading-zero);
+      position: absolute;
+      left: 0;
+      top: .8rem;
+      font-family: var(--mono);
+      font-size: .85rem;
+      color: var(--gloxx-accent);
+    }
+
+    /* Refuse list */
+    .refuse-list {
+      margin-top: 1.25rem;
+      list-style: none;
+      padding: 0;
+    }
+    .refuse-list li {
+      padding: 1rem 0 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-2);
+      line-height: 1.6;
+      font-size: .98rem;
+      position: relative;
+    }
+    .refuse-list li:last-child { border-bottom: none; }
+    .refuse-list li::before {
+      content: "✕";
+      position: absolute;
+      left: 0;
+      top: 1rem;
+      color: var(--accent-3);
+      font-weight: 500;
+    }
+    .refuse-list li strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ═══════════ CTA ═══════════ */
+    .cta-section {
+      text-align: center;
+      padding: 7rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .cta-section h2 {
+      font-family: var(--heading);
+      font-size: clamp(1.65rem, 3.2vw, 2.25rem);
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+      line-height: 1.25;
+    }
+    .cta-section p {
+      color: var(--text-2);
+      max-width: 48ch;
+      margin: 0 auto 1.75rem;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--gloxx-accent);
+      color: var(--gloxx-accent-ink);
+      padding: .9rem 1.75rem;
+      font-family: var(--heading);
+      font-weight: 500;
+      border-radius: 999px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(124,249,181,.2);
+    }
+
+    /* ═══════════ FOOTER ═══════════ */
+    footer { border-top: 1px solid var(--border); padding: 2.5rem 0; }
+    .footer-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .footer-copy { color: var(--text-3); font-size: .85rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      color: var(--text-2);
+      font-size: .85rem;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--gloxx-accent); }
+    .footer-tag {
+      color: var(--text-3);
+      font-family: var(--heading);
+      font-size: .85rem;
+    }
+
+    /* ═══════════ RESPONSIVE ═══════════ */
+    @media (max-width: 900px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-ham { display: block; }
+      .container { padding: 0 1.5rem; }
+      .ap-body { grid-template-columns: 1fr; gap: 2rem; }
+      .ap-toc {
+        position: static;
+        padding: 1rem 1.25rem;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+      .ap-toc ol { display: flex; flex-wrap: wrap; gap: .5rem 1rem; }
+      .ap-toc li { margin-bottom: 0; }
+      .protocol-item { grid-template-columns: 2.25rem 1fr; gap: 1rem; }
+      .service-card { padding: 2rem 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .ap-hero { padding: 7rem 0 2rem; }
+      .code-body { font-size: .78rem; padding: 1rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/></filter>
+      <rect width="100%" height="100%" filter="url(#g)" opacity=".018"/>
+    </svg>
+  </div>
+
+  <header class="nav">
+    <a href="index.html" class="nav-logo">GLOXX</a>
+    <div class="nav-links">
+      <a href="services.html">Services</a>
+      <a href="approach.html" aria-current="page">Approach</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="contact.html" class="nav-cta-link">Book a call</a>
+    </div>
+    <button class="nav-ham" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Hero -->
+  <section class="ap-hero">
+    <div class="container">
+      <span class="label">Approach</span>
+      <h1>How Gloxx works.</h1>
+      <p class="ap-lead">We don't sell a methodology. We sell a habit: how we actually use our tools, how we drive Claude Code without letting it drive us, and what we refuse to do regardless of price. If you want to understand whether Gloxx belongs on your release-critical path, this is the page that tells you.</p>
+    </div>
+  </section>
+
+  <!-- Body -->
+  <section>
+    <div class="container">
+      <div class="ap-body">
+
+        <!-- Sticky TOC -->
+        <aside class="ap-toc" aria-label="Contents">
+          <div class="ap-toc-label">Contents</div>
+          <ol>
+            <li><a href="#stack">The Gloxx QA stack</a></li>
+            <li><a href="#agents">How we use AI agents</a></li>
+            <li><a href="#protocol">Claude Code operating protocol</a></li>
+            <li><a href="#pyramid">Test pyramid for protocols</a></li>
+            <li><a href="#gate">Release-gate checklist</a></li>
+            <li><a href="#refuse">What we refuse to do</a></li>
+          </ol>
+        </aside>
+
+        <!-- Main content -->
+        <article class="ap-main">
+
+          <!-- 1. Stack -->
+          <h2 id="stack">The Gloxx QA stack</h2>
+          <p class="section-intro">Eight tools, used in specific combinations. None of them is magic; the value is knowing when to reach for each.</p>
+
+          <div class="tool">
+            <div class="tool-head"><span class="tool-name">Foundry</span><span class="tool-kind">Test runner</span></div>
+            <p>Our default. Fast, Solidity-native, and the only test framework with first-class invariant and fuzz runners baked in. We write new suites in Foundry unless the client's existing Hardhat pipeline is too entrenched to move.</p>
+          </div>
+          <div class="tool">
+            <div class="tool-head"><span class="tool-name">Hardhat</span><span class="tool-kind">Legacy runner</span></div>
+            <p>We maintain and extend Hardhat suites when the client already has one. We don't migrate <em>to</em> Hardhat. JavaScript-based, slower, but still the right choice when the surrounding tooling is Node-centric.</p>
+          </div>
+          <div class="tool">
+            <div class="tool-head"><span class="tool-name">Slither</span><span class="tool-kind">Static analysis</span></div>
+            <p>First pass on every audit. Catches reentrancy, uninitialized storage, shadowing, and about 90 other low-cost findings that no smart auditor should still be paid to discover manually.</p>
+          </div>
+          <div class="tool">
+            <div class="tool-head"><span class="tool-name">Mythril</span><span class="tool-kind">Symbolic execution</span></div>
+            <p>Slower than Slither, deeper. We run it when Slither's output is clean and we want to surface integer-overflow / state-dependency bugs that show up only across call sequences.</p>
+          </div>
+          <div class="tool">
+            <div class="tool-head"><span class="tool-name">Aderyn</span><span class="tool-kind">Rust-based linter</span></div>
+            <p>Newer, faster than Slither for large codebases, with complementary detector coverage. We run both — their disagreements are signal.</p>
+          </div>
+          <div class="tool">
+            <div class="tool-head"><span class="tool-name">Halmos</span><span class="tool-kind">Symbolic verification</span></div>
+            <p>Formal verification without a separate language. We use it when an invariant is critical enough that fuzz counterexamples aren't sufficient — think reserves-greater-than-liabilities properties.</p>
+          </div>
+          <div class="tool">
+            <div class="tool-head"><span class="tool-name">Echidna</span><span class="tool-kind">Property-based fuzzer</span></div>
+            <p>Where Foundry's fuzzer runs out of depth. Echidna's Haskell core finds sequences of calls that violate properties; we reach for it on stateful bugs the invariant runner couldn't provoke.</p>
+          </div>
+          <div class="tool">
+            <div class="tool-head"><span class="tool-name">Claude Code</span><span class="tool-kind">Agent runtime</span></div>
+            <p>The glue. Drafts candidate tests from specs, operates the stack above, and runs unattended work as Routines between engagements (see <a href="#agents" class="inline">§2</a> and <a href="#protocol" class="inline">§3</a>).</p>
+          </div>
+
+          <!-- 2. AI agents -->
+          <h2 id="agents">How we use AI agents</h2>
+          <p class="section-intro">Concrete workflow. Every Test Suite Rebuild (Tier 2) and every Fractional retainer (Tier 3) runs this loop:</p>
+
+          <p><strong>Step 1 — PRD / invariant spec.</strong> The engineer writes a plain-English list of the properties that should always hold. ("The pool's token reserves should always equal the sum of user balances minus pending withdrawals." "No user should be able to withdraw more than their share of LP tokens represents.") This is the most valuable human work in the process — we don't let the model draft it.</p>
+
+          <p><strong>Step 2 — Claude Code drafts candidate Foundry invariants.</strong> We feed the model the PRD plus the relevant Solidity file and ask for a first-draft invariant test. We prompt explicitly for properties the model is <em>unsure about</em>, not just the obvious ones. Output looks like this:</p>
+
+          <div class="code-block">
+            <div class="code-head">test/invariants/PoolReserves.invariant.t.sol</div>
+            <div class="code-body"><span class="c-comment">// Generated by Claude Code from PRD §3.2: "Pool reserves never diverge</span>
+<span class="c-comment">// from bookkeeping." Human-reviewed by Bran on 2026-04-14. See commit</span>
+<span class="c-comment">// 3f91a2c for the discussion on edge case 4 (zero-amount donation).</span>
+
+<span class="c-keyword">contract</span> PoolReservesInvariant <span class="c-keyword">is</span> StdInvariant, Test {
+    Pool pool;
+    PoolHandler handler;
+
+    <span class="c-keyword">function</span> setUp() <span class="c-keyword">public</span> {
+        pool = <span class="c-keyword">new</span> Pool();
+        handler = <span class="c-keyword">new</span> PoolHandler(pool);
+        targetContract(<span class="c-keyword">address</span>(handler));
+    }
+
+    <span class="c-comment">// INVARIANT: reserves == sum(balances) - pendingWithdrawals</span>
+    <span class="c-keyword">function</span> invariant_reservesMatchBookkeeping() <span class="c-keyword">public</span> {
+        assertEq(
+            pool.reserves(),
+            handler.sumBalances() - pool.pendingWithdrawals()
+        );
+    }
+}</div>
+          </div>
+
+          <p><strong>Step 3 — Human review before merge.</strong> We read every generated test line-by-line. About 40% of drafts ship unchanged, 40% need edits (wrong helper, missed edge case, ambiguous invariant), 20% get rejected outright because the model misread the spec. Rejections are fed back as counterexamples in the prompt for the next round.</p>
+
+          <p><strong>Step 4 — The suite runs in CI, every push.</strong> We don't ship tests that only run on a developer's laptop. Every Gloxx-authored suite lands in CI from day one.</p>
+
+          <!-- 3. Operating protocol -->
+          <h2 id="protocol">Our Claude Code operating protocol</h2>
+          <p class="section-intro">Six principles that sit underneath §2. Any CTO can tell the difference between "someone who uses AI" and "someone who has an opinion about how to use it." These are ours.</p>
+
+          <div class="protocol-list">
+            <div class="protocol-item">
+              <div>
+                <h3>Plan mode by default — "move slow to move fast."</h3>
+                <p>Roughly 80% of any active Claude Code session is spent in Plan Mode before a single line of test code is generated. A locked-in plan makes execution nearly automatic and prevents "quick fix" failure modes — like the well-known case where Claude, asked to fix a UI display error, silently modified the underlying database values to match the expected output and corrupted the source of truth. On a protocol, that class of mistake is a migration rollback event. Plan first, execute second, always.</p>
+              </div>
+            </div>
+            <div class="protocol-item">
+              <div>
+                <h3>The interview prompt — surface assumptions before they become bugs.</h3>
+                <p>Before generating anything, we run a fixed interview prompt. The goal is to drag every hidden assumption into the open before it becomes a regression.</p>
+                <blockquote>"Before we start building, interview me about this. What are the core problems this solves? Who is this for? What does success look like? What should this NOT do? Summarize it back to me before you write any code."</blockquote>
+              </div>
+            </div>
+            <div class="protocol-item">
+              <div>
+                <h3>Verification feedback loops — the 2–3× quality lever.</h3>
+                <p>Every Claude Code session we run has a verification tool wired in — a headless browser, a test runner, a linter, or a direct Foundry/Slither invocation — and an explicit instruction to use that tool to confirm state before declaring a task complete. This single practice is the largest quality lever we've measured. For long sessions we close with a forced audit: <em>"Go back and verify all of your work so far. Flag anything that skipped best practice or introduced risk."</em></p>
+              </div>
+            </div>
+            <div class="protocol-item">
+              <div>
+                <h3>Partitioned parallel sessions — avoid contextual fog.</h3>
+                <p>For non-overlapping tasks we run multiple independent Claude Code contexts simultaneously rather than piling them into one window. Deep-dive sessions accumulate baggage that hides obvious solutions; a fresh window often sees what the long one missed. Two isolated contexts routinely beat one overloaded context on the same problem.</p>
+              </div>
+            </div>
+            <div class="protocol-item">
+              <div>
+                <h3>Minimalist CLAUDE.md — aggressive instruction hygiene.</h3>
+                <p>We maintain the smallest possible instruction set per repo. Heavy prompt engineering becomes obsolete within ~6 months as the underlying model improves; we don't pay that tax. When a CLAUDE.md drifts into contradiction or bloat, we delete it and re-seed from zero, adding rules back only as the <em>current</em> model provably needs them.</p>
+              </div>
+            </div>
+            <div class="protocol-item">
+              <div>
+                <h3>Skills for inner loops — productize every repetitive task.</h3>
+                <p>Recurring processes — release-gate reports, invariant-test templates, post-audit summary documents, compliance exports — get codified as Claude Skills once, then invoked by slash command. When a Skill needs to run without us (nightly, on a webhook, or via API), we deploy it as a scheduled or webhook-triggered <a href="https://claude.com/blog/introducing-routines-in-claude-code" class="inline">Claude Code Routine</a>. Every run produces an auditable session transcript by default — that's the evidence trail a blockchain-QA retainer needs.</p>
+              </div>
+            </div>
+          </div>
+
+          <p style="margin-top: 2rem;"><strong>Underpinning all six: context over prompt engineering.</strong> We spend our time feeding the model high-quality context — codebase, docs, system state, the spec on this page — rather than micro-tweaking prompts that will be obsolete by Q3. The "what" we feed the model is our moat; the "how" of any individual prompt is not.</p>
+
+          <!-- 4. Test pyramid -->
+          <h2 id="pyramid">Our test pyramid for smart contract protocols</h2>
+          <p class="section-intro">Six layers. Most protocols we audit are top-heavy on unit tests and light on everything below. The gap between audits is where the lower layers should be built.</p>
+
+          <div class="pyramid">
+            <div class="row"><span class="tier">SCENARIO</span><span class="count">~5 tests</span></div>
+            <div class="row narrowest"><span class="tier">FUZZ (Echidna)</span><span class="count">~10 properties</span></div>
+            <div class="row narrower"><span class="tier">INVARIANT (Foundry)</span><span class="count">~20 invariants</span></div>
+            <div class="row"><span class="tier">FORK</span><span class="count">~40 tests</span></div>
+            <div class="row"><span class="tier">INTEGRATION</span><span class="count">~80 tests</span></div>
+            <div class="row"><span class="tier">UNIT</span><span class="count">~200+ tests</span></div>
+          </div>
+
+          <p><strong>Unit</strong> — function-level correctness. Cheap, fast, and the floor most teams already have. We don't rebuild these; we extend them.</p>
+          <p><strong>Integration</strong> — multi-contract interactions. Where most missed bugs live. We add these aggressively during Rebuilds.</p>
+          <p><strong>Fork</strong> — tests that run against a forked mainnet/testnet snapshot. Critical for anything that touches oracles, router contracts, or live AMMs.</p>
+          <p><strong>Invariant</strong> — property-based tests via Foundry's invariant runner. The single highest-leverage layer for DeFi protocols. Ten good invariants beat a hundred unit tests.</p>
+          <p><strong>Fuzz</strong> — Echidna/Halmos for sequences of calls the Foundry fuzzer can't provoke. We reach for these on stateful bugs only.</p>
+          <p><strong>Scenario</strong> — end-to-end user flows replayed in deterministic forks. The "does this actually work in anger" layer. Five good scenarios beat fifty speculative ones.</p>
+
+          <!-- 5. Release gate -->
+          <h2 id="gate">Our release-gate checklist</h2>
+          <p class="section-intro">We give this away. Every Fractional QA retainer uses a customized version of the checklist below as the gate between "code merged" and "code deployed." If you can't answer yes to all of these, you're not ready to ship.</p>
+
+          <div class="checklist">
+            <div class="checklist-title">Pre-deploy release gate (Gloxx standard)</div>
+            <ol>
+              <li>Has the full Foundry suite passed on the exact commit being deployed, not a close ancestor?</li>
+              <li>Have Slither, Mythril, and Aderyn run on the deployed artifact? Were any net-new findings triaged?</li>
+              <li>Do the invariant tests still hold under 10,000+ runs on a forked mainnet state?</li>
+              <li>Has the storage layout been diffed against the currently-deployed version? Any slot collisions?</li>
+              <li>If this is an upgradeable contract: has the initializer for the new version been tested from uninitialized state?</li>
+              <li>Are gas regressions within tolerance vs. the previous version on the same benchmark suite?</li>
+              <li>Does the deploy script re-run cleanly from a fresh state in CI, not just locally?</li>
+              <li>Have all external oracles, routers, or integrations been exercised in a fork test against the target block number?</li>
+              <li>Is there a documented, tested rollback path? Does it require multisig coordination we can reach right now?</li>
+              <li>Is there a post-deploy monitoring plan for the first 48 hours, with owner + on-call assigned?</li>
+              <li>Has the change been communicated to downstream integrators (aggregators, frontends, explorers) with sufficient notice?</li>
+              <li>If a similar deploy has failed before on this team: has the specific failure mode been regression-tested?</li>
+            </ol>
+          </div>
+
+          <!-- 6. Refuse -->
+          <h2 id="refuse">What we refuse to do</h2>
+          <p class="section-intro">Saying no to the wrong engagement is how we stay useful for the right one. These are non-negotiable.</p>
+
+          <ul class="refuse-list">
+            <li><strong>We don't replace security audits.</strong> A security audit and an ongoing QA function are different products with different incentive structures. We pair with auditors; we don't substitute for them. When a client asks us to "just do the audit," we refer them to Trail of Bits, Sherlock, Spearbit, or Cantina and offer to run the QA layer alongside.</li>
+            <li><strong>We don't ship untested AI-generated code.</strong> Every line of test code that bears a Gloxx name has been read, understood, and signed off by a human. No "AI security theater." If that constraint slows us down, so be it — the cost of one false-positive-green-light engagement is worse than any speed gain across a whole year.</li>
+            <li><strong>We don't take clients on month-to-month without an Audit first.</strong> The Audit exists to make sure we actually know what we're signing up for. Skipping it means the retainer starts with guesses, and guesses on protocol QA are how teams get burned.</li>
+            <li><strong>We don't bill by the hour on engagements with fixed deliverables.</strong> Audits, Rebuilds, and War Rooms are flat-fee. We take the timeline risk; you take the scope-change risk. This aligns incentives: we don't get paid for being slow.</li>
+            <li><strong>We don't publish client work without written consent.</strong> Even sanitized. Even as a case study. The QA posture of a live protocol is sensitive information and we treat it that way.</li>
+          </ul>
+
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Want a QA partner who works this way?</h2>
+      <p>Book a free 30-minute assessment. We'll talk through what you're shipping and whether the Audit is the right first step. No pitch.</p>
+      <a href="contact.html" class="cta-btn">Book the call →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <span class="footer-copy">&copy; 2026 Gloxx</span>
+      <div class="footer-links">
+        <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+      </div>
+      <span class="footer-tag">Wisdom engineered.</span>
+    </div>
+  </footer>
+
+  <!-- TOC active-link tracking -->
+  <script>
+    (function() {
+      const links = document.querySelectorAll('.ap-toc a');
+      const targets = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
+      const setActive = () => {
+        const y = window.scrollY + 120;
+        let active = null;
+        targets.forEach((el, i) => {
+          if (el && el.offsetTop <= y) active = i;
+        });
+        links.forEach(a => a.classList.remove('toc-active'));
+        if (active != null) links[active].classList.add('toc-active');
+      };
+      setActive();
+      window.addEventListener('scroll', setActive, { passive: true });
+    })();
+  </script>
+
+</body>
+</html>
