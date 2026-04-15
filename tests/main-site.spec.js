@@ -29,11 +29,19 @@ test.describe('Main Site', () => {
     await expect(page.locator('#hero')).toBeVisible();
   });
 
-  test('hero title renders "We build intelligence."', async ({ page }) => {
+  test('hero title renders new blockchain-QA headline', async ({ page }) => {
     const hero = page.locator('.hero-title');
     await expect(hero).toBeVisible();
-    await expect(hero).toContainText('We build');
-    await expect(hero).toContainText('intelligence.');
+    await expect(hero).toContainText('Ship blockchain code');
+    await expect(hero).toContainText('sleep through');
+  });
+
+  test('hero CTAs link to contact and approach pages', async ({ page }) => {
+    const primary = page.locator('.hero-cta-primary');
+    const secondary = page.locator('.hero-cta-secondary');
+    await expect(primary).toBeVisible();
+    await expect(primary).toHaveAttribute('href', 'contact.html');
+    await expect(secondary).toHaveAttribute('href', 'approach.html');
   });
 
   test('hero tagline is visible', async ({ page }) => {
@@ -73,12 +81,11 @@ test.describe('Main Site', () => {
     await expect(nav).toHaveClass(/scrolled/);
   });
 
-  test('nav smooth scrolls to sections', async ({ page, viewport }) => {
+  test('nav links point to expected pages', async ({ page, viewport }) => {
     if (viewport.width <= 768) return;
-    await page.click('.nav-links a[href="#about"]');
-    await page.waitForTimeout(800);
-    const scrollY = await page.evaluate(() => window.scrollY);
-    expect(scrollY).toBeGreaterThan(100);
+    const links = page.locator('.nav-links a:not(.nav-cta-link)');
+    const hrefs = await links.evaluateAll(els => els.map(el => el.getAttribute('href')));
+    expect(hrefs).toEqual(['services.html', 'approach.html', 'about.html', 'contact.html']);
   });
 
   // ─── MOBILE NAV ───
@@ -97,58 +104,53 @@ test.describe('Main Site', () => {
     await expect(mob).toHaveCSS('opacity', '0');
   });
 
-  // ─── ABOUT ───
-  test('about section has statement text', async ({ page }) => {
-    await page.locator('#about').scrollIntoViewIfNeeded();
-    await expect(page.locator('.about-statement')).toBeVisible();
-    await expect(page.locator('.about-statement')).toContainText('engineers, researchers');
+  // ─── WHAT WE DO ───
+  test('what-we-do section has 3 offer cards', async ({ page }) => {
+    await page.locator('#what-we-do').scrollIntoViewIfNeeded();
+    await expect(page.locator('.wwd-card')).toHaveCount(3);
   });
 
-  test('stats row shows 3 metrics', async ({ page }) => {
-    await page.locator('.stats-row').scrollIntoViewIfNeeded();
-    await expect(page.locator('.stat-item')).toHaveCount(3);
+  test('what-we-do cards surface price/duration metadata', async ({ page }) => {
+    await page.locator('#what-we-do').scrollIntoViewIfNeeded();
+    const metas = page.locator('.wwd-card .wwd-meta');
+    await expect(metas).toHaveCount(3);
+    await expect(metas.nth(0)).toContainText('$8k');
+    await expect(metas.nth(1)).toContainText('$18');
+    await expect(metas.nth(2)).toContainText('$4');
   });
 
-  // ─── SERVICES ───
-  test('services section has 4 rows', async ({ page }) => {
-    await page.locator('#services').scrollIntoViewIfNeeded();
-    await expect(page.locator('.svc-row')).toHaveCount(4);
+  // ─── WHO WE WORK WITH ───
+  test('who-we-serve strip lists 5 segments', async ({ page }) => {
+    await page.locator('#who-we-serve').scrollIntoViewIfNeeded();
+    await expect(page.locator('.wws-strip span')).toHaveCount(5);
   });
 
-  test('service row hover reveals description', async ({ page, viewport }) => {
-    if (viewport.width <= 1024) return;
-    const row = page.locator('.svc-row').first();
-    await row.scrollIntoViewIfNeeded();
-    await page.waitForTimeout(800); // wait for scroll animation
-    await row.hover();
-    await page.waitForTimeout(600);
-    const desc = row.locator('.svc-desc');
-    const opacity = await desc.evaluate(el => getComputedStyle(el).opacity);
-    expect(parseFloat(opacity)).toBeGreaterThan(0);
+  test('who-we-serve mentions DeFi and L2s', async ({ page }) => {
+    await page.locator('#who-we-serve').scrollIntoViewIfNeeded();
+    const strip = page.locator('.wws-strip');
+    await expect(strip).toContainText('DeFi protocols');
+    await expect(strip).toContainText('L2s');
   });
 
-  // ─── WORK ───
-  test('work section has 3 cards', async ({ page }) => {
-    await page.locator('#work').scrollIntoViewIfNeeded();
-    await expect(page.locator('.w-card')).toHaveCount(3);
+  // ─── WHY GLOXX ───
+  test('why-gloxx section has 3 reason cards', async ({ page }) => {
+    await page.locator('#why-gloxx').scrollIntoViewIfNeeded();
+    await expect(page.locator('.why-card')).toHaveCount(3);
   });
 
-  test('web portfolio card links to portfolio.html', async ({ page }) => {
-    const link = page.locator('a.w-card[href="portfolio.html"]');
-    await expect(link).toHaveCount(1);
-  });
-
-  // ─── PROCESS ───
-  test('process section has 4 items', async ({ page }) => {
-    await page.locator('#process').scrollIntoViewIfNeeded();
-    await expect(page.locator('.proc-item')).toHaveCount(4);
+  test('why-gloxx cards are numbered 01/02/03', async ({ page }) => {
+    await page.locator('#why-gloxx').scrollIntoViewIfNeeded();
+    const nums = page.locator('.why-card .why-num');
+    await expect(nums.nth(0)).toContainText('01');
+    await expect(nums.nth(1)).toContainText('02');
+    await expect(nums.nth(2)).toContainText('03');
   });
 
   // ─── CTA ───
   test('CTA section has email and button', async ({ page }) => {
     await page.locator('#cta').scrollIntoViewIfNeeded();
     await expect(page.locator('.cta-email')).toBeVisible();
-    await expect(page.locator('.btn-mag')).toBeVisible();
+    await expect(page.locator('#cta .btn-mag')).toBeVisible();
   });
 
   test('CTA email links to mailto', async ({ page }) => {
