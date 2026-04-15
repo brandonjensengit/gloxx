@@ -4,4 +4,4 @@ Disallow: /archive/
 Disallow: /test-results/
 Disallow: /node_modules/
 
-Sitemap: https://brandonjensengit.github.io/gloxx/sitemap.xml
+Sitemap: https://gloxx.ai/sitemap.xml

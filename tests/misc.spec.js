@@ -25,7 +25,7 @@ test.describe('SEO assets', () => {
     const res = await request.get('/sitemap.xml');
     expect(res.status()).toBe(200);
     const body = await res.text();
-    expect(body).toContain('https://brandonjensengit.github.io/gloxx/');
+    expect(body).toContain('https://gloxx.ai/');
     expect(body).toContain('services.html');
     expect(body).toContain('approach.html');
     expect(body).toContain('about.html');

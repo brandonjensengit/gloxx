@@ -138,7 +138,7 @@ Tests cover: page loads, hero rendering, navigation, scroll behavior, intake-for
 
 ## Deployment
 
-Currently GitHub Pages at `https://brandonjensengit.github.io/gloxx/`. DNS migration to `gloxx.ai` planned for Weeks 3–4 of the launch plan. Every push to `main` triggers an auto-rebuild.
+GitHub Pages at `https://gloxx.ai` (custom domain configured via `CNAME` file at repo root). DNS records live at GoDaddy: 4 apex A records → GitHub Pages IPs, `www` CNAME → `brandonjensengit.github.io.`. Every push to `main` triggers an auto-rebuild.
 
 ```bash
 git push origin main

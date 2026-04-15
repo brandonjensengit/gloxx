@@ -25,26 +25,12 @@ Everything outstanding before the site goes live at **gloxx.ai**. Grouped by bla
 
 ## 4. DNS + canonical-URL migration to `gloxx.ai`
 
-These all currently point at the GitHub Pages deploy and must be flipped in lockstep with the DNS cut-over.
-
-- [ ] **Canonical + OG URLs** on all 6 HTMLs (index, services, approach, about, contact, 404): replace `https://brandonjensengit.github.io/gloxx/` with `https://gloxx.ai/`. Same for `archive/portfolio.html` if you want it indexable again later.
-- [ ] **`sitemap.xml`** — all 5 `<loc>` URLs.
-- [ ] **`robots.txt`** — the `Sitemap:` directive at the bottom.
-- [ ] **DNS** — apex `gloxx.ai` → GitHub Pages IPs (185.199.108.153 / .109.153 / .110.153 / .111.153); `www.gloxx.ai` CNAME → `brandonjensengit.github.io.`. Add a `CNAME` file at repo root containing `gloxx.ai` so Pages picks it up.
-
-Suggested mechanical approach:
-
-```bash
-# From repo root, dry run first:
-grep -rn 'brandonjensengit.github.io/gloxx' --include='*.html' --include='*.xml' --include='*.txt'
-
-# Then the replacement:
-LC_ALL=C sed -i '' 's|brandonjensengit.github.io/gloxx|gloxx.ai|g' \
-  index.html services.html approach.html about.html contact.html 404.html \
-  sitemap.xml robots.txt archive/portfolio.html
-
-# Commit, push, flip DNS, wait for propagation, re-run Playwright with a live URL spot-check.
-```
+- [x] **Canonical + OG URLs** on all 6 HTMLs + `archive/portfolio.html` swapped to `https://gloxx.ai/…`.
+- [x] **`sitemap.xml`** — all 5 `<loc>` URLs point to `gloxx.ai`.
+- [x] **`robots.txt`** — Sitemap directive points to `gloxx.ai/sitemap.xml`.
+- [x] **`CNAME` file** at repo root contains `gloxx.ai` — GH Pages auto-detects on push.
+- [ ] **DNS records at GoDaddy** — still needs you: apex A records + `www` CNAME (see the checklist I'm about to hand you).
+- [ ] **GitHub Pages settings** → Pages → Custom domain shows `gloxx.ai` (auto-detected from CNAME file). Wait for Let's Encrypt cert, then tick **Enforce HTTPS**.
 
 ## 5. Nice-to-have polish before announcing
 
