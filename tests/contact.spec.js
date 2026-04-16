@@ -39,9 +39,8 @@ test.describe('Contact Page', () => {
     await expect(page.locator('#submit-btn')).toBeVisible();
   });
 
-  test('submit-note explains mailto fallback', async ({ page }) => {
+  test('submit-note shows email option', async ({ page }) => {
     const note = page.locator('.submit-note');
-    await expect(note).toContainText('mail client');
     await expect(note).toContainText('hello@gloxx.ai');
   });
 

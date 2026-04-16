@@ -19,9 +19,9 @@ Everything outstanding before the site goes live at **gloxx.ai**. Grouped by bla
 
 - [x] **Cal.com** — every "Book a call" / "Book the call" / "Book a 30-min QA assessment" CTA across the site now routes to `https://cal.com/gloxx/30min` with `target="_blank" rel="noopener"`. Link-out pattern; no embed.
 - [x] **Legacy 7-step survey retired** — the entire survey modal (HTML + ~259 lines of CSS + ~152 lines of JS) has been deleted from `index.html`. The stale `SHEETS_URL = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE'` placeholder went with it.
-- [ ] **Google Apps Script URL for the `contact.html` intake form** (line ~387) — a `TODO(backend)` comment marks where to swap `mailto:` for `fetch(APPS_SCRIPT_URL, ...)`. Field schema: `name, company, what-building, current-qa, when-shipping, email, war-room` — Apps Script column headers must match.
-- [ ] **Mail: `hello@gloxx.ai`** — contact.html's mailto fallback and the footer copy all point here. Needs MX records + catch-all or forwarding set up on whatever provider you use.
-- [ ] **Footer social links** — `index.html` home-page footer has `<a href="#">LinkedIn</a>`, `<a href="#">X</a>`, `<a href="#">GitHub</a>`. Replace `#` with real profile URLs (or delete if you're not ready to share them yet).
+- [x] **Google Apps Script URL for the `contact.html` intake form** — wired to fetch POST with mailto fallback on failure. Payload: `name, company, email, what-building, current-qa, when-shipping, war-room`.
+- [x] **Mail: `hello@gloxx.ai`** — MX records + forwarding configured.
+- [x] **Footer social links** — LinkedIn wired to company page, GitHub wired to `gloxxai/gloxx-web`, X removed (not ready yet).
 
 ## 4. DNS + canonical-URL migration to `gloxx.ai`
 
@@ -29,14 +29,14 @@ Everything outstanding before the site goes live at **gloxx.ai**. Grouped by bla
 - [x] **`sitemap.xml`** — all 5 `<loc>` URLs point to `gloxx.ai`.
 - [x] **`robots.txt`** — Sitemap directive points to `gloxx.ai/sitemap.xml`.
 - [x] **`CNAME` file** at repo root contains `gloxx.ai` — GH Pages auto-detects on push.
-- [ ] **DNS records at GoDaddy** — still needs you: apex A records + `www` CNAME (see the checklist I'm about to hand you).
-- [ ] **GitHub Pages settings** → Pages → Custom domain shows `gloxx.ai` (auto-detected from CNAME file). Wait for Let's Encrypt cert, then tick **Enforce HTTPS**.
+- [x] **DNS records at GoDaddy** — apex A records + `www` CNAME configured.
+- [x] **GitHub Pages settings** — custom domain `gloxx.ai` confirmed, Enforce HTTPS enabled.
 
 ## 5. Nice-to-have polish before announcing
 
-- [ ] Regenerate `CNAME` / `og-image` cached previews by re-pasting URLs in LinkedIn Post Inspector + X Card Validator (CDNs cache old OG images aggressively).
-- [ ] Add a Plausible / Fathom / GA4 snippet — whichever analytics you're standardizing on.
-- [ ] Decide what goes in `archive/` long-term. Currently `noindex`, `Disallow: /archive/` in robots. Fine to leave, but after a quarter you may want to delete the portfolio demos entirely.
+- [ ] **Bust OG image caches** — paste `https://gloxx.ai` into [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) and [X Card Validator](https://cards-dev.twitter.com/validator) to force CDNs to re-fetch the new `og-image.png`.
+- [ ] **Add analytics snippet** — needs an account + site ID from your chosen provider (Plausible / Fathom / GA4). Give Brandon the snippet/ID and he'll wire it into all 5 pages.
+- [x] **Archive decision** — keeping `/archive/` as-is (`noindex`, `Disallow`). Revisit in Q3 2026; delete entirely if the demos add no value by then.
 
 ## 6. Repo migrated to Gloxx GitHub org
 
@@ -46,8 +46,8 @@ Repo now lives at **`github.com/gloxxai/gloxx-web`** (was `brandonjensengit/glox
 - [x] **Repo transferred** via Settings → Transfer ownership — GitHub preserves commit history, Pages config, custom domain, HTTPS cert, and sets up permanent URL redirects from the old `brandonjensengit/gloxx` path.
 - [x] **Code updates**: badge URL in `README.md`, footer dogfood link in all 6 HTMLs (`index, services, approach, about, contact, 404`), deployment note in `CLAUDE.md`, local git remote all point to `gloxxai/gloxx-web`.
 - [x] **GoDaddy DNS**: `www` CNAME flipped from `brandonjensengit.github.io.` → `gloxxai.github.io.`.
-- [ ] **Verify on GitHub Pages settings**: https://github.com/gloxxai/gloxx-web/settings/pages → custom domain still shows `gloxx.ai`, Enforce HTTPS still ticked. (Usually persists through transfer, but confirm after the first CI build lands.)
-- [ ] **Wire the home-footer GitHub link** (`index.html` still has `<a href="#">GitHub</a>`) → `https://github.com/gloxxai/gloxx-web` once the repo is public-facing-ready.
+- [x] **Verify on GitHub Pages settings**: custom domain + HTTPS confirmed post-transfer.
+- [x] **Wire the home-footer GitHub link** — now points to `https://github.com/gloxxai/gloxx-web`.
 
 ---
 

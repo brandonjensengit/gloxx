@@ -373,7 +373,7 @@
         <button type="submit" class="submit-btn" id="submit-btn">Send</button>
 
         <p class="submit-note">
-          No Google Sheet or CRM hooked up yet — submitting opens your mail client pre-filled so I receive the message directly. If that's inconvenient, email me at <a href="mailto:hello@gloxx.ai" class="inline">hello@gloxx.ai</a>.
+          Your message goes straight to my inbox. You can also email me directly at <a href="mailto:hello@gloxx.ai" class="inline">hello@gloxx.ai</a>.
         </p>
       </form>
 
@@ -460,17 +460,39 @@
           '— Sent via the Gloxx contact form.',
         ].join('\n');
 
-        // TODO(backend): once Apps Script URL is live, POST to it with this same payload
-        //   instead of — or in addition to — the mailto fallback below.
-        const mailto = 'mailto:hello@gloxx.ai'
-          + '?subject=' + encodeURIComponent(subject)
-          + '&body=' + encodeURIComponent(body);
+        const payload = {
+          name: data.get('name'),
+          company: data.get('company'),
+          email: data.get('email'),
+          'what-building': data.get('what-building'),
+          'current-qa': data.get('current-qa'),
+          'when-shipping': data.get('when-shipping'),
+          'war-room': warRoom ? 'yes' : 'no',
+        };
 
-        window.location.href = mailto;
+        const btn = document.getElementById('submit-btn');
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
 
-        // Flip UI to confirmation state
-        form.style.display = 'none';
-        confirm.classList.add('active');
+        fetch('https://script.google.com/macros/s/AKfycbzi191nSNGZ6NFOsFx1ODFUeRqT8JhMN0I8J1vKI68Zo9hIwhRCJFpLuKRZS6E7U-Cf/exec', {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        })
+        .then(() => {
+          form.style.display = 'none';
+          confirm.classList.add('active');
+        })
+        .catch(() => {
+          // Fallback: open mail client so the lead isn't lost
+          const mailto = 'mailto:hello@gloxx.ai'
+            + '?subject=' + encodeURIComponent(subject)
+            + '&body=' + encodeURIComponent(body);
+          window.location.href = mailto;
+        })
+        .finally(() => {
+          btn.disabled = false;
+          btn.textContent = 'Send';
+        });
       });
     })();
   </script>
