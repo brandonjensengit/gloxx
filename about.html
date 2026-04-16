@@ -206,16 +206,32 @@
       transition: color .2s, border-color .2s;
     }
     .footer-dogfood a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
-    footer { border-top: 1px solid var(--border); padding: 2.5rem 0; }
-    .footer-inner {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 1rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 0 2.5rem;
+    footer {
+      padding: 2.5rem 0;
+      position: relative;
     }
-    .footer-copy { color: var(--text-3); font-size: .85rem; }
+    footer::before {
+      content: ''; display: block;
+      height: 1px; margin-bottom: 2.5rem;
+      background: linear-gradient(90deg, transparent, var(--border) 50%, transparent);
+    }
+    .footer-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+      max-width: 1240px; margin: 0 auto;
+      padding: 0 clamp(1.5rem, 5vw, 3rem);
+    }
+    .footer-copy { font-size: .78rem; color: var(--text-3); }
     .footer-links { display: flex; gap: 1.5rem; }
-    .footer-links a { color: var(--text-2); font-size: .85rem; transition: color .2s; }
-    .footer-links a:hover { color: var(--gloxx-accent); }
-    .footer-tag { color: var(--text-3); font-family: var(--heading); font-size: .85rem; }
+    .footer-links a {
+      font-size: .78rem; color: var(--text-3);
+      transition: color .3s; letter-spacing: .02em;
+    }
+    .footer-links a:hover { color: var(--text-2); }
+    .footer-tag {
+      font-size: .7rem; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--text-3);
+    }
 
     @media (max-width: 900px) {
       .nav { padding: 1rem 1.5rem; }
