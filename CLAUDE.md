@@ -138,7 +138,7 @@ Tests cover: page loads, hero rendering, navigation, scroll behavior, intake-for
 
 ## Deployment
 
-GitHub Pages at `https://gloxx.ai` (custom domain configured via `CNAME` file at repo root). DNS records live at GoDaddy: 4 apex A records → GitHub Pages IPs, `www` CNAME → `brandonjensengit.github.io.`. Every push to `main` triggers an auto-rebuild.
+GitHub Pages at `https://gloxx.ai` (custom domain configured via `CNAME` file at repo root). Repo lives at `github.com/gloxxai/gloxx-web`. DNS records live at GoDaddy: 4 apex A records → GitHub Pages IPs, `www` CNAME → `gloxxai.github.io.`. Every push to `main` triggers an auto-rebuild.
 
 ```bash
 git push origin main

@@ -1,6 +1,6 @@
 # Gloxx
 
-[![tests](https://github.com/brandonjensengit/gloxx/actions/workflows/tests.yml/badge.svg)](https://github.com/brandonjensengit/gloxx/actions/workflows/tests.yml)
+[![tests](https://github.com/gloxxai/gloxx-web/actions/workflows/tests.yml/badge.svg)](https://github.com/gloxxai/gloxx-web/actions/workflows/tests.yml)
 
 AI-augmented QA for blockchain teams. Public site + lead-gen funnel for [gloxx.ai](https://gloxx.ai).
 

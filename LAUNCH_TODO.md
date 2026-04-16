@@ -38,20 +38,16 @@ Everything outstanding before the site goes live at **gloxx.ai**. Grouped by bla
 - [ ] Add a Plausible / Fathom / GA4 snippet — whichever analytics you're standardizing on.
 - [ ] Decide what goes in `archive/` long-term. Currently `noindex`, `Disallow: /archive/` in robots. Fine to leave, but after a quarter you may want to delete the portfolio demos entirely.
 
-## 6. Future: migrate repo to a Gloxx GitHub org
+## 6. Repo migrated to Gloxx GitHub org
 
-Currently `github.com/brandonjensengit/gloxx` (personal account). For professionalism + future collaborators + clean separation from personal GitHub, move to a Gloxx org.
+Repo now lives at **`github.com/gloxxai/gloxx-web`** (was `brandonjensengit/gloxx`).
 
-- [ ] **Create GitHub org** at `github.com/organizations/new`. Suggested slugs: `gloxx-ai`, `gloxxai`, `gloxx-qa`. Free tier works (public repos, unlimited collaborators).
-- [ ] **Transfer repo** via Settings → Transfer ownership. GitHub preserves commit history, Pages config, custom domain, HTTPS cert, and sets up permanent URL redirects from the old path.
-- [ ] **Code updates** (I'll do these once the org exists):
-  - Footer "dogfood" link in all 5 pages: `github.com/brandonjensengit/gloxx/tree/main/tests` → new org path.
-  - README badge URL.
-  - Wire the home-footer `GitHub` placeholder link to the new public repo.
-- [ ] **GoDaddy DNS**: update `www` CNAME from `brandonjensengit.github.io.` to `<new-org>.github.io.`.
-- [ ] **GitHub Pages settings**: re-verify custom domain `gloxx.ai` is still set on the transferred repo (usually persists; occasionally needs re-entering). Re-tick Enforce HTTPS if it got unticked.
-
-Deferred per Brandon's preference — do after the site has stabilized with real reviewer feedback.
+- [x] **Org created**: `gloxxai`. Matches the LinkedIn company slug.
+- [x] **Repo transferred** via Settings → Transfer ownership — GitHub preserves commit history, Pages config, custom domain, HTTPS cert, and sets up permanent URL redirects from the old `brandonjensengit/gloxx` path.
+- [x] **Code updates**: badge URL in `README.md`, footer dogfood link in all 6 HTMLs (`index, services, approach, about, contact, 404`), deployment note in `CLAUDE.md`, local git remote all point to `gloxxai/gloxx-web`.
+- [x] **GoDaddy DNS**: `www` CNAME flipped from `brandonjensengit.github.io.` → `gloxxai.github.io.`.
+- [ ] **Verify on GitHub Pages settings**: https://github.com/gloxxai/gloxx-web/settings/pages → custom domain still shows `gloxx.ai`, Enforce HTTPS still ticked. (Usually persists through transfer, but confirm after the first CI build lands.)
+- [ ] **Wire the home-footer GitHub link** (`index.html` still has `<a href="#">GitHub</a>`) → `https://github.com/gloxxai/gloxx-web` once the repo is public-facing-ready.
 
 ---
 
