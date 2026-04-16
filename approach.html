@@ -129,20 +129,18 @@
       box-shadow: 0 8px 20px rgba(124,249,181,.18);
     }
     .nav-ham {
-      display: none; width: 28px; height: 20px; position: relative;
-      background: none; border: none; padding: 0;
+      display: none; flex-direction: column; gap: 5px;
+      padding: 4px; z-index: 8001;
+      background: none; border: none;
       -webkit-appearance: none; appearance: none; cursor: pointer;
     }
     .nav-ham span {
-      position: absolute; left: 0; right: 0;
-      height: 2px; background: var(--text);
+      display: block; width: 24px; height: 1.5px;
+      background: var(--text); transition: transform .3s, opacity .3s;
     }
-    .nav-ham span:nth-child(1) { top: 0; }
-    .nav-ham span:nth-child(2) { top: 9px; }
-    .nav-ham span:nth-child(3) { top: 18px; }
-    .nav-ham.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .nav-ham.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .nav-ham.active span:nth-child(2) { opacity: 0; }
-    .nav-ham.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+    .nav-ham.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
     .mob-menu {
       position: fixed; inset: 0;
@@ -539,7 +537,7 @@
     @media (max-width: 900px) {
       .nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
-      .nav-ham { display: block; }
+      .nav-ham { display: flex; }
       .container { padding: 0 1.5rem; }
       .ap-body { grid-template-columns: minmax(0, 1fr); gap: 2rem; padding: 2.5rem 0 4rem; }
       .ap-main h2 { font-size: clamp(1.45rem, 6vw, 1.85rem); margin: 2.5rem 0 1rem; }
