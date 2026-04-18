@@ -49,11 +49,9 @@ test.describe('Contact Page', () => {
     await expect(confirm).not.toHaveClass(/active/);
   });
 
-  test('form action routes via mailto: — JS handler present', async ({ page }) => {
-    // Rather than simulating full submit (mailto: navigation is hard to
-    // intercept cleanly in browser), assert that the submit-handling JS
-    // is wired up and references the expected mailto target + confirmation flow.
+  test('form JS posts to Apps Script with mailto fallback', async ({ page }) => {
     const scriptText = await page.locator('script').last().innerText();
+    expect(scriptText).toContain("script.google.com/macros");
     expect(scriptText).toContain("mailto:hello@gloxx.ai");
     expect(scriptText).toContain("WAR ROOM");
     expect(scriptText).toContain("contact-confirm");
