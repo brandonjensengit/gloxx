@@ -2,7 +2,7 @@
 
 [![tests](https://github.com/gloxxai/gloxx-web/actions/workflows/tests.yml/badge.svg)](https://github.com/gloxxai/gloxx-web/actions/workflows/tests.yml)
 
-AI-augmented QA for blockchain teams. Public site + lead-gen funnel for [gloxx.ai](https://gloxx.ai).
+Fractional Head of AI QA for teams shipping AI features or rolling out Claude Code. Public site + lead-gen funnel for [gloxx.ai](https://gloxx.ai).
 
 Static HTML per page, inline CSS/JS, no build step in production. Every push is tested with Playwright + axe-core — the same tooling we sell.
 
@@ -10,7 +10,7 @@ Static HTML per page, inline CSS/JS, no build step in production. Every push is 
 
 - `index.html` — home
 - `services.html` — four tiers + Sentinel teaser
-- `approach.html` — six-principle Claude Code protocol + QA methodology
+- `approach.html` — six-principle Claude Code operating protocol + AI-native QA methodology
 - `about.html` — founder note
 - `contact.html` — intake (Apps Script → `mailto:` fallback)
 - `archive/` — prior portfolio demos, `noindex`

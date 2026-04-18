@@ -29,11 +29,11 @@ test.describe('Main Site', () => {
     await expect(page.locator('#hero')).toBeVisible();
   });
 
-  test('hero title renders new blockchain-QA headline', async ({ page }) => {
+  test('hero title renders new AI-QA headline', async ({ page }) => {
     const hero = page.locator('.hero-title');
     await expect(hero).toBeVisible();
-    await expect(hero).toContainText('Ship blockchain code');
-    await expect(hero).toContainText('sleep through');
+    await expect(hero).toContainText('Ship AI features');
+    await expect(hero).toContainText('actually trust');
   });
 
   test('hero primary CTA routes to Cal.com, secondary to approach', async ({ page }) => {
@@ -47,7 +47,7 @@ test.describe('Main Site', () => {
 
   test('hero tagline is visible', async ({ page }) => {
     await expect(page.locator('.hero-tag')).toBeVisible();
-    await expect(page.locator('.hero-tag')).toContainText('AI-Augmented QA for Blockchain Teams');
+    await expect(page.locator('.hero-tag')).toContainText('Fractional Head of AI QA');
   });
 
   test('hero subtitle is visible', async ({ page }) => {
@@ -115,9 +115,9 @@ test.describe('Main Site', () => {
     await page.locator('#what-we-do').scrollIntoViewIfNeeded();
     const metas = page.locator('.wwd-card .wwd-meta');
     await expect(metas).toHaveCount(3);
-    await expect(metas.nth(0)).toContainText('$8k');
-    await expect(metas.nth(1)).toContainText('$18');
-    await expect(metas.nth(2)).toContainText('$4');
+    await expect(metas.nth(0)).toContainText('$12');
+    await expect(metas.nth(1)).toContainText('$25');
+    await expect(metas.nth(2)).toContainText('$6');
   });
 
   // ─── WHO WE WORK WITH ───
@@ -126,11 +126,11 @@ test.describe('Main Site', () => {
     await expect(page.locator('.wws-strip span')).toHaveCount(5);
   });
 
-  test('who-we-serve mentions DeFi and L2s', async ({ page }) => {
+  test('who-we-serve mentions AI-native segments', async ({ page }) => {
     await page.locator('#who-we-serve').scrollIntoViewIfNeeded();
     const strip = page.locator('.wws-strip');
-    await expect(strip).toContainText('DeFi protocols');
-    await expect(strip).toContainText('L2s');
+    await expect(strip).toContainText('shipping AI features');
+    await expect(strip).toContainText('Claude Code');
   });
 
   // ─── WHY GLOXX ───

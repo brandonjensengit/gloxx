@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact — Gloxx</title>
-  <meta name="description" content="Tell us about your release risk. We reply within one business day. For urgent pre-upgrade engagements, put 'WAR ROOM' in the subject line of an email to hello@gloxx.ai.">
+  <meta name="description" content="Tell us about your AI release risk. We reply within one business day. For urgent pre-launch engagements, put 'WAR ROOM' in the subject line of an email to hello@gloxx.ai.">
 
   <link rel="canonical" href="https://gloxx.ai/contact.html">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -15,14 +15,14 @@
   <meta name="theme-color" content="#08080a">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Contact — Gloxx">
-  <meta property="og:description" content="Tell us about your release risk. We reply within one business day.">
+  <meta property="og:description" content="Tell us about your AI release risk. We reply within one business day.">
   <meta property="og:url" content="https://gloxx.ai/contact.html">
   <meta property="og:image" content="/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Contact — Gloxx">
-  <meta name="twitter:description" content="Tell us about your release risk.">
+  <meta name="twitter:description" content="Tell us about your AI release risk.">
   <meta name="twitter:image" content="/og-image.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -313,10 +313,10 @@
   <section class="ct-hero">
     <div class="container">
       <span class="label">Contact</span>
-      <h1>Let's talk about your release risk.</h1>
-      <p class="lead">Tell me about what you're shipping. I'll reply within one business day. No sales sequence, no "Hey, just following up!" chain — one real human, one reply.</p>
+      <h1>Let's talk about your AI release risk.</h1>
+      <p class="lead">Tell me about what you're shipping and where AI is showing up in it. I'll reply within one business day. No sales sequence, no "Hey, just following up!" chain — one real human, one reply.</p>
       <div class="war-room-hint">
-        For urgent pre-upgrade engagements, put <strong>WAR ROOM</strong> in the subject line of an email to <a href="mailto:hello@gloxx.ai?subject=WAR%20ROOM" style="color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent);">hello@gloxx.ai</a> — I'll respond the same day.
+        For urgent pre-launch engagements, put <strong>WAR ROOM</strong> in the subject line of an email to <a href="mailto:hello@gloxx.ai?subject=WAR%20ROOM" style="color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent);">hello@gloxx.ai</a> — I'll respond the same day.
       </div>
     </div>
   </section>
@@ -332,8 +332,8 @@
         </div>
 
         <div class="field">
-          <label for="f-company">Company or protocol</label>
-          <input type="text" id="f-company" name="company" required autocomplete="organization" placeholder="e.g. Aave, Uniswap, your protocol name">
+          <label for="f-company">Company or product</label>
+          <input type="text" id="f-company" name="company" required autocomplete="organization" placeholder="e.g. your company or product name">
         </div>
 
         <div class="field">
@@ -343,13 +343,13 @@
 
         <div class="field">
           <label for="f-what">What are you building?</label>
-          <span class="hint">One or two sentences. What does your protocol do?</span>
+          <span class="hint">One or two sentences. What does the product do, and where does AI show up in it?</span>
           <textarea id="f-what" name="what-building" required></textarea>
         </div>
 
         <div class="field">
-          <label for="f-qa">What's your current QA situation?</label>
-          <span class="hint">Auditor? Internal test suite? Ad hoc? Be honest — we can't help from a pretty picture.</span>
+          <label for="f-qa">Where is AI showing up, and how are you testing it today?</label>
+          <span class="hint">Evals? Vibes? Claude Code in your dev workflow? Be honest — we can't help from a pretty picture.</span>
           <textarea id="f-qa" name="current-qa" required></textarea>
         </div>
 
@@ -367,7 +367,7 @@
         <label class="field-check" for="f-war-room">
           <input type="checkbox" id="f-war-room" name="war-room" value="yes">
           <div class="field-check-body">
-            <strong>WAR ROOM</strong> — I'm shipping something sensitive this week. Prioritize my reply.
+            <strong>WAR ROOM</strong> — I'm launching an AI feature this week. Prioritize my reply.
           </div>
         </label>
 
@@ -446,13 +446,13 @@
 
         const body = [
           'Name: ' + data.get('name'),
-          'Company / protocol: ' + data.get('company'),
+          'Company / product: ' + data.get('company'),
           'Email: ' + data.get('email'),
           '',
           'What are you building?',
           data.get('what-building'),
           '',
-          "Current QA situation:",
+          'Where is AI showing up + how are you testing it today?',
           data.get('current-qa'),
           '',
           'Shipping next: ' + data.get('when-shipping'),

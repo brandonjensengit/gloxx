@@ -28,41 +28,41 @@ test.describe('Services Page', () => {
   });
 
   test('lead-rule quote frames the Audit as entry point', async ({ page }) => {
-    await expect(page.locator('.svc-lead-rule')).toContainText('Every engagement starts with the QA Readiness Audit');
+    await expect(page.locator('.svc-lead-rule')).toContainText('Every engagement starts with the AI-Native QA Readiness Audit');
   });
 
   test('has exactly 4 service tier cards', async ({ page }) => {
     await expect(page.locator('.service-card')).toHaveCount(4);
   });
 
-  test('tier 1 is the QA Readiness Audit at $8k', async ({ page }) => {
+  test('tier 1 is the AI-Native QA Readiness Audit at $12-15k', async ({ page }) => {
     const card = page.locator('.service-card').nth(0);
-    await expect(card.locator('h2')).toContainText('QA Readiness Audit');
-    await expect(card.locator('.sc-meta')).toContainText('$8,000');
-  });
-
-  test('tier 2 is Test Suite Rebuild', async ({ page }) => {
-    const card = page.locator('.service-card').nth(1);
-    await expect(card.locator('h2')).toContainText('Test Suite Rebuild');
-    await expect(card.locator('.sc-meta')).toContainText('$18,000');
-  });
-
-  test('tier 3 is Fractional QA Leadership', async ({ page }) => {
-    const card = page.locator('.service-card').nth(2);
-    await expect(card.locator('h2')).toContainText('Fractional QA Leadership');
-  });
-
-  test('tier 4 is Pre-Upgrade War Room', async ({ page }) => {
-    const card = page.locator('.service-card').nth(3);
-    await expect(card.locator('h2')).toContainText('Pre-Upgrade War Room');
+    await expect(card.locator('h2')).toContainText('AI-Native QA Readiness Audit');
     await expect(card.locator('.sc-meta')).toContainText('$12,000');
+  });
+
+  test('tier 2 is Eval Suite Build', async ({ page }) => {
+    const card = page.locator('.service-card').nth(1);
+    await expect(card.locator('h2')).toContainText('Eval Suite Build');
+    await expect(card.locator('.sc-meta')).toContainText('$25,000');
+  });
+
+  test('tier 3 is Fractional Head of AI QA', async ({ page }) => {
+    const card = page.locator('.service-card').nth(2);
+    await expect(card.locator('h2')).toContainText('Fractional Head of AI QA');
+  });
+
+  test('tier 4 is Pre-Launch AI War Room', async ({ page }) => {
+    const card = page.locator('.service-card').nth(3);
+    await expect(card.locator('h2')).toContainText('Pre-Launch AI War Room');
+    await expect(card.locator('.sc-meta')).toContainText('$15,000');
   });
 
   test('Sentinel card is a bolt-on teaser', async ({ page }) => {
     const sentinel = page.locator('.sentinel-card');
     await expect(sentinel).toBeVisible();
     await expect(sentinel).toContainText('Sentinel');
-    await expect(sentinel).toContainText('Q3 2026');
+    await expect(sentinel).toContainText('$2,000');
   });
 
   test('every tier card exposes a scope list', async ({ page }) => {

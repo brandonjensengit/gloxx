@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Services — Gloxx</title>
-  <meta name="description" content="Four productized QA engagements for blockchain teams: QA Readiness Audit ($8k), Test Suite Rebuild ($18–35k), Fractional QA Leadership ($4–8k/mo), and Pre-Upgrade War Room ($12k). Each starts with the Audit.">
+  <meta name="description" content="Four productized AI-QA engagements: AI-Native QA Readiness Audit ($12–15k), Eval Suite Build ($25–50k), Fractional Head of AI QA ($6–12k/mo), and Pre-Launch AI War Room ($15–20k). Every engagement starts with the Audit.">
 
   <link rel="canonical" href="https://gloxx.ai/services.html">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -15,14 +15,14 @@
   <meta name="theme-color" content="#08080a">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Services — Gloxx">
-  <meta property="og:description" content="Four productized QA engagements for blockchain protocols and crypto-native fintech teams.">
+  <meta property="og:description" content="Four productized AI-QA engagements for teams shipping AI features or rolling out Claude Code.">
   <meta property="og:url" content="https://gloxx.ai/services.html">
   <meta property="og:image" content="/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Services — Gloxx">
-  <meta name="twitter:description" content="Four productized QA engagements for blockchain teams.">
+  <meta name="twitter:description" content="Four productized AI-QA engagements for teams shipping AI features or rolling out Claude Code.">
   <meta name="twitter:image" content="/og-image.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -472,10 +472,10 @@
     <div class="container">
       <span class="section-label">Services</span>
       <h1>Four productized engagements. Every one starts with the Audit.</h1>
-      <p class="svc-hero-sub">We don't sell "consulting." We sell named offers with fixed deliverables and transparent pricing. Every new client starts with the two-week QA Readiness Audit — it's a paid diagnostic, not a sales call. From there, we agree on whatever comes next.</p>
+      <p class="svc-hero-sub">We don't sell "consulting." We sell named offers with fixed deliverables and transparent pricing. Every new client starts with the two-week AI-Native QA Readiness Audit — it's a paid diagnostic, not a sales call. From there, we agree on whatever comes next.</p>
 
       <div class="svc-lead-rule">
-        "Every engagement starts with the QA Readiness Audit. It's a two-week paid diagnostic, not a sales call. From there, we agree on whatever comes next."
+        "Every engagement starts with the AI-Native QA Readiness Audit. It's a two-week paid diagnostic, not a sales call. From there, we agree on whatever comes next."
       </div>
     </div>
   </section>
@@ -489,17 +489,18 @@
         <article class="service-card">
           <div><span class="sc-num">01</span></div>
           <div>
-            <span class="sc-meta">2 weeks · $8,000</span>
-            <h2>QA Readiness Audit</h2>
-            <p class="sc-desc">The funnel-opener. A deep two-week diagnostic of your test coverage, tooling, and risk surface. You walk away with a written ~30-page roadmap you own — not a PDF of generic recommendations. Every retainer and rebuild starts here.</p>
+            <span class="sc-meta">2 weeks · $12,000–$15,000</span>
+            <h2>AI-Native QA Readiness Audit</h2>
+            <p class="sc-desc">The funnel-opener. A two-week diagnostic of where AI touches your product and your engineering workflow — where it's shipping on vibes, where evals are missing, where the release gate has holes. You walk away with a ~30-page written roadmap you own, not a PDF of generic recommendations. Every retainer, Eval Suite Build, and War Room starts here.</p>
             <div class="sc-scope">
               <div class="sc-scope-label">Typical scope</div>
               <ul>
-                <li>Inventory of current test coverage (unit / integration / fork / invariant / fuzz)</li>
-                <li>Static analysis sweep (Slither, Mythril, Aderyn) with findings triaged</li>
-                <li>AI-assisted test gap analysis for your codebase</li>
-                <li>90-day QA roadmap with prioritized milestones</li>
-                <li>Tooling recommendations (Foundry / Hardhat / Halmos / Echidna + Claude Code)</li>
+                <li>Inventory of AI surface area (product features, dev tooling, support, ops)</li>
+                <li>Eval coverage analysis (golden sets, scoring, CI integration — or lack thereof)</li>
+                <li>Traditional test-coverage sweep (unit / integration / E2E / contract / a11y)</li>
+                <li>Claude Code / Cursor adoption audit — usage patterns, governance gaps, cost exposure</li>
+                <li>90-day QA + eval roadmap with prioritized milestones</li>
+                <li>Tooling recommendations (DeepEval / promptfoo / LangSmith / Playwright + Claude Code)</li>
                 <li>Written report + 90-min findings review call + 30 days of async follow-up</li>
               </ul>
             </div>
@@ -510,17 +511,18 @@
         <article class="service-card">
           <div><span class="sc-num">02</span></div>
           <div>
-            <span class="sc-meta">4–6 weeks · $18,000–$35,000</span>
-            <h2>Test Suite Rebuild</h2>
-            <p class="sc-desc">We ship the regression, invariant, and fuzz tests your protocol should already have. Hybrid human-plus-agent authoring: Claude Code drafts candidates from your specs, our judgment decides what matters, humans author the invariants that protect money.</p>
+            <span class="sc-meta">4–6 weeks · $25,000–$50,000</span>
+            <h2>Eval Suite Build</h2>
+            <p class="sc-desc">We ship the golden sets, eval harness, prompt regression suite, and CI release gates your AI features should already have. Hybrid human-plus-agent authoring: Claude Code drafts candidate evals from your spec and production traces, our judgment decides which metrics matter, humans author the scoring rubrics that gate the release.</p>
             <div class="sc-scope">
               <div class="sc-scope-label">Typical scope</div>
               <ul>
-                <li>Foundry invariant suite targeting protocol-level properties</li>
-                <li>Fork tests against the relevant mainnet/testnet state</li>
-                <li>Echidna / Halmos fuzz + symbolic execution configs</li>
-                <li>CI pipeline integration (GitHub Actions or equivalent)</li>
-                <li>Developer handoff doc + pairing sessions</li>
+                <li>Golden dataset curation from production traces + adversarial cases</li>
+                <li>Eval harness (DeepEval or promptfoo) wired to your model provider</li>
+                <li>Prompt regression + agent-trajectory tests for agentic features</li>
+                <li>LLM-as-judge rubrics where deterministic scoring isn't possible</li>
+                <li>CI release gate — failing evals block merge or deploy</li>
+                <li>Developer handoff doc + pairing sessions on maintaining the suite</li>
                 <li>30 days of post-delivery support on the suite we shipped</li>
               </ul>
             </div>
@@ -531,18 +533,18 @@
         <article class="service-card">
           <div><span class="sc-num">03</span></div>
           <div>
-            <span class="sc-meta">Ongoing · $4,000–$8,000 / month · 10–20 hrs/wk</span>
-            <h2>Fractional QA Leadership</h2>
-            <p class="sc-desc">We become your part-time head of QA. Weekly reviews, release gates, engineer enablement — without a $250k salary. This is the bread-and-butter retainer: the institutional memory your team keeps even after the engagement ends.</p>
+            <span class="sc-meta">Ongoing · $6,000–$12,000 / month · 10–20 hrs/wk</span>
+            <h2>Fractional Head of AI QA</h2>
+            <p class="sc-desc">We own the AI release gate. Weekly eval reviews, production trace sampling, engineer enablement on verification loops — without a $280k salary. This is the bread-and-butter retainer: the institutional memory your team keeps even after the engagement ends, and the governance layer that keeps Claude Code rollouts from becoming budget incidents.</p>
             <div class="sc-scope">
               <div class="sc-scope-label">Typical scope</div>
               <ul>
-                <li>Weekly QA review meeting</li>
-                <li>Maintain and extend the test suite</li>
-                <li>Gate releases against the Gloxx QA checklist</li>
-                <li>Train engineers on AI-assisted test authoring</li>
+                <li>Weekly AI QA review — eval runs, trace samples, drift flags</li>
+                <li>Maintain and extend the eval suite + traditional test coverage</li>
+                <li>Gate releases against the Gloxx AI release-gate checklist</li>
+                <li>Train engineers on verification loops and Claude Code operating protocol</li>
                 <li>Monthly written QA report to your leadership</li>
-                <li>First-response point for incidents affecting test confidence</li>
+                <li>First-response point for AI-output incidents and hallucination reports</li>
               </ul>
             </div>
           </div>
@@ -552,18 +554,18 @@
         <article class="service-card">
           <div><span class="sc-num">04</span></div>
           <div>
-            <span class="sc-meta">2 weeks · $12,000 flat</span>
-            <h2>Pre-Upgrade War Room</h2>
-            <p class="sc-desc">Time-boxed, intense engagement around a major contract upgrade or protocol migration. High urgency, high price, clear scope. For teams with a hard date and a lot to lose.</p>
+            <span class="sc-meta">2 weeks · $15,000–$20,000 flat</span>
+            <h2>Pre-Launch AI War Room</h2>
+            <p class="sc-desc">Time-boxed, intense engagement around a high-stakes AI feature launch — a new agent, a customer-facing copilot, a model upgrade, a prompt-system migration. High urgency, high price, clear scope. For teams with a hard date and a lot to lose if the demo breaks in production.</p>
             <div class="sc-scope">
               <div class="sc-scope-label">Typical scope</div>
               <ul>
-                <li>Migration-path regression suite (old state → new state invariants)</li>
-                <li>Storage-layout diff audit + slot collision checks</li>
-                <li>Fork test suite against live mainnet fork of the target block</li>
-                <li>Go/no-go checklist for deploy day</li>
-                <li>On-call presence during the upgrade window</li>
-                <li>48-hour post-deploy monitoring window</li>
+                <li>Launch-specific golden set + adversarial eval suite</li>
+                <li>Prompt freeze + regression check across the last N production versions</li>
+                <li>Cost + latency gates wired into the release checklist</li>
+                <li>Red-team pass on hallucination, jailbreak, and leak surfaces</li>
+                <li>Go/no-go checklist for launch day</li>
+                <li>48-hour post-launch monitoring window + trace review</li>
               </ul>
             </div>
           </div>
@@ -571,10 +573,10 @@
 
         <!-- Sentinel teaser -->
         <div class="sentinel-card">
-          <span class="sent-label">Q3 2026 · From $1,500/mo</span>
+          <span class="sent-label">From $2,000/mo · Retainer bolt-on</span>
           <div class="sent-body">
-            <h3>Gloxx Sentinel (in soft-launch)</h3>
-            <p>Continuous fuzz + invariant testing run by agents against your deployed contracts, with monthly written reports and signed human review. Implemented as per-client <a href="approach.html" style="color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent);">Claude Code Routines</a>. Currently available as a bolt-on to existing Fractional QA Leadership retainers only — not sold standalone.</p>
+            <h3>Gloxx Sentinel</h3>
+            <p>Continuous eval runs, drift detection, hallucination monitoring, and agent-trace sampling against your deployed AI features — with a monthly written report and signed human review. Implemented as per-client <a href="approach.html" style="color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent);">Claude Code Routines</a>. Available as a bolt-on to existing Fractional Head of AI QA retainers — not sold standalone.</p>
           </div>
         </div>
 
@@ -586,7 +588,7 @@
   <section class="cta-section">
     <div class="container">
       <h2>Not sure which fits?<br>Book a free 30-minute assessment.</h2>
-      <p style="color: var(--text-2); max-width: 48ch; margin: 0 auto;">We'll talk through what you're shipping, what your current QA looks like, and whether the Audit is the right first step. No pitch, no slides, no pressure.</p>
+      <p style="color: var(--text-2); max-width: 48ch; margin: 0 auto;">We'll talk through what you're shipping, where AI is showing up, and whether the Audit is the right first step. No pitch, no slides, no pressure.</p>
       <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="cta-btn">Book the call →</a>
     </div>
   </section>

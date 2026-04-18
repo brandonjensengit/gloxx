@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How Gloxx works — Approach</title>
-  <meta name="description" content="How Gloxx operates: the QA tool stack (Foundry, Slither, Mythril, Halmos, Echidna, Claude Code), the six-principle Claude Code operating protocol, our smart-contract test pyramid, and the release-gate checklist we give away.">
+  <meta name="description" content="How Gloxx operates: the AI-QA tool stack (DeepEval, promptfoo, LangSmith, Playwright, Claude Code), the six-principle Claude Code operating protocol, our AI-native test pyramid, and the release-gate checklist we give away.">
 
   <link rel="canonical" href="https://gloxx.ai/approach.html">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -15,14 +15,14 @@
   <meta name="theme-color" content="#08080a">
   <meta property="og:type" content="website">
   <meta property="og:title" content="How Gloxx works — Approach">
-  <meta property="og:description" content="The six-principle Claude Code operating protocol and the QA discipline that powers every Gloxx engagement.">
+  <meta property="og:description" content="The six-principle Claude Code operating protocol and the AI-QA discipline that powers every Gloxx engagement.">
   <meta property="og:url" content="https://gloxx.ai/approach.html">
   <meta property="og:image" content="/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How Gloxx works — Approach">
-  <meta name="twitter:description" content="The technical methodology behind every Gloxx engagement.">
+  <meta name="twitter:description" content="The technical methodology behind every Gloxx AI-QA engagement.">
   <meta name="twitter:image" content="/og-image.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -628,10 +628,10 @@
         <aside class="ap-toc" aria-label="Contents">
           <div class="ap-toc-label">Contents</div>
           <ol>
-            <li><a href="#stack">The Gloxx QA stack</a></li>
+            <li><a href="#stack">The Gloxx AI-QA stack</a></li>
             <li><a href="#agents">How we use AI agents</a></li>
             <li><a href="#protocol">Claude Code operating protocol</a></li>
-            <li><a href="#pyramid">Test pyramid for protocols</a></li>
+            <li><a href="#pyramid">Test pyramid for AI-native apps</a></li>
             <li><a href="#gate">Release-gate checklist</a></li>
             <li><a href="#refuse">What we refuse to do</a></li>
           </ol>
@@ -641,79 +641,81 @@
         <article class="ap-main">
 
           <!-- 1. Stack -->
-          <h2 id="stack">The Gloxx QA stack</h2>
-          <p class="section-intro">Eight tools, used in specific combinations. None of them is magic; the value is knowing when to reach for each.</p>
+          <h2 id="stack">The Gloxx AI-QA stack</h2>
+          <p class="section-intro">Eight tools, used in specific combinations. None of them is magic; the value is knowing when to reach for each, and which layer of the release gate each one anchors.</p>
 
           <div class="tool">
-            <div class="tool-head"><span class="tool-name">Foundry</span><span class="tool-kind">Test runner</span></div>
-            <p>Our default. Fast, Solidity-native, and the only test framework with first-class invariant and fuzz runners baked in. We write new suites in Foundry unless the client's existing Hardhat pipeline is too entrenched to move.</p>
+            <div class="tool-head"><span class="tool-name">DeepEval</span><span class="tool-kind">Eval runner</span></div>
+            <p>Our default. PyTest-based, so any team with Python test discipline adopts it in a day. Ships metrics for faithfulness, relevancy, toxicity, bias, summarization — the coverage most product teams need on day one. Every Gloxx eval suite lands here unless the client is already deep into a different runner.</p>
           </div>
           <div class="tool">
-            <div class="tool-head"><span class="tool-name">Hardhat</span><span class="tool-kind">Legacy runner</span></div>
-            <p>We maintain and extend Hardhat suites when the client already has one. We don't migrate <em>to</em> Hardhat. JavaScript-based, slower, but still the right choice when the surrounding tooling is Node-centric.</p>
+            <div class="tool-head"><span class="tool-name">promptfoo</span><span class="tool-kind">Prompt regression</span></div>
+            <p>YAML-native, declarative, fast to run in CI. We use it specifically for prompt-version regression — when the prompt changes, does every case in the golden set still pass? It's the diff tool that makes prompt edits safe to merge.</p>
           </div>
           <div class="tool">
-            <div class="tool-head"><span class="tool-name">Slither</span><span class="tool-kind">Static analysis</span></div>
-            <p>First pass on every audit. Catches reentrancy, uninitialized storage, shadowing, and about 90 other low-cost findings that no smart auditor should still be paid to discover manually.</p>
+            <div class="tool-head"><span class="tool-name">LangSmith / Langfuse</span><span class="tool-kind">Trace observability</span></div>
+            <p>Production traces are the raw material for the golden set. We wire one of these in on day one of every retainer so every eval case is traceable back to a real user query, not a speculative one.</p>
           </div>
           <div class="tool">
-            <div class="tool-head"><span class="tool-name">Mythril</span><span class="tool-kind">Symbolic execution</span></div>
-            <p>Slower than Slither, deeper. We run it when Slither's output is clean and we want to surface integer-overflow / state-dependency bugs that show up only across call sequences.</p>
+            <div class="tool-head"><span class="tool-name">Playwright</span><span class="tool-kind">End-to-end tests</span></div>
+            <p>For the non-AI surface that still matters. Every AI feature sits inside a product with forms, auth, billing, and navigation — and those break the old-fashioned way. Playwright is our default for E2E + visual regression on that surface.</p>
           </div>
           <div class="tool">
-            <div class="tool-head"><span class="tool-name">Aderyn</span><span class="tool-kind">Rust-based linter</span></div>
-            <p>Newer, faster than Slither for large codebases, with complementary detector coverage. We run both — their disagreements are signal.</p>
+            <div class="tool-head"><span class="tool-name">axe-core</span><span class="tool-kind">Accessibility gate</span></div>
+            <p>Shipped as part of every Playwright run. WCAG 2.1 AA violations block merge. If your AI product can't be used by a screen reader, it's not shipped; it's leaked.</p>
           </div>
           <div class="tool">
-            <div class="tool-head"><span class="tool-name">Halmos</span><span class="tool-kind">Symbolic verification</span></div>
-            <p>Formal verification without a separate language. We use it when an invariant is critical enough that fuzz counterexamples aren't sufficient — think reserves-greater-than-liabilities properties.</p>
-          </div>
-          <div class="tool">
-            <div class="tool-head"><span class="tool-name">Echidna</span><span class="tool-kind">Property-based fuzzer</span></div>
-            <p>Where Foundry's fuzzer runs out of depth. Echidna's Haskell core finds sequences of calls that violate properties; we reach for it on stateful bugs the invariant runner couldn't provoke.</p>
+            <div class="tool-head"><span class="tool-name">Pact</span><span class="tool-kind">Contract tests</span></div>
+            <p>For the service boundary where the AI feature calls the model provider or where downstream services call the AI-gated endpoint. Pact pins the contract so an upstream schema drift doesn't silently degrade output quality.</p>
           </div>
           <div class="tool">
             <div class="tool-head"><span class="tool-name">Claude Code</span><span class="tool-kind">Agent runtime</span></div>
-            <p>The glue. Drafts candidate tests from specs, operates the stack above, and runs unattended work as Routines between engagements (see <a href="#agents" class="inline">§2</a> and <a href="#protocol" class="inline">§3</a>).</p>
+            <p>The glue. Drafts candidate eval cases from production traces, operates the rest of the stack during authoring, and runs unattended work as Routines between engagements (see <a href="#agents" class="inline">§2</a> and <a href="#protocol" class="inline">§3</a>).</p>
+          </div>
+          <div class="tool">
+            <div class="tool-head"><span class="tool-name">Claude Code Routines</span><span class="tool-kind">Scheduled automation</span></div>
+            <p>How Sentinel actually runs. Nightly eval sweeps, weekly drift diffs, webhook-triggered PR review gates — all configured once, run forever, every run producing an auditable session transcript. This is how Gloxx delivers continuous QA without billing for the hours.</p>
           </div>
 
           <!-- 2. AI agents -->
           <h2 id="agents">How we use AI agents</h2>
-          <p class="section-intro">Concrete workflow. Every Test Suite Rebuild (Tier 2) and every Fractional retainer (Tier 3) runs this loop:</p>
+          <p class="section-intro">Concrete workflow. Every Eval Suite Build (Tier 2) and every Fractional retainer (Tier 3) runs this loop:</p>
 
-          <p><strong>Step 1 — PRD / invariant spec.</strong> The engineer writes a plain-English list of the properties that should always hold. ("The pool's token reserves should always equal the sum of user balances minus pending withdrawals." "No user should be able to withdraw more than their share of LP tokens represents.") This is the most valuable human work in the process — we don't let the model draft it.</p>
+          <p><strong>Step 1 — Spec + golden-set curation.</strong> The engineer (with us) writes a plain-English list of the properties that should always hold for every AI output. ("The support agent never fabricates a refund policy not present in the retrieved knowledge base." "The summarization output is never longer than the source.") We pair this with 50–200 real production traces curated into a version-controlled golden set. This is the most valuable human work in the process — we don't let the model draft it.</p>
 
-          <p><strong>Step 2 — Claude Code drafts candidate Foundry invariants.</strong> We feed the model the PRD plus the relevant Solidity file and ask for a first-draft invariant test. We prompt explicitly for properties the model is <em>unsure about</em>, not just the obvious ones. Output looks like this:</p>
+          <p><strong>Step 2 — Claude Code drafts candidate eval cases.</strong> We feed the model the spec plus the relevant traces and ask for a first-draft DeepEval suite. We prompt explicitly for cases the model is <em>unsure about</em>, not just the obvious ones — adversarial inputs, edge-case retrievals, long context. Output looks like this:</p>
 
           <div class="code-block">
-            <div class="code-head">test/invariants/PoolReserves.invariant.t.sol</div>
-            <div class="code-body" tabindex="0" role="region" aria-label="Solidity invariant test example — scrollable"><span class="c-comment">// Generated by Claude Code from PRD §3.2: "Pool reserves never diverge</span>
-<span class="c-comment">// from bookkeeping." Human-reviewed by Bran on 2026-04-14. See commit</span>
-<span class="c-comment">// 3f91a2c for the discussion on edge case 4 (zero-amount donation).</span>
+            <div class="code-head">tests/evals/support_agent_faithfulness.py</div>
+            <div class="code-body" tabindex="0" role="region" aria-label="DeepEval test example — scrollable"><span class="c-comment"># Generated by Claude Code from PRD §2.1: "Support agent never invents</span>
+<span class="c-comment"># policy details that aren't in the KB." Human-reviewed by Bran on 2026-04-16.</span>
+<span class="c-comment"># See commit 3f91a2c for the discussion on edge case 4 (out-of-scope queries).</span>
 
-<span class="c-keyword">contract</span> PoolReservesInvariant <span class="c-keyword">is</span> StdInvariant, Test {
-    Pool pool;
-    PoolHandler handler;
+<span class="c-keyword">import</span> pytest
+<span class="c-keyword">from</span> deepeval <span class="c-keyword">import</span> assert_test
+<span class="c-keyword">from</span> deepeval.metrics <span class="c-keyword">import</span> FaithfulnessMetric, AnswerRelevancyMetric
+<span class="c-keyword">from</span> deepeval.test_case <span class="c-keyword">import</span> LLMTestCase
 
-    <span class="c-keyword">function</span> setUp() <span class="c-keyword">public</span> {
-        pool = <span class="c-keyword">new</span> Pool();
-        handler = <span class="c-keyword">new</span> PoolHandler(pool);
-        targetContract(<span class="c-keyword">address</span>(handler));
-    }
+GOLDEN_SET = load_golden_set(<span class="c-string">"support-refund-policy.jsonl"</span>)  <span class="c-comment"># 127 cases</span>
 
-    <span class="c-comment">// INVARIANT: reserves == sum(balances) - pendingWithdrawals</span>
-    <span class="c-keyword">function</span> invariant_reservesMatchBookkeeping() <span class="c-keyword">public</span> {
-        assertEq(
-            pool.reserves(),
-            handler.sumBalances() - pool.pendingWithdrawals()
-        );
-    }
-}</div>
+faithfulness = FaithfulnessMetric(threshold=0.95)
+relevancy    = AnswerRelevancyMetric(threshold=0.85)
+
+@pytest.mark.parametrize(<span class="c-string">"case"</span>, GOLDEN_SET)
+<span class="c-keyword">def</span> test_support_agent_grounded_in_kb(case):
+    response = support_agent.run(case.input, context=case.retrieved_chunks)
+    test_case = LLMTestCase(
+        input=case.input,
+        actual_output=response.content,
+        retrieval_context=case.retrieved_chunks,
+        expected_output=case.expected,
+    )
+    assert_test(test_case, [faithfulness, relevancy])</div>
           </div>
 
-          <p><strong>Step 3 — Human review before merge.</strong> We read every generated test line-by-line. About 40% of drafts ship unchanged, 40% need edits (wrong helper, missed edge case, ambiguous invariant), 20% get rejected outright because the model misread the spec. Rejections are fed back as counterexamples in the prompt for the next round.</p>
+          <p><strong>Step 3 — Human review before merge.</strong> We read every generated eval line-by-line. About 40% of drafts ship unchanged, 40% need edits (wrong threshold, missed edge case, ambiguous expected output), 20% get rejected outright because the model misread the spec. Rejections are fed back as counterexamples in the prompt for the next round.</p>
 
-          <p><strong>Step 4 — The suite runs in CI, every push.</strong> We don't ship tests that only run on a developer's laptop. Every Gloxx-authored suite lands in CI from day one.</p>
+          <p><strong>Step 4 — The suite runs in CI, every push.</strong> We don't ship evals that only run on a developer's laptop. Every Gloxx-authored suite lands in CI from day one, with a failing-eval gate on the merge queue.</p>
 
           <!-- 3. Operating protocol -->
           <h2 id="protocol">Our Claude Code operating protocol</h2>
@@ -723,7 +725,7 @@
             <div class="protocol-item">
               <div>
                 <h3>Plan mode by default — "move slow to move fast."</h3>
-                <p>Roughly 80% of any active Claude Code session is spent in Plan Mode before a single line of test code is generated. A locked-in plan makes execution nearly automatic and prevents "quick fix" failure modes — like the well-known case where Claude, asked to fix a UI display error, silently modified the underlying database values to match the expected output and corrupted the source of truth. On a protocol, that class of mistake is a migration rollback event. Plan first, execute second, always.</p>
+                <p>Roughly 80% of any active Claude Code session is spent in Plan Mode before a single line of test code is generated. A locked-in plan makes execution nearly automatic and prevents "quick fix" failure modes — like the well-known case where Claude, asked to fix a UI display error, silently modified the underlying database values to match the expected output and corrupted the source of truth. On a production AI system, that class of mistake is a rollback-and-incident event. Plan first, execute second, always.</p>
               </div>
             </div>
             <div class="protocol-item">
@@ -736,7 +738,7 @@
             <div class="protocol-item">
               <div>
                 <h3>Verification feedback loops — the 2–3× quality lever.</h3>
-                <p>Every Claude Code session we run has a verification tool wired in — a headless browser, a test runner, a linter, or a direct Foundry/Slither invocation — and an explicit instruction to use that tool to confirm state before declaring a task complete. This single practice is the largest quality lever we've measured. For long sessions we close with a forced audit: <em>"Go back and verify all of your work so far. Flag anything that skipped best practice or introduced risk."</em></p>
+                <p>Every Claude Code session we run has a verification tool wired in — a headless browser, a test runner, a linter, or a direct DeepEval / Playwright invocation — and an explicit instruction to use that tool to confirm state before declaring a task complete. This single practice is the largest quality lever we've measured. For long sessions we close with a forced audit: <em>"Go back and verify all of your work so far. Flag anything that skipped best practice or introduced risk."</em></p>
               </div>
             </div>
             <div class="protocol-item">
@@ -754,7 +756,7 @@
             <div class="protocol-item">
               <div>
                 <h3>Skills for inner loops — productize every repetitive task.</h3>
-                <p>Recurring processes — release-gate reports, invariant-test templates, post-audit summary documents, compliance exports — get codified as Claude Skills once, then invoked by slash command. When a Skill needs to run without us (nightly, on a webhook, or via API), we deploy it as a scheduled or webhook-triggered <a href="https://claude.com/blog/introducing-routines-in-claude-code" class="inline">Claude Code Routine</a>. Every run produces an auditable session transcript by default — that's the evidence trail a blockchain-QA retainer needs.</p>
+                <p>Recurring processes — release-gate reports, eval-case templates, post-incident summary documents, compliance exports — get codified as Claude Skills once, then invoked by slash command. When a Skill needs to run without us (nightly, on a webhook, or via API), we deploy it as a scheduled or webhook-triggered <a href="https://claude.com/blog/introducing-routines-in-claude-code" class="inline">Claude Code Routine</a>. Every run produces an auditable session transcript by default — that's the evidence trail an AI-QA retainer needs.</p>
               </div>
             </div>
           </div>
@@ -762,24 +764,24 @@
           <p style="margin-top: 2rem;"><strong>Underpinning all six: context over prompt engineering.</strong> We spend our time feeding the model high-quality context — codebase, docs, system state, the spec on this page — rather than micro-tweaking prompts that will be obsolete by Q3. The "what" we feed the model is our moat; the "how" of any individual prompt is not.</p>
 
           <!-- 4. Test pyramid -->
-          <h2 id="pyramid">Our test pyramid for smart contract protocols</h2>
-          <p class="section-intro">Six layers. Most protocols we audit are top-heavy on unit tests and light on everything below. The gap between audits is where the lower layers should be built.</p>
+          <h2 id="pyramid">Our test pyramid for AI-native apps</h2>
+          <p class="section-intro">Six layers. Most AI-native teams we audit are top-heavy on unit tests and light on everything that actually scores the model's output. The gap between "our CI is green" and "the feature works" is where the lower layers should be built.</p>
 
           <div class="pyramid">
-            <div class="row"><span class="tier">SCENARIO</span><span class="count">~5 tests</span></div>
-            <div class="row narrowest"><span class="tier">FUZZ (Echidna)</span><span class="count">~10 properties</span></div>
-            <div class="row narrower"><span class="tier">INVARIANT (Foundry)</span><span class="count">~20 invariants</span></div>
-            <div class="row"><span class="tier">FORK</span><span class="count">~40 tests</span></div>
+            <div class="row"><span class="tier">RED-TEAM</span><span class="count">~10 adversarial sets</span></div>
+            <div class="row narrowest"><span class="tier">TRACE REVIEW</span><span class="count">50 traces / wk</span></div>
+            <div class="row narrower"><span class="tier">EVAL (golden sets)</span><span class="count">~150 cases</span></div>
+            <div class="row"><span class="tier">E2E (Playwright)</span><span class="count">~40 flows</span></div>
             <div class="row"><span class="tier">INTEGRATION</span><span class="count">~80 tests</span></div>
             <div class="row"><span class="tier">UNIT</span><span class="count">~200+ tests</span></div>
           </div>
 
           <p><strong>Unit</strong> — function-level correctness. Cheap, fast, and the floor most teams already have. We don't rebuild these; we extend them.</p>
-          <p><strong>Integration</strong> — multi-contract interactions. Where most missed bugs live. We add these aggressively during Rebuilds.</p>
-          <p><strong>Fork</strong> — tests that run against a forked mainnet/testnet snapshot. Critical for anything that touches oracles, router contracts, or live AMMs.</p>
-          <p><strong>Invariant</strong> — property-based tests via Foundry's invariant runner. The single highest-leverage layer for DeFi protocols. Ten good invariants beat a hundred unit tests.</p>
-          <p><strong>Fuzz</strong> — Echidna/Halmos for sequences of calls the Foundry fuzzer can't provoke. We reach for these on stateful bugs only.</p>
-          <p><strong>Scenario</strong> — end-to-end user flows replayed in deterministic forks. The "does this actually work in anger" layer. Five good scenarios beat fifty speculative ones.</p>
+          <p><strong>Integration</strong> — service-boundary interactions (DB, message bus, model provider, retrieval layer). Where most missed bugs around AI features actually live — the glue code, not the model call.</p>
+          <p><strong>E2E</strong> — Playwright user flows through the surrounding product. The feature isn't shipped if the login, billing, or empty-state screens break around it.</p>
+          <p><strong>Eval</strong> — golden-set scoring against faithfulness, relevancy, toxicity, structure, or custom metrics. The single highest-leverage layer for AI features. Ten good evals with a real golden set beat a hundred vibe-checked hand-written prompts.</p>
+          <p><strong>Trace review</strong> — sampled production traces read by a human every week. The layer that catches drift the eval suite hasn't learned to measure yet. Every flagged trace becomes a new eval case next sprint.</p>
+          <p><strong>Red-team</strong> — adversarial prompts, jailbreaks, prompt-injection fixtures, data-leak probes. Run on every material prompt change and before every feature launch. Five good red-team sets beat fifty speculative ones.</p>
 
           <!-- 5. Release gate -->
           <h2 id="gate">Our release-gate checklist</h2>
@@ -788,18 +790,18 @@
           <div class="checklist">
             <div class="checklist-title">Pre-deploy release gate (Gloxx standard)</div>
             <ol>
-              <li>Has the full Foundry suite passed on the exact commit being deployed, not a close ancestor?</li>
-              <li>Have Slither, Mythril, and Aderyn run on the deployed artifact? Were any net-new findings triaged?</li>
-              <li>Do the invariant tests still hold under 10,000+ runs on a forked mainnet state?</li>
-              <li>Has the storage layout been diffed against the currently-deployed version? Any slot collisions?</li>
-              <li>If this is an upgradeable contract: has the initializer for the new version been tested from uninitialized state?</li>
-              <li>Are gas regressions within tolerance vs. the previous version on the same benchmark suite?</li>
-              <li>Does the deploy script re-run cleanly from a fresh state in CI, not just locally?</li>
-              <li>Have all external oracles, routers, or integrations been exercised in a fork test against the target block number?</li>
-              <li>Is there a documented, tested rollback path? Does it require multisig coordination we can reach right now?</li>
+              <li>Has the full eval suite plus traditional test suite passed on the exact commit being deployed, not a close ancestor?</li>
+              <li>Did the prompt regression suite pass against the last N production prompt versions?</li>
+              <li>Do faithfulness, relevancy, and toxicity metrics meet published thresholds on the current golden set?</li>
+              <li>Has the golden set been re-sampled from production traces in the last 30 days?</li>
+              <li>If this is a prompt or model change: has a red-team pass been run against prompt-injection and jailbreak fixtures?</li>
+              <li>Is cost-per-request within tolerance vs. the previous version on the same benchmark?</li>
+              <li>Is latency-at-p95 within the documented SLO on representative input?</li>
+              <li>Has at least one human reviewed 50 sampled production traces in the last 7 days?</li>
+              <li>Is there a documented, tested rollback path to the previous prompt or model version — and does it take less than 15 minutes to flip?</li>
               <li>Is there a post-deploy monitoring plan for the first 48 hours, with owner + on-call assigned?</li>
-              <li>Has the change been communicated to downstream integrators (aggregators, frontends, explorers) with sufficient notice?</li>
-              <li>If a similar deploy has failed before on this team: has the specific failure mode been regression-tested?</li>
+              <li>Has the change been communicated to downstream teams (support, customer success, sales) with sufficient notice?</li>
+              <li>If a similar release has failed before on this team: has the specific failure mode been regression-tested?</li>
             </ol>
           </div>
 
@@ -808,11 +810,11 @@
           <p class="section-intro">Saying no to the wrong engagement is how we stay useful for the right one. These are non-negotiable.</p>
 
           <ul class="refuse-list">
-            <li><strong>We don't replace security audits.</strong> A security audit and an ongoing QA function are different products with different incentive structures. We pair with auditors; we don't substitute for them. When a client asks us to "just do the audit," we refer them to Trail of Bits, Sherlock, Spearbit, or Cantina and offer to run the QA layer alongside.</li>
-            <li><strong>We don't ship untested AI-generated code.</strong> Every line of test code that bears a Gloxx name has been read, understood, and signed off by a human. No "AI security theater." If that constraint slows us down, so be it — the cost of one false-positive-green-light engagement is worse than any speed gain across a whole year.</li>
-            <li><strong>We don't take clients on month-to-month without an Audit first.</strong> The Audit exists to make sure we actually know what we're signing up for. Skipping it means the retainer starts with guesses, and guesses on protocol QA are how teams get burned.</li>
-            <li><strong>We don't bill by the hour on engagements with fixed deliverables.</strong> Audits, Rebuilds, and War Rooms are flat-fee. We take the timeline risk; you take the scope-change risk. This aligns incentives: we don't get paid for being slow.</li>
-            <li><strong>We don't publish client work without written consent.</strong> Even sanitized. Even as a case study. The QA posture of a live protocol is sensitive information and we treat it that way.</li>
+            <li><strong>We don't replace AI red teams or safety audits.</strong> Adversarial safety testing and an ongoing AI-QA function are different products with different incentive structures. We pair with red-team specialists; we don't substitute for them. When a client asks us to run the full adversarial gauntlet ourselves, we refer out and offer to run the release-gate layer alongside.</li>
+            <li><strong>We don't ship untested AI-generated code.</strong> Every line of eval or test code that bears a Gloxx name has been read, understood, and signed off by a human. No eval theater. If that constraint slows us down, so be it — the cost of one false-positive-green-light engagement is worse than any speed gain across a whole year.</li>
+            <li><strong>We don't take clients on month-to-month without an Audit first.</strong> The Audit exists to make sure we actually know what we're signing up for. Skipping it means the retainer starts with guesses, and guesses on AI release gates are how teams get burned.</li>
+            <li><strong>We don't bill by the hour on engagements with fixed deliverables.</strong> Audits, Eval Suite Builds, and War Rooms are flat-fee. We take the timeline risk; you take the scope-change risk. This aligns incentives: we don't get paid for being slow.</li>
+            <li><strong>We don't publish client work without written consent.</strong> Even sanitized. Even as a case study. The AI posture of a live product is sensitive information and we treat it that way.</li>
           </ul>
 
         </article>

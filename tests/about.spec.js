@@ -21,9 +21,9 @@ test.describe('About Page', () => {
 
   test('body names the core tool stack', async ({ page }) => {
     const body = page.locator('.ab-body');
-    await expect(body).toContainText('Slither');
+    await expect(body).toContainText('DeepEval');
     await expect(body).toContainText('Claude Code');
-    await expect(body).toContainText('Foundry');
+    await expect(body).toContainText('Playwright');
   });
 
   test('shipped-list has at least 3 TODO-able items', async ({ page }) => {

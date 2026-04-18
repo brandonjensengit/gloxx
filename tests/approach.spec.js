@@ -43,17 +43,17 @@ test.describe('Approach Page', () => {
     await expect(page.locator('.tool')).toHaveCount(8);
   });
 
-  test('stack includes the core Foundry + Slither + Claude Code trio', async ({ page }) => {
+  test('stack includes the core DeepEval + promptfoo + Claude Code trio', async ({ page }) => {
     const names = page.locator('.tool-name');
     const text = await names.allTextContents();
-    expect(text).toEqual(expect.arrayContaining(['Foundry', 'Slither', 'Claude Code']));
+    expect(text).toEqual(expect.arrayContaining(['DeepEval', 'promptfoo', 'Claude Code']));
   });
 
-  test('AI agents section has a Solidity code block', async ({ page }) => {
+  test('AI agents section has a DeepEval code block', async ({ page }) => {
     await page.locator('#agents').scrollIntoViewIfNeeded();
     const code = page.locator('.code-block');
     await expect(code).toBeVisible();
-    await expect(code).toContainText('PoolReservesInvariant');
+    await expect(code).toContainText('FaithfulnessMetric');
   });
 
   test('operating protocol lists 6 principles', async ({ page }) => {
@@ -88,9 +88,9 @@ test.describe('Approach Page', () => {
     await expect(page.locator('.refuse-list li')).toHaveCount(5);
   });
 
-  test('refusals include security-audit-replacement disclaimer', async ({ page }) => {
+  test('refusals include red-team / safety-audit disclaimer', async ({ page }) => {
     const refusals = page.locator('.refuse-list');
-    await expect(refusals).toContainText("don't replace security audits");
+    await expect(refusals).toContainText("don't replace AI red teams");
   });
 
   test('CTA at bottom links to Cal.com booking', async ({ page }) => {
