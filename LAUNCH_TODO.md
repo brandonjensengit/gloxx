@@ -9,7 +9,7 @@ Everything outstanding before the site goes live at **gloxx.ai**. Grouped by bla
 ## 1. Assets to create + upload to repo root
 
 - [x] **Favicon pack** — `favicon.ico` + `favicon-16x16.png` + `favicon-32x32.png` + `apple-touch-icon.png` + `android-chrome-192x192.png` + `android-chrome-512x512.png` + `site.webmanifest`. Generated from favicon.io (Space Grotesk "G" in brand green on brand black). All 6 HTML files now link the full set, with `theme-color: #08080a` so mobile home-screen splash matches the site background.
-- [x] **`og-image.png`** — 1200×1200 (square, 2.4 MB), portrait of Bran in the Gloxx hat at the podcast mic. Wired to all 5 Gloxx pages with explicit `og:image:width`/`height` so crawlers don't mis-crop. Works as-is on LinkedIn / Slack / X; X will render it centered in a 1.91:1 feed crop.
+- [x] **`og-image.jpg`** — 1200×1200 (square, 342 KB JPEG re-encode of the original 2.4 MB PNG). Wired to all 5 Gloxx pages + archive portfolio with explicit `og:image:width`/`height` so crawlers don't mis-crop. Works as-is on LinkedIn / Slack / X; X will render it centered in a 1.91:1 feed crop. The file rename `.png`→`.jpg` also auto-busts any CDN that cached the old URL.
 
 ## 2. Content placeholders to fill in
 
@@ -34,8 +34,8 @@ Everything outstanding before the site goes live at **gloxx.ai**. Grouped by bla
 
 ## 5. Nice-to-have polish before announcing
 
-- [ ] **Bust OG image caches** — paste `https://gloxx.ai` into [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) and [X Card Validator](https://cards-dev.twitter.com/validator) to force CDNs to re-fetch the new `og-image.png`.
-- [ ] **Add analytics snippet** — needs an account + site ID from your chosen provider (Plausible / Fathom / GA4). Give Brandon the snippet/ID and he'll wire it into all 5 pages.
+- [ ] **Bust OG image caches (optional)** — the `.png`→`.jpg` filename change auto-invalidates CDN caches for any previously-scraped preview, so crawlers will fetch the new image on next visit. If you want faster propagation, paste `https://gloxx.ai` into [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) and [X Card Validator](https://cards-dev.twitter.com/validator).
+- [ ] **Add analytics snippet** — skipped for now. Revisit post-launch; Plausible or Fathom recommended (no cookie banner needed).
 - [x] **Archive decision** — keeping `/archive/` as-is (`noindex`, `Disallow`). Revisit in Q3 2026; delete entirely if the demos add no value by then.
 
 ## 6. Repo migrated to Gloxx GitHub org
@@ -48,6 +48,22 @@ Repo now lives at **`github.com/gloxxai/gloxx-web`** (was `brandonjensengit/glox
 - [x] **GoDaddy DNS**: `www` CNAME flipped from `brandonjensengit.github.io.` → `gloxxai.github.io.`.
 - [x] **Verify on GitHub Pages settings**: custom domain + HTTPS confirmed post-transfer.
 - [x] **Wire the home-footer GitHub link** — now points to `https://github.com/gloxxai/gloxx-web`.
+
+## 7. Legal + business formation (pre-first-client)
+
+These unblock signing the MSA template in the Gloxx vault's `Engagement Checklists/Templates/MSA.md`. A Retainer or Sentinel client will expect to see a real legal entity before signing — Audits and War Rooms can be SOW-only under a sole proprietorship, but the umbrella MSA needs an entity.
+
+- [ ] **Choose entity type** — LLC is the default for a one-person consultancy. S-Corp election after ~$80k net profit is a common next step; worth a 30-min call with an accountant before signing the LLC.
+- [ ] **Choose state of formation** — Delaware (classic, high filing fees, requires registered agent) vs. home-state LLC (cheaper, simpler, no dual-state tax filing). Default home-state unless a future investor explicitly wants Delaware.
+- [ ] **File articles of organization** — file via state SOS website directly, skip LegalZoom. Filing fees: $50–$500 depending on state.
+- [ ] **EIN from IRS** — free, 10 minutes online at irs.gov. Needed for bank account and client W-9s.
+- [ ] **Operating agreement** — single-member LLC still needs one. Template via CorporateDirect or similar; review before signing.
+- [ ] **Business bank account** — Mercury, Relay, or local credit union. Keep personal and business finances strictly separated (piercing-the-veil risk).
+- [ ] **Professional liability insurance (E&O)** — $800–1,500/yr for a solo tech consultancy. Hiscox, Next Insurance, and Vouch quote online. Required by some clients; referenced in MSA Section 12.
+- [ ] **General liability insurance** — bundled with E&O at most insurers.
+- [ ] **Lawyer review of MSA + SOW templates** — $500–1,500 one-off. Don't ship to first Retainer client without this. Find a transactional attorney via your state bar's lawyer referral service.
+- [ ] **Register "Gloxx" as DBA / fictitious business name** (if needed) — most states require DBA registration if your LLC's legal name differs from the brand name (e.g. "Jensen Consulting LLC" doing business as "Gloxx").
+- [ ] **Domain registration under entity** — transfer `gloxx.ai` registration to the LLC once the entity exists (not urgent, but clean up within 90 days post-formation).
 
 ---
 

@@ -17,17 +17,18 @@
   <meta property="og:title" content="Services — Gloxx">
   <meta property="og:description" content="Four productized QA engagements for blockchain protocols and crypto-native fintech teams.">
   <meta property="og:url" content="https://gloxx.ai/services.html">
-  <meta property="og:image" content="/og-image.png">
+  <meta property="og:image" content="/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Services — Gloxx">
   <meta name="twitter:description" content="Four productized QA engagements for blockchain teams.">
-  <meta name="twitter:image" content="/og-image.png">
+  <meta name="twitter:image" content="/og-image.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
   <style>
     :root {
       --bg: #08080a;
@@ -89,6 +90,7 @@
       position: fixed; inset: 0;
       pointer-events: none; z-index: 9000;
       isolation: isolate; mix-blend-mode: overlay;
+      will-change: transform;
     }
     .grain svg { width: 100%; height: 100%; }
 

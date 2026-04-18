@@ -17,17 +17,20 @@
   <meta property="og:title" content="Gloxx — AI-Augmented QA for Blockchain Teams">
   <meta property="og:description" content="AI-augmented QA partner for blockchain protocols and crypto-native fintech. 15 years of QA leadership plus agentic test workflows.">
   <meta property="og:url" content="https://gloxx.ai/">
-  <meta property="og:image" content="/og-image.png">
+  <meta property="og:image" content="/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Gloxx — AI-Augmented QA for Blockchain Teams">
   <meta name="twitter:description" content="AI-augmented QA partner for blockchain protocols and crypto-native fintech.">
-  <meta name="twitter:image" content="/og-image.png">
+  <meta name="twitter:image" content="/og-image.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" as="script" crossorigin>
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" as="script" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
   <style>
     :root {
       --bg: #08080a;
@@ -93,6 +96,7 @@
       pointer-events: none; z-index: 9000;
       isolation: isolate;
       mix-blend-mode: overlay;
+      will-change: transform;
     }
     .grain svg { width: 100%; height: 100%; }
 
@@ -132,7 +136,7 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 8000;
       display: flex; align-items: center; justify-content: space-between;
       padding: 1.5rem clamp(1.5rem, 5vw, 3rem);
-      transition: background .5s, backdrop-filter .5s, padding .4s;
+      transition: background .5s, padding .4s;
       opacity: 0;
     }
     .nav.scrolled {
@@ -251,6 +255,7 @@
     .h-blob {
       position: absolute; border-radius: 50%;
       filter: blur(120px); will-change: transform;
+      contain: layout style;
     }
     .h-blob-1 {
       width: 700px; height: 700px;
@@ -1075,12 +1080,15 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script>
-  (function(){
+  // Runs synchronously, before anything else, so the browser never auto-restores scroll mid-load.
+  window.history.scrollRestoration = 'manual';
+  </script>
+  <script defer>
+  document.addEventListener('DOMContentLoaded', function(){
     'use strict';
-    window.history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
     const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
     const touch = matchMedia('(pointer:coarse)').matches;
@@ -1089,21 +1097,26 @@
     if (!touch && !reduced) {
       const dot = document.querySelector('.cur-dot');
       const ring = document.querySelector('.cur-ring');
-      let mx = 0, my = 0, rx = 0, ry = 0;
+      let mx = 0, my = 0, rx = 0, ry = 0, rafId = null;
+
+      function ringLoop() {
+        rx += (mx - rx) * .12;
+        ry += (my - ry) * .12;
+        ring.style.left = rx + 'px';
+        ring.style.top = ry + 'px';
+        if (Math.abs(mx - rx) > .5 || Math.abs(my - ry) > .5) {
+          rafId = requestAnimationFrame(ringLoop);
+        } else {
+          rafId = null;
+        }
+      }
 
       document.addEventListener('mousemove', e => {
         mx = e.clientX; my = e.clientY;
         dot.style.left = mx + 'px';
         dot.style.top = my + 'px';
-      });
-
-      (function loop() {
-        rx += (mx - rx) * .12;
-        ry += (my - ry) * .12;
-        ring.style.left = rx + 'px';
-        ring.style.top = ry + 'px';
-        requestAnimationFrame(loop);
-      })();
+        if (!rafId) rafId = requestAnimationFrame(ringLoop);
+      }, { passive: true });
 
       document.querySelectorAll('a, button, .svc-row, .w-card, .proc-item').forEach(el => {
         el.addEventListener('mouseenter', () => document.body.classList.add('cur-hover'));
@@ -1138,22 +1151,34 @@
 
     /* ═══════ SERVICE ROW GLOW ═══════ */
     document.querySelectorAll('.svc-row').forEach(row => {
+      let ticking = false;
       row.addEventListener('mousemove', e => {
-        const r = row.getBoundingClientRect();
-        row.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-        row.style.setProperty('--my', (e.clientY - r.top) + 'px');
-      });
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const r = row.getBoundingClientRect();
+          row.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          row.style.setProperty('--my', (e.clientY - r.top) + 'px');
+          ticking = false;
+        });
+      }, { passive: true });
     });
 
     /* ═══════ MAGNETIC BUTTON ═══════ */
     if (!touch && !reduced) {
       document.querySelectorAll('.btn-mag').forEach(btn => {
+        let ticking = false;
         btn.addEventListener('mousemove', e => {
-          const r = btn.getBoundingClientRect();
-          const x = e.clientX - r.left - r.width / 2;
-          const y = e.clientY - r.top - r.height / 2;
-          gsap.to(btn, { x: x * .3, y: y * .3, duration: .3, ease: 'power2.out' });
-        });
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            const r = btn.getBoundingClientRect();
+            const x = e.clientX - r.left - r.width / 2;
+            const y = e.clientY - r.top - r.height / 2;
+            gsap.to(btn, { x: x * .3, y: y * .3, duration: .3, ease: 'power2.out', overwrite: true });
+            ticking = false;
+          });
+        }, { passive: true });
         btn.addEventListener('mouseleave', () => {
           gsap.to(btn, { x: 0, y: 0, duration: .6, ease: 'elastic.out(1,.4)' });
         });
@@ -1258,7 +1283,7 @@
       opacity: 0, y: 16, duration: .5, delay: .25
     });
 
-  })();
+  });
   </script>
 </body>
 </html>

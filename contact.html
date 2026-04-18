@@ -17,17 +17,18 @@
   <meta property="og:title" content="Contact — Gloxx">
   <meta property="og:description" content="Tell us about your release risk. We reply within one business day.">
   <meta property="og:url" content="https://gloxx.ai/contact.html">
-  <meta property="og:image" content="/og-image.png">
+  <meta property="og:image" content="/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Contact — Gloxx">
   <meta name="twitter:description" content="Tell us about your release risk.">
-  <meta name="twitter:image" content="/og-image.png">
+  <meta name="twitter:image" content="/og-image.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
   <style>
     :root {
       --bg: #08080a; --text: #ededed; --text-2: #898989; --text-3: #8a8f98;
@@ -48,7 +49,7 @@
     :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; }
     button { border: none; font-family: inherit; cursor: pointer; }
 
-    .grain { position: fixed; inset: 0; pointer-events: none; z-index: 9000; mix-blend-mode: overlay; }
+    .grain { position: fixed; inset: 0; pointer-events: none; z-index: 9000; mix-blend-mode: overlay; will-change: transform; }
     .grain svg { width: 100%; height: 100%; }
 
     .nav {
@@ -380,8 +381,8 @@
       <!-- Confirmation state (shown after submit) -->
       <div class="ct-confirm" id="contact-confirm" role="status" aria-live="polite">
         <div class="check" aria-hidden="true">✓</div>
-        <h2>Got it — check your mail client.</h2>
-        <p>We've opened a pre-filled email. Send it from whichever address you want me to reply to. I'll get back to you within one business day.</p>
+        <h2>Got it — message received.</h2>
+        <p>I'll get back to you within one business day.</p>
       </div>
 
     </div>

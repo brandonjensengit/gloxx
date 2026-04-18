@@ -17,17 +17,18 @@
   <meta property="og:title" content="How Gloxx works — Approach">
   <meta property="og:description" content="The six-principle Claude Code operating protocol and the QA discipline that powers every Gloxx engagement.">
   <meta property="og:url" content="https://gloxx.ai/approach.html">
-  <meta property="og:image" content="/og-image.png">
+  <meta property="og:image" content="/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How Gloxx works — Approach">
   <meta name="twitter:description" content="The technical methodology behind every Gloxx engagement.">
-  <meta name="twitter:image" content="/og-image.png">
+  <meta name="twitter:image" content="/og-image.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
   <style>
     :root {
       --bg: #08080a;
@@ -83,6 +84,7 @@
       position: fixed; inset: 0;
       pointer-events: none; z-index: 9000;
       isolation: isolate; mix-blend-mode: overlay;
+      will-change: transform;
     }
     .grain svg { width: 100%; height: 100%; }
 
@@ -865,17 +867,22 @@
     (function() {
       const links = document.querySelectorAll('.ap-toc a');
       const targets = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
-      const setActive = () => {
-        const y = window.scrollY + 120;
-        let active = null;
-        targets.forEach((el, i) => {
-          if (el && el.offsetTop <= y) active = i;
+      let current = 0;
+      links[0] && links[0].classList.add('toc-active');
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const idx = targets.indexOf(entry.target);
+          if (idx === -1) return;
+          if (entry.isIntersecting && idx !== current) {
+            links[current] && links[current].classList.remove('toc-active');
+            current = idx;
+            links[current].classList.add('toc-active');
+          }
         });
-        links.forEach(a => a.classList.remove('toc-active'));
-        if (active != null) links[active].classList.add('toc-active');
-      };
-      setActive();
-      window.addEventListener('scroll', setActive, { passive: true });
+      }, { rootMargin: '-80px 0px -75% 0px' });
+
+      targets.forEach(el => el && observer.observe(el));
     })();
   </script>
 
