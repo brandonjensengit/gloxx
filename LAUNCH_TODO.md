@@ -49,7 +49,22 @@ Repo now lives at **`github.com/gloxxai/gloxx-web`** (was `brandonjensengit/glox
 - [x] **Verify on GitHub Pages settings**: custom domain + HTTPS confirmed post-transfer.
 - [x] **Wire the home-footer GitHub link** — now points to `https://github.com/gloxxai/gloxx-web`.
 
-## 7. Legal + business formation (pre-first-client)
+## 7. Security hardening (post-audit 2026-04-18)
+
+Full findings in the Gloxx vault: `Raw/Website Security Audit 2026-04-18.md`. Threat model is opportunistic bots / scrapers / phishers, not nation-state. Each item below is ≤1 hour; priority order.
+
+- [ ] **Add SPF record** *(High — Email)* — GoDaddy DNS, TXT at `@`: `v=spf1 include:zoho.com ~all`. Verify with `dig TXT gloxx.ai` + send a test from Zoho. Move to `-all` after confirming all legitimate sending paths are in the include.
+- [ ] **Redirect DMARC `rua` to an address you own** *(Medium — Email)* — currently points at `dmarc_rua@onsecureserver.net` (GoDaddy default, you never see it). Change to `rua=mailto:dmarc@gloxx.ai` (forward that alias to your inbox) or a free aggregator (dmarcian, Postmark DMARC Digests). After 2–4 weeks of clean reports, tighten `p=quarantine` → `p=reject`.
+- [ ] **Honeypot field on contact form + Apps Script check** *(High — Form)* — add `<input name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">` to `contact.html`. In the Apps Script `doPost`, drop any submission where `website` is non-empty. Free, silent, stops ~90% of dumb bots.
+- [ ] **Harden the Apps Script `doPost`** *(High — Form)* — schema-validate the JSON payload, cap field lengths (name ≤100, textareas ≤2000), reject submissions with malformed shape, return a structured JSON response with a clear status. Deploy a new version of the webapp so the URL doesn't change.
+- [ ] **Add SRI to GSAP script tags on `index.html`** *(Medium — Deps)* — grab SHA-384 hashes from cdnjs.com and add `integrity="sha384-…" crossorigin="anonymous"` to both `gsap.min.js` and `ScrollTrigger.min.js`. Optional: apply to the 10 `archive/*.html` files too (they're demo only, lower priority).
+- [ ] **Add CAA records at GoDaddy** *(Medium — DNS)* — two records at apex: `0 issue "letsencrypt.org"` and `0 iodef "mailto:hello@gloxx.ai"`. Prevents rogue cert issuance by other CAs.
+- [ ] **Add meta-tag CSP + referrer policy to every page** *(Medium — Headers)* — per-page `<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://script.google.com; base-uri 'self'; form-action 'self' https://script.google.com">` and `<meta name="referrer" content="strict-origin-when-cross-origin">`. Run Playwright after — GSAP and Google Fonts must still load. Note: `frame-ancestors` / `X-Frame-Options` cannot be set via meta — GH Pages can't emit custom headers, so clickjacking defence requires fronting with Cloudflare (defer).
+- [ ] **Confirm DKIM is live in Zoho** *(Info — Email)* — Zoho Mail Admin → Email Authentication → DKIM → verify selector + DNS record are published. Without DKIM, DMARC relies on SPF-only alignment, which is weaker.
+- [ ] **Turn on branch protection for `main`** *(Info — Deploy)* — GitHub → Settings → Branches → require PR + require `tests` status check + block force-push. Prevents a compromised collaborator account from shipping to production in one commit.
+- [ ] **Fix `fetch().then()` silent-success on contact form** *(Low — Form)* — `contact.html:482`, gate success UI on `response.ok`; on non-ok, trigger the mailto fallback. Matches the "fail loudly" principle in global coding standards.
+
+## 8. Legal + business formation (pre-first-client)
 
 These unblock signing the MSA template in the Gloxx vault's `Engagement Checklists/Templates/MSA.md`. A Retainer or Sentinel client will expect to see a real legal entity before signing — Audits and War Rooms can be SOW-only under a sole proprietorship, but the umbrella MSA needs an entity.
 
