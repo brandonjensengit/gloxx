@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How Gloxx works — Approach</title>
-  <meta name="description" content="How Gloxx operates: the AI-QA tool stack (DeepEval, promptfoo, LangSmith, Playwright, Claude Code), the six-principle Claude Code operating protocol, our AI-native test pyramid, and the release-gate checklist we give away.">
+  <meta name="description" content="How Gloxx runs QA for software companies: the general test pyramid, release gates, and tool stack — plus the AI-QA discipline (DeepEval, promptfoo, LangSmith, Claude Code operating protocol) layered on when you ship AI features.">
 
   <link rel="canonical" href="https://gloxx.ai/approach.html">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -15,14 +15,14 @@
   <meta name="theme-color" content="#08080a">
   <meta property="og:type" content="website">
   <meta property="og:title" content="How Gloxx works — Approach">
-  <meta property="og:description" content="The six-principle Claude Code operating protocol and the AI-QA discipline that powers every Gloxx engagement.">
+  <meta property="og:description" content="How Gloxx runs QA for any software company, plus the AI-QA discipline we layer on when you ship AI features.">
   <meta property="og:url" content="https://gloxx.ai/approach.html">
   <meta property="og:image" content="/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How Gloxx works — Approach">
-  <meta name="twitter:description" content="The technical methodology behind every Gloxx AI-QA engagement.">
+  <meta name="twitter:description" content="How Gloxx runs QA for software companies, plus the AI-QA specialty layered on when it applies.">
   <meta name="twitter:image" content="/og-image.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -217,6 +217,17 @@
       counter-increment: toc;
       margin-bottom: .6rem;
     }
+    .ap-toc li.ap-toc-divider {
+      counter-increment: none;
+      font-family: var(--heading);
+      font-size: .72rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gloxx-accent);
+      margin: 1rem 0 .6rem;
+      padding-top: .6rem;
+      border-top: 1px dashed var(--gloxx-border);
+    }
     .ap-toc a {
       font-family: var(--heading);
       font-size: .88rem;
@@ -271,6 +282,19 @@
       font-weight: 300;
       margin-bottom: 1.75rem;
       max-width: 60ch;
+    }
+    .ap-main .ap-section-break {
+      border: 0;
+      border-top: 1px dashed var(--gloxx-border);
+      margin: 4rem 0 1.25rem;
+    }
+    .ap-main .section-divider {
+      font-family: var(--heading);
+      font-size: .75rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gloxx-accent);
+      margin: 0 0 1.25rem;
     }
 
     /* Tool list */
@@ -615,7 +639,7 @@
     <div class="container">
       <span class="label">Approach</span>
       <h1>How Gloxx works.</h1>
-      <p class="ap-lead">We don't sell a methodology. We sell a habit: how we actually use our tools, how we drive Claude Code without letting it drive us, and what we refuse to do regardless of price. If you want to understand whether Gloxx belongs on your release-critical path, this is the page that tells you.</p>
+      <p class="ap-lead">We don't sell a methodology. We sell a habit: the QA discipline we run on every engagement, plus the AI-specific layer we add when you ship AI features. The first half of this page is what we'd bring to any software company. The second half is the specialty.</p>
     </div>
   </section>
 
@@ -628,7 +652,9 @@
         <aside class="ap-toc" aria-label="Contents">
           <div class="ap-toc-label">Contents</div>
           <ol>
-            <li><a href="#stack">The Gloxx AI-QA stack</a></li>
+            <li><a href="#general">QA for any software company</a></li>
+            <li class="ap-toc-divider" aria-hidden="true">When you ship AI</li>
+            <li><a href="#stack">The AI-QA tool stack</a></li>
             <li><a href="#agents">How we use AI agents</a></li>
             <li><a href="#protocol">Claude Code operating protocol</a></li>
             <li><a href="#pyramid">Test pyramid for AI-native apps</a></li>
@@ -640,8 +666,24 @@
         <!-- Main content -->
         <article class="ap-main">
 
+          <!-- 0. General QA -->
+          <h2 id="general">QA for any software company</h2>
+          <p class="section-intro">The QA discipline you'd expect from a senior in-house team. Tools, test pyramid, release gates. This is the half of the engagement that's the same whether you ship AI features or not — it's the floor every retainer starts from.</p>
+
+          <p><strong>The general stack.</strong> Playwright for E2E and visual regression. axe-core for WCAG 2.1 AA accessibility gates. Pact for service-boundary contract tests. k6 for load and soak. Sentry / Datadog for production observability and error budgets. GitHub Actions (or your CI of choice) as the orchestration layer that runs every gate before merge or deploy.</p>
+
+          <p><strong>The general test pyramid.</strong> Engineering owns unit tests — we extend them but don't rebuild them. We own integration (~80 tests, the service-boundary layer where most missed bugs live). We own and maintain E2E flows (~40 critical paths in Playwright). We run weekly exploratory testing on the high-risk surface — the layer that catches what scripts miss because no one wrote them yet.</p>
+
+          <p><strong>The general release gate.</strong> Every pull request runs unit + integration + a fast E2E smoke. Every release runs the full E2E suite + accessibility check + a manual exploratory pass on critical user journeys. If you have a contract test, it runs. If you have a load benchmark, it runs. If you have a security scan, it runs. The gate is a checklist, not a hope.</p>
+
+          <p><strong>What we own day to day.</strong> Bug triage with severity grading and reproducible reports. Test plan authorship for new features <em>before</em> they ship, not after. Release-readiness sign-off — written, named, dated. A weekly QA sync with engineering. A monthly QA scorecard for your leadership.</p>
+
+          <hr class="ap-section-break" aria-hidden="true">
+          <p class="section-divider">When you ship AI features — the specialty.</p>
+          <p class="section-intro">The work below is what we layer on top when AI is in the product. It's the half of Gloxx's discipline that most QA shops don't have, and it's why the retainer includes AI-feature QA at no surcharge. Read on if it's relevant; skip ahead to <a href="#refuse" class="inline">§7</a> if it isn't.</p>
+
           <!-- 1. Stack -->
-          <h2 id="stack">The Gloxx AI-QA stack</h2>
+          <h2 id="stack">The AI-QA tool stack</h2>
           <p class="section-intro">Eight tools, used in specific combinations. None of them is magic; the value is knowing when to reach for each, and which layer of the release gate each one anchors.</p>
 
           <div class="tool">
@@ -674,12 +716,12 @@
           </div>
           <div class="tool">
             <div class="tool-head"><span class="tool-name">Claude Code Routines</span><span class="tool-kind">Scheduled automation</span></div>
-            <p>How Sentinel actually runs. Nightly eval sweeps, weekly drift diffs, webhook-triggered PR review gates — all configured once, run forever, every run producing an auditable session transcript. This is how Gloxx delivers continuous QA without billing for the hours.</p>
+            <p>How we run continuous monitoring inside a retainer. Nightly eval sweeps, weekly drift diffs, webhook-triggered PR review gates — all configured once, run forever, every run producing an auditable session transcript. This is how Gloxx delivers continuous QA without billing for the hours.</p>
           </div>
 
           <!-- 2. AI agents -->
           <h2 id="agents">How we use AI agents</h2>
-          <p class="section-intro">Concrete workflow. Every Eval Suite Build (Tier 2) and every Fractional retainer (Tier 3) runs this loop:</p>
+          <p class="section-intro">Concrete workflow. When the retainer covers an AI feature, this is the loop we run on it:</p>
 
           <p><strong>Step 1 — Spec + golden-set curation.</strong> The engineer (with us) writes a plain-English list of the properties that should always hold for every AI output. ("The support agent never fabricates a refund policy not present in the retrieved knowledge base." "The summarization output is never longer than the source.") We pair this with 50–200 real production traces curated into a version-controlled golden set. This is the most valuable human work in the process — we don't let the model draft it.</p>
 
@@ -785,7 +827,7 @@ relevancy    = AnswerRelevancyMetric(threshold=0.85)
 
           <!-- 5. Release gate -->
           <h2 id="gate">Our release-gate checklist</h2>
-          <p class="section-intro">We give this away. Every Fractional QA retainer uses a customized version of the checklist below as the gate between "code merged" and "code deployed." If you can't answer yes to all of these, you're not ready to ship.</p>
+          <p class="section-intro">We give this away. Every Gloxx Retainer that touches an AI feature uses a customized version of the checklist below as the gate between "code merged" and "code deployed." If you can't answer yes to all of these, you're not ready to ship.</p>
 
           <div class="checklist">
             <div class="checklist-title">Pre-deploy release gate (Gloxx standard)</div>
@@ -812,8 +854,8 @@ relevancy    = AnswerRelevancyMetric(threshold=0.85)
           <ul class="refuse-list">
             <li><strong>We don't replace AI red teams or safety audits.</strong> Adversarial safety testing and an ongoing AI-QA function are different products with different incentive structures. We pair with red-team specialists; we don't substitute for them. When a client asks us to run the full adversarial gauntlet ourselves, we refer out and offer to run the release-gate layer alongside.</li>
             <li><strong>We don't ship untested AI-generated code.</strong> Every line of eval or test code that bears a Gloxx name has been read, understood, and signed off by a human. No eval theater. If that constraint slows us down, so be it — the cost of one false-positive-green-light engagement is worse than any speed gain across a whole year.</li>
-            <li><strong>We don't take clients on month-to-month without an Audit first.</strong> The Audit exists to make sure we actually know what we're signing up for. Skipping it means the retainer starts with guesses, and guesses on AI release gates are how teams get burned.</li>
-            <li><strong>We don't bill by the hour on engagements with fixed deliverables.</strong> Audits, Eval Suite Builds, and War Rooms are flat-fee. We take the timeline risk; you take the scope-change risk. This aligns incentives: we don't get paid for being slow.</li>
+            <li><strong>We don't lock you into an annual contract.</strong> The retainer is month-to-month with 30 days' notice on either side. If we're not earning the renewal every month, you shouldn't have to pay for the privilege of leaving. The first two weeks are the discovery ramp — if it's not a fit by week three, we both know.</li>
+            <li><strong>We don't bill by the hour.</strong> The retainer is a flat $15k/month regardless of how busy a given week is — we take the timeline risk, you take the scope-change risk. This aligns incentives: we don't get paid more for being slow, and you don't get a surprise invoice when a release week runs hot.</li>
             <li><strong>We don't publish client work without written consent.</strong> Even sanitized. Even as a case study. The AI posture of a live product is sensitive information and we treat it that way.</li>
           </ul>
 
@@ -826,7 +868,7 @@ relevancy    = AnswerRelevancyMetric(threshold=0.85)
   <section class="cta-section">
     <div class="container">
       <h2>Want a QA partner who works this way?</h2>
-      <p>Book a free 30-minute assessment. We'll talk through what you're shipping and whether the Audit is the right first step. No pitch.</p>
+      <p>Book a free 30-minute call. We'll talk through what you're shipping, what's brittle, and whether the retainer is the right move. No pitch.</p>
       <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="cta-btn">Book the call →</a>
     </div>
   </section>

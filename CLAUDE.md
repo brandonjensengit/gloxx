@@ -1,29 +1,24 @@
-# Gloxx — Fractional Head of AI QA
+# Gloxx — Fractional QA team for software companies
 
 ## Project Overview
 
-Gloxx is the fractional Head of AI QA for teams shipping AI features or rolling out Claude Code. This repo is the public website + lead-gen funnel at `gloxx.ai`. All pages are static HTML with inline CSS/JS — no frameworks, no build tools in production.
+Gloxx is a fractional QA team for software companies. One $15k/month retainer gets a senior QA team embedded with the engineering org — test strategy, regression coverage, release gates, automation, exploratory testing, and AI-feature QA when it applies. This repo is the public website + lead-gen funnel at `gloxx.ai`. All pages are static HTML with inline CSS/JS — no frameworks, no build tools in production.
 
-**Current state (2026-04-18):** Site is live at `gloxx.ai`. Repositioning from the prior blockchain-QA framing → AI-native QA for Series A/B SaaS completed in this session (see commit history on `main`). 420 Playwright tests green; working tree clean pending this session's edits.
+**Current state (2026-04-30):** Site is live at `gloxx.ai`. Repositioned from "Fractional Head of AI QA" → "Fractional QA team for software companies" in this session — the four-tier consulting menu (audit + eval suite + fractional + war room + sentinel) collapsed to a single $15k/mo flat retainer. AI-QA stays on the site as a specialty differentiator on `/approach` and in the third home-page card, but is no longer the headline. Working tree pending this session's edits.
 
 ## Positioning
 
-- **Target audience:** CTOs and founders of Series A–B SaaS companies shipping AI features, scale-ups rolling out Claude Code or Cursor, AI-native startups approaching launch, regulated fintech/healthtech with AI in-product, and engineering orgs that know they have an eval problem.
-- **Core offer:**
-  - AI-Native QA Readiness Audit ($12–15k / 2 weeks) — entry point for every engagement
-  - Eval Suite Build ($25–50k / 4–6 weeks) — golden sets, eval harness, prompt regression, CI release gates
-  - Fractional Head of AI QA ($6–12k/mo / 10–20 hrs/wk) — bread-and-butter retainer
-  - Pre-Launch AI War Room ($15–20k / 2 weeks flat) — date-anchored pre-launch intensive
-  - Gloxx Sentinel (from $2k/mo bolt-on) — continuous eval monitoring via Claude Code Routines
-- **Differentiation:** 15 years QA leadership × a real Claude Code operating protocol (6 principles) × eval discipline that treats AI output like any other untrusted input.
+- **Target audience:** CTOs and founders of software companies shipping every week without QA leadership, Series A–B SaaS past the "engineers test their own code" stage, scale-ups needing a regression safety net, regulated fintech/healthtech, and AI-native teams approaching launch.
+- **Core offer:** **The Gloxx Retainer — $15,000/mo, month-to-month**, fractional QA team for software companies. Founder-led; specialist contractors (automation, AI eval, performance, security) staffed in as the work demands. Two-week ramp, weekly sync, monthly QA scorecard. AI-feature QA included at no surcharge when the roadmap calls for it. Cancel any month with 30 days' notice. No tiers, no paid audits, no project upsell, no monitoring add-ons.
+- **Differentiation:** 15 years QA leadership × senior accountable founder × AI-native specialty when the buyer needs it × one flat number vs. an in-house team that costs 3–4x as much ($180k/yr Gloxx vs. $400–600k/yr fully loaded).
 
 ## File Structure
 
 ```
 /                       — Root (all production HTML files)
 ├── index.html          — Home (hero, What we do, Who we work with, Why Gloxx, CTA)
-├── services.html       — Four service tiers + Sentinel teaser
-├── approach.html       — The content moat: tool stack, AI agent workflow, Claude Code operating protocol, test pyramid, release-gate checklist, refuse list
+├── services.html       — Single-offer deep dive on the $15k/mo Gloxx Retainer
+├── approach.html       — The content moat: general QA primer (test pyramid, release gates), then the AI specialty layer — tool stack, agent workflow, Claude Code operating protocol, AI test pyramid, release-gate checklist, refuse list
 ├── about.html          — Founder story + "What I've shipped" list
 ├── contact.html        — Intake form (posts to Google Apps Script; mailto fallback)
 ├── 404.html            — "This page failed a test."
@@ -69,7 +64,7 @@ Gloxx is the fractional Head of AI QA for teams shipping AI features or rolling 
 
 `contact.html` posts a JSON payload to a Google Apps Script web endpoint. Fields: `name`, `company`, `email`, `what-building`, `current-qa`, `when-shipping`, `war-room`. On network failure, the form falls back to a structured `mailto:hello@gloxx.ai` so no leads are lost.
 
-**Important:** the form field `name="current-qa"` was kept as-is during the AI-QA repositioning — only the *label* shown to the user changed ("What's your current QA situation?" → "Where is AI showing up, and how are you testing it today?"). This means the Google Sheet column headers do not need to be redeployed.
+**Important:** the form field `name=` attributes are stable across repositionings — only the visible label text changes. The label on `name="current-qa"` has been "What's your current QA situation?" → "Where is AI showing up, and how are you testing it today?" → and is now back to "What's your current QA situation?" The label on `name="war-room"` was repurposed from "WAR ROOM" to a generic "URGENT" pre-launch flag. The Google Sheet column headers stay valid through every repositioning because the field names never change. Apply the same discipline next time.
 
 ## Running locally
 
@@ -111,4 +106,5 @@ git push origin main
 - No marketing fluff. No "we empower," no "seamlessly," no "transform."
 - Short sentences are load-bearing. Long sentences earn their length with specificity.
 - Name the specific failure mode before naming the offer that fixes it.
-- The six-principle Claude Code operating protocol on `/approach` is the credibility anchor — every page should be consistent with its opinions.
+- `/approach` is the content moat: a general QA primer (test pyramid, release-gate baseline) followed by the AI specialty layer (six-principle Claude Code operating protocol, AI test pyramid, eval gate). Every other page should be consistent with its opinions.
+- AI/Claude-Code QA is a **specialty differentiator**, not the headline. Lead with general QA value (cost, speed, accountability), surface AI-feature QA as the reason to pick Gloxx over a generic shop.

@@ -23,49 +23,57 @@ test.describe('Services Page', () => {
     expect(errors).toHaveLength(0);
   });
 
-  test('hero H1 positions service tiers', async ({ page }) => {
-    await expect(page.locator('.svc-hero h1')).toContainText('Four productized engagements');
+  test('hero H1 names the single retainer offer', async ({ page }) => {
+    await expect(page.locator('.svc-hero h1')).toContainText('One offer');
+    await expect(page.locator('.svc-hero h1')).toContainText('Gloxx Retainer');
   });
 
-  test('lead-rule quote frames the Audit as entry point', async ({ page }) => {
-    await expect(page.locator('.svc-lead-rule')).toContainText('Every engagement starts with the AI-Native QA Readiness Audit');
+  test('hero subhead surfaces price and cancellation terms', async ({ page }) => {
+    await expect(page.locator('.svc-hero-sub')).toContainText('$15,000/month');
+    await expect(page.locator('.svc-hero-sub')).toContainText('month-to-month');
   });
 
-  test('has exactly 4 service tier cards', async ({ page }) => {
-    await expect(page.locator('.service-card')).toHaveCount(4);
+  test('lead-rule quote frames the retainer commitments', async ({ page }) => {
+    await expect(page.locator('.svc-lead-rule')).toContainText('One number');
+    await expect(page.locator('.svc-lead-rule')).toContainText('One accountable lead');
   });
 
-  test('tier 1 is the AI-Native QA Readiness Audit at $12-15k', async ({ page }) => {
+  test('has exactly 5 retainer-facet cards', async ({ page }) => {
+    await expect(page.locator('.service-card')).toHaveCount(5);
+  });
+
+  test('card 1 is "What\'s included" with the $15k/mo meta', async ({ page }) => {
     const card = page.locator('.service-card').nth(0);
-    await expect(card.locator('h2')).toContainText('AI-Native QA Readiness Audit');
-    await expect(card.locator('.sc-meta')).toContainText('$12,000');
+    await expect(card.locator('h2')).toContainText("What's included");
+    await expect(card.locator('.sc-meta')).toContainText('$15,000/mo');
   });
 
-  test('tier 2 is Eval Suite Build', async ({ page }) => {
+  test('card 2 is "How it works" with the two-week ramp meta', async ({ page }) => {
     const card = page.locator('.service-card').nth(1);
-    await expect(card.locator('h2')).toContainText('Eval Suite Build');
-    await expect(card.locator('.sc-meta')).toContainText('$25,000');
+    await expect(card.locator('h2')).toContainText('How it works');
+    await expect(card.locator('.sc-meta')).toContainText('Two-week ramp');
   });
 
-  test('tier 3 is Fractional Head of AI QA', async ({ page }) => {
+  test('card 3 is "The math" comparing $180k to $400-600k in-house', async ({ page }) => {
     const card = page.locator('.service-card').nth(2);
-    await expect(card.locator('h2')).toContainText('Fractional Head of AI QA');
+    await expect(card.locator('h2')).toContainText('The math');
+    await expect(card.locator('.sc-desc')).toContainText('$400');
+    await expect(card.locator('.sc-desc')).toContainText('$180');
   });
 
-  test('tier 4 is Pre-Launch AI War Room', async ({ page }) => {
+  test('card 4 is "Who staffs it" with founder-led framing', async ({ page }) => {
     const card = page.locator('.service-card').nth(3);
-    await expect(card.locator('h2')).toContainText('Pre-Launch AI War Room');
-    await expect(card.locator('.sc-meta')).toContainText('$15,000');
+    await expect(card.locator('h2')).toContainText('Who staffs it');
+    await expect(card.locator('.sc-meta')).toContainText('Founder-led');
   });
 
-  test('Sentinel card is a bolt-on teaser', async ({ page }) => {
-    const sentinel = page.locator('.sentinel-card');
-    await expect(sentinel).toBeVisible();
-    await expect(sentinel).toContainText('Sentinel');
-    await expect(sentinel).toContainText('$2,000');
+  test('card 5 is "What we don\'t do" — the refuse list', async ({ page }) => {
+    const card = page.locator('.service-card').nth(4);
+    await expect(card.locator('h2')).toContainText("What we don't do");
+    await expect(card.locator('.sc-meta')).toContainText('refuse list');
   });
 
-  test('every tier card exposes a scope list', async ({ page }) => {
+  test('every facet card exposes a scope list', async ({ page }) => {
     const cards = page.locator('.service-card');
     const count = await cards.count();
     for (let i = 0; i < count; i++) {

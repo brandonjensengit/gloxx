@@ -27,15 +27,20 @@ test.describe('Approach Page', () => {
     await expect(page.locator('.ap-hero h1')).toContainText('How Gloxx works');
   });
 
-  test('TOC lists all 6 sections', async ({ page, viewport }) => {
-    await expect(page.locator('.ap-toc a')).toHaveCount(6);
+  test('TOC lists all 7 sections (general QA + 6 AI specialty)', async ({ page, viewport }) => {
+    await expect(page.locator('.ap-toc a')).toHaveCount(7);
   });
 
-  test('all 6 section anchors exist in the document', async ({ page }) => {
-    const ids = ['stack', 'agents', 'protocol', 'pyramid', 'gate', 'refuse'];
+  test('all 7 section anchors exist in the document', async ({ page }) => {
+    const ids = ['general', 'stack', 'agents', 'protocol', 'pyramid', 'gate', 'refuse'];
     for (const id of ids) {
       await expect(page.locator(`#${id}`)).toBeVisible();
     }
+  });
+
+  test('general QA section comes before the AI specialty divider', async ({ page }) => {
+    await expect(page.locator('#general')).toBeVisible();
+    await expect(page.locator('.ap-toc-divider')).toBeVisible();
   });
 
   test('QA stack lists 8 named tools', async ({ page }) => {

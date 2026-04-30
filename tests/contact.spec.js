@@ -10,14 +10,14 @@ test.describe('Contact Page', () => {
     await expect(page).toHaveTitle(/Contact.*Gloxx/);
   });
 
-  test('hero H1 asks about release risk', async ({ page }) => {
-    await expect(page.locator('.ct-hero h1')).toContainText("release risk");
+  test('hero H1 invites a QA conversation', async ({ page }) => {
+    await expect(page.locator('.ct-hero h1')).toContainText("QA");
   });
 
-  test('war-room hint routes to hello@gloxx.ai with WAR ROOM subject', async ({ page }) => {
+  test('urgent hint routes to hello@gloxx.ai with URGENT subject', async ({ page }) => {
     const link = page.locator('.war-room-hint a[href*="mailto"]');
     await expect(link).toHaveAttribute('href', /mailto:hello@gloxx\.ai/);
-    await expect(link).toHaveAttribute('href', /WAR%20ROOM/);
+    await expect(link).toHaveAttribute('href', /URGENT/);
   });
 
   test('form has 7 expected fields', async ({ page }) => {
@@ -53,7 +53,7 @@ test.describe('Contact Page', () => {
     const scriptText = await page.locator('script').last().innerText();
     expect(scriptText).toContain("script.google.com/macros");
     expect(scriptText).toContain("mailto:hello@gloxx.ai");
-    expect(scriptText).toContain("WAR ROOM");
+    expect(scriptText).toContain("URGENT");
     expect(scriptText).toContain("contact-confirm");
   });
 

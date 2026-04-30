@@ -29,11 +29,11 @@ test.describe('Main Site', () => {
     await expect(page.locator('#hero')).toBeVisible();
   });
 
-  test('hero title renders new AI-QA headline', async ({ page }) => {
+  test('hero title renders fractional-QA-team headline', async ({ page }) => {
     const hero = page.locator('.hero-title');
     await expect(hero).toBeVisible();
-    await expect(hero).toContainText('Ship AI features');
-    await expect(hero).toContainText('actually trust');
+    await expect(hero).toContainText('A QA team for any');
+    await expect(hero).toContainText('software company');
   });
 
   test('hero primary CTA routes to Cal.com, secondary to approach', async ({ page }) => {
@@ -47,7 +47,7 @@ test.describe('Main Site', () => {
 
   test('hero tagline is visible', async ({ page }) => {
     await expect(page.locator('.hero-tag')).toBeVisible();
-    await expect(page.locator('.hero-tag')).toContainText('Fractional Head of AI QA');
+    await expect(page.locator('.hero-tag')).toContainText('Fractional QA Team');
   });
 
   test('hero subtitle is visible', async ({ page }) => {
@@ -111,13 +111,13 @@ test.describe('Main Site', () => {
     await expect(page.locator('.wwd-card')).toHaveCount(3);
   });
 
-  test('what-we-do cards surface price/duration metadata', async ({ page }) => {
+  test('what-we-do cards surface retainer / team / specialty metadata', async ({ page }) => {
     await page.locator('#what-we-do').scrollIntoViewIfNeeded();
     const metas = page.locator('.wwd-card .wwd-meta');
     await expect(metas).toHaveCount(3);
-    await expect(metas.nth(0)).toContainText('$12');
-    await expect(metas.nth(1)).toContainText('$25');
-    await expect(metas.nth(2)).toContainText('$6');
+    await expect(metas.nth(0)).toContainText('$15,000');
+    await expect(metas.nth(1)).toContainText('Founder-led');
+    await expect(metas.nth(2)).toContainText('Specialty');
   });
 
   // ─── WHO WE WORK WITH ───
@@ -126,11 +126,11 @@ test.describe('Main Site', () => {
     await expect(page.locator('.wws-strip span')).toHaveCount(5);
   });
 
-  test('who-we-serve mentions AI-native segments', async ({ page }) => {
+  test('who-we-serve covers software companies + AI specialty', async ({ page }) => {
     await page.locator('#who-we-serve').scrollIntoViewIfNeeded();
     const strip = page.locator('.wws-strip');
-    await expect(strip).toContainText('shipping AI features');
-    await expect(strip).toContainText('Claude Code');
+    await expect(strip).toContainText('Software companies');
+    await expect(strip).toContainText('AI-native teams');
   });
 
   // ─── WHY GLOXX ───
