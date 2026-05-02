@@ -350,6 +350,18 @@
       border: 1px solid var(--border);
       border-radius: 100px;
     }
+    .hero-imprint {
+      display: block;
+      font-family: var(--heading);
+      font-size: .7rem; font-weight: 500;
+      letter-spacing: .35em; text-transform: uppercase;
+      color: var(--accent-1);
+      margin-bottom: 1rem;
+      opacity: 0;
+    }
+    @media (max-width: 600px) {
+      .hero-imprint { font-size: .62rem; letter-spacing: .25em; margin-bottom: .75rem; }
+    }
 
     .scroll-ind {
       position: absolute; bottom: 2.5rem; left: 50%;
@@ -761,7 +773,7 @@
       .cur-dot, .cur-ring { display: none; }
       body, a, button { cursor: auto; }
       .hero-title .line-inner { transform: none !important; }
-      .hero-sub, .hero-tag, .hero-ctas, .scroll-ind, .nav { opacity: 1 !important; }
+      .hero-sub, .hero-tag, .hero-imprint, .hero-ctas, .scroll-ind, .nav { opacity: 1 !important; }
     }
 
     /* ═══════════ PROMPT 3 — NEW SECTIONS ═══════════ */
@@ -1049,6 +1061,7 @@
     <div class="hero-vignette" aria-hidden="true"></div>
 
     <div class="hero-content">
+      <span class="hero-imprint">Quality Assurance Institute</span>
       <span class="hero-tag">Fractional QA Team</span>
       <h1 class="hero-title">
         <span class="line"><span class="line-inner">A QA team for any</span></span>
@@ -1316,7 +1329,7 @@
     /* ═══════ GSAP ═══════ */
     if (reduced) {
       document.querySelectorAll('.line-inner').forEach(el => el.style.transform = 'none');
-      document.querySelectorAll('.hero-sub, .hero-tag, .hero-ctas, .scroll-ind, .nav').forEach(el => el.style.opacity = 1);
+      document.querySelectorAll('.hero-sub, .hero-tag, .hero-imprint, .hero-ctas, .scroll-ind, .nav').forEach(el => el.style.opacity = 1);
       return;
     }
 
@@ -1325,7 +1338,8 @@
     // Hero
     const tl = gsap.timeline({ delay: .2 });
     tl.to('.nav', { opacity: 1, duration: .8, ease: 'power2.out' })
-      .to('.hero-tag', { opacity: 1, duration: .6, ease: 'power2.out' }, .3)
+      .to('.hero-imprint', { opacity: 1, duration: .6, ease: 'power2.out' }, .25)
+      .to('.hero-tag', { opacity: 1, duration: .6, ease: 'power2.out' }, .35)
       .to('.hero-title .line-inner', {
         y: 0, duration: .9, stagger: .12, ease: 'power3.out'
       }, .4)
