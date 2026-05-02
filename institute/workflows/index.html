@@ -25,6 +25,10 @@
   <meta name="twitter:description" content="Six AI-QA workflows, each documented as a procedure.">
   <meta name="twitter:image" content="/og-image.jpg">
 
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"Gloxx","alternateName":"Gloxx QA Institute","url":"https://gloxx.ai","logo":"https://gloxx.ai/gloxx-logo-white-transparent-o-cutout.png","foundingDate":"2026","founder":{"@type":"Person","name":"Brandon Jensen"},"description":"A fractional QA team for software companies, with the Gloxx QA Institute as the published methodology behind the retainer.","email":"hello@gloxx.ai","sameAs":["https://github.com/gloxxai","https://www.linkedin.com/company/gloxxai"]}
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -125,6 +129,12 @@
     .footer-links a:hover { color: var(--text-2); }
     .footer-tag { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); }
 
+    .doc-meta { margin: 1.5rem 0 2rem; padding: .85rem 1.25rem; border: 1px solid var(--border); border-left: 2px solid var(--gloxx-accent); border-radius: 4px; background: var(--surface); font-family: var(--mono); font-size: .78rem; letter-spacing: .02em; color: var(--text-2); display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; }
+    .doc-meta .dm-key { text-transform: uppercase; font-size: .66rem; letter-spacing: .18em; color: var(--text-3); margin-right: .35rem; }
+    .doc-meta time { font-variant-numeric: tabular-nums; }
+    .footer-doctrine { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 2.5rem; padding-right: 2.5rem; font-family: var(--heading); font-size: .82rem; letter-spacing: .02em; color: var(--text-2); text-align: center; }
+    @media (max-width: 600px) { .doc-meta { gap: .35rem 1rem; padding: .75rem 1rem; font-size: .72rem; } .doc-meta .dm-key { font-size: .6rem; } .footer-doctrine { padding-left: 1.25rem; padding-right: 1.25rem; font-size: .76rem; } }
+
     @media (max-width: 900px) { .nav { padding: 1rem 1.5rem; } .nav-links { display: none; } .nav-ham { display: flex; } .container { padding: 0 1.25rem; } .crumbs { padding-top: 5.5rem; font-size: .72rem; } .wf-grid { grid-template-columns: 1fr; } }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   </style>
@@ -179,6 +189,13 @@
 
   <section>
     <div class="container">
+      <aside class="doc-meta" aria-label="Document metadata">
+        <span><span class="dm-key">Document</span> Workflow Catalog v1.0</span>
+        <span><span class="dm-key">Editor</span> Brandon Jensen, Founder</span>
+        <span><span class="dm-key">Published</span> <time datetime="2026-05-02">2026-05-02</time></span>
+        <span><span class="dm-key">Last reviewed</span> <time datetime="2026-05-02">2026-05-02</time></span>
+        <span><span class="dm-key">Next review</span> 2026 Q3</span>
+      </aside>
       <h2 style="font-family: var(--heading); font-size: 1.4rem; font-weight: 500; color: var(--text); margin: 1rem 0 1.25rem; letter-spacing: -.005em;">The six workflows.</h2>
       <div class="wf-grid">
         <a href="/institute/workflows/eval.html" class="wf-card">
@@ -247,6 +264,9 @@
         <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
       </div>
       <span class="footer-tag">Methodology in practice.</span>
+    </div>
+    <div class="footer-doctrine">
+      Audited, not certified. Methodology over warranties. Released artifacts over promises.
     </div>
     <div class="footer-dogfood">
       Built and <a href="https://github.com/gloxxai/gloxx-web/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.

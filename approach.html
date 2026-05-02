@@ -25,10 +25,14 @@
   <meta name="twitter:description" content="How Gloxx runs QA for software companies, plus the AI-QA specialty layered on when it applies.">
   <meta name="twitter:image" content="/og-image.jpg">
 
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"Gloxx","alternateName":"Gloxx QA Institute","url":"https://gloxx.ai","logo":"https://gloxx.ai/gloxx-logo-white-transparent-o-cutout.png","foundingDate":"2026","founder":{"@type":"Person","name":"Brandon Jensen"},"description":"A fractional QA team for software companies, with the Gloxx QA Institute as the published methodology behind the retainer.","email":"hello@gloxx.ai","sameAs":["https://github.com/gloxxai","https://www.linkedin.com/company/gloxxai"]}
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:wght@400;500&display=swap" rel="stylesheet"></noscript>
   <style>
     :root {
       --bg: #08080a;
@@ -44,6 +48,7 @@
       --surface: rgba(255,255,255,0.03);
       --heading: 'Space Grotesk', -apple-system, sans-serif;
       --body: 'Inter', -apple-system, sans-serif;
+      --serif: 'Newsreader', Georgia, ui-serif, serif;
       --mono: 'JetBrains Mono', ui-monospace, monospace;
 
       --gloxx-bg: var(--bg);
@@ -559,6 +564,15 @@
       text-transform: uppercase; color: var(--text-3);
     }
 
+    .ap-lead, .ap-main p, .ap-main blockquote { font-family: var(--serif); font-size: 1.08rem; }
+    .ap-main p strong { font-weight: 500; }
+
+    .doc-meta { margin: 1.5rem 0 0; padding: .85rem 1.25rem; border: 1px solid var(--border); border-left: 2px solid var(--gloxx-accent); border-radius: 4px; background: var(--surface); font-family: var(--mono); font-size: .78rem; letter-spacing: .02em; color: var(--text-2); display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; }
+    .doc-meta .dm-key { text-transform: uppercase; font-size: .66rem; letter-spacing: .18em; color: var(--text-3); margin-right: .35rem; }
+    .doc-meta time { font-variant-numeric: tabular-nums; }
+    .footer-doctrine { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 2.5rem; padding-right: 2.5rem; font-family: var(--heading); font-size: .82rem; letter-spacing: .02em; color: var(--text-2); text-align: center; }
+    @media (max-width: 600px) { .doc-meta { gap: .35rem 1rem; padding: .75rem 1rem; font-size: .72rem; } .doc-meta .dm-key { font-size: .6rem; } .footer-doctrine { padding-left: 1.25rem; padding-right: 1.25rem; font-size: .76rem; } }
+
     /* ═══════════ RESPONSIVE ═══════════ */
     @media (max-width: 900px) {
       .nav { padding: 1rem 1.5rem; }
@@ -642,6 +656,13 @@
       <span class="label">Approach</span>
       <h1>How Gloxx works.</h1>
       <p class="ap-lead">We don't sell a methodology. We sell a habit: the QA discipline we run on every engagement, plus the AI-specific layer we add when you ship AI features. The first half of this page is what we'd bring to any software company. The second half is the specialty.</p>
+      <aside class="doc-meta" aria-label="Document metadata">
+        <span><span class="dm-key">Document</span> Gloxx Approach v1.0</span>
+        <span><span class="dm-key">Authors</span> Brandon Jensen, Founder</span>
+        <span><span class="dm-key">Published</span> <time datetime="2026-05-02">2026-05-02</time></span>
+        <span><span class="dm-key">Last reviewed</span> <time datetime="2026-05-02">2026-05-02</time></span>
+        <span><span class="dm-key">Next review</span> 2026 Q3</span>
+      </aside>
     </div>
   </section>
 
@@ -885,6 +906,9 @@ relevancy    = AnswerRelevancyMetric(threshold=0.85)
         <a href="services.html">Services</a>
       </div>
       <span class="footer-tag">Methodology in practice.</span>
+    </div>
+    <div class="footer-doctrine">
+      Audited, not certified. Methodology over warranties. Released artifacts over promises.
     </div>
     <div class="footer-dogfood">
       Built and <a href="https://github.com/gloxxai/gloxx-web/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.

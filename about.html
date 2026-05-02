@@ -25,6 +25,10 @@
   <meta name="twitter:description" content="15 years of QA leadership. Now building the fractional QA team every software company wishes it could afford.">
   <meta name="twitter:image" content="/og-image.jpg">
 
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"Gloxx","alternateName":"Gloxx QA Institute","url":"https://gloxx.ai","logo":"https://gloxx.ai/gloxx-logo-white-transparent-o-cutout.png","foundingDate":"2026","founder":{"@type":"Person","name":"Brandon Jensen"},"description":"A fractional QA team for software companies, with the Gloxx QA Institute as the published methodology behind the retainer.","email":"hello@gloxx.ai","sameAs":["https://github.com/gloxxai","https://www.linkedin.com/company/gloxxai"]}
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="/bran.webp" type="image/webp" fetchpriority="high">
@@ -235,6 +239,16 @@
       font-size: .7rem; letter-spacing: .18em;
       text-transform: uppercase; color: var(--text-3);
     }
+    .footer-doctrine {
+      margin-top: 1.5rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      max-width: 1200px; margin-left: auto; margin-right: auto;
+      padding-left: clamp(1.5rem, 5vw, 3rem); padding-right: clamp(1.5rem, 5vw, 3rem);
+      font-family: var(--heading);
+      font-size: .82rem; letter-spacing: .02em;
+      color: var(--text-2);
+      text-align: center;
+    }
 
     @media (max-width: 900px) {
       .nav { padding: 1rem 1.5rem; }
@@ -359,6 +373,9 @@
         <a href="index.html">Home</a>
       </div>
       <span class="footer-tag">Methodology in practice.</span>
+    </div>
+    <div class="footer-doctrine">
+      Audited, not certified. Methodology over warranties. Released artifacts over promises.
     </div>
     <div class="footer-dogfood">
       Built and <a href="https://github.com/gloxxai/gloxx-web/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.

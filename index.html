@@ -25,6 +25,10 @@
   <meta name="twitter:description" content="A fractional QA team for software companies. $15k/month flat. AI-feature QA included when you need it.">
   <meta name="twitter:image" content="/og-image.jpg">
 
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"Gloxx","alternateName":"Gloxx QA Institute","url":"https://gloxx.ai","logo":"https://gloxx.ai/gloxx-logo-white-transparent-o-cutout.png","foundingDate":"2026","founder":{"@type":"Person","name":"Brandon Jensen"},"description":"A fractional QA team for software companies, with the Gloxx QA Institute as the published methodology behind the retainer.","email":"hello@gloxx.ai","sameAs":["https://github.com/gloxxai","https://www.linkedin.com/company/gloxxai"]}
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" as="script" crossorigin>
@@ -687,6 +691,17 @@
       font-size: .7rem; letter-spacing: .18em;
       text-transform: uppercase; color: var(--text-3);
     }
+    .footer-doctrine {
+      margin-top: 1.5rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      max-width: 1200px; margin-left: auto; margin-right: auto;
+      padding-left: clamp(1.5rem, 5vw, 3rem);
+      padding-right: clamp(1.5rem, 5vw, 3rem);
+      font-family: var(--heading);
+      font-size: .82rem; letter-spacing: .02em;
+      color: var(--text-2);
+      text-align: center;
+    }
 
     /* ═══════════ RESPONSIVE ═══════════ */
 
@@ -903,6 +918,74 @@
       font-size: .94rem;
     }
 
+    /* The moment — sourced market stats */
+    .moment-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      margin-top: 3rem;
+      align-items: start;
+    }
+    .moment-prose p {
+      font-size: 1.05rem; line-height: 1.7;
+      color: var(--text-2);
+      margin-bottom: 1.25rem;
+    }
+    .moment-prose p:last-child { margin-bottom: 0; }
+    .moment-prose strong { color: var(--text); font-weight: 500; }
+    .moment-prose sup a {
+      color: var(--accent-1);
+      text-decoration: none;
+      padding-left: 1px;
+      font-weight: 500;
+    }
+    .moment-prose sup a:hover { text-decoration: underline; }
+
+    .moment-fn {
+      padding: 1.5rem 1.75rem;
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--accent-1);
+      border-radius: 6px;
+      background: var(--surface);
+      font-size: .82rem; line-height: 1.65;
+      color: var(--text-3);
+    }
+    .moment-fn-label {
+      display: block;
+      font-family: var(--heading);
+      font-size: .68rem; letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: .85rem;
+    }
+    .moment-fn ol {
+      list-style: none; padding: 0; margin: 0;
+      counter-reset: fn;
+      display: grid; gap: .65rem;
+    }
+    .moment-fn ol li {
+      counter-increment: fn;
+      padding-left: 1.5rem; position: relative;
+    }
+    .moment-fn ol li::before {
+      content: counter(fn);
+      position: absolute; left: 0; top: 0;
+      font-family: var(--heading);
+      color: var(--accent-1);
+      font-size: .8rem;
+      font-weight: 500;
+    }
+    .moment-fn a {
+      color: var(--text-2);
+      border-bottom: 1px dashed var(--border);
+      transition: color .2s, border-color .2s;
+    }
+    .moment-fn a:hover { color: var(--accent-1); border-color: var(--accent-1); }
+
+    @media (max-width: 900px) {
+      .moment-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
     @media (max-width: 900px) {
       .wwd-grid, .why-grid { grid-template-columns: 1fr; gap: 1rem; }
       .wws-strip { gap: .5rem 1.75rem; padding: 2rem 0; }
@@ -1027,6 +1110,32 @@
     </div>
   </section>
 
+  <!-- ════════════ THE MOMENT ════════════ -->
+  <section id="the-moment" class="section">
+    <div class="container">
+      <span class="section-label">The moment</span>
+      <h2 class="section-title">Software is shipping faster.<br>The QA gap is widening.</h2>
+
+      <div class="moment-grid">
+        <div class="moment-prose">
+          <p>The global software-testing market is on track to grow from <strong>$48B in 2025 to $94B by 2030</strong><sup><a href="#fn-1">1</a></sup> — driven by automation and AI integration. <strong>88% of organizations</strong> now use AI in at least one business function and <strong>72%</strong> use generative AI<sup><a href="#fn-2">2</a></sup>.</p>
+          <p>Reported AI-related incidents <strong>jumped 56% year-over-year</strong> to 233 in 2024<sup><a href="#fn-3">3</a></sup>. The EU AI Act's <strong>high-risk obligations begin landing in August 2026</strong><sup><a href="#fn-4">4</a></sup>, with conformity assessments and post-market monitoring required for in-scope systems.</p>
+          <p>Most software companies are still figuring out QA for non-AI features. Layering AI on top — without an eval discipline, a release gate, or a refuse policy — is how you ship an incident to production. <strong>Gloxx is the team that runs the discipline,</strong> with the methodology published on this site so the buyer knows exactly what they're getting.</p>
+        </div>
+
+        <aside class="moment-fn" aria-label="Sources">
+          <span class="moment-fn-label">Sources</span>
+          <ol>
+            <li><a href="https://www.prnewswire.com/news-releases/software-testing-market-worth-usd-93-9-billion-by-2030-driven-by-automation-and-ai-integration-says-mordor-intelligence-302631730.html" target="_blank" rel="noopener">Mordor Intelligence — Software Testing Market Worth USD 93.9B by 2030</a></li>
+            <li><a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai" target="_blank" rel="noopener">McKinsey — The State of AI (March 2025)</a></li>
+            <li><a href="https://hai.stanford.edu/ai-index/2025-ai-index-report/responsible-ai" target="_blank" rel="noopener">Stanford HAI — AI Index 2025, Responsible AI chapter</a></li>
+            <li><a href="https://artificialintelligenceact.eu/implementation-timeline/" target="_blank" rel="noopener">EU AI Act — Implementation Timeline</a></li>
+          </ol>
+        </aside>
+      </div>
+    </div>
+  </section>
+
   <!-- ════════════ WHY GLOXX ════════════ -->
   <section id="why-gloxx" class="section">
     <div class="container">
@@ -1075,6 +1184,9 @@
         <a href="https://github.com/gloxxai/gloxx-web" target="_blank" rel="noopener">GitHub</a>
       </div>
       <span class="footer-tag">Methodology in practice.</span>
+    </div>
+    <div class="footer-doctrine">
+      Audited, not certified. Methodology over warranties. Released artifacts over promises.
     </div>
     <div class="footer-dogfood">
       Built and <a href="https://github.com/gloxxai/gloxx-web/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.

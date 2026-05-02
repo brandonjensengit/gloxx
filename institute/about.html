@@ -25,10 +25,26 @@
   <meta name="twitter:description" content="What the Institute is, what it isn't, and the non-warranty terms that govern it.">
   <meta name="twitter:image" content="/og-image.jpg">
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Gloxx",
+    "alternateName": "Gloxx QA Institute",
+    "url": "https://gloxx.ai",
+    "logo": "https://gloxx.ai/gloxx-logo-white-transparent-o-cutout.png",
+    "foundingDate": "2026",
+    "founder": {"@type": "Person", "name": "Brandon Jensen"},
+    "description": "A fractional QA team for software companies, with the Gloxx QA Institute as the published methodology behind the retainer.",
+    "email": "hello@gloxx.ai",
+    "sameAs": ["https://github.com/gloxxai", "https://www.linkedin.com/company/gloxxai"]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:wght@400;500&display=swap" rel="stylesheet"></noscript>
   <style>
     :root {
       --bg: #08080a; --bg-2: #0f0f12; --bg-3: #141418;
@@ -36,6 +52,7 @@
       --border: rgba(255,255,255,0.07); --surface: rgba(255,255,255,0.03);
       --heading: 'Space Grotesk', -apple-system, sans-serif;
       --body: 'Inter', -apple-system, sans-serif;
+      --serif: 'Newsreader', Georgia, ui-serif, serif;
       --mono: 'JetBrains Mono', ui-monospace, monospace;
       --accent-3: #818cf8;
       --gloxx-bg: var(--bg);
@@ -53,8 +70,7 @@
     :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; }
     button { border: none; font-family: inherit; cursor: pointer; }
 
-    .grain { position: fixed; inset: 0; pointer-events: none; z-index: 9000; mix-blend-mode: overlay; will-change: transform; }
-    .grain svg { width: 100%; height: 100%; }
+    .grain { display: none; }
 
     .nav {
       position: fixed; top: 0; left: 0; right: 0;
@@ -122,6 +138,42 @@
     section.body p { font-size: 1.02rem; line-height: 1.7; color: var(--text-2); margin-bottom: 1.1rem; }
     section.body p strong { color: var(--text); font-weight: 500; }
     section.body a.inline { color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent); }
+
+    .hero .lead, section.body p, .non-warranty p { font-family: var(--serif); font-size: 1.08rem; }
+    .ladder li span:last-child { font-family: var(--serif); }
+
+    .doc-meta {
+      margin: 1.5rem 0 2.5rem;
+      padding: .85rem 1.25rem;
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--gloxx-accent);
+      border-radius: 4px;
+      background: var(--surface);
+      font-family: var(--mono);
+      font-size: .78rem;
+      letter-spacing: .02em;
+      color: var(--text-2);
+      display: flex; flex-wrap: wrap; gap: .5rem 1.75rem;
+    }
+    .doc-meta .dm-key {
+      text-transform: uppercase;
+      font-size: .66rem;
+      letter-spacing: .18em;
+      color: var(--text-3);
+      margin-right: .35rem;
+    }
+    .doc-meta time { font-variant-numeric: tabular-nums; }
+
+    .footer-doctrine {
+      margin-top: 1.5rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      max-width: 1200px; margin-left: auto; margin-right: auto;
+      padding-left: 2.5rem; padding-right: 2.5rem;
+      font-family: var(--heading);
+      font-size: .82rem; letter-spacing: .02em;
+      color: var(--text-2);
+      text-align: center;
+    }
 
     .ladder {
       list-style: none; padding: 0;
@@ -199,6 +251,9 @@
       .crumbs { padding-top: 5.5rem; font-size: .72rem; }
       .ladder li { grid-template-columns: 1fr; gap: .25rem; }
       .non-warranty { padding: 1.25rem 1.25rem; }
+      .doc-meta { gap: .35rem 1rem; padding: .75rem 1rem; font-size: .72rem; }
+      .doc-meta .dm-key { font-size: .6rem; }
+      .footer-doctrine { padding-left: 1.25rem; padding-right: 1.25rem; font-size: .76rem; }
     }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   </style>
@@ -254,6 +309,14 @@
   <section class="body">
     <div class="container">
 
+      <aside class="doc-meta" aria-label="Document metadata">
+        <span><span class="dm-key">Document</span> Institute Charter v1.0</span>
+        <span><span class="dm-key">Authors</span> Brandon Jensen, Founder</span>
+        <span><span class="dm-key">Published</span> <time datetime="2026-05-02">2026-05-02</time></span>
+        <span><span class="dm-key">Last reviewed</span> <time datetime="2026-05-02">2026-05-02</time></span>
+        <span><span class="dm-key">Next review</span> 2026 Q3</span>
+      </aside>
+
       <h2>What the Institute publishes</h2>
       <p>Six AI-QA workflows, each documented as a procedure with named artifacts and observable signals. The <a href="/institute/maturity-model.html" class="inline">AI-QA Maturity Model</a> as the rubric the workflows are scored against. The <a href="/institute/assessment.html" class="inline">readiness self-assessment</a> as the free-tier diagnostic. Open-source <a href="/institute/tools/" class="inline">tools</a> that scaffold the workflows in client codebases. A <a href="/institute/journal/" class="inline">journal</a> of opinionated long-form, and quarterly <a href="/institute/reports/" class="inline">reports</a> with anonymized aggregate data.</p>
 
@@ -300,6 +363,9 @@
         <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
       </div>
       <span class="footer-tag">Methodology in practice.</span>
+    </div>
+    <div class="footer-doctrine">
+      Audited, not certified. Methodology over warranties. Released artifacts over promises.
     </div>
     <div class="footer-dogfood">
       Built and <a href="https://github.com/gloxxai/gloxx-web/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.
