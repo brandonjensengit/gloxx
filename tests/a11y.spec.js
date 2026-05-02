@@ -7,11 +7,17 @@ import AxeBuilder from '@axe-core/playwright';
 // ═══════════════════════════════════════
 
 const GLOXX_PAGES = [
-  { path: '/',              name: 'home' },
-  { path: '/services.html', name: 'services' },
-  { path: '/approach.html', name: 'approach' },
-  { path: '/about.html',    name: 'about' },
-  { path: '/contact.html',  name: 'contact' },
+  { path: '/',                            name: 'home' },
+  { path: '/services.html',               name: 'services' },
+  { path: '/approach.html',               name: 'approach' },
+  { path: '/about.html',                  name: 'about' },
+  { path: '/contact.html',                name: 'contact' },
+  { path: '/bench/',                      name: 'bench-landing' },
+  { path: '/bench/maturity-model.html',   name: 'bench-maturity-model' },
+  { path: '/bench/assessment.html',       name: 'bench-assessment' },
+  { path: '/bench/essays/',               name: 'bench-essays' },
+  { path: '/bench/tools/',                name: 'bench-tools' },
+  { path: '/bench/reports/',              name: 'bench-reports' },
 ];
 
 test.describe('Accessibility (axe-core)', () => {

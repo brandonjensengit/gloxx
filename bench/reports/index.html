@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bench Reports — Original Research | Gloxx</title>
+  <meta name="description" content="Quarterly research reports from the Gloxx team. The first one — State of AI-Feature QA 2026 — is in the field, with anonymized data drawn from the maturity-model self-assessment.">
+
+  <link rel="canonical" href="https://gloxx.ai/bench/reports/">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#08080a">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bench Reports — Original Research | Gloxx">
+  <meta property="og:description" content="Quarterly research from the Gloxx team. State of AI-Feature QA 2026 in the field now.">
+  <meta property="og:url" content="https://gloxx.ai/bench/reports/">
+  <meta property="og:image" content="/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bench Reports — Original Research | Gloxx">
+  <meta name="twitter:description" content="Quarterly research from the Gloxx team.">
+  <meta name="twitter:image" content="/og-image.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+  <style>
+    :root {
+      --bg: #08080a; --bg-2: #0f0f12; --bg-3: #141418;
+      --text: #ededed; --text-2: #898989; --text-3: #8a8f98;
+      --border: rgba(255,255,255,0.07); --surface: rgba(255,255,255,0.03);
+      --heading: 'Space Grotesk', -apple-system, sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --accent-3: #818cf8;
+      --gloxx-bg: var(--bg);
+      --gloxx-fg: var(--text);
+      --gloxx-muted: var(--text-2);
+      --gloxx-border: var(--border);
+      --gloxx-accent: #7cf9b5;
+      --gloxx-accent-ink: #0b0d10;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--gloxx-accent); color: var(--gloxx-accent-ink); }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { font-family: var(--body); background: var(--bg); color: var(--text-2); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; }
+    button { border: none; font-family: inherit; cursor: pointer; }
+
+    .grain { position: fixed; inset: 0; pointer-events: none; z-index: 9000; mix-blend-mode: overlay; will-change: transform; }
+    .grain svg { width: 100%; height: 100%; }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2.5rem; z-index: 8000;
+      background: rgba(8,8,10,.6);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--heading); font-size: 1.15rem; font-weight: 600; color: var(--text); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { font-family: var(--heading); font-size: .9rem; color: var(--text-2); transition: color .2s; }
+    .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--text); }
+    .nav-links a[aria-current="page"] { border-bottom: 1px solid var(--gloxx-accent); padding-bottom: 2px; }
+    .nav-cta-link {
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink) !important;
+      padding: .55rem 1.1rem; border-radius: 999px; font-weight: 500;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .nav-cta-link:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124,249,181,.18); }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; padding: 4px; z-index: 8001; background: none; border: none; cursor: pointer; }
+    .nav-ham span { display: block; width: 24px; height: 1.5px; background: var(--text); transition: transform .3s, opacity .3s; }
+    .nav-ham.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-ham.active span:nth-child(2) { opacity: 0; }
+    .nav-ham.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .mob-menu {
+      position: fixed; inset: 0; background: rgba(8,8,10,.97);
+      z-index: 7999;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 2.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity .4s;
+    }
+    .mob-menu.active { opacity: 1; pointer-events: all; }
+    .mob-menu a { font-family: var(--heading); font-size: 1.6rem; font-weight: 600; color: var(--text-2); letter-spacing: .08em; transition: color .3s; }
+    .mob-menu a[aria-current="page"] { color: var(--gloxx-accent); }
+    .mob-menu a:hover { color: var(--text); }
+
+    .container { max-width: 880px; margin: 0 auto; padding: 0 2rem; }
+
+    .crumbs {
+      padding-top: 6.5rem;
+      font-family: var(--heading); font-size: .78rem;
+      color: var(--text-3); letter-spacing: .04em;
+    }
+    .crumbs a { color: var(--text-2); border-bottom: 1px dashed var(--border); padding-bottom: 1px; transition: color .2s, border-color .2s; }
+    .crumbs a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+    .crumbs .sep { color: var(--text-3); margin: 0 .5rem; }
+
+    .hero { padding: 1.5rem 0 2.5rem; }
+    .hero .label { font-family: var(--heading); font-size: .72rem; letter-spacing: .25em; color: var(--gloxx-accent); text-transform: uppercase; margin-bottom: 1.25rem; display: inline-block; }
+    .hero h1 { font-family: var(--heading); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 500; line-height: 1.1; color: var(--text); margin-bottom: 1.25rem; letter-spacing: -.005em; }
+    .hero .lead { font-size: 1.05rem; line-height: 1.65; color: var(--text-2); max-width: 60ch; }
+    .hero .lead strong { color: var(--text); font-weight: 500; }
+
+    /* Featured upcoming report */
+    .featured {
+      margin: 1rem 0 3rem;
+      padding: 2.5rem 2.75rem;
+      border: 1px solid var(--gloxx-accent);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(124,249,181,.05), rgba(124,249,181,.01));
+      position: relative; overflow: hidden;
+    }
+    .featured::before {
+      content: ''; position: absolute;
+      top: 0; right: 0; width: 320px; height: 320px;
+      background: radial-gradient(circle at top right, rgba(124,249,181,.08), transparent 65%);
+      pointer-events: none;
+    }
+    .featured-meta { display: inline-block; font-family: var(--heading); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gloxx-accent); margin-bottom: 1rem; }
+    .featured h2 { font-family: var(--heading); font-size: clamp(1.5rem, 3.2vw, 2.1rem); font-weight: 500; color: var(--text); line-height: 1.2; margin-bottom: 1rem; letter-spacing: -.005em; }
+    .featured p { font-size: 1rem; line-height: 1.65; color: var(--text-2); margin-bottom: 1rem; max-width: 60ch; }
+    .featured p:last-child { margin-bottom: 0; }
+    .featured .featured-actions { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: center; margin-top: 1.75rem; }
+    .featured-cta {
+      display: inline-block;
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink);
+      padding: .85rem 1.5rem;
+      font-family: var(--heading); font-weight: 500; font-size: .92rem;
+      border-radius: 999px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .featured-cta:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.22); }
+    .featured-eta { font-family: var(--mono); font-size: .82rem; color: var(--text-3); }
+
+    /* Roadmap */
+    .roadmap {
+      padding: 2.25rem 2.5rem;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      margin-bottom: 4rem;
+    }
+    .roadmap-label { font-family: var(--heading); font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--text-3); margin-bottom: 1.25rem; display: block; }
+    .roadmap h2 { font-family: var(--heading); font-size: 1.45rem; color: var(--text); font-weight: 500; margin-bottom: 1rem; letter-spacing: -.005em; }
+    .roadmap p { font-size: 1rem; line-height: 1.65; color: var(--text-2); margin-bottom: 1.5rem; max-width: 65ch; }
+    .roadmap ul { list-style: none; padding: 0; display: grid; gap: .65rem; }
+    .roadmap li {
+      display: grid; grid-template-columns: 8rem 1fr;
+      gap: 1.25rem; align-items: baseline;
+      padding: .85rem 0; border-bottom: 1px solid var(--border);
+      font-size: .95rem; color: var(--text-2);
+    }
+    .roadmap li:last-child { border-bottom: none; }
+    .roadmap li time { font-family: var(--mono); font-size: .8rem; color: var(--text-3); letter-spacing: .03em; }
+    .roadmap li strong { color: var(--text); font-weight: 500; }
+
+    .cta-section { text-align: center; padding: 5rem 0 7rem; border-top: 1px solid var(--border); }
+    .cta-section h2 { font-family: var(--heading); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 500; color: var(--text); margin-bottom: 1.25rem; line-height: 1.3; }
+    .cta-section p { color: var(--text-2); max-width: 50ch; margin: 0 auto 1.75rem; font-size: 1rem; line-height: 1.6; }
+    .cta-btn {
+      display: inline-block;
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink);
+      padding: .9rem 1.75rem;
+      font-family: var(--heading); font-weight: 500;
+      border-radius: 999px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.2); }
+
+    .footer-dogfood { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 2.5rem; padding-right: 2.5rem; font-family: var(--heading); font-size: .78rem; letter-spacing: .02em; color: var(--text-3); text-align: center; }
+    .footer-dogfood a { color: var(--text-2); border-bottom: 1px dashed var(--border); transition: color .2s, border-color .2s; }
+    .footer-dogfood a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+    footer { padding: 2.5rem 0; position: relative; }
+    footer::before { content: ''; display: block; height: 1px; margin-bottom: 2.5rem; background: linear-gradient(90deg, transparent, var(--border) 50%, transparent); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; max-width: 1240px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 3rem); }
+    .footer-copy { font-size: .78rem; color: var(--text-3); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: .78rem; color: var(--text-3); transition: color .3s; letter-spacing: .02em; }
+    .footer-links a:hover { color: var(--text-2); }
+    .footer-tag { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); }
+
+    @media (max-width: 900px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-ham { display: flex; }
+      .container { padding: 0 1.25rem; }
+      .crumbs { padding-top: 5.5rem; font-size: .72rem; }
+      .featured { padding: 1.75rem 1.5rem; }
+      .roadmap { padding: 1.75rem 1.5rem; }
+      .roadmap li { grid-template-columns: 1fr; gap: .25rem; }
+      .roadmap li time { font-size: .72rem; }
+      .featured-actions { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/></filter>
+      <rect width="100%" height="100%" filter="url(#g)" opacity=".018"/>
+    </svg>
+  </div>
+
+  <header class="nav">
+    <a href="/index.html" class="nav-logo" aria-label="Gloxx home"><img src="/gloxx-logo-white-transparent-o-cutout.png" alt="Gloxx" height="32" style="display:block;width:auto"></a>
+    <div class="nav-links">
+      <a href="/services.html">Services</a>
+      <a href="/approach.html">Approach</a>
+      <a href="/bench/" aria-current="page">Bench</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="nav-cta-link">Book a call</a>
+    </div>
+    <button class="nav-ham" id="navHam" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mob-menu" id="mobMenu">
+    <a href="/index.html" class="mob-link">Home</a>
+    <a href="/services.html" class="mob-link">Services</a>
+    <a href="/approach.html" class="mob-link">Approach</a>
+    <a href="/bench/" class="mob-link" aria-current="page">Bench</a>
+    <a href="/about.html" class="mob-link">About</a>
+    <a href="/contact.html" class="mob-link">Contact</a>
+    <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="mob-link">Book a call</a>
+  </div>
+
+  <section>
+    <div class="container">
+      <p class="crumbs"><a href="/bench/">Bench</a><span class="sep">/</span>Reports</p>
+    </div>
+  </section>
+
+  <section class="hero">
+    <div class="container">
+      <span class="label">Bench Reports</span>
+      <h1>Original research.</h1>
+      <p class="lead">Quarterly reports from the Gloxx team. <strong>Survey-backed, citable, named.</strong> The first one — State of AI-Feature QA 2026 — is in the field, with anonymized data drawn from the maturity-model self-assessment.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="featured">
+        <span class="featured-meta">In the field · Q3 2026 publication</span>
+        <h2>State of AI-Feature QA 2026</h2>
+        <p>The first Bench Report. We're aggregating anonymized maturity-model assessments to publish the first benchmark of how software companies actually test AI features in 2026 — distribution by level, distribution by dimension, the most common failure-mode patterns, and the gap between what teams say they do and what they have on disk.</p>
+        <p>Take the assessment to be counted. Submissions are anonymized in aggregate (no company names published), and respondents get the full report two weeks before public release.</p>
+        <div class="featured-actions">
+          <a href="/bench/assessment.html" class="featured-cta">Take the assessment &rarr;</a>
+          <span class="featured-eta">ETA: Q3 2026 (data collection ongoing)</span>
+        </div>
+      </div>
+
+      <div class="roadmap">
+        <span class="roadmap-label">Report cadence</span>
+        <h2>What's in the pipeline.</h2>
+        <p>Reports drop quarterly. Each one is survey-backed, has a methods note, and ships with a downloadable PDF.</p>
+        <ul>
+          <li><time>Q3 2026</time><span><strong>State of AI-Feature QA 2026</strong> — the first benchmark of AI-QA maturity across software companies</span></li>
+          <li><time>Q4 2026</time><span><strong>The Release-Gate Report</strong> — anonymized teardown of how teams gate AI feature releases (or don't)</span></li>
+          <li><time>Q1 2027</time><span><strong>Time-to-Coverage Benchmarks</strong> — how long it actually takes teams to add a user-reported failure to their eval suite</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Want to be part of the next dataset?</h2>
+      <p>Take the AI-QA Maturity Self-Assessment. Your team's anonymized result joins the next State of report. You get your own breakdown either way.</p>
+      <a href="/bench/assessment.html" class="cta-btn">Take the assessment &rarr;</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 Gloxx</span>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/company/gloxxai" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/gloxxai" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
+      </div>
+      <span class="footer-tag">Wisdom engineered.</span>
+    </div>
+    <div class="footer-dogfood">
+      Built and <a href="https://github.com/gloxxai/gloxx-web/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.
+    </div>
+  </footer>
+
+  <script>
+    const ham = document.getElementById('navHam');
+    const mob = document.getElementById('mobMenu');
+    ham.addEventListener('click', () => {
+      ham.classList.toggle('active');
+      mob.classList.toggle('active');
+      document.body.style.overflow = mob.classList.contains('active') ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mob-link').forEach(a => {
+      a.addEventListener('click', () => {
+        ham.classList.remove('active');
+        mob.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+</body>
+</html>

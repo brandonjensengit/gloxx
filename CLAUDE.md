@@ -4,7 +4,7 @@
 
 Gloxx is a fractional QA team for software companies. One $15k/month retainer gets a senior QA team embedded with the engineering org — test strategy, regression coverage, release gates, automation, exploratory testing, and AI-feature QA when it applies. This repo is the public website + lead-gen funnel at `gloxx.ai`. All pages are static HTML with inline CSS/JS — no frameworks, no build tools in production.
 
-**Current state (2026-04-30):** Site is live at `gloxx.ai`. Repositioned from "Fractional Head of AI QA" → "Fractional QA team for software companies" in this session — the four-tier consulting menu (audit + eval suite + fractional + war room + sentinel) collapsed to a single $15k/mo flat retainer. AI-QA stays on the site as a specialty differentiator on `/approach` and in the third home-page card, but is no longer the headline. Working tree pending this session's edits.
+**Current state (2026-05-01):** Site is live at `gloxx.ai`. Positioned as a fractional QA team for software companies at $15k/mo. AI-QA is the specialty differentiator on `/approach` and on the home page. **Gloxx Bench** launched as the authority-driven inbound vehicle at `gloxx.ai/bench/` — three product lines (essays, open-source tools, quarterly reports) anchored by the **AI-QA Maturity Model** and a 30-question self-assessment that doubles as the lead-conversion engine.
 
 ## Positioning
 
@@ -15,21 +15,28 @@ Gloxx is a fractional QA team for software companies. One $15k/month retainer ge
 ## File Structure
 
 ```
-/                       — Root (all production HTML files)
-├── index.html          — Home (hero, What we do, Who we work with, Why Gloxx, CTA)
-├── services.html       — Single-offer deep dive on the $15k/mo Gloxx Retainer
-├── approach.html       — The content moat: general QA primer (test pyramid, release gates), then the AI specialty layer — tool stack, agent workflow, Claude Code operating protocol, AI test pyramid, release-gate checklist, refuse list
-├── about.html          — Founder story + "What I've shipped" list
-├── contact.html        — Intake form (posts to Google Apps Script; mailto fallback)
-├── 404.html            — "This page failed a test."
-├── archive/            — Prior portfolio work (10 design studies + hub page, all noindex)
-├── tests/              — Playwright specs (desktop + mobile projects)
+/                            — Root (all production HTML files)
+├── index.html               — Home (hero, What we do, Who we work with, Why Gloxx, CTA)
+├── services.html            — Single-offer deep dive on the $15k/mo Gloxx Retainer
+├── approach.html            — The content moat: general QA primer (test pyramid, release gates), then the AI specialty layer — tool stack, agent workflow, Claude Code operating protocol, AI test pyramid, release-gate checklist, refuse list. Cross-links into the Bench (maturity model + assessment)
+├── about.html               — Founder story + "What I've shipped" list
+├── contact.html             — Intake form (posts to Google Apps Script; mailto fallback)
+├── bench/                   — Gloxx Bench — authority-driven inbound vehicle
+│   ├── index.html           — Bench landing: featured Maturity Model + three product-line cards + roadmap
+│   ├── maturity-model.html  — Flagship reference: 5 levels × 6 dimensions of AI-QA maturity, with observable signals and triggers per level
+│   ├── assessment.html      — 30-question self-assessment (lead magnet). Pure-DOM result rendering — no innerHTML for dynamic data. Posts to the same Apps Script endpoint as contact.html with mailto fallback
+│   ├── essays/index.html    — Editorial calendar placeholder; first essay ships week of May 5
+│   ├── tools/index.html     — Open-source tools catalog (gloxxai/* on GitHub)
+│   └── reports/index.html   — Quarterly research; State of AI-Feature QA 2026 in field collection now
+├── 404.html                 — "This page failed a test."
+├── archive/                 — Prior portfolio work (10 design studies + hub page, all noindex)
+├── tests/                   — Playwright specs (desktop + mobile projects); bench.spec.js covers the Bench
 ├── playwright.config.js
 ├── package.json
 ├── sitemap.xml
 ├── robots.txt
-├── CNAME               — custom domain file for GitHub Pages (gloxx.ai)
-└── CLAUDE.md           — this file
+├── CNAME                    — custom domain file for GitHub Pages (gloxx.ai)
+└── CLAUDE.md                — this file
 ```
 
 ## Tech Stack
@@ -60,11 +67,17 @@ Gloxx is a fractional QA team for software companies. One $15k/month retainer ge
 - **Body:** Inter 300/400/500/600
 - **Code (on `approach.html`):** JetBrains Mono 400/500
 
-## Intake form
+## Forms posting to Apps Script
 
-`contact.html` posts a JSON payload to a Google Apps Script web endpoint. Fields: `name`, `company`, `email`, `what-building`, `current-qa`, `when-shipping`, `war-room`. On network failure, the form falls back to a structured `mailto:hello@gloxx.ai` so no leads are lost.
+Two forms post JSON to the same Google Apps Script web endpoint (`script.google.com/macros/s/AKfycbzi19...`); both fall back to a structured `mailto:hello@gloxx.ai` on network failure.
 
-**Important:** the form field `name=` attributes are stable across repositionings — only the visible label text changes. The label on `name="current-qa"` has been "What's your current QA situation?" → "Where is AI showing up, and how are you testing it today?" → and is now back to "What's your current QA situation?" The label on `name="war-room"` was repurposed from "WAR ROOM" to a generic "URGENT" pre-launch flag. The Google Sheet column headers stay valid through every repositioning because the field names never change. Apply the same discipline next time.
+**`contact.html`** — fields: `name`, `company`, `email`, `what-building`, `current-qa`, `when-shipping`, `war-room`.
+
+**`bench/assessment.html`** — fields: `name`, `email`, `company`, `role`, `source` (always `maturity-assessment`), 30 question fields (`d1q1`…`d6q5`), and computed result fields (`result-overall-level`, `result-overall-level-name`, `result-weakest-dim`, `result-d{1..6}-level`). The `source` field distinguishes assessment submissions from contact-form ones in the Sheet.
+
+**Important:** form field `name=` attributes are stable across repositionings — only the visible label text changes. The label on `name="current-qa"` has been "What's your current QA situation?" → "Where is AI showing up, and how are you testing it today?" → and is now back to "What's your current QA situation?" The label on `name="war-room"` was repurposed from "WAR ROOM" to a generic "URGENT" pre-launch flag. The Sheet column headers stay valid through every repositioning because the field names never change. Apply the same discipline to the Bench assessment fields — the question stems can evolve, but `d1q1`…`d6q5` and the `result-*` fields are load-bearing.
+
+**Assessment XSS hygiene:** `bench/assessment.html` renders its result panel via pure DOM construction (`createElement` + `textContent`), not template-literal `innerHTML` interpolation. If you change the result rendering, keep that pattern — never put user-controlled values into `innerHTML`.
 
 ## Running locally
 
@@ -108,3 +121,4 @@ git push origin main
 - Name the specific failure mode before naming the offer that fixes it.
 - `/approach` is the content moat: a general QA primer (test pyramid, release-gate baseline) followed by the AI specialty layer (six-principle Claude Code operating protocol, AI test pyramid, eval gate). Every other page should be consistent with its opinions.
 - AI/Claude-Code QA is a **specialty differentiator**, not the headline. Lead with general QA value (cost, speed, accountability), surface AI-feature QA as the reason to pick Gloxx over a generic shop.
+- `/bench` is the production line behind the `/approach` discipline — fresh-content vehicle for essays, OSS, and reports. Keep `/approach` as the dense evergreen "what we believe" page; use `/bench` for dated, ongoing publication. Cross-link aggressively. The maturity model is descriptive (what's actually true at each level), not aspirational — every level needs concrete observable signals before it ships.

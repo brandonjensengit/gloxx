@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The AI-QA Maturity Model — Gloxx Bench</title>
+  <meta name="description" content="A five-level model for how mature an organization's AI-feature QA practice is — Ad-hoc, Reactive, Measured, Governed, Continuous — with concrete observable signals, artifacts, and triggers for each level.">
+
+  <link rel="canonical" href="https://gloxx.ai/bench/maturity-model.html">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#08080a">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The AI-QA Maturity Model — Gloxx Bench">
+  <meta property="og:description" content="Five levels of AI-feature QA maturity, with observable signals and artifacts for each. Take the self-assessment to find your level.">
+  <meta property="og:url" content="https://gloxx.ai/bench/maturity-model.html">
+  <meta property="og:image" content="/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The AI-QA Maturity Model — Gloxx Bench">
+  <meta name="twitter:description" content="Five levels of AI-feature QA maturity, with observable signals for each.">
+  <meta name="twitter:image" content="/og-image.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+  <style>
+    :root {
+      --bg: #08080a; --bg-2: #0f0f12; --bg-3: #141418;
+      --text: #ededed; --text-2: #898989; --text-3: #8a8f98;
+      --border: rgba(255,255,255,0.07); --surface: rgba(255,255,255,0.03);
+      --heading: 'Space Grotesk', -apple-system, sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --accent-3: #818cf8;
+
+      --gloxx-bg: var(--bg);
+      --gloxx-fg: var(--text);
+      --gloxx-muted: var(--text-2);
+      --gloxx-border: var(--border);
+      --gloxx-accent: #7cf9b5;
+      --gloxx-accent-ink: #0b0d10;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--gloxx-accent); color: var(--gloxx-accent-ink); }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      font-family: var(--body); background: var(--bg); color: var(--text-2);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; }
+    button { border: none; font-family: inherit; cursor: pointer; }
+
+    .grain { position: fixed; inset: 0; pointer-events: none; z-index: 9000; mix-blend-mode: overlay; will-change: transform; }
+    .grain svg { width: 100%; height: 100%; }
+
+    /* ═══════════ NAV ═══════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2.5rem; z-index: 8000;
+      background: rgba(8,8,10,.6);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--heading); font-size: 1.15rem; font-weight: 600; color: var(--text); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a {
+      font-family: var(--heading); font-size: .9rem;
+      color: var(--text-2); transition: color .2s;
+    }
+    .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--text); }
+    .nav-links a[aria-current="page"] { border-bottom: 1px solid var(--gloxx-accent); padding-bottom: 2px; }
+    .nav-cta-link {
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink) !important;
+      padding: .55rem 1.1rem; border-radius: 999px; font-weight: 500;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .nav-cta-link:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124,249,181,.18); }
+    .nav-ham {
+      display: none; flex-direction: column; gap: 5px;
+      padding: 4px; z-index: 8001;
+      background: none; border: none; cursor: pointer;
+    }
+    .nav-ham span {
+      display: block; width: 24px; height: 1.5px;
+      background: var(--text); transition: transform .3s, opacity .3s;
+    }
+    .nav-ham.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-ham.active span:nth-child(2) { opacity: 0; }
+    .nav-ham.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mob-menu {
+      position: fixed; inset: 0; background: rgba(8,8,10,.97);
+      z-index: 7999;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 2.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity .4s;
+    }
+    .mob-menu.active { opacity: 1; pointer-events: all; }
+    .mob-menu a {
+      font-family: var(--heading); font-size: 1.6rem; font-weight: 600;
+      color: var(--text-2); letter-spacing: .08em;
+      transition: color .3s;
+    }
+    .mob-menu a[aria-current="page"] { color: var(--gloxx-accent); }
+    .mob-menu a:hover { color: var(--text); }
+
+    /* ═══════════ LAYOUT ═══════════ */
+    .container { max-width: 980px; margin: 0 auto; padding: 0 2.5rem; }
+
+    .crumbs {
+      padding-top: 6.5rem;
+      font-family: var(--heading); font-size: .78rem;
+      color: var(--text-3); letter-spacing: .04em;
+    }
+    .crumbs a { color: var(--text-2); border-bottom: 1px dashed var(--border); padding-bottom: 1px; transition: color .2s, border-color .2s; }
+    .crumbs a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+    .crumbs .sep { color: var(--text-3); margin: 0 .5rem; }
+
+    .mm-hero { padding: 1.5rem 0 2rem; }
+    .mm-hero .label {
+      font-family: var(--heading); font-size: .72rem; letter-spacing: .25em;
+      color: var(--gloxx-accent); text-transform: uppercase;
+      margin-bottom: 1.25rem; display: inline-block;
+    }
+    .mm-hero h1 {
+      font-family: var(--heading);
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 500; line-height: 1.05;
+      color: var(--text); margin-bottom: 1.25rem;
+      letter-spacing: -.01em; max-width: 18ch;
+    }
+    .mm-hero .lead {
+      font-size: 1.1rem; line-height: 1.7;
+      color: var(--text-2); max-width: 60ch;
+    }
+    .mm-hero .lead strong { color: var(--text); font-weight: 500; }
+
+    /* ═══════════ DIMENSIONS ═══════════ */
+    .dims {
+      margin: 3rem 0 4rem;
+      padding: 2.25rem 2.5rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+    }
+    .dims-label {
+      font-family: var(--heading); font-size: .72rem;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 1rem;
+    }
+    .dims h2 {
+      font-family: var(--heading); font-size: 1.35rem;
+      color: var(--text); font-weight: 500;
+      margin-bottom: 1rem; letter-spacing: -.005em;
+    }
+    .dims p {
+      font-size: .98rem; line-height: 1.65; color: var(--text-2);
+      margin-bottom: 1.5rem; max-width: 65ch;
+    }
+    .dims-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .85rem 2rem;
+      list-style: none; padding: 0;
+    }
+    .dims-grid li {
+      padding: .8rem 0;
+      border-top: 1px solid var(--border);
+      font-size: .94rem; line-height: 1.5;
+      color: var(--text-2);
+    }
+    .dims-grid li strong {
+      display: block;
+      color: var(--text); font-family: var(--heading);
+      font-weight: 500; margin-bottom: .25rem;
+    }
+
+    /* ═══════════ LEVELS ═══════════ */
+    .levels-label {
+      font-family: var(--heading); font-size: .72rem;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 1.5rem;
+    }
+
+    .level {
+      margin-bottom: 3rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    .level-head {
+      padding: 1.75rem 2rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .level-num {
+      font-family: var(--heading);
+      font-size: 2.5rem; font-weight: 300;
+      color: var(--gloxx-accent); line-height: 1;
+      letter-spacing: .02em;
+      flex-shrink: 0;
+    }
+    .level-titlebar {
+      flex: 1; min-width: 0;
+    }
+    .level-titlebar h2 {
+      font-family: var(--heading);
+      font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+      font-weight: 500; color: var(--text);
+      margin-bottom: .35rem; line-height: 1.2;
+      letter-spacing: -.005em;
+    }
+    .level-essence {
+      font-size: 1rem; color: var(--text-2);
+      line-height: 1.55;
+    }
+    .level-essence strong { color: var(--text); font-weight: 500; }
+    .level-body {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+    }
+    .level-block {
+      padding: 1.5rem 2rem;
+      border-right: 1px solid var(--border);
+    }
+    .level-block:nth-child(2n) { border-right: none; }
+    .level-block:nth-child(n+3) { border-top: 1px solid var(--border); }
+    .level-block h3 {
+      font-family: var(--heading); font-size: .72rem;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gloxx-accent);
+      margin-bottom: 1rem;
+    }
+    .level-block ul {
+      list-style: none; padding: 0;
+    }
+    .level-block li {
+      padding: .55rem 0 .55rem 1.5rem;
+      font-size: .93rem; line-height: 1.55;
+      color: var(--text-2); position: relative;
+      border-bottom: 1px dashed var(--border);
+    }
+    .level-block li:last-child { border-bottom: none; }
+    .level-block li::before {
+      content: "·";
+      position: absolute; left: .35rem; top: .55rem;
+      color: var(--gloxx-accent);
+      font-size: 1.5rem; line-height: 1; font-weight: 700;
+    }
+    .level-block li strong { color: var(--text); font-weight: 500; }
+    .level-block li code, .level-block code {
+      font-family: var(--mono); font-size: .85em;
+      color: var(--text-3);
+      background: var(--bg);
+      padding: 1px 5px; border-radius: 3px;
+    }
+
+    /* ═══════════ HOW TO USE ═══════════ */
+    .howto {
+      margin: 3rem 0 4rem;
+      padding: 2.25rem 2.5rem;
+      border: 1px dashed var(--gloxx-accent);
+      border-radius: 12px;
+      background: rgba(124,249,181,.025);
+    }
+    .howto-label {
+      font-family: var(--heading); font-size: .72rem;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--gloxx-accent); margin-bottom: 1rem;
+    }
+    .howto h2 {
+      font-family: var(--heading); font-size: 1.45rem;
+      color: var(--text); font-weight: 500;
+      margin-bottom: 1rem; letter-spacing: -.005em;
+    }
+    .howto p {
+      font-size: 1rem; line-height: 1.65; color: var(--text-2);
+      margin-bottom: 1rem; max-width: 65ch;
+    }
+    .howto p strong { color: var(--text); font-weight: 500; }
+    .howto p:last-child { margin-bottom: 0; }
+    .howto a.inline {
+      color: var(--gloxx-accent);
+      border-bottom: 1px dashed var(--gloxx-accent);
+    }
+
+    /* ═══════════ CTA ═══════════ */
+    .cta-section {
+      text-align: center;
+      padding: 6rem 0 7rem;
+      border-top: 1px solid var(--border);
+    }
+    .cta-section h2 {
+      font-family: var(--heading);
+      font-size: clamp(1.65rem, 3.2vw, 2.25rem);
+      font-weight: 500; color: var(--text);
+      margin-bottom: 1.25rem; line-height: 1.25;
+    }
+    .cta-section p {
+      color: var(--text-2); max-width: 50ch;
+      margin: 0 auto 1.75rem;
+      font-size: 1rem; line-height: 1.6;
+    }
+    .cta-actions { display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; }
+    .cta-btn {
+      display: inline-block;
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink);
+      padding: .9rem 1.75rem;
+      font-family: var(--heading); font-weight: 500;
+      border-radius: 999px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.2); }
+    .cta-secondary {
+      display: inline-block;
+      padding: .9rem 1.5rem;
+      font-family: var(--heading); color: var(--text-2);
+      border: 1px solid var(--border); border-radius: 999px;
+      transition: border-color .2s, color .2s;
+    }
+    .cta-secondary:hover { color: var(--text); border-color: var(--text-2); }
+
+    /* ═══════════ FOOTER ═══════════ */
+    .footer-dogfood {
+      margin-top: 1.5rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 2.5rem; padding-right: 2.5rem;
+      font-family: var(--heading); font-size: .78rem; letter-spacing: .02em;
+      color: var(--text-3); text-align: center;
+    }
+    .footer-dogfood a { color: var(--text-2); border-bottom: 1px dashed var(--border); transition: color .2s, border-color .2s; }
+    .footer-dogfood a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+    footer { padding: 2.5rem 0; position: relative; }
+    footer::before {
+      content: ''; display: block;
+      height: 1px; margin-bottom: 2.5rem;
+      background: linear-gradient(90deg, transparent, var(--border) 50%, transparent);
+    }
+    .footer-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+      max-width: 1240px; margin: 0 auto;
+      padding: 0 clamp(1.5rem, 5vw, 3rem);
+    }
+    .footer-copy { font-size: .78rem; color: var(--text-3); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: .78rem; color: var(--text-3); transition: color .3s; letter-spacing: .02em; }
+    .footer-links a:hover { color: var(--text-2); }
+    .footer-tag { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); }
+
+    @media (max-width: 900px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-ham { display: flex; }
+      .container { padding: 0 1.5rem; }
+      .crumbs { padding-top: 5.5rem; font-size: .72rem; }
+      .mm-hero { padding: 1rem 0 1.5rem; }
+      .dims, .howto { padding: 1.5rem 1.25rem; }
+      .dims-grid { grid-template-columns: 1fr; gap: 0; }
+      .level-head { padding: 1.25rem 1.25rem 1rem; gap: .75rem; }
+      .level-num { font-size: 2rem; }
+      .level-body { grid-template-columns: 1fr; }
+      .level-block { padding: 1.25rem; border-right: none; border-top: 1px solid var(--border); }
+      .level-block:first-child { border-top: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/></filter>
+      <rect width="100%" height="100%" filter="url(#g)" opacity=".018"/>
+    </svg>
+  </div>
+
+  <header class="nav">
+    <a href="/index.html" class="nav-logo" aria-label="Gloxx home"><img src="/gloxx-logo-white-transparent-o-cutout.png" alt="Gloxx" height="32" style="display:block;width:auto"></a>
+    <div class="nav-links">
+      <a href="/services.html">Services</a>
+      <a href="/approach.html">Approach</a>
+      <a href="/bench/" aria-current="page">Bench</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="nav-cta-link">Book a call</a>
+    </div>
+    <button class="nav-ham" id="navHam" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mob-menu" id="mobMenu">
+    <a href="/index.html" class="mob-link">Home</a>
+    <a href="/services.html" class="mob-link">Services</a>
+    <a href="/approach.html" class="mob-link">Approach</a>
+    <a href="/bench/" class="mob-link" aria-current="page">Bench</a>
+    <a href="/about.html" class="mob-link">About</a>
+    <a href="/contact.html" class="mob-link">Contact</a>
+    <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="mob-link">Book a call</a>
+  </div>
+
+  <!-- ════════════ CRUMBS ════════════ -->
+  <section>
+    <div class="container">
+      <p class="crumbs"><a href="/bench/">Bench</a><span class="sep">/</span>Maturity Model</p>
+    </div>
+  </section>
+
+  <!-- ════════════ HERO ════════════ -->
+  <section class="mm-hero">
+    <div class="container">
+      <span class="label">Flagship · The Bench</span>
+      <h1>The AI-QA Maturity Model.</h1>
+      <p class="lead">Every team shipping AI features sits somewhere on this ladder, whether they've named it or not. <strong>This page names it.</strong> Five levels, six capability dimensions, and the specific artifacts and behaviors you'd expect to find at each. The model is descriptive — what's actually true at each rung — not a wish list. Your team is at the level where the artifacts exist, not the level where the leadership wants them to.</p>
+    </div>
+  </section>
+
+  <!-- ════════════ DIMENSIONS ════════════ -->
+  <section>
+    <div class="container">
+      <div class="dims">
+        <p class="dims-label">Six dimensions</p>
+        <h2>What we measure across the model.</h2>
+        <p>Maturity is multi-dimensional. A team can be Measured on eval coverage but Ad-hoc on drift monitoring — and that combination is the most common failure mode in AI-feature QA. The model scores six capability dimensions independently. Your overall level is the floor, not the ceiling.</p>
+        <ul class="dims-grid">
+          <li><strong>1. Eval coverage</strong>Do AI features have version-controlled eval suites? Are correctness AND safety/refuse cases covered?</li>
+          <li><strong>2. Release gating</strong>Do evals run in CI on every PR? Does a threshold breach block release?</li>
+          <li><strong>3. Drift monitoring</strong>Are production inputs/outputs logged, sampled, and continuously evaluated? Do drift alerts page someone?</li>
+          <li><strong>4. Failure taxonomy</strong>Is there a written list of known failure modes? Do incidents get tagged and added to eval suites?</li>
+          <li><strong>5. Feedback loops</strong>Can users report bad AI outputs in-product? Does the report flow into a triage queue and onward into evals?</li>
+          <li><strong>6. Policy &amp; refuse behavior</strong>Is there a written refuse policy? Reflected in the system prompt? Tested by automated evals? Reviewed by legal?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ LEVELS ════════════ -->
+  <section>
+    <div class="container">
+      <p class="levels-label">The five levels</p>
+
+      <!-- L1 -->
+      <article class="level" id="l1">
+        <header class="level-head">
+          <span class="level-num">L1</span>
+          <div class="level-titlebar">
+            <h2>Ad-hoc</h2>
+            <p class="level-essence"><strong>AI testing happens by accident.</strong> Engineers test their own prompts, mostly by trying them and looking at the output.</p>
+          </div>
+        </header>
+        <div class="level-body">
+          <div class="level-block">
+            <h3>What's true here</h3>
+            <ul>
+              <li>Prompts ship without a written eval suite</li>
+              <li>"Did you try it?" is the gate</li>
+              <li>Bugs are discovered by users in production, not by tests</li>
+              <li>If eval cases exist, they live in a notebook or one-off script that nobody re-runs</li>
+              <li>Nobody on the team can tell you which AI features have eval coverage</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Artifacts present</h3>
+            <ul>
+              <li>Possibly: a Notion page with example prompts</li>
+              <li>Possibly: a Slack channel for "weird outputs"</li>
+              <li>Otherwise: nothing version-controlled</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Failure modes still possible</h3>
+            <ul>
+              <li>Silent regressions on every prompt edit</li>
+              <li>Hallucinations reach users with no detection</li>
+              <li>Model-provider degradation goes unnoticed for weeks</li>
+              <li>Refuse-list violations only surface via screenshots on Twitter</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Trigger to L2</h3>
+            <ul>
+              <li>An incident severe enough that leadership asks "<strong>how do we know this won't happen again?</strong>"</li>
+              <li>A customer churn or compliance escalation tied to AI output</li>
+              <li>A board-level question about AI risk</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- L2 -->
+      <article class="level" id="l2">
+        <header class="level-head">
+          <span class="level-num">L2</span>
+          <div class="level-titlebar">
+            <h2>Reactive</h2>
+            <p class="level-essence"><strong>Eval suites exist, but only for things that already broke.</strong> Coverage is a map of past pain.</p>
+          </div>
+        </header>
+        <div class="level-body">
+          <div class="level-block">
+            <h3>What's true here</h3>
+            <ul>
+              <li>A <code>tests/evals/</code> folder exists with sparse coverage</li>
+              <li>Cases were added after specific incidents</li>
+              <li>Tests run locally; not always in CI</li>
+              <li>"Did the eval pass on my machine?" is the gate</li>
+              <li>No regression coverage for cases that haven't broken yet</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Artifacts present</h3>
+            <ul>
+              <li>Sparse <code>tests/evals/</code> directory, organized around incidents</li>
+              <li>Maybe a <code>FAILURES.md</code> file</li>
+              <li>One or two retrospective documents naming the worst incidents</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Failure modes still possible</h3>
+            <ul>
+              <li>Untested edge cases continue to leak to prod</li>
+              <li>No drift detection — model degradation invisible</li>
+              <li>New AI features ship with zero eval coverage</li>
+              <li>Eval coverage decays as incidents are forgotten</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Trigger to L3</h3>
+            <ul>
+              <li>Leadership commits to a <strong>quarterly eval review cadence</strong></li>
+              <li>Engineering accepts eval discipline as a first-class concern, not a fire drill</li>
+              <li>An eval coverage metric appears on a roadmap or scorecard</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- L3 -->
+      <article class="level" id="l3">
+        <header class="level-head">
+          <span class="level-num">L3</span>
+          <div class="level-titlebar">
+            <h2>Measured</h2>
+            <p class="level-essence"><strong>Every AI feature has a dedicated, version-controlled eval suite with a baseline.</strong> CI runs them. Reviews happen on a cadence.</p>
+          </div>
+        </header>
+        <div class="level-body">
+          <div class="level-block">
+            <h3>What's true here</h3>
+            <ul>
+              <li>Every shipped AI feature has its own eval suite</li>
+              <li>Suites cover correctness AND safety/refuse cases</li>
+              <li>Suites are versioned alongside the code they test</li>
+              <li>CI runs evals on every PR touching AI-feature code</li>
+              <li>Each suite has a documented baseline metric</li>
+              <li>A quarterly eval review meeting actually happens</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Artifacts present</h3>
+            <ul>
+              <li>Per-feature eval suite in <code>tests/evals/</code></li>
+              <li>Golden set per feature (50–200 curated cases)</li>
+              <li>Baseline metrics documented in PRD or wiki</li>
+              <li>CI workflow that runs evals; results visible on PRs</li>
+              <li>Quarterly review document with last-quarter trend</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Failure modes still possible</h3>
+            <ul>
+              <li>Eval thresholds are advisory, not enforced — devs override silently</li>
+              <li>Production drift goes unnoticed because no production sampling</li>
+              <li>No failure-mode taxonomy: incidents don't get categorized</li>
+              <li>Refuse-list policy lives in tribal knowledge, not in code</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Trigger to L4</h3>
+            <ul>
+              <li>A release where evals "passed" but production output was bad enough to escalate</li>
+              <li>Compliance, legal, or sales asks "<strong>can you prove the AI never does X?</strong>"</li>
+              <li>Drift incident that takes &gt; 24h to detect</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- L4 -->
+      <article class="level" id="l4">
+        <header class="level-head">
+          <span class="level-num">L4</span>
+          <div class="level-titlebar">
+            <h2>Governed</h2>
+            <p class="level-essence"><strong>Evals enforce policy.</strong> Releases block on threshold breach. Drift is monitored. Refuse policy is written, tested, and dated.</p>
+          </div>
+        </header>
+        <div class="level-body">
+          <div class="level-block">
+            <h3>What's true here</h3>
+            <ul>
+              <li>Eval thresholds are documented, reviewed quarterly, and enforced by CI</li>
+              <li>Release blocks if eval scores drop below threshold</li>
+              <li>Refuse policy is written, system-prompted, and tested by automated evals</li>
+              <li>Production traffic is sampled for ongoing eval</li>
+              <li>Drift alerts page on-call</li>
+              <li>Each production incident gets tagged with a failure mode and added to the eval suite</li>
+              <li>Override policy for failed gates is documented with audit trail</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Artifacts present</h3>
+            <ul>
+              <li>Enforced threshold config (e.g. <code>evals.config.yml</code> with per-feature minimums)</li>
+              <li>Drift monitoring dashboard with paging integration</li>
+              <li>Refuse-policy document, dated and versioned</li>
+              <li>Failure-mode taxonomy in the repo</li>
+              <li>Override log: who overrode what, when, why</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Failure modes still possible</h3>
+            <ul>
+              <li>User-reported failures don't reliably reach the eval suite</li>
+              <li>Evals are dev-driven, not prod-driven — golden set goes stale</li>
+              <li>Eval improvements ship in batches, not continuously</li>
+              <li>Time-from-report-to-eval-coverage is unmeasured</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Trigger to L5</h3>
+            <ul>
+              <li>Leadership commits to <strong>closed-loop continuous improvement</strong> as a measured SLO</li>
+              <li>Compliance review surfaces a need for documented response time</li>
+              <li>An L4 incident slips through because the eval suite was 4 weeks behind reality</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- L5 -->
+      <article class="level" id="l5">
+        <header class="level-head">
+          <span class="level-num">L5</span>
+          <div class="level-titlebar">
+            <h2>Continuous</h2>
+            <p class="level-essence"><strong>Evals run continuously in production.</strong> User-reported failures flow back into eval suites in days, not quarters. The failure taxonomy is alive.</p>
+          </div>
+        </header>
+        <div class="level-body">
+          <div class="level-block">
+            <h3>What's true here</h3>
+            <ul>
+              <li>Online evals on production traffic — not just sampled batches</li>
+              <li>In-product feedback widget routes directly into a triage queue</li>
+              <li>Triaged failures get added to eval suites in days</li>
+              <li>Time-from-report-to-eval-coverage is measured against an SLO</li>
+              <li>Eval suites evolve weekly, not quarterly</li>
+              <li>Refuse policy goes through legal/compliance review with documented date</li>
+              <li>Failure-mode-specific evals exist (not just general accuracy)</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Artifacts present</h3>
+            <ul>
+              <li>Production eval pipeline (online metrics, not just CI)</li>
+              <li>In-product "report this output" widget</li>
+              <li>Triage queue with named owner</li>
+              <li>Time-to-coverage SLO documented and measured</li>
+              <li>Dated compliance and legal reviews of refuse policy</li>
+              <li>Failure-mode-specific eval files (faithfulness, refusal-correctness, length-bound, source-citation, etc.)</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Failure modes still possible</h3>
+            <ul>
+              <li>Unknown unknowns — failure modes nobody has named yet</li>
+              <li>Adversarial inputs designed to evade the taxonomy</li>
+              <li>Model-provider changes that violate prior assumptions</li>
+              <li>Cost-efficiency tradeoffs that re-open closed gaps</li>
+            </ul>
+          </div>
+          <div class="level-block">
+            <h3>Beyond L5</h3>
+            <ul>
+              <li>The work stops being a maturity climb and becomes a discipline</li>
+              <li>The team is the model</li>
+              <li>External audit finds nothing the team hasn't already filed</li>
+              <li>You're now writing the next maturity model, not consuming this one</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ════════════ HOW TO USE ════════════ -->
+  <section>
+    <div class="container">
+      <div class="howto">
+        <p class="howto-label">How to use this</p>
+        <h2>Three rules of thumb.</h2>
+        <p><strong>Be honest, not aspirational.</strong> Your team is at the level where the artifacts exist on disk, not the level where the leadership wishes they were. If you can't show the eval-results dashboard to a new engineer in their first week, you don't have it.</p>
+        <p><strong>Score per dimension, not overall.</strong> Most teams have one dimension two levels behind the others. The fastest way to move up is to drag the lagging dimension to the floor. Take the <a href="/bench/assessment.html" class="inline">self-assessment</a> — it scores all six dimensions independently.</p>
+        <p><strong>The trigger matters more than the level.</strong> Knowing you're at L2 is less useful than knowing what L3 looks like and what would force you to commit to it. The "trigger to next level" line on each level above is the real load-bearing detail.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ CTA ════════════ -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Find out where your team actually sits.</h2>
+      <p>The 30-question self-assessment scores all six dimensions and gives you a personalized progression map back. Five minutes. No sales call required.</p>
+      <div class="cta-actions">
+        <a href="/bench/assessment.html" class="cta-btn">Take the assessment &rarr;</a>
+        <a href="/bench/" class="cta-secondary">Back to the Bench</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ FOOTER ════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 Gloxx</span>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/company/gloxxai" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/gloxxai" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
+      </div>
+      <span class="footer-tag">Wisdom engineered.</span>
+    </div>
+    <div class="footer-dogfood">
+      Built and <a href="https://github.com/gloxxai/gloxx-web/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.
+    </div>
+  </footer>
+
+  <script>
+    const ham = document.getElementById('navHam');
+    const mob = document.getElementById('mobMenu');
+    ham.addEventListener('click', () => {
+      ham.classList.toggle('active');
+      mob.classList.toggle('active');
+      document.body.style.overflow = mob.classList.contains('active') ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mob-link').forEach(a => {
+      a.addEventListener('click', () => {
+        ham.classList.remove('active');
+        mob.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+</body>
+</html>

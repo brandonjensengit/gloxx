@@ -64,13 +64,17 @@ test.describe('Main Site', () => {
     await expect(page.locator('.nav')).toBeVisible();
   });
 
-  test('nav logo shows GLOXX', async ({ page }) => {
-    await expect(page.locator('.nav-logo')).toHaveText('GLOXX');
+  test('nav logo renders the Gloxx wordmark image', async ({ page }) => {
+    const img = page.locator('.nav-logo img');
+    await expect(img).toBeVisible();
+    await expect(img).toHaveAttribute('alt', 'Gloxx');
+    await expect(img).toHaveAttribute('src', /gloxx-logo.*\.png/);
   });
 
   test('nav links exist', async ({ page, viewport }) => {
     if (viewport.width > 768) {
-      await expect(page.locator('.nav-links a')).toHaveCount(5);
+      // Services, Approach, Bench, About, Contact, Book a call (CTA)
+      await expect(page.locator('.nav-links a')).toHaveCount(6);
     }
   });
 
@@ -86,7 +90,7 @@ test.describe('Main Site', () => {
     if (viewport.width <= 768) return;
     const links = page.locator('.nav-links a:not(.nav-cta-link)');
     const hrefs = await links.evaluateAll(els => els.map(el => el.getAttribute('href')));
-    expect(hrefs).toEqual(['services.html', 'approach.html', 'about.html', 'contact.html']);
+    expect(hrefs).toEqual(['services.html', 'approach.html', 'bench/', 'about.html', 'contact.html']);
   });
 
   // ─── MOBILE NAV ───

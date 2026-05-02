@@ -7,7 +7,19 @@ import { test, expect } from '@playwright/test';
 // Cross-page: unique <title> and <meta name="description">.
 // ═══════════════════════════════════════
 
-const GLOXX_PAGES = ['/', '/services.html', '/approach.html', '/about.html', '/contact.html'];
+const GLOXX_PAGES = [
+  '/',
+  '/services.html',
+  '/approach.html',
+  '/about.html',
+  '/contact.html',
+  '/bench/',
+  '/bench/maturity-model.html',
+  '/bench/assessment.html',
+  '/bench/essays/',
+  '/bench/tools/',
+  '/bench/reports/',
+];
 
 test.describe('Polish', () => {
   test('titles and meta descriptions are unique across all Gloxx pages', async ({ page }) => {
