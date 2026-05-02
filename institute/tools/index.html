@@ -183,6 +183,13 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
     }
+
+    /* ═══════════ NAV LOGO REFINEMENT ═══════════ */
+    .nav-logo { display: inline-flex; align-items: center; gap: clamp(.7rem, 1.2vw, 1.1rem); color: var(--text); text-decoration: none; line-height: 1; }
+    .nav-logo img { display: block; width: auto; height: clamp(56px, 7vw, 80px); }
+    .nav-logo-sub { display: inline-block; padding-inline-start: clamp(.6rem, .9vw, .9rem); border-inline-start: 1px solid color-mix(in oklab, var(--gloxx-accent) 35%, transparent); font-family: var(--heading); font-size: clamp(.6rem, .72vw, .68rem); font-weight: 500; letter-spacing: .18em; line-height: 1.25; text-transform: uppercase; color: var(--gloxx-accent); max-width: 14ch; white-space: normal; }
+    @supports not (color: color-mix(in oklab, red, blue)) { .nav-logo-sub { border-inline-start-color: rgba(124, 249, 181, .35); } }
+    @media (max-width: 540px) { .nav-logo-sub { font-size: .56rem; max-width: 7ch; line-height: 1.2; padding-inline-start: .5rem; } }
   </style>
 </head>
 <body>
@@ -195,7 +202,7 @@
   </div>
 
   <header class="nav">
-    <a href="/index.html" class="nav-logo" aria-label="Gloxx home" style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;line-height:1"><img src="/gloxx-logo-white-transparent-o-cutout.png" alt="Gloxx" height="88" style="display:block;width:auto;height:clamp(64px,8vw,88px)"><span style="font-family:'Space Grotesk',-apple-system,sans-serif;font-size:.56rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:#7cf9b5;line-height:1.4">Quality<br>Assurance<br>Institute</span></a>
+    <a href="/index.html" class="nav-logo" aria-label="Gloxx — Quality Assurance Institute"><img src="/gloxx-logo-white-transparent-o-cutout.png" alt="Gloxx" height="88"><span class="nav-logo-sub" aria-hidden="true">Quality Assurance Institute</span></a>
     <div class="nav-links">
       <a href="/services.html">Services</a>
       <a href="/approach.html">Approach</a>

@@ -350,18 +350,6 @@
       border: 1px solid var(--border);
       border-radius: 100px;
     }
-    .hero-imprint {
-      display: block;
-      font-family: var(--heading);
-      font-size: .7rem; font-weight: 500;
-      letter-spacing: .35em; text-transform: uppercase;
-      color: var(--accent-1);
-      margin-bottom: 1rem;
-      opacity: 0;
-    }
-    @media (max-width: 600px) {
-      .hero-imprint { font-size: .62rem; letter-spacing: .25em; margin-bottom: .75rem; }
-    }
 
     .scroll-ind {
       position: absolute; bottom: 2.5rem; left: 50%;
@@ -773,7 +761,7 @@
       .cur-dot, .cur-ring { display: none; }
       body, a, button { cursor: auto; }
       .hero-title .line-inner { transform: none !important; }
-      .hero-sub, .hero-tag, .hero-imprint, .hero-ctas, .scroll-ind, .nav { opacity: 1 !important; }
+      .hero-sub, .hero-tag, .hero-ctas, .scroll-ind, .nav { opacity: 1 !important; }
     }
 
     /* ═══════════ PROMPT 3 — NEW SECTIONS ═══════════ */
@@ -1008,6 +996,13 @@
       .wws-strip { flex-direction: column; gap: 1rem; }
       .wws-strip span + span::before { display: none; }
     }
+
+    /* ═══════════ NAV LOGO REFINEMENT ═══════════ */
+    .nav-logo { display: inline-flex; align-items: center; gap: clamp(.7rem, 1.2vw, 1.1rem); color: var(--text); text-decoration: none; line-height: 1; }
+    .nav-logo img { display: block; width: auto; height: clamp(56px, 7vw, 80px); }
+    .nav-logo-sub { display: inline-block; padding-inline-start: clamp(.6rem, .9vw, .9rem); border-inline-start: 1px solid color-mix(in oklab, var(--gloxx-accent) 35%, transparent); font-family: var(--heading); font-size: clamp(.6rem, .72vw, .68rem); font-weight: 500; letter-spacing: .18em; line-height: 1.25; text-transform: uppercase; color: var(--gloxx-accent); max-width: 14ch; white-space: normal; }
+    @supports not (color: color-mix(in oklab, red, blue)) { .nav-logo-sub { border-inline-start-color: rgba(124, 249, 181, .35); } }
+    @media (max-width: 540px) { .nav-logo-sub { font-size: .56rem; max-width: 7ch; line-height: 1.2; padding-inline-start: .5rem; } }
   </style>
 </head>
 <body>
@@ -1026,7 +1021,7 @@
 
   <!-- Nav -->
   <header class="nav" id="nav">
-    <a href="#hero" class="nav-logo" aria-label="Gloxx home" style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;line-height:1"><img src="/gloxx-logo-white-transparent-o-cutout.png" alt="Gloxx" height="88" style="display:block;width:auto;height:clamp(64px,8vw,88px)"><span style="font-family:'Space Grotesk',-apple-system,sans-serif;font-size:.56rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:#7cf9b5;line-height:1.4">Quality<br>Assurance<br>Institute</span></a>
+    <a href="#hero" class="nav-logo" aria-label="Gloxx — Quality Assurance Institute"><img src="/gloxx-logo-white-transparent-o-cutout.png" alt="Gloxx" height="88"><span class="nav-logo-sub" aria-hidden="true">Quality Assurance Institute</span></a>
     <div class="nav-links">
       <a href="services.html">Services</a>
       <a href="approach.html">Approach</a>
@@ -1061,7 +1056,6 @@
     <div class="hero-vignette" aria-hidden="true"></div>
 
     <div class="hero-content">
-      <span class="hero-imprint">Quality Assurance Institute</span>
       <span class="hero-tag">Fractional QA Team</span>
       <h1 class="hero-title">
         <span class="line"><span class="line-inner">A QA team for any</span></span>
@@ -1329,7 +1323,7 @@
     /* ═══════ GSAP ═══════ */
     if (reduced) {
       document.querySelectorAll('.line-inner').forEach(el => el.style.transform = 'none');
-      document.querySelectorAll('.hero-sub, .hero-tag, .hero-imprint, .hero-ctas, .scroll-ind, .nav').forEach(el => el.style.opacity = 1);
+      document.querySelectorAll('.hero-sub, .hero-tag, .hero-ctas, .scroll-ind, .nav').forEach(el => el.style.opacity = 1);
       return;
     }
 
@@ -1338,7 +1332,6 @@
     // Hero
     const tl = gsap.timeline({ delay: .2 });
     tl.to('.nav', { opacity: 1, duration: .8, ease: 'power2.out' })
-      .to('.hero-imprint', { opacity: 1, duration: .6, ease: 'power2.out' }, .25)
       .to('.hero-tag', { opacity: 1, duration: .6, ease: 'power2.out' }, .35)
       .to('.hero-title .line-inner', {
         y: 0, duration: .9, stagger: .12, ease: 'power3.out'
