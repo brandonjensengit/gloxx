@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Gloxx Doctrine — Gloxx QA Institute</title>
+  <meta name="description" content="Three principles that govern every Gloxx engagement, every published artifact, and every audit report — Audit, not certification. Methodology over warranties. AI is leverage, not replacement.">
+
+  <link rel="canonical" href="https://gloxx.ai/institute/doctrine/">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#08080a">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Gloxx Doctrine — Gloxx QA Institute">
+  <meta property="og:description" content="Audit, not certification. Methodology over warranties. AI is leverage, not replacement.">
+  <meta property="og:url" content="https://gloxx.ai/institute/doctrine/">
+  <meta property="og:image" content="/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Gloxx Doctrine — Gloxx QA Institute">
+  <meta name="twitter:description" content="Three principles that govern every engagement and every published artifact.">
+  <meta name="twitter:image" content="/og-image.jpg">
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"Gloxx","alternateName":"Gloxx QA Institute","url":"https://gloxx.ai","logo":"https://gloxx.ai/gloxx-logo-white-transparent-o-cutout.png","foundingDate":"2026","founder":{"@type":"Person","name":"Brandon Jensen"},"description":"A fractional QA team for software companies, with the Gloxx QA Institute as the published methodology behind the retainer.","email":"hello@gloxx.ai","sameAs":["https://github.com/gloxxai","https://www.linkedin.com/company/gloxxai"]}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:wght@400;500&display=swap" rel="stylesheet"></noscript>
+  <style>
+    :root {
+      --bg: #08080a; --text: #ededed; --text-2: #898989; --text-3: #8a8f98;
+      --border: rgba(255,255,255,0.07); --surface: rgba(255,255,255,0.03);
+      --heading: 'Space Grotesk', -apple-system, sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+      --serif: 'Newsreader', Georgia, ui-serif, serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --accent-3: #818cf8;
+      --gloxx-accent: #7cf9b5; --gloxx-accent-ink: #0b0d10;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--gloxx-accent); color: var(--gloxx-accent-ink); }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { font-family: var(--body); background: var(--bg); color: var(--text-2); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; }
+    button { border: none; font-family: inherit; cursor: pointer; }
+
+    .grain { display: none; }
+
+    .nav { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2.5rem; z-index: 8000; background: rgba(8,8,10,.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: var(--heading); font-size: 1.15rem; font-weight: 600; color: var(--text); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { font-family: var(--heading); font-size: .9rem; color: var(--text-2); transition: color .2s; }
+    .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--text); }
+    .nav-links a[aria-current="page"] { border-bottom: 1px solid var(--gloxx-accent); padding-bottom: 2px; }
+    .nav-cta-link { background: var(--gloxx-accent); color: var(--gloxx-accent-ink) !important; padding: .55rem 1.1rem; border-radius: 999px; font-weight: 500; transition: transform .2s, box-shadow .2s; }
+    .nav-cta-link:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124,249,181,.18); }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; padding: 4px; z-index: 8001; background: none; border: none; cursor: pointer; }
+    .nav-ham span { display: block; width: 24px; height: 1.5px; background: var(--text); transition: transform .3s, opacity .3s; }
+    .nav-ham.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-ham.active span:nth-child(2) { opacity: 0; }
+    .nav-ham.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .mob-menu { position: fixed; inset: 0; background: rgba(8,8,10,.97); z-index: 7999; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 2.5rem; opacity: 0; pointer-events: none; transition: opacity .4s; }
+    .mob-menu.active { opacity: 1; pointer-events: all; }
+    .mob-menu a { font-family: var(--heading); font-size: 1.6rem; font-weight: 600; color: var(--text-2); letter-spacing: .08em; transition: color .3s; }
+    .mob-menu a[aria-current="page"] { color: var(--gloxx-accent); }
+    .mob-menu a:hover { color: var(--text); }
+
+    .container { max-width: 760px; margin: 0 auto; padding: 0 2rem; }
+
+    .crumbs { padding-top: 6.5rem; font-family: var(--heading); font-size: .78rem; color: var(--text-3); letter-spacing: .04em; }
+    .crumbs a { color: var(--text-2); border-bottom: 1px dashed var(--border); padding-bottom: 1px; transition: color .2s, border-color .2s; }
+    .crumbs a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+    .crumbs .sep { color: var(--text-3); margin: 0 .5rem; }
+
+    .hero { padding: 1.5rem 0 1.5rem; }
+    .hero .label { font-family: var(--heading); font-size: .72rem; letter-spacing: .25em; color: var(--gloxx-accent); text-transform: uppercase; margin-bottom: 1.25rem; display: inline-block; }
+    .hero h1 { font-family: var(--heading); font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 500; line-height: 1.05; color: var(--text); margin-bottom: 1.5rem; letter-spacing: -.01em; }
+    .hero .lead { font-family: var(--serif); font-size: 1.15rem; line-height: 1.7; color: var(--text-2); max-width: 60ch; }
+    .hero .lead strong { color: var(--text); font-weight: 500; }
+
+    .doc-meta { margin: 1.5rem 0 2.5rem; padding: .85rem 1.25rem; border: 1px solid var(--border); border-left: 2px solid var(--gloxx-accent); border-radius: 4px; background: var(--surface); font-family: var(--mono); font-size: .78rem; letter-spacing: .02em; color: var(--text-2); display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; }
+    .doc-meta .dm-key { text-transform: uppercase; font-size: .66rem; letter-spacing: .18em; color: var(--text-3); margin-right: .35rem; }
+    .doc-meta time { font-variant-numeric: tabular-nums; }
+
+    /* Principles */
+    .principle {
+      margin: 0 0 4.5rem;
+      padding-bottom: 4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .principle:last-of-type { border-bottom: none; padding-bottom: 0; }
+    .p-num {
+      font-family: var(--heading);
+      font-size: 3rem; font-weight: 300;
+      color: var(--gloxx-accent);
+      line-height: 1;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .principle h2 {
+      font-family: var(--heading);
+      font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+      font-weight: 500; color: var(--text);
+      margin-bottom: 1.75rem;
+      line-height: 1.15;
+      letter-spacing: -.01em;
+    }
+    .principle p {
+      font-family: var(--serif);
+      font-size: 1.1rem; line-height: 1.75;
+      color: var(--text-2);
+      margin-bottom: 1.25rem;
+      max-width: 60ch;
+    }
+    .principle p:last-child { margin-bottom: 0; }
+    .principle p strong { color: var(--text); font-weight: 500; }
+    .principle p a.inline {
+      color: var(--gloxx-accent);
+      border-bottom: 1px dashed var(--gloxx-accent);
+    }
+    .principle .commit {
+      margin-top: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      border-left: 2px solid var(--gloxx-accent);
+      background: rgba(124,249,181,.025);
+      border-radius: 0 6px 6px 0;
+      font-family: var(--heading);
+      font-size: .98rem;
+      color: var(--text);
+      line-height: 1.55;
+      max-width: 60ch;
+    }
+    .principle .commit strong { color: var(--gloxx-accent); font-weight: 500; }
+
+    /* Closing */
+    .closing {
+      margin: 2rem 0 0;
+      padding: 3rem 2.5rem;
+      border: 1px solid var(--gloxx-accent);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(124,249,181,.04), rgba(124,249,181,.005));
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .closing::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle at top right, rgba(124,249,181,.06), transparent 65%);
+      pointer-events: none;
+    }
+    .closing-eyebrow {
+      font-family: var(--heading);
+      font-size: .7rem; letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gloxx-accent);
+      margin-bottom: 1.25rem;
+      display: inline-block;
+    }
+    .closing-line {
+      font-family: var(--serif);
+      font-size: clamp(1.3rem, 2.6vw, 1.6rem);
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+      max-width: 38ch;
+      margin: 0 auto;
+      letter-spacing: -.005em;
+    }
+    .closing-line strong { color: var(--gloxx-accent); }
+
+    .cta-section { text-align: center; padding: 5rem 0 7rem; border-top: 1px solid var(--border); }
+    .cta-section h2 { font-family: var(--heading); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 500; color: var(--text); margin-bottom: 1.25rem; line-height: 1.3; }
+    .cta-section p { color: var(--text-2); max-width: 50ch; margin: 0 auto 1.75rem; font-size: 1rem; line-height: 1.6; }
+    .cta-btn { display: inline-block; background: var(--gloxx-accent); color: var(--gloxx-accent-ink); padding: .9rem 1.75rem; font-family: var(--heading); font-weight: 500; border-radius: 999px; transition: transform .2s, box-shadow .2s; }
+    .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.2); }
+
+    .footer-dogfood { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 2.5rem; padding-right: 2.5rem; font-family: var(--heading); font-size: .78rem; letter-spacing: .02em; color: var(--text-3); text-align: center; }
+    .footer-dogfood a { color: var(--text-2); border-bottom: 1px dashed var(--border); transition: color .2s, border-color .2s; }
+    .footer-dogfood a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+    .footer-doctrine { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 2.5rem; padding-right: 2.5rem; font-family: var(--heading); font-size: .82rem; letter-spacing: .02em; color: var(--text-2); text-align: center; }
+    footer { padding: 2.5rem 0; position: relative; }
+    footer::before { content: ''; display: block; height: 1px; margin-bottom: 2.5rem; background: linear-gradient(90deg, transparent, var(--border) 50%, transparent); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; max-width: 1240px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 3rem); }
+    .footer-copy { font-size: .78rem; color: var(--text-3); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: .78rem; color: var(--text-3); transition: color .3s; letter-spacing: .02em; }
+    .footer-links a:hover { color: var(--text-2); }
+    .footer-tag { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); }
+
+    @media (max-width: 900px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-ham { display: flex; }
+      .container { padding: 0 1.25rem; }
+      .crumbs { padding-top: 5.5rem; font-size: .72rem; }
+      .principle { margin-bottom: 3rem; padding-bottom: 2.5rem; }
+      .closing { padding: 2rem 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .doc-meta { gap: .35rem 1rem; padding: .75rem 1rem; font-size: .72rem; }
+      .doc-meta .dm-key { font-size: .6rem; }
+      .footer-doctrine { padding-left: 1.25rem; padding-right: 1.25rem; font-size: .76rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <a href="/index.html" class="nav-logo" aria-label="Gloxx home"><img src="/gloxx-logo-white-transparent-o-cutout.png" alt="Gloxx" height="32" style="display:block;width:auto"></a>
+    <div class="nav-links">
+      <a href="/services.html">Services</a>
+      <a href="/approach.html">Approach</a>
+      <a href="/institute/" aria-current="page">Institute</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="nav-cta-link">Book a call</a>
+    </div>
+    <button class="nav-ham" id="navHam" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mob-menu" id="mobMenu">
+    <a href="/index.html" class="mob-link">Home</a>
+    <a href="/services.html" class="mob-link">Services</a>
+    <a href="/approach.html" class="mob-link">Approach</a>
+    <a href="/institute/" class="mob-link" aria-current="page">Institute</a>
+    <a href="/about.html" class="mob-link">About</a>
+    <a href="/contact.html" class="mob-link">Contact</a>
+    <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="mob-link">Book a call</a>
+  </div>
+
+  <section>
+    <div class="container">
+      <p class="crumbs"><a href="/institute/">Institute</a><span class="sep">/</span>Doctrine</p>
+    </div>
+  </section>
+
+  <section class="hero">
+    <div class="container">
+      <span class="label">The Doctrine</span>
+      <h1>Three principles that govern every engagement.</h1>
+      <p class="lead">A small institute lives or dies by what it refuses to compromise. <strong>This page names what Gloxx won't compromise.</strong> Every audit report, every published artifact, every retainer engagement — these three principles set the constraints. If a Gloxx deliverable contradicts any of them, the deliverable is wrong.</p>
+
+      <aside class="doc-meta" aria-label="Document metadata">
+        <span><span class="dm-key">Document</span> The Gloxx Doctrine v1.0</span>
+        <span><span class="dm-key">Authors</span> Brandon Jensen, Founder</span>
+        <span><span class="dm-key">Published</span> <time datetime="2026-05-02">2026-05-02</time></span>
+        <span><span class="dm-key">Last reviewed</span> <time datetime="2026-05-02">2026-05-02</time></span>
+        <span><span class="dm-key">Next review</span> 2026 Q3</span>
+      </aside>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+
+      <article class="principle" id="audit-not-certification">
+        <span class="p-num">01</span>
+        <h2>Audit, not certification.</h2>
+        <p>Real institutes that aren't regulatory bodies don't sell certifications. Gloxx publishes the methodology, conducts audits against it, and writes a dated report scoped to the artifacts reviewed. The report says what we observed and how we scored it against the published rubric. <strong>It does not promise an outcome.</strong></p>
+        <p>The word "certification" never appears as a Gloxx product name. The word "certified" never appears in client-facing copy. The Maturity Model is descriptive — what's actually true at each level — not aspirational. Audits are dated, scoped, and explicit about what was not reviewed. Findings reflect the reviewer's judgment against the <a href="/institute/maturity-model.html" class="inline">published rubric</a>, not a guarantee.</p>
+        <p>This is a constraint on every Gloxx page, every audit report, and every conversation with a client. The vocabulary on this site — audit, review, rubric, level — is methodological, not regulatory.</p>
+        <div class="commit">
+          <strong>The commitment:</strong> If you read a Gloxx audit report and find language that implies certification, regulatory attestation, or warranty of outcome, that's a defect in our work. Tell us and we'll publish a dated correction.
+        </div>
+      </article>
+
+      <article class="principle" id="methodology-over-warranties">
+        <span class="p-num">02</span>
+        <h2>Methodology over warranties.</h2>
+        <p>We publish more than we sell. The six AI-QA <a href="/institute/workflows/" class="inline">Workflows</a>, the <a href="/institute/maturity-model.html" class="inline">Maturity Model</a>, the <a href="/institute/assessment.html" class="inline">Self-Assessment</a>, the <a href="/institute/tools/" class="inline">Tools catalog</a>, the quarterly <a href="/institute/reports/" class="inline">Reports</a>, the <a href="/institute/journal/" class="inline">Journal</a>, the <a href="/institute/glossary/" class="inline">Glossary</a> — all free, all named, all dated. <strong>The retainer is the same methodology run on your code by a senior QA lead, every week.</strong> There is no proprietary playbook hidden behind the engagement.</p>
+        <p>This is a deliberate trade. We could lock the methodology behind an enterprise sale. We don't, because methodology is durable and warranties are not. A team that reads the Maturity Model and runs the workflows themselves is a successful outcome for the Institute even if they never become a Gloxx client. A team that hires Gloxx hires the senior accountability and the AI-leveraged execution, not the secret recipe.</p>
+        <p>Every audit deliverable carries the standard non-warranty footer: <em>"This audit is a methodology-based assessment of release readiness at a point in time. It is not a regulatory certification, compliance attestation, or warranty of any outcome. The Gloxx QA Institute is a publisher of methodology and a service provider; it is not a regulatory or standards body."</em></p>
+        <div class="commit">
+          <strong>The commitment:</strong> If you read the Institute pages and decide to run the discipline yourself, that's a successful outcome. If you decide running it well requires senior accountability, the retainer is one number — $15k/month, month-to-month, no tier negotiation.
+        </div>
+      </article>
+
+      <article class="principle" id="ai-is-leverage">
+        <span class="p-num">03</span>
+        <h2>AI is leverage, not replacement.</h2>
+        <p>A senior QA team multiplied by AI-augmented authoring, eval running, bug triage, and release-gate work delivers what a 3-person in-house function would, at a third of the cost. <strong>That's the engine that makes one flat $15k/month number competitive against a $400–600k/year fully-loaded team.</strong></p>
+        <p>But AI is leverage, not the worker. The accountable mind on the call when something breaks in production is human. The judgment about whether an L4 incident is severe enough to escalate is human. The decision to drop an eval threshold because legal cleared a new use case is human. Gloxx is built so that <strong>every decision happens with a person on the other end</strong> — leveraged by AI, but not replaced by it.</p>
+        <p>This is a constraint on how Gloxx engagements are structured. There is no automated retainer, no hands-off subscription, no AI agent that approves your release without a human in the loop. The retainer means a senior QA lead is doing the work, with AI as a force multiplier, accountable on the calendar and on the call.</p>
+        <div class="commit">
+          <strong>The commitment:</strong> If a Gloxx engagement ever ships an audit report, a release-gate decision, or a refuse-policy review without a named human signing off, that's a defect in our work — not a feature.
+        </div>
+      </article>
+
+      <div class="closing">
+        <span class="closing-eyebrow">The doctrine, in one line</span>
+        <p class="closing-line">Audit. Methodology. Leverage. <strong>And a person on the call when something breaks.</strong></p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Want this discipline running on your release path?</h2>
+      <p>The Institute is the public methodology. The Gloxx Retainer is where a senior QA lead runs it on your code, every week, with accountability on the call when something breaks.</p>
+      <a href="/contact.html" class="cta-btn">Book a 30-minute call &rarr;</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 Gloxx</span>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/company/gloxxai" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/gloxxai" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
+      </div>
+      <span class="footer-tag">Methodology in practice.</span>
+    </div>
+    <div class="footer-doctrine">
+      Audited, not certified. Methodology over warranties. Released artifacts over promises.
+    </div>
+    <div class="footer-dogfood">
+      Built and <a href="https://github.com/gloxxai/gloxx-web/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.
+    </div>
+  </footer>
+
+  <script>
+    const ham = document.getElementById('navHam');
+    const mob = document.getElementById('mobMenu');
+    ham.addEventListener('click', () => {
+      ham.classList.toggle('active');
+      mob.classList.toggle('active');
+      document.body.style.overflow = mob.classList.contains('active') ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mob-link').forEach(a => {
+      a.addEventListener('click', () => {
+        ham.classList.remove('active');
+        mob.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+</body>
+</html>

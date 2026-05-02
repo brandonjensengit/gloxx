@@ -286,6 +286,46 @@
     }
     .line-card:hover .line-link { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
 
+    /* ═══════════ REFERENCE ROW ═══════════ */
+    .ref-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem; margin-bottom: 5rem;
+    }
+    .ref-card {
+      padding: 2rem 1.75rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      transition: border-color .25s, transform .25s, background .25s;
+      display: flex; flex-direction: column;
+    }
+    .ref-card:hover {
+      border-color: var(--gloxx-accent);
+      transform: translateY(-2px);
+      background: rgba(124,249,181,.025);
+    }
+    .ref-num {
+      font-family: var(--mono); font-size: .78rem;
+      color: var(--gloxx-accent); letter-spacing: .1em;
+      margin-bottom: 1rem;
+    }
+    .ref-card h3 {
+      font-family: var(--heading); font-size: 1.25rem;
+      color: var(--text); font-weight: 500;
+      margin-bottom: .75rem;
+    }
+    .ref-card p {
+      font-size: .96rem; line-height: 1.6; color: var(--text-2);
+      margin-bottom: 1.5rem; flex: 1;
+    }
+    .ref-card .ref-link {
+      font-family: var(--heading); font-size: .85rem;
+      color: var(--text-2); border-bottom: 1px solid var(--border);
+      padding-bottom: 2px; align-self: flex-start;
+      transition: color .2s, border-color .2s;
+    }
+    .ref-card:hover .ref-link { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+
     /* ═══════════ COMING-SOON LIST ═══════════ */
     .roadmap {
       padding: 2.5rem 2.75rem;
@@ -400,6 +440,7 @@
       .bn-hero { padding: 7rem 0 2rem; }
       .featured { padding: 1.75rem 1.5rem; margin: 2rem 0 3.5rem; }
       .lines-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .ref-grid { grid-template-columns: 1fr; gap: 1rem; }
       .roadmap { padding: 1.75rem 1.5rem; margin-bottom: 3.5rem; }
       .roadmap li { grid-template-columns: 1fr; gap: .25rem; }
       .roadmap li time { font-size: .72rem; }
@@ -525,6 +566,37 @@
           <h3>Refuse Policy</h3>
           <p>Written refuse list, system-prompt enforcement, refusal-correctness evals, and the dated compliance review. The procedure that names what the AI must never do.</p>
           <span class="line-link">Read the workflow &rarr;</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ REFERENCE ════════════ -->
+  <section>
+    <div class="container">
+      <p class="lines-label">Reference</p>
+      <div class="ref-grid">
+
+        <a href="/institute/doctrine/" class="ref-card">
+          <span class="ref-num">— · Manifesto</span>
+          <h3>The Doctrine</h3>
+          <p>Three principles that govern every Gloxx engagement: audit not certification, methodology over warranties, AI as leverage not replacement.</p>
+          <span class="ref-link">Read the Doctrine &rarr;</span>
+        </a>
+
+        <a href="/institute/glossary/" class="ref-card">
+          <span class="ref-num">— · Definitions</span>
+          <h3>Glossary</h3>
+          <p>Canonical definitions for every term the Institute uses — eval suite, golden set, faithfulness, drift, time-to-coverage SLO, refuse list, and more.</p>
+          <span class="ref-link">Read the Glossary &rarr;</span>
+        </a>
+
+        <a href="/institute/journal/maturity-model-introduction.html" class="ref-card">
+          <span class="ref-num">— · Essay</span>
+          <h3>Introducing the Maturity Model</h3>
+          <p>The inaugural Journal essay. Why we built a five-level rubric for AI-feature QA, and what each rung looks like in practice. By Brandon Jensen.</p>
+          <span class="ref-link">Read the essay &rarr;</span>
         </a>
 
       </div>

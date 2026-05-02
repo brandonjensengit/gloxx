@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introducing the AI-QA Maturity Model — Gloxx QA Institute</title>
+  <meta name="description" content="The inaugural Institute Journal essay: why we built a five-level rubric for testing AI features, how to read it without lying to yourself about your level, and what each rung looks like in practice.">
+
+  <link rel="canonical" href="https://gloxx.ai/institute/journal/maturity-model-introduction.html">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#08080a">
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-05-05T09:00:00-06:00">
+  <meta property="article:author" content="Brandon Jensen">
+  <meta property="og:title" content="Introducing the AI-QA Maturity Model — Institute Journal">
+  <meta property="og:description" content="Why we built a five-level rubric for testing AI features, and what each level looks like in practice.">
+  <meta property="og:url" content="https://gloxx.ai/institute/journal/maturity-model-introduction.html">
+  <meta property="og:image" content="/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Introducing the AI-QA Maturity Model — Institute Journal">
+  <meta name="twitter:description" content="A five-level rubric for testing AI features, with concrete signals at each rung.">
+  <meta name="twitter:image" content="/og-image.jpg">
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","headline":"Introducing the AI-QA Maturity Model","author":{"@type":"Person","name":"Brandon Jensen","url":"https://gloxx.ai/about.html"},"publisher":{"@type":"Organization","name":"Gloxx QA Institute","url":"https://gloxx.ai/institute/","logo":{"@type":"ImageObject","url":"https://gloxx.ai/gloxx-logo-white-transparent-o-cutout.png"}},"datePublished":"2026-05-05","dateModified":"2026-05-05","mainEntityOfPage":"https://gloxx.ai/institute/journal/maturity-model-introduction.html","description":"Why we built a five-level rubric for testing AI features, and what each level looks like in practice."}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+  <style>
+    :root {
+      --bg: #08080a; --text: #ededed; --text-2: #898989; --text-3: #8a8f98;
+      --border: rgba(255,255,255,0.07); --surface: rgba(255,255,255,0.03);
+      --heading: 'Space Grotesk', -apple-system, sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+      --serif: 'Newsreader', Georgia, ui-serif, serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --accent-3: #818cf8;
+      --gloxx-accent: #7cf9b5; --gloxx-accent-ink: #0b0d10;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--gloxx-accent); color: var(--gloxx-accent-ink); }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { font-family: var(--body); background: var(--bg); color: var(--text-2); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; }
+    button { border: none; font-family: inherit; cursor: pointer; }
+
+    .grain { display: none; }
+
+    .nav { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2.5rem; z-index: 8000; background: rgba(8,8,10,.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: var(--heading); font-size: 1.15rem; font-weight: 600; color: var(--text); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { font-family: var(--heading); font-size: .9rem; color: var(--text-2); transition: color .2s; }
+    .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--text); }
+    .nav-links a[aria-current="page"] { border-bottom: 1px solid var(--gloxx-accent); padding-bottom: 2px; }
+    .nav-cta-link { background: var(--gloxx-accent); color: var(--gloxx-accent-ink) !important; padding: .55rem 1.1rem; border-radius: 999px; font-weight: 500; transition: transform .2s, box-shadow .2s; }
+    .nav-cta-link:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124,249,181,.18); }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; padding: 4px; z-index: 8001; background: none; border: none; cursor: pointer; }
+    .nav-ham span { display: block; width: 24px; height: 1.5px; background: var(--text); transition: transform .3s, opacity .3s; }
+    .nav-ham.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-ham.active span:nth-child(2) { opacity: 0; }
+    .nav-ham.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .mob-menu { position: fixed; inset: 0; background: rgba(8,8,10,.97); z-index: 7999; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 2.5rem; opacity: 0; pointer-events: none; transition: opacity .4s; }
+    .mob-menu.active { opacity: 1; pointer-events: all; }
+    .mob-menu a { font-family: var(--heading); font-size: 1.6rem; font-weight: 600; color: var(--text-2); letter-spacing: .08em; transition: color .3s; }
+    .mob-menu a[aria-current="page"] { color: var(--gloxx-accent); }
+    .mob-menu a:hover { color: var(--text); }
+
+    .container { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
+
+    .crumbs { padding-top: 6.5rem; font-family: var(--heading); font-size: .78rem; color: var(--text-3); letter-spacing: .04em; }
+    .crumbs a { color: var(--text-2); border-bottom: 1px dashed var(--border); padding-bottom: 1px; transition: color .2s, border-color .2s; }
+    .crumbs a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+    .crumbs .sep { color: var(--text-3); margin: 0 .5rem; }
+
+    /* Article header */
+    .essay-header { padding: 1.5rem 0 2rem; }
+    .essay-cat {
+      font-family: var(--heading); font-size: .68rem;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--gloxx-accent);
+      margin-bottom: 1.25rem;
+      display: inline-block;
+    }
+    .essay-header h1 {
+      font-family: var(--heading);
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.05;
+      margin-bottom: 1rem;
+      letter-spacing: -.01em;
+      max-width: 22ch;
+    }
+    .essay-subtitle {
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      font-weight: 400;
+      color: var(--text-2);
+      line-height: 1.5;
+      margin-bottom: 2rem;
+      max-width: 38ch;
+    }
+    .essay-byline {
+      display: flex; flex-wrap: wrap; gap: .5rem 1.5rem;
+      align-items: baseline;
+      padding: 1rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--heading);
+      font-size: .82rem;
+      color: var(--text-3);
+      letter-spacing: .02em;
+    }
+    .essay-byline strong { color: var(--text); font-weight: 500; }
+    .essay-byline .by-key {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-right: .35rem;
+    }
+    .essay-byline a { color: var(--text-2); border-bottom: 1px dashed var(--border); transition: color .2s, border-color .2s; }
+    .essay-byline a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+
+    /* Article body */
+    article.essay { padding: 2.5rem 0 4rem; }
+    article.essay > p,
+    article.essay > h2,
+    article.essay > h3,
+    article.essay > ul,
+    article.essay > ol,
+    article.essay > blockquote,
+    article.essay > .pullquote,
+    article.essay > .level-callout {
+      max-width: 60ch;
+    }
+    article.essay p {
+      font-family: var(--serif);
+      font-size: 1.13rem;
+      line-height: 1.75;
+      color: var(--text-2);
+      margin-bottom: 1.5rem;
+    }
+    article.essay p strong { color: var(--text); font-weight: 500; }
+    article.essay p em { color: var(--text-2); }
+    article.essay p a {
+      color: var(--gloxx-accent);
+      border-bottom: 1px dashed var(--gloxx-accent);
+    }
+    article.essay h2 {
+      font-family: var(--heading);
+      font-size: clamp(1.4rem, 2.8vw, 1.75rem);
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -.005em;
+      margin: 3rem 0 1.25rem;
+      line-height: 1.25;
+    }
+    article.essay h3 {
+      font-family: var(--heading);
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text);
+      margin: 2rem 0 .75rem;
+      line-height: 1.3;
+    }
+    article.essay ul, article.essay ol {
+      padding-left: 1.5rem;
+      margin: 0 0 1.5rem;
+      font-family: var(--serif);
+    }
+    article.essay li {
+      font-size: 1.08rem;
+      line-height: 1.65;
+      color: var(--text-2);
+      margin-bottom: .65rem;
+    }
+    article.essay li strong { color: var(--text); font-weight: 500; }
+
+    .pullquote {
+      margin: 2.5rem auto;
+      padding: 1.5rem 2rem;
+      border-left: 3px solid var(--gloxx-accent);
+      background: rgba(124,249,181,.025);
+      border-radius: 0 6px 6px 0;
+    }
+    .pullquote p {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      line-height: 1.55;
+      color: var(--text);
+      margin-bottom: 0;
+    }
+    .pullquote p strong { color: var(--gloxx-accent); }
+
+    .level-callout {
+      margin: 2rem 0;
+      padding: 1.5rem 1.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: 3.5rem 1fr;
+      gap: 1.25rem;
+      align-items: baseline;
+    }
+    .level-callout .lc-num {
+      font-family: var(--heading);
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--gloxx-accent);
+      line-height: 1;
+    }
+    .level-callout .lc-body {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--text-2);
+    }
+    .level-callout .lc-body strong { color: var(--text); font-weight: 500; }
+    .level-callout .lc-name {
+      font-family: var(--heading);
+      font-size: 1.1rem;
+      color: var(--text);
+      font-weight: 500;
+      margin-bottom: .25rem;
+      display: block;
+      letter-spacing: -.005em;
+    }
+
+    /* Footnotes */
+    article.essay sup a {
+      color: var(--gloxx-accent);
+      text-decoration: none;
+      font-weight: 500;
+      padding-left: 1px;
+    }
+    article.essay sup a:hover { text-decoration: underline; }
+    .footnotes {
+      margin: 3rem 0 1rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      max-width: 60ch;
+    }
+    .footnotes-label {
+      font-family: var(--heading);
+      font-size: .68rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+    .footnotes ol {
+      list-style: none; padding: 0;
+      counter-reset: fn;
+      display: grid; gap: .75rem;
+      font-family: var(--body);
+    }
+    .footnotes li {
+      counter-increment: fn;
+      font-size: .88rem;
+      line-height: 1.6;
+      color: var(--text-3);
+      padding-left: 1.75rem;
+      position: relative;
+    }
+    .footnotes li::before {
+      content: counter(fn);
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: var(--heading);
+      color: var(--gloxx-accent);
+      font-size: .85rem;
+      font-weight: 500;
+    }
+    .footnotes a {
+      color: var(--text-2);
+      border-bottom: 1px dashed var(--border);
+      transition: color .2s, border-color .2s;
+    }
+    .footnotes a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+
+    /* What's next */
+    .next-up {
+      margin: 3rem 0 0;
+      padding: 1.75rem 2rem;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      max-width: 60ch;
+    }
+    .next-up-label {
+      font-family: var(--heading);
+      font-size: .68rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gloxx-accent);
+      margin-bottom: .85rem;
+      display: block;
+    }
+    .next-up p {
+      font-family: var(--serif);
+      font-size: 1.02rem;
+      line-height: 1.6;
+      color: var(--text-2);
+      margin: 0;
+    }
+    .next-up p strong { color: var(--text); font-weight: 500; }
+    .next-up p a {
+      color: var(--gloxx-accent);
+      border-bottom: 1px dashed var(--gloxx-accent);
+    }
+
+    .cta-section { text-align: center; padding: 5rem 0 7rem; border-top: 1px solid var(--border); }
+    .cta-section h2 { font-family: var(--heading); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 500; color: var(--text); margin-bottom: 1.25rem; line-height: 1.3; }
+    .cta-section p { color: var(--text-2); max-width: 50ch; margin: 0 auto 1.75rem; font-size: 1rem; line-height: 1.6; }
+    .cta-actions { display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; }
+    .cta-btn { display: inline-block; background: var(--gloxx-accent); color: var(--gloxx-accent-ink); padding: .9rem 1.75rem; font-family: var(--heading); font-weight: 500; border-radius: 999px; transition: transform .2s, box-shadow .2s; }
+    .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.2); }
+    .cta-secondary { display: inline-block; padding: .9rem 1.5rem; font-family: var(--heading); color: var(--text-2); border: 1px solid var(--border); border-radius: 999px; transition: border-color .2s, color .2s; }
+    .cta-secondary:hover { color: var(--text); border-color: var(--text-2); }
+
+    .footer-dogfood { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 2.5rem; padding-right: 2.5rem; font-family: var(--heading); font-size: .78rem; letter-spacing: .02em; color: var(--text-3); text-align: center; }
+    .footer-dogfood a { color: var(--text-2); border-bottom: 1px dashed var(--border); transition: color .2s, border-color .2s; }
+    .footer-dogfood a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+    .footer-doctrine { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 2.5rem; padding-right: 2.5rem; font-family: var(--heading); font-size: .82rem; letter-spacing: .02em; color: var(--text-2); text-align: center; }
+    footer { padding: 2.5rem 0; position: relative; }
+    footer::before { content: ''; display: block; height: 1px; margin-bottom: 2.5rem; background: linear-gradient(90deg, transparent, var(--border) 50%, transparent); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; max-width: 1240px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 3rem); }
+    .footer-copy { font-size: .78rem; color: var(--text-3); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: .78rem; color: var(--text-3); transition: color .3s; letter-spacing: .02em; }
+    .footer-links a:hover { color: var(--text-2); }
+    .footer-tag { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); }
+
+    @media (max-width: 900px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-ham { display: flex; }
+      .container { padding: 0 1.25rem; }
+      .crumbs { padding-top: 5.5rem; font-size: .72rem; }
+      .pullquote { padding: 1.25rem 1.25rem; }
+      .level-callout { padding: 1.25rem; grid-template-columns: 2.5rem 1fr; gap: 1rem; }
+      .level-callout .lc-num { font-size: 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .footer-doctrine { padding-left: 1.25rem; padding-right: 1.25rem; font-size: .76rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <a href="/index.html" class="nav-logo" aria-label="Gloxx home"><img src="/gloxx-logo-white-transparent-o-cutout.png" alt="Gloxx" height="32" style="display:block;width:auto"></a>
+    <div class="nav-links">
+      <a href="/services.html">Services</a>
+      <a href="/approach.html">Approach</a>
+      <a href="/institute/" aria-current="page">Institute</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="nav-cta-link">Book a call</a>
+    </div>
+    <button class="nav-ham" id="navHam" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mob-menu" id="mobMenu">
+    <a href="/index.html" class="mob-link">Home</a>
+    <a href="/services.html" class="mob-link">Services</a>
+    <a href="/approach.html" class="mob-link">Approach</a>
+    <a href="/institute/" class="mob-link" aria-current="page">Institute</a>
+    <a href="/about.html" class="mob-link">About</a>
+    <a href="/contact.html" class="mob-link">Contact</a>
+    <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="mob-link">Book a call</a>
+  </div>
+
+  <section>
+    <div class="container">
+      <p class="crumbs"><a href="/institute/">Institute</a><span class="sep">/</span><a href="/institute/journal/">Journal</a><span class="sep">/</span>Introducing the Maturity Model</p>
+    </div>
+  </section>
+
+  <header class="essay-header">
+    <div class="container">
+      <span class="essay-cat">Framework · Inaugural essay</span>
+      <h1>Introducing the AI-QA Maturity Model.</h1>
+      <p class="essay-subtitle">Why we built a five-level rubric for testing AI features — and what each rung looks like in practice.</p>
+      <div class="essay-byline">
+        <span><span class="by-key">Author</span><a href="/about.html">Brandon Jensen</a></span>
+        <span><span class="by-key">Published</span><time datetime="2026-05-05">2026-05-05</time></span>
+        <span><span class="by-key">Read</span>~9 min</span>
+        <span><span class="by-key">Category</span>Framework</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="container">
+      <article class="essay">
+
+        <p>Every team shipping AI features is somewhere on a maturity ladder, whether they've named it or not. Most teams, in our experience auditing release paths over the last two years, are at <strong>Level 1 or 2</strong> — testing prompts by trying them, adding eval cases only after a customer escalation, and shipping AI features whose only QA is "did the engineer who wrote it look at the output?"</p>
+
+        <p>That's not a moral failing. It's a recognizable stage. The problem is that most teams don't know they're there because nobody's published a vocabulary for naming the rungs.</p>
+
+        <p>So we did. <strong>The <a href="/institute/maturity-model.html">AI-QA Maturity Model v1.0</a></strong> is a five-level descriptive rubric for how mature an organization's AI-feature QA practice is — Ad-hoc, Reactive, Measured, Governed, Continuous — with concrete, observable signals at each rung. It scores six capability dimensions independently because the most common failure mode in AI-feature QA is <em>imbalanced</em> maturity: a team that's Measured on eval coverage but Ad-hoc on drift monitoring, hemorrhaging quality silently in production while feeling rigorous in CI.</p>
+
+        <p>This essay is the first published artifact in the <a href="/institute/journal/">Institute Journal</a>. It introduces the model, explains the design constraints, and walks through why the rubric is descriptive — not aspirational — and what that distinction costs you if you get it wrong.</p>
+
+        <h2>The problem the model solves</h2>
+
+        <p>We've audited the AI-QA practice of around two dozen software teams over the last 18 months. The pattern is remarkably consistent. Asked "how do you test your AI features?", the answers fall into one of three buckets:</p>
+
+        <ul>
+          <li><strong>"We don't, really."</strong> — The honest version. Engineers test their own prompts. Bugs are reported by users. Nobody on the team can tell you which features have eval coverage. <em>This is L1, Ad-hoc.</em></li>
+          <li><strong>"We have evals."</strong> — There's a <code>tests/evals/</code> directory. The contents are sparse. The cases were added after specific incidents. The tests run sometimes — locally on a developer's machine, not in CI on every PR. <em>This is L2, Reactive.</em></li>
+          <li><strong>"We have a mature AI-QA practice."</strong> — Sometimes true. More often, the team has invested in one dimension (say, a comprehensive eval suite) and zero in others (no drift monitoring, no refuse policy, no time-to-coverage SLO). They're convinced they're at L4. They're at L2 with a strong eval suite. <em>This is the most common — and most consequential — confusion.</em></li>
+        </ul>
+
+        <p>That third bucket is why the model matters. Without a vocabulary that scores capability dimensions independently, leadership over-credits the dimension the team has invested in and under-credits the dimensions they haven't. Maturity feels like a single number; it isn't.</p>
+
+        <div class="pullquote">
+          <p>Your team is at the level where the artifacts exist on disk, <strong>not the level where leadership wishes they were.</strong></p>
+        </div>
+
+        <h2>Five levels, six dimensions</h2>
+
+        <p>The Maturity Model has five vertical levels and six horizontal dimensions. The levels are descriptive labels — what's actually true at this stage — not aspirational targets. The dimensions are independently scored, and the overall level is the floor across dimensions, not the average.</p>
+
+        <p>Briefly, each level:</p>
+
+        <div class="level-callout">
+          <span class="lc-num">L1</span>
+          <div class="lc-body">
+            <span class="lc-name">Ad-hoc.</span>
+            <strong>AI testing happens by accident.</strong> Engineers test their own prompts, mostly by trying them. If eval cases exist, they live in a notebook nobody re-runs. Bugs are discovered by users in production.
+          </div>
+        </div>
+
+        <div class="level-callout">
+          <span class="lc-num">L2</span>
+          <div class="lc-body">
+            <span class="lc-name">Reactive.</span>
+            <strong>Eval suites exist, but only for things that already broke.</strong> A <code>tests/evals/</code> folder exists with sparse, incident-shaped coverage. New AI features ship with zero eval coverage. Coverage decays as incidents are forgotten.
+          </div>
+        </div>
+
+        <div class="level-callout">
+          <span class="lc-num">L3</span>
+          <div class="lc-body">
+            <span class="lc-name">Measured.</span>
+            <strong>Every shipped AI feature has its own version-controlled eval suite with a documented baseline.</strong> CI runs evals on every PR. A quarterly eval review actually happens. But thresholds are advisory, drift is invisible, and refuse-policy lives in tribal knowledge.
+          </div>
+        </div>
+
+        <div class="level-callout">
+          <span class="lc-num">L4</span>
+          <div class="lc-body">
+            <span class="lc-name">Governed.</span>
+            <strong>Evals enforce policy.</strong> Releases block on threshold breach. Drift is monitored and pages on-call. Refuse policy is written, system-prompted, and tested. Each incident gets tagged with a failure mode and added to the eval suite. Override policy has an audit trail.
+          </div>
+        </div>
+
+        <div class="level-callout">
+          <span class="lc-num">L5</span>
+          <div class="lc-body">
+            <span class="lc-name">Continuous.</span>
+            <strong>Evals run continuously in production.</strong> User-reported failures flow back into eval suites in days, not quarters. The failure taxonomy is alive. Time-from-report-to-eval-coverage is measured against an SLO. Refuse policy goes through dated legal review.
+          </div>
+        </div>
+
+        <p>The six dimensions — <em>eval coverage, release gating, drift monitoring, failure taxonomy, feedback loops, and policy &amp; refuse behavior</em> — are scored independently. Each dimension maps 1:1 to one of the six <a href="/institute/workflows/">Institute Workflows</a>. So when the rubric says you're at L3 on Eval Coverage but L1 on Drift Monitoring, that maps to two specific procedures with two specific sets of artifacts you'd need to produce to move up.</p>
+
+        <h2>Why the model is descriptive, not aspirational</h2>
+
+        <p>This is the design choice that took the longest to land, and the one that costs most when you get it wrong.</p>
+
+        <p>An <em>aspirational</em> maturity model says "L4 is where mature teams operate." It implies a target. Leadership reads it, picks L4, and tells the team to get there. The team writes a roadmap. Six months later, the roadmap is half-shipped and someone declares L4-ish.</p>
+
+        <p>A <em>descriptive</em> maturity model says "if your team has X, Y, and Z artifacts on disk and runs them on this cadence, you are at L4. If not, you are not." There is no roadmap aspiration. There is a check: do the artifacts exist? Are they versioned? Do they actually run? Did the last quarterly review happen, and is its diff documented?</p>
+
+        <p>The descriptive framing is uncomfortable because it forecloses a popular kind of ambiguity. You can't be "L4-ish." The artifacts either exist and are dated, or they don't. Whether they're "good enough" is a separate question; the level question is binary per dimension.</p>
+
+        <div class="pullquote">
+          <p>If you can't show the eval-results dashboard to a new engineer in their first week, <strong>you don't have it.</strong></p>
+        </div>
+
+        <p>This framing is borrowed from the maturity-model traditions that work. CMMI<sup><a href="#fn-1">1</a></sup>, the SEI's CMMs, and ISTQB rubrics<sup><a href="#fn-2">2</a></sup> all rely on artifact-presence rather than self-rating. ISO/IEC 25010 — the international standard for software-product quality<sup><a href="#fn-3">3</a></sup> — uses the same artifact-grounded approach. The rubrics that don't work are the ones where teams self-score on a 1-to-5 Likert scale and end up at 3.5 across the board.</p>
+
+        <h2>The most common failure mode: imbalanced dimensions</h2>
+
+        <p>If you only remember one thing from this essay: <strong>maturity is multi-dimensional, and the overall level is the floor, not the average.</strong></p>
+
+        <p>The most common scenario we see: a team has poured engineering time into eval coverage, scoring L3 or L4 on that dimension, while sitting at L1 on drift monitoring and L1 on refuse policy. Their answer to "what's your AI-QA maturity?" is "we're solid — we have a comprehensive eval suite." Their actual maturity is L1, because the floor across dimensions is L1.</p>
+
+        <p>This isn't pedantic. The L1 dimensions are where production incidents come from. Drift goes uncaught for weeks. Refusals fail in customer-facing chat. Failure modes never get named, so they keep happening. The strong dimension feels like adequate coverage; it isn't.</p>
+
+        <p>The remediation isn't to push the strong dimension to L5. It's to identify the lagging dimension and drag it to L2, then L3, then onward. Most of the leverage in moving up the ladder comes from dragging the weakest dimension up by one level — not from polishing the strongest.</p>
+
+        <h2>How to use the rubric</h2>
+
+        <p>Three rules of thumb, lifted from the rubric's own <a href="/institute/maturity-model.html">"How to use this"</a> section, expanded a little:</p>
+
+        <h3>1. Be honest, not aspirational.</h3>
+        <p>For every "yes" you'd give yourself on a self-assessment question, pick one specific person on your team and ask: "could you walk a new engineer through this artifact in their first week?" If the artifact exists but only one person can find it, you're at L1 for that question. The artifact requires institutional knowledge, which means the institution doesn't actually have it.</p>
+
+        <h3>2. Score per dimension, not overall.</h3>
+        <p>Most teams have one dimension two levels behind the others. The fastest way to move up overall is to drag the lagging dimension to the floor. The free <a href="/institute/assessment.html">Self-Assessment</a> scores all six dimensions independently — five minutes, no email blast back at you afterward.</p>
+
+        <h3>3. The trigger matters more than the level.</h3>
+        <p>Knowing you're at L2 is less useful than knowing what L3 looks like and what would force you to commit to it. The "trigger to next level" line on each level in the rubric is the load-bearing detail. It names the kind of organizational event — a customer churn tied to AI output, a board-level question about AI risk, a compliance review surfacing a gap — that historically pushes teams to invest in the next rung. If none of the triggers have happened to you, you may not need to move yet.</p>
+
+        <h2>What the rubric won't do</h2>
+
+        <p>A few things the Maturity Model is deliberately <em>not</em>:</p>
+
+        <ul>
+          <li><strong>It is not a certification.</strong> Gloxx is a publisher of methodology and a service provider; it is not a regulatory or standards body. The rubric is a methodology, not a credential. Audits scored against it are dated, scoped to artifacts reviewed, and explicit about what was not reviewed. <a href="/institute/doctrine/">See the Doctrine</a>.</li>
+          <li><strong>It is not a prescription for tooling.</strong> The rubric names artifacts and behaviors. It doesn't tell you to use DeepEval over promptfoo, or LangSmith over Phoenix. The choice of tool is downstream of having a discipline that can use any of them.</li>
+          <li><strong>It is not the EU AI Act compliance map.</strong> The Act's high-risk obligations<sup><a href="#fn-4">4</a></sup> overlap meaningfully with L4 and L5 behaviors but the rubric is not a gap analysis. Don't substitute it for one.</li>
+        </ul>
+
+        <h2>What's coming</h2>
+
+        <p>This essay introduces the model. The next two pieces in the Institute Journal go deeper:</p>
+
+        <ul>
+          <li><strong>Week of May 12 — The L2 → L3 jump.</strong> The single biggest discontinuity in the ladder. How reactive teams become measured ones, and the four artifacts whose presence on disk closes the gap.</li>
+          <li><strong>Week of May 26 — Why most "AI evals" don't gate releases.</strong> The difference between an advisory eval and an enforced gate, and why the override policy matters more than the threshold.</li>
+        </ul>
+
+        <p>And in parallel: the <a href="/institute/reports/">State of AI-Feature QA 2026</a> report, in the field now, will publish the actual distribution of teams across the maturity model — based on anonymized aggregate data from the Self-Assessment. If you want to be counted, take it.</p>
+
+        <div class="next-up">
+          <span class="next-up-label">Read next</span>
+          <p><a href="/institute/maturity-model.html"><strong>The AI-QA Maturity Model v1.0</strong></a> — the full rubric, with concrete artifacts and behaviors at each level. Or jump straight to the <a href="/institute/assessment.html"><strong>Self-Assessment</strong></a> and find out where you sit. Five minutes.</p>
+        </div>
+
+        <div class="footnotes">
+          <span class="footnotes-label">Footnotes</span>
+          <ol>
+            <li id="fn-1">CMMI Institute, <a href="https://cmmiinstitute.com/" target="_blank" rel="noopener">Capability Maturity Model Integration</a> — the canonical software process maturity model, originally developed at the SEI.</li>
+            <li id="fn-2">ISTQB, <a href="https://www.istqb.org/" target="_blank" rel="noopener">International Software Testing Qualifications Board</a> — vendor-neutral testing rubrics with versioned syllabi.</li>
+            <li id="fn-3">ISO/IEC 25010:2023, <a href="https://www.iso.org/standard/78176.html" target="_blank" rel="noopener">Systems and software engineering — SQuaRE — Product quality model</a>.</li>
+            <li id="fn-4">European Union, <a href="https://artificialintelligenceact.eu/implementation-timeline/" target="_blank" rel="noopener">EU AI Act Implementation Timeline</a> — high-risk obligations begin landing August 2026.</li>
+          </ol>
+        </div>
+
+      </article>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Find out where your team actually sits.</h2>
+      <p>The 30-question self-assessment scores all six dimensions and gives you a personalized progression map back. Five minutes. No sales call required.</p>
+      <div class="cta-actions">
+        <a href="/institute/assessment.html" class="cta-btn">Take the assessment &rarr;</a>
+        <a href="/institute/journal/" class="cta-secondary">Back to the Journal</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 Gloxx</span>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/company/gloxxai" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/gloxxai" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
+      </div>
+      <span class="footer-tag">Methodology in practice.</span>
+    </div>
+    <div class="footer-doctrine">
+      Audited, not certified. Methodology over warranties. Released artifacts over promises.
+    </div>
+    <div class="footer-dogfood">
+      Built and <a href="https://github.com/gloxxai/gloxx-web/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.
+    </div>
+  </footer>
+
+  <script>
+    const ham = document.getElementById('navHam');
+    const mob = document.getElementById('mobMenu');
+    ham.addEventListener('click', () => {
+      ham.classList.toggle('active');
+      mob.classList.toggle('active');
+      document.body.style.overflow = mob.classList.contains('active') ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mob-link').forEach(a => {
+      a.addEventListener('click', () => {
+        ham.classList.remove('active');
+        mob.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+</body>
+</html>

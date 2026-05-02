@@ -124,27 +124,59 @@
     .hero .lead { font-size: 1.05rem; line-height: 1.65; color: var(--text-2); max-width: 60ch; }
     .hero .lead strong { color: var(--text); font-weight: 500; }
 
-    /* Empty state */
-    .empty {
-      margin: 1rem 0 4rem;
-      padding: 3rem 2.75rem;
-      border: 1px dashed var(--border);
+    /* Featured essay card */
+    .latest {
+      margin: 1rem 0 3.5rem;
+      padding: 2.5rem 2.75rem;
+      border: 1px solid var(--gloxx-accent);
       border-radius: 12px;
-      background: var(--surface);
-      text-align: center;
+      background: linear-gradient(135deg, rgba(124,249,181,.05), rgba(124,249,181,.005));
+      position: relative; overflow: hidden;
     }
-    .empty .empty-icon {
-      font-family: var(--mono); font-size: 1.5rem;
-      color: var(--gloxx-accent); letter-spacing: .15em;
-      margin-bottom: 1rem; display: block;
+    .latest::before {
+      content: ''; position: absolute;
+      top: 0; right: 0; width: 320px; height: 320px;
+      background: radial-gradient(circle at top right, rgba(124,249,181,.08), transparent 65%);
+      pointer-events: none;
     }
-    .empty h2 {
-      font-family: var(--heading); font-size: 1.4rem;
-      color: var(--text); font-weight: 500;
-      margin-bottom: 1rem; letter-spacing: -.005em;
+    .latest-meta {
+      display: inline-block;
+      font-family: var(--heading); font-size: .68rem;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--gloxx-accent);
+      margin-bottom: 1rem;
     }
-    .empty p { font-size: 1rem; line-height: 1.65; color: var(--text-2); margin: 0 auto 1rem; max-width: 50ch; }
-    .empty p:last-child { margin-bottom: 0; }
+    .latest h2 {
+      font-family: var(--heading);
+      font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+      font-weight: 500; color: var(--text);
+      line-height: 1.15; margin-bottom: .85rem;
+      letter-spacing: -.005em;
+    }
+    .latest .latest-sub {
+      font-size: 1.05rem; line-height: 1.65;
+      color: var(--text-2); max-width: 60ch;
+      margin-bottom: 1.5rem;
+    }
+    .latest-byline {
+      display: flex; flex-wrap: wrap; gap: .35rem 1.25rem;
+      align-items: baseline;
+      font-family: var(--mono);
+      font-size: .78rem;
+      letter-spacing: .02em;
+      color: var(--text-3);
+      margin-bottom: 1.75rem;
+    }
+    .latest-byline strong { color: var(--text-2); font-weight: 400; }
+    .latest-cta {
+      display: inline-block;
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink);
+      padding: .85rem 1.5rem;
+      font-family: var(--heading); font-weight: 500; font-size: .92rem;
+      border-radius: 999px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .latest-cta:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.22); }
 
     /* Schedule */
     .schedule {
@@ -208,7 +240,7 @@
       .nav-ham { display: flex; }
       .container { padding: 0 1.25rem; }
       .crumbs { padding-top: 5.5rem; font-size: .72rem; }
-      .empty, .schedule { padding: 1.75rem 1.5rem; }
+      .latest, .schedule { padding: 1.75rem 1.5rem; }
       .schedule li { grid-template-columns: 1fr; gap: .25rem; }
       .schedule li time { font-size: .72rem; }
     }
@@ -274,16 +306,17 @@
         <span><span class="dm-key">Cadence</span> Weekly</span>
         <span><span class="dm-key">Last updated</span> <time datetime="2026-05-02">2026-05-02</time></span>
       </aside>
-      <div class="empty">
-        <span class="empty-icon">[ ··· ]</span>
-        <h2>Nothing published yet.</h2>
-        <p>The first piece — "Introducing the AI-QA Maturity Model" — drops the week of May 5. While you wait, you can read the model itself or take the self-assessment.</p>
-        <p style="margin-top:1.5rem">
-          <a href="/institute/maturity-model.html" style="color:var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent);">Read the maturity model &rarr;</a>
-          <span style="color: var(--text-3); margin: 0 .75rem;">·</span>
-          <a href="/institute/assessment.html" style="color:var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent);">Take the assessment &rarr;</a>
-        </p>
-      </div>
+      <article class="latest">
+        <span class="latest-meta">Latest · Framework</span>
+        <h2>Introducing the AI-QA Maturity Model.</h2>
+        <p class="latest-sub">Why we built a five-level rubric for testing AI features — and what each rung looks like in practice. The inaugural Institute Journal essay introduces the model, explains why it's descriptive (not aspirational), and walks through the most common failure mode: imbalanced maturity dimensions.</p>
+        <div class="latest-byline">
+          <span><strong>Brandon Jensen</strong></span>
+          <span><time datetime="2026-05-05">May 5, 2026</time></span>
+          <span>~9 min read</span>
+        </div>
+        <a href="/institute/journal/maturity-model-introduction.html" class="latest-cta">Read the essay &rarr;</a>
+      </article>
 
       <div class="schedule">
         <span class="schedule-label">Editorial calendar</span>
