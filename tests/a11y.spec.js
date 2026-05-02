@@ -7,17 +7,25 @@ import AxeBuilder from '@axe-core/playwright';
 // ═══════════════════════════════════════
 
 const GLOXX_PAGES = [
-  { path: '/',                            name: 'home' },
-  { path: '/services.html',               name: 'services' },
-  { path: '/approach.html',               name: 'approach' },
-  { path: '/about.html',                  name: 'about' },
-  { path: '/contact.html',                name: 'contact' },
-  { path: '/bench/',                      name: 'bench-landing' },
-  { path: '/bench/maturity-model.html',   name: 'bench-maturity-model' },
-  { path: '/bench/assessment.html',       name: 'bench-assessment' },
-  { path: '/bench/essays/',               name: 'bench-essays' },
-  { path: '/bench/tools/',                name: 'bench-tools' },
-  { path: '/bench/reports/',              name: 'bench-reports' },
+  { path: '/',                                          name: 'home' },
+  { path: '/services.html',                             name: 'services' },
+  { path: '/approach.html',                             name: 'approach' },
+  { path: '/about.html',                                name: 'about' },
+  { path: '/contact.html',                              name: 'contact' },
+  { path: '/institute/',                                name: 'institute-landing' },
+  { path: '/institute/about.html',                      name: 'institute-about' },
+  { path: '/institute/maturity-model.html',             name: 'institute-maturity-model' },
+  { path: '/institute/assessment.html',                 name: 'institute-assessment' },
+  { path: '/institute/journal/',                        name: 'institute-journal' },
+  { path: '/institute/tools/',                          name: 'institute-tools' },
+  { path: '/institute/reports/',                        name: 'institute-reports' },
+  { path: '/institute/workflows/',                      name: 'institute-workflows-index' },
+  { path: '/institute/workflows/eval.html',             name: 'institute-workflow-eval' },
+  { path: '/institute/workflows/release-gate.html',     name: 'institute-workflow-release-gate' },
+  { path: '/institute/workflows/drift.html',            name: 'institute-workflow-drift' },
+  { path: '/institute/workflows/failure-taxonomy.html', name: 'institute-workflow-failure-taxonomy' },
+  { path: '/institute/workflows/feedback-loop.html',    name: 'institute-workflow-feedback-loop' },
+  { path: '/institute/workflows/refuse-policy.html',    name: 'institute-workflow-refuse-policy' },
 ];
 
 test.describe('Accessibility (axe-core)', () => {

@@ -4,7 +4,7 @@
 
 Gloxx is a fractional QA team for software companies. One $15k/month retainer gets a senior QA team embedded with the engineering org — test strategy, regression coverage, release gates, automation, exploratory testing, and AI-feature QA when it applies. This repo is the public website + lead-gen funnel at `gloxx.ai`. All pages are static HTML with inline CSS/JS — no frameworks, no build tools in production.
 
-**Current state (2026-05-01):** Site is live at `gloxx.ai`. Positioned as a fractional QA team for software companies at $15k/mo. AI-QA is the specialty differentiator on `/approach` and on the home page. **Gloxx Bench** launched as the authority-driven inbound vehicle at `gloxx.ai/bench/` — three product lines (essays, open-source tools, quarterly reports) anchored by the **AI-QA Maturity Model** and a 30-question self-assessment that doubles as the lead-conversion engine.
+**Current state (2026-05-02):** Site is live at `gloxx.ai`. Positioned as a fractional QA team for software companies at $15k/mo. AI-QA is the specialty differentiator on `/approach` and on the home page. **Gloxx QA Institute** is the authority-driven inbound vehicle at `gloxx.ai/institute/` — six AI-QA workflows, the AI-QA Maturity Model rubric, a free 30-question Readiness Self-Assessment, an Institute Journal, an open-source tools catalog, and a quarterly Reports stream. Phase 1 ships the rename and IA from the previous Bench launch with placeholder workflow procedures; Phase 2 (~weeks 2–3) adds the methodology document, sample report, and the paid AI-QA Readiness Audit product page. The Institute supersedes the previous "Gloxx Bench" surface; six meta-refresh redirect stubs at `/bench/*` preserve SEO continuity.
 
 ## Positioning
 
@@ -15,28 +15,39 @@ Gloxx is a fractional QA team for software companies. One $15k/month retainer ge
 ## File Structure
 
 ```
-/                            — Root (all production HTML files)
-├── index.html               — Home (hero, What we do, Who we work with, Why Gloxx, CTA)
-├── services.html            — Single-offer deep dive on the $15k/mo Gloxx Retainer
-├── approach.html            — The content moat: general QA primer (test pyramid, release gates), then the AI specialty layer — tool stack, agent workflow, Claude Code operating protocol, AI test pyramid, release-gate checklist, refuse list. Cross-links into the Bench (maturity model + assessment)
-├── about.html               — Founder story + "What I've shipped" list
-├── contact.html             — Intake form (posts to Google Apps Script; mailto fallback)
-├── bench/                   — Gloxx Bench — authority-driven inbound vehicle
-│   ├── index.html           — Bench landing: featured Maturity Model + three product-line cards + roadmap
-│   ├── maturity-model.html  — Flagship reference: 5 levels × 6 dimensions of AI-QA maturity, with observable signals and triggers per level
-│   ├── assessment.html      — 30-question self-assessment (lead magnet). Pure-DOM result rendering — no innerHTML for dynamic data. Posts to the same Apps Script endpoint as contact.html with mailto fallback
-│   ├── essays/index.html    — Editorial calendar placeholder; first essay ships week of May 5
-│   ├── tools/index.html     — Open-source tools catalog (gloxxai/* on GitHub)
-│   └── reports/index.html   — Quarterly research; State of AI-Feature QA 2026 in field collection now
-├── 404.html                 — "This page failed a test."
-├── archive/                 — Prior portfolio work (10 design studies + hub page, all noindex)
-├── tests/                   — Playwright specs (desktop + mobile projects); bench.spec.js covers the Bench
+/                                 — Root (all production HTML files)
+├── index.html                    — Home (hero, What we do, Who we work with, Why Gloxx, CTA)
+├── services.html                 — Single-offer deep dive on the $15k/mo Gloxx Retainer
+├── approach.html                 — The content moat: general QA primer + AI specialty layer. Cross-links into the Institute (maturity model + assessment)
+├── about.html                    — Founder story + "What I've shipped" list
+├── contact.html                  — Intake form (posts to Google Apps Script; mailto fallback)
+├── institute/                    — Gloxx QA Institute — published methodology + readiness audit
+│   ├── index.html                — Institute landing: free Self-Assessment featured + six workflow cards + cadence roadmap
+│   ├── about.html                — What the Institute is and isn't, three-tier ladder, non-warranty boilerplate
+│   ├── maturity-model.html       — Rubric: 5 levels × 6 dimensions of AI-QA maturity
+│   ├── assessment.html           — Free-tier AI-QA Readiness Self-Assessment (30 questions). Pure-DOM result rendering — no innerHTML for dynamic data. Posts to the same Apps Script endpoint as contact.html with mailto fallback
+│   ├── workflows/index.html      — Workflow catalog (6 cards)
+│   ├── workflows/eval.html       — Workflow 1: Eval (suite design, golden sets, baselines)
+│   ├── workflows/release-gate.html        — Workflow 2: Release-Gate (gate spec, threshold enforcement, override policy)
+│   ├── workflows/drift.html      — Workflow 3: Drift Monitoring (sampling, online evals, paging)
+│   ├── workflows/failure-taxonomy.html    — Workflow 4: Failure Taxonomy (tagged postmortems, named-failure-mode catalog)
+│   ├── workflows/feedback-loop.html       — Workflow 5: Feedback Loops (user reports, triage queue, time-to-coverage SLO)
+│   ├── workflows/refuse-policy.html       — Workflow 6: Refuse Policy (written list, system-prompt, refusal-correctness evals, dated compliance review)
+│   ├── journal/index.html        — Editorial calendar placeholder for "Institute Journal" long-form
+│   ├── tools/index.html          — Open-source tools catalog (gloxxai/* on GitHub)
+│   └── reports/index.html        — Quarterly research; State of AI-Feature QA 2026 in field collection now
+├── bench/                        — Six meta-refresh redirect stubs preserving SEO continuity from the previous Bench launch. Each is `<meta http-equiv="refresh">` + canonical pointing to its `/institute/*` counterpart, with `<meta name="robots" content="noindex, follow">`. Do NOT remove without setting up server-side 301s first
+├── 404.html                      — "This page failed a test."
+├── archive/                      — Prior portfolio work (10 design studies + hub page, all noindex)
+├── tests/                        — Playwright specs (desktop + mobile projects); institute.spec.js covers the Institute + redirect stubs
 ├── playwright.config.js
 ├── package.json
 ├── sitemap.xml
 ├── robots.txt
-├── CNAME                    — custom domain file for GitHub Pages (gloxx.ai)
-└── CLAUDE.md                — this file
+├── gloxx-logo-white-transparent-o-cutout.png — White-on-transparent wordmark; primary nav logo on the dark site
+├── gloxx-logo-transparent-o-cutout.png       — Dark-on-transparent variant; reserved for future light surfaces
+├── CNAME                         — custom domain file for GitHub Pages (gloxx.ai)
+└── CLAUDE.md                     — this file
 ```
 
 ## Tech Stack
@@ -73,11 +84,11 @@ Two forms post JSON to the same Google Apps Script web endpoint (`script.google.
 
 **`contact.html`** — fields: `name`, `company`, `email`, `what-building`, `current-qa`, `when-shipping`, `war-room`.
 
-**`bench/assessment.html`** — fields: `name`, `email`, `company`, `role`, `source` (always `maturity-assessment`), 30 question fields (`d1q1`…`d6q5`), and computed result fields (`result-overall-level`, `result-overall-level-name`, `result-weakest-dim`, `result-d{1..6}-level`). The `source` field distinguishes assessment submissions from contact-form ones in the Sheet.
+**`institute/assessment.html`** — fields: `name`, `email`, `company`, `role`, `source` (always `maturity-assessment`), 30 question fields (`d1q1`…`d6q5`), and computed result fields (`result-overall-level`, `result-overall-level-name`, `result-weakest-dim`, `result-d{1..6}-level`). The `source` field distinguishes assessment submissions from contact-form ones in the Sheet. The visible label is "AI-QA Readiness Self-Assessment"; the field naming uses `maturity` for back-compatibility with Sheet column headers.
 
-**Important:** form field `name=` attributes are stable across repositionings — only the visible label text changes. The label on `name="current-qa"` has been "What's your current QA situation?" → "Where is AI showing up, and how are you testing it today?" → and is now back to "What's your current QA situation?" The label on `name="war-room"` was repurposed from "WAR ROOM" to a generic "URGENT" pre-launch flag. The Sheet column headers stay valid through every repositioning because the field names never change. Apply the same discipline to the Bench assessment fields — the question stems can evolve, but `d1q1`…`d6q5` and the `result-*` fields are load-bearing.
+**Important:** form field `name=` attributes are stable across repositionings — only the visible label text changes. The label on `name="current-qa"` has been "What's your current QA situation?" → "Where is AI showing up, and how are you testing it today?" → and is now back to "What's your current QA situation?" The label on `name="war-room"` was repurposed from "WAR ROOM" to a generic "URGENT" pre-launch flag. The Sheet column headers stay valid through every repositioning because the field names never change. Apply the same discipline to the Institute assessment fields — the question stems can evolve, but `d1q1`…`d6q5`, `source: "maturity-assessment"`, and the `result-*` fields are load-bearing.
 
-**Assessment XSS hygiene:** `bench/assessment.html` renders its result panel via pure DOM construction (`createElement` + `textContent`), not template-literal `innerHTML` interpolation. If you change the result rendering, keep that pattern — never put user-controlled values into `innerHTML`.
+**Assessment XSS hygiene:** `institute/assessment.html` renders its result panel via pure DOM construction (`createElement` + `textContent`), not template-literal `innerHTML` interpolation. If you change the result rendering, keep that pattern — never put user-controlled values into `innerHTML`.
 
 ## Running locally
 
@@ -113,6 +124,16 @@ git push origin main
 5. Run `npx playwright test` after any copy or structural change.
 6. Don't commit `node_modules`, `test-results`, or `.env`.
 
+## Audit-not-certification rule (Institute permanent constraint)
+
+A brand-voice and legal constraint that lives here permanently and survives any future repositioning of the Institute surface:
+
+1. The word **"certification"** never appears as a Gloxx product name. Use "audit" or "readiness review."
+2. The word **"certified"** never appears in client-facing copy. Use "audited" or "reviewed."
+3. **No warranties** — implied or express. Every audit deliverable carries the standard non-warranty footer language present on `institute/about.html`: *"This audit is a methodology-based assessment of release readiness at a point in time. It is not a regulatory certification, compliance attestation, or warranty of any outcome. The Gloxx QA Institute is a publisher of methodology and a service provider; it is not a regulatory or standards body."*
+4. Audit reports are dated, scoped to the artifacts reviewed, and explicit about what was NOT reviewed.
+5. The non-warranty paragraph on `institute/about.html` is load-bearing. If it gets edited, the change must preserve all four constraints above.
+
 ## Writing voice (for any copy changes)
 
 - Technical founder / CTO is the reader. Write like them, not at them.
@@ -121,4 +142,5 @@ git push origin main
 - Name the specific failure mode before naming the offer that fixes it.
 - `/approach` is the content moat: a general QA primer (test pyramid, release-gate baseline) followed by the AI specialty layer (six-principle Claude Code operating protocol, AI test pyramid, eval gate). Every other page should be consistent with its opinions.
 - AI/Claude-Code QA is a **specialty differentiator**, not the headline. Lead with general QA value (cost, speed, accountability), surface AI-feature QA as the reason to pick Gloxx over a generic shop.
-- `/bench` is the production line behind the `/approach` discipline — fresh-content vehicle for essays, OSS, and reports. Keep `/approach` as the dense evergreen "what we believe" page; use `/bench` for dated, ongoing publication. Cross-link aggressively. The maturity model is descriptive (what's actually true at each level), not aspirational — every level needs concrete observable signals before it ships.
+- `/institute` is the published methodology behind the retainer — fresh-content vehicle for the maturity model rubric, the six workflow procedures, the Journal long-form, the open-source Tools catalog, and quarterly Reports. Keep `/approach` as the dense evergreen "what we believe" page; use `/institute` for the formal documented methodology and dated/ongoing publication. Cross-link aggressively. The maturity model is descriptive (what's actually true at each level), not aspirational — every level needs concrete observable signals before it ships.
+- The Institute register is more measured than the rest of the site. Keep `/approach`, `/about`, the 404 page, and the home-page voice in founder mode. Reserve the formal register for the Institute methodology and audit pages. The `/contact` form's playful "URGENT" pre-launch flag and the founder-direct "I'll reply within one business day" copy stay as-is.

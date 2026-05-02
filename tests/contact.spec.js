@@ -63,7 +63,7 @@ test.describe('Contact Page', () => {
   });
 
   test('footer tagline preserved', async ({ page }) => {
-    await expect(page.locator('.footer-tag')).toContainText('Wisdom engineered.');
+    await expect(page.locator('.footer-tag')).toContainText('Methodology in practice.');
   });
 
   test('no horizontal overflow', async ({ page }) => {

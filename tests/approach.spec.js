@@ -110,8 +110,8 @@ test.describe('Approach Page', () => {
     await expect(activeLink).toHaveText('Approach');
   });
 
-  test('footer preserves Wisdom engineered tagline', async ({ page }) => {
-    await expect(page.locator('.footer-tag')).toContainText('Wisdom engineered.');
+  test('footer preserves Methodology in practice tagline', async ({ page }) => {
+    await expect(page.locator('.footer-tag')).toContainText('Methodology in practice.');
   });
 
   test('no horizontal overflow', async ({ page }) => {

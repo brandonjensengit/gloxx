@@ -98,8 +98,8 @@ test.describe('Services Page', () => {
     await expect(page.locator('.nav-logo')).toHaveAttribute('href', 'index.html');
   });
 
-  test('footer preserves Wisdom engineered tagline', async ({ page }) => {
-    await expect(page.locator('.footer-tag')).toContainText('Wisdom engineered.');
+  test('footer preserves Methodology in practice tagline', async ({ page }) => {
+    await expect(page.locator('.footer-tag')).toContainText('Methodology in practice.');
   });
 
   test('no horizontal overflow', async ({ page }) => {

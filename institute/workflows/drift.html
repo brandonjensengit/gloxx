@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drift Monitoring Workflow — Gloxx QA Institute</title>
+  <meta name="description" content="The Institute's Drift Monitoring workflow — production sampling, online evals, and the paging integration. The procedure that catches model degradation before users do.">
+  <link rel="canonical" href="https://gloxx.ai/institute/workflows/drift.html">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#08080a">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Drift Monitoring Workflow — Gloxx QA Institute">
+  <meta property="og:description" content="Production sampling, online evals, paging — Workflow 03 of 6.">
+  <meta property="og:url" content="https://gloxx.ai/institute/workflows/drift.html">
+  <meta property="og:image" content="/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Drift Monitoring Workflow — Gloxx QA Institute">
+  <meta name="twitter:description" content="Workflow 03 of 6 — drift monitoring in production.">
+  <meta name="twitter:image" content="/og-image.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+  <style>
+    :root { --bg: #08080a; --bg-2: #0f0f12; --text: #ededed; --text-2: #898989; --text-3: #8a8f98; --border: rgba(255,255,255,0.07); --surface: rgba(255,255,255,0.03); --heading: 'Space Grotesk', -apple-system, sans-serif; --body: 'Inter', -apple-system, sans-serif; --mono: 'JetBrains Mono', ui-monospace, monospace; --accent-3: #818cf8; --gloxx-bg: var(--bg); --gloxx-fg: var(--text); --gloxx-muted: var(--text-2); --gloxx-border: var(--border); --gloxx-accent: #7cf9b5; --gloxx-accent-ink: #0b0d10; }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--gloxx-accent); color: var(--gloxx-accent-ink); }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { font-family: var(--body); background: var(--bg); color: var(--text-2); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; }
+    button { border: none; font-family: inherit; cursor: pointer; }
+    .grain { position: fixed; inset: 0; pointer-events: none; z-index: 9000; mix-blend-mode: overlay; }
+    .grain svg { width: 100%; height: 100%; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2.5rem; z-index: 8000; background: rgba(8,8,10,.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: var(--heading); font-size: 1.15rem; font-weight: 600; color: var(--text); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { font-family: var(--heading); font-size: .9rem; color: var(--text-2); transition: color .2s; }
+    .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--text); }
+    .nav-links a[aria-current="page"] { border-bottom: 1px solid var(--gloxx-accent); padding-bottom: 2px; }
+    .nav-cta-link { background: var(--gloxx-accent); color: var(--gloxx-accent-ink) !important; padding: .55rem 1.1rem; border-radius: 999px; font-weight: 500; transition: transform .2s, box-shadow .2s; }
+    .nav-cta-link:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124,249,181,.18); }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; padding: 4px; z-index: 8001; background: none; border: none; cursor: pointer; }
+    .nav-ham span { display: block; width: 24px; height: 1.5px; background: var(--text); transition: transform .3s, opacity .3s; }
+    .nav-ham.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-ham.active span:nth-child(2) { opacity: 0; }
+    .nav-ham.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .mob-menu { position: fixed; inset: 0; background: rgba(8,8,10,.97); z-index: 7999; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 2.5rem; opacity: 0; pointer-events: none; transition: opacity .4s; }
+    .mob-menu.active { opacity: 1; pointer-events: all; }
+    .mob-menu a { font-family: var(--heading); font-size: 1.6rem; font-weight: 600; color: var(--text-2); letter-spacing: .08em; transition: color .3s; }
+    .mob-menu a[aria-current="page"] { color: var(--gloxx-accent); }
+    .mob-menu a:hover { color: var(--text); }
+    .container { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
+    .crumbs { padding-top: 6.5rem; font-family: var(--heading); font-size: .78rem; color: var(--text-3); letter-spacing: .04em; }
+    .crumbs a { color: var(--text-2); border-bottom: 1px dashed var(--border); padding-bottom: 1px; transition: color .2s, border-color .2s; }
+    .crumbs a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+    .crumbs .sep { color: var(--text-3); margin: 0 .5rem; }
+    .hero { padding: 1.5rem 0 2rem; }
+    .hero .label { font-family: var(--heading); font-size: .72rem; letter-spacing: .25em; color: var(--gloxx-accent); text-transform: uppercase; margin-bottom: 1.25rem; display: inline-block; }
+    .hero h1 { font-family: var(--heading); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 500; line-height: 1.1; color: var(--text); margin-bottom: 1.25rem; letter-spacing: -.005em; }
+    .hero .tagline { font-family: var(--heading); font-size: 1.1rem; color: var(--gloxx-accent); font-weight: 400; margin-bottom: 1.5rem; }
+    .hero .lead { font-size: 1.05rem; line-height: 1.65; color: var(--text-2); max-width: 60ch; }
+    .hero .lead strong { color: var(--text); font-weight: 500; }
+    .hero .lead a.inline { color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent); }
+    section.body { padding: 1rem 0 3rem; }
+    section.body h2 { font-family: var(--heading); font-size: clamp(1.3rem, 2.5vw, 1.55rem); font-weight: 500; color: var(--text); margin: 2.25rem 0 .85rem; line-height: 1.25; }
+    section.body h2:first-child { margin-top: 0; }
+    section.body p { font-size: 1rem; line-height: 1.65; color: var(--text-2); margin-bottom: 1rem; }
+    section.body p strong { color: var(--text); font-weight: 500; }
+    section.body a.inline { color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent); }
+    section.body ol { padding-left: 0; list-style: none; counter-reset: step; margin: 1rem 0 1.5rem; }
+    section.body ol li { counter-increment: step; padding: .9rem 0 .9rem 3rem; border-bottom: 1px dashed var(--border); position: relative; font-size: .98rem; line-height: 1.6; color: var(--text-2); }
+    section.body ol li:last-child { border-bottom: none; }
+    section.body ol li::before { content: counter(step, decimal-leading-zero); position: absolute; left: 0; top: .9rem; font-family: var(--mono); font-size: .85rem; color: var(--gloxx-accent); letter-spacing: .03em; }
+    section.body ol li strong { color: var(--text); font-weight: 500; }
+    .dim-card { padding: 1.25rem 1.5rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); margin: 1.25rem 0 2rem; }
+    .dim-card .dim-label { font-family: var(--heading); font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gloxx-accent); margin-bottom: .35rem; display: block; }
+    .dim-card .dim-name { font-family: var(--heading); font-size: 1.1rem; color: var(--text); font-weight: 500; }
+    .dim-card a.inline { color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent); }
+    .in-dev { margin: 2rem 0 3rem; padding: 1.5rem 1.75rem; border: 1px dashed var(--accent-3); border-radius: 10px; background: rgba(99,102,241,.03); }
+    .in-dev .label { font-family: var(--heading); font-size: .72rem; letter-spacing: .25em; text-transform: uppercase; color: var(--accent-3); margin-bottom: .85rem; display: block; }
+    .in-dev p { font-size: .96rem; line-height: 1.6; color: var(--text-2); margin-bottom: 0; }
+    .in-dev p strong { color: var(--text); }
+    .cta-section { text-align: center; padding: 4rem 0 6rem; border-top: 1px solid var(--border); }
+    .cta-section h2 { font-family: var(--heading); font-size: clamp(1.4rem, 2.8vw, 1.85rem); font-weight: 500; color: var(--text); margin-bottom: 1.25rem; line-height: 1.3; }
+    .cta-section p { color: var(--text-2); max-width: 50ch; margin: 0 auto 1.75rem; font-size: 1rem; line-height: 1.6; }
+    .cta-btn { display: inline-block; background: var(--gloxx-accent); color: var(--gloxx-accent-ink); padding: .9rem 1.75rem; font-family: var(--heading); font-weight: 500; border-radius: 999px; transition: transform .2s, box-shadow .2s; }
+    .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.2); }
+    .footer-dogfood { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 2.5rem; padding-right: 2.5rem; font-family: var(--heading); font-size: .78rem; letter-spacing: .02em; color: var(--text-3); text-align: center; }
+    .footer-dogfood a { color: var(--text-2); border-bottom: 1px dashed var(--border); transition: color .2s, border-color .2s; }
+    .footer-dogfood a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+    footer { padding: 2.5rem 0; position: relative; }
+    footer::before { content: ''; display: block; height: 1px; margin-bottom: 2.5rem; background: linear-gradient(90deg, transparent, var(--border) 50%, transparent); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; max-width: 1240px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 3rem); }
+    .footer-copy { font-size: .78rem; color: var(--text-3); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: .78rem; color: var(--text-3); transition: color .3s; letter-spacing: .02em; }
+    .footer-links a:hover { color: var(--text-2); }
+    .footer-tag { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); }
+    @media (max-width: 900px) { .nav { padding: 1rem 1.5rem; } .nav-links { display: none; } .nav-ham { display: flex; } .container { padding: 0 1.25rem; } .crumbs { padding-top: 5.5rem; font-size: .72rem; } .in-dev { padding: 1.25rem; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/></filter>
+      <rect width="100%" height="100%" filter="url(#g)" opacity=".018"/>
+    </svg>
+  </div>
+  <header class="nav">
+    <a href="/index.html" class="nav-logo" aria-label="Gloxx home"><img src="/gloxx-logo-white-transparent-o-cutout.png" alt="Gloxx" height="32" style="display:block;width:auto"></a>
+    <div class="nav-links">
+      <a href="/services.html">Services</a>
+      <a href="/approach.html">Approach</a>
+      <a href="/institute/" aria-current="page">Institute</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="nav-cta-link">Book a call</a>
+    </div>
+    <button class="nav-ham" id="navHam" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+  <div class="mob-menu" id="mobMenu">
+    <a href="/index.html" class="mob-link">Home</a>
+    <a href="/services.html" class="mob-link">Services</a>
+    <a href="/approach.html" class="mob-link">Approach</a>
+    <a href="/institute/" class="mob-link" aria-current="page">Institute</a>
+    <a href="/about.html" class="mob-link">About</a>
+    <a href="/contact.html" class="mob-link">Contact</a>
+    <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="mob-link">Book a call</a>
+  </div>
+
+  <section>
+    <div class="container">
+      <p class="crumbs"><a href="/institute/">Institute</a><span class="sep">/</span><a href="/institute/workflows/">Workflows</a><span class="sep">/</span>Drift Monitoring</p>
+    </div>
+  </section>
+
+  <section class="hero">
+    <div class="container">
+      <span class="label">Workflow 03 of 6</span>
+      <h1>Drift Monitoring.</h1>
+      <p class="tagline">Production sampling, online evals, paging integration.</p>
+      <p class="lead">Eval suites in CI tell you what's true today on synthetic cases. <strong>Drift Monitoring tells you what's true in production right now</strong> — on real traffic, with real model versions, before users find the regression. This workflow exists because models silently degrade: provider changes, retrieval-corpus drift, prompt edits with downstream effects. The Drift workflow makes that degradation visible and pageable.</p>
+    </div>
+  </section>
+
+  <section class="body">
+    <div class="container">
+
+      <h2>What this is</h2>
+      <p>The Drift workflow is the procedure for continuously sampling production AI traffic, running the same eval rubric against it, comparing scores to the dev/CI baseline, and paging on-call when scores degrade beyond a documented threshold. It's the production-side complement to the Eval workflow.</p>
+
+      <h2>The procedure</h2>
+      <ol>
+        <li><strong>Log every input/output.</strong> Every AI-feature request and response logged in production with enough context to reconstruct the eval case (system prompt version, retrieved chunks, model version).</li>
+        <li><strong>Sample for ongoing eval.</strong> Random or stratified sample from production traffic enters a separate online-eval pipeline.</li>
+        <li><strong>Compare prod scores to dev/CI.</strong> The same metrics. The same thresholds. A delta between the two is the signal.</li>
+        <li><strong>Wire paging.</strong> Score degradation below threshold pages on-call. Severity tied to which metric degraded (faithfulness drop is severe; latency drift is lower).</li>
+        <li><strong>Run online evals continuously.</strong> Not just sampled batches — continuous monitoring of the live eval surface for the most critical features.</li>
+      </ol>
+
+      <h2>What gets scored</h2>
+      <div class="dim-card">
+        <span class="dim-label">Maturity dimension</span>
+        <span class="dim-name">Drift monitoring</span> — <a href="/institute/maturity-model.html" class="inline">see the L1 → L5 progression for this dimension</a>
+      </div>
+      <p>The five questions on the readiness self-assessment that score this dimension are the five rungs of the procedure above. Yes on a question means the artifact named in that step exists on disk in your repo today.</p>
+
+      <div class="in-dev">
+        <span class="label">Phase 1 · in active development</span>
+        <p><strong>This page is a thin first cut.</strong> Full procedural documentation — including reference DeepEval suite scaffolds, golden-set curation rubrics, and the audit-evidence checklist — lands in Phase 2 of the Institute build-out.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Find out where your team's Drift workflow stands.</h2>
+      <p>The free readiness self-assessment scores the Drift workflow as one of six dimensions. Five minutes. Your weakest workflow is the one most worth fixing first.</p>
+      <a href="/institute/assessment.html" class="cta-btn">Take the assessment &rarr;</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 Gloxx</span>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/company/gloxxai" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/gloxxai" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
+      </div>
+      <span class="footer-tag">Methodology in practice.</span>
+    </div>
+    <div class="footer-dogfood">
+      Built and <a href="https://github.com/gloxxai/gloxx-web/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.
+    </div>
+  </footer>
+  <script>
+    const ham = document.getElementById('navHam');
+    const mob = document.getElementById('mobMenu');
+    ham.addEventListener('click', () => {
+      ham.classList.toggle('active');
+      mob.classList.toggle('active');
+      document.body.style.overflow = mob.classList.contains('active') ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mob-link').forEach(a => {
+      a.addEventListener('click', () => {
+        ham.classList.remove('active');
+        mob.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+</body>
+</html>

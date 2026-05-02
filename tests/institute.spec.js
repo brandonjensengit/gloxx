@@ -1,41 +1,44 @@
 import { test, expect } from '@playwright/test';
 
 // ═══════════════════════════════════════
-// GLOXX BENCH — landing, maturity model, assessment, and the three section indexes.
+// GLOXX QA INSTITUTE — landing, maturity model, assessment, and the three section indexes.
 // Covers structure, key copy, the assessment scoring/result flow, and the
 // Apps Script POST + mailto fallback (mirrors the contact-form spec pattern).
 // ═══════════════════════════════════════
 
-test.describe('Bench landing', () => {
+test.describe('Institute landing', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/bench/');
+    await page.goto('/institute/');
     await page.waitForLoadState('networkidle');
   });
 
   test('loads with correct title', async ({ page }) => {
-    await expect(page).toHaveTitle(/Gloxx Bench/);
+    await expect(page).toHaveTitle(/Gloxx QA Institute/);
   });
 
-  test('hero H1 is the tagline', async ({ page }) => {
-    await expect(page.locator('.bn-hero h1')).toContainText('show our work');
+  test('hero H1 names the methodology', async ({ page }) => {
+    await expect(page.locator('.bn-hero h1')).toContainText('published methodology');
   });
 
   test('featured anchor links to the assessment and the model', async ({ page }) => {
-    await expect(page.locator('.featured-cta')).toHaveAttribute('href', '/bench/assessment.html');
-    await expect(page.locator('.featured-secondary')).toHaveAttribute('href', '/bench/maturity-model.html');
+    await expect(page.locator('.featured-cta')).toHaveAttribute('href', '/institute/assessment.html');
+    await expect(page.locator('.featured-secondary')).toHaveAttribute('href', '/institute/maturity-model.html');
   });
 
-  test('three product-line cards link to their indexes', async ({ page }) => {
+  test('six workflow cards link to the six workflow pages', async ({ page }) => {
     const cards = page.locator('.line-card');
-    await expect(cards).toHaveCount(3);
-    await expect(cards.nth(0)).toHaveAttribute('href', '/bench/essays/');
-    await expect(cards.nth(1)).toHaveAttribute('href', '/bench/tools/');
-    await expect(cards.nth(2)).toHaveAttribute('href', '/bench/reports/');
+    await expect(cards).toHaveCount(6);
+    await expect(cards.nth(0)).toHaveAttribute('href', '/institute/workflows/eval.html');
+    await expect(cards.nth(1)).toHaveAttribute('href', '/institute/workflows/release-gate.html');
+    await expect(cards.nth(2)).toHaveAttribute('href', '/institute/workflows/drift.html');
+    await expect(cards.nth(3)).toHaveAttribute('href', '/institute/workflows/failure-taxonomy.html');
+    await expect(cards.nth(4)).toHaveAttribute('href', '/institute/workflows/feedback-loop.html');
+    await expect(cards.nth(5)).toHaveAttribute('href', '/institute/workflows/refuse-policy.html');
   });
 
-  test('nav Bench link has aria-current', async ({ page }) => {
+  test('nav Institute link has aria-current', async ({ page }) => {
     const activeLink = page.locator('.nav-links a[aria-current="page"]');
-    await expect(activeLink).toHaveText('Bench');
+    await expect(activeLink).toHaveText('Institute');
   });
 
   test('no horizontal overflow', async ({ page }) => {
@@ -46,7 +49,7 @@ test.describe('Bench landing', () => {
 
 test.describe('Maturity model', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/bench/maturity-model.html');
+    await page.goto('/institute/maturity-model.html');
     await page.waitForLoadState('networkidle');
   });
 
@@ -71,17 +74,17 @@ test.describe('Maturity model', () => {
 
   test('CTA links to the assessment', async ({ page }) => {
     const cta = page.locator('.cta-btn').first();
-    await expect(cta).toHaveAttribute('href', '/bench/assessment.html');
+    await expect(cta).toHaveAttribute('href', '/institute/assessment.html');
   });
 
-  test('crumbs link back to the bench', async ({ page }) => {
-    await expect(page.locator('.crumbs a')).toHaveAttribute('href', '/bench/');
+  test('crumbs link back to the institute', async ({ page }) => {
+    await expect(page.locator('.crumbs a')).toHaveAttribute('href', '/institute/');
   });
 });
 
 test.describe('Assessment', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/bench/assessment.html');
+    await page.goto('/institute/assessment.html');
     await page.waitForLoadState('networkidle');
   });
 
@@ -123,13 +126,14 @@ test.describe('Assessment', () => {
     const scriptText = await page.locator('script').last().innerText();
     expect(scriptText).toContain('script.google.com/macros');
     expect(scriptText).toContain('mailto:hello@gloxx.ai');
+    // 'maturity-assessment' is the load-bearing source field — see CLAUDE.md
     expect(scriptText).toContain('maturity-assessment');
     expect(scriptText).toContain('result-overall-level');
   });
 
-  test('Bench nav link has aria-current', async ({ page }) => {
+  test('Institute nav link has aria-current', async ({ page }) => {
     const activeLink = page.locator('.nav-links a[aria-current="page"]');
-    await expect(activeLink).toHaveText('Bench');
+    await expect(activeLink).toHaveText('Institute');
   });
 
   test('end-to-end: filling all questions yes renders L5 result', async ({ page }) => {
@@ -180,8 +184,8 @@ test.describe('Assessment', () => {
   });
 });
 
-test.describe('Bench section index pages', () => {
-  for (const path of ['/bench/essays/', '/bench/tools/', '/bench/reports/']) {
+test.describe('Institute section index pages', () => {
+  for (const path of ['/institute/journal/', '/institute/tools/', '/institute/reports/']) {
     test(`${path} loads with a unique title and an H1`, async ({ page }) => {
       await page.goto(path);
       await page.waitForLoadState('networkidle');
@@ -192,29 +196,53 @@ test.describe('Bench section index pages', () => {
     });
   }
 
-  test('essays page surfaces the editorial calendar', async ({ page }) => {
-    await page.goto('/bench/essays/');
+  test('journal page surfaces the editorial calendar', async ({ page }) => {
+    await page.goto('/institute/journal/');
     await expect(page.locator('.schedule li')).toHaveCount(4);
   });
 
   test('tools page lists at least one live tool and at least one upcoming', async ({ page }) => {
-    await page.goto('/bench/tools/');
+    await page.goto('/institute/tools/');
     await expect(page.locator('.tool-card.live')).not.toHaveCount(0);
     await expect(page.locator('.tool-card.upcoming')).not.toHaveCount(0);
   });
 
   test('reports page features the State of AI-Feature QA report', async ({ page }) => {
-    await page.goto('/bench/reports/');
+    await page.goto('/institute/reports/');
     await expect(page.locator('.featured h2')).toContainText('State of AI-Feature QA');
   });
 });
 
 test.describe('Cross-page nav', () => {
   for (const path of ['/', '/services.html', '/approach.html', '/about.html', '/contact.html']) {
-    test(`${path} nav includes a Bench link`, async ({ page }) => {
+    test(`${path} nav includes an Institute link`, async ({ page }) => {
       await page.goto(path);
-      const benchLink = page.locator('.nav-links a[href*="bench"]');
-      await expect(benchLink).toHaveText('Bench');
+      const instituteLink = page.locator('.nav-links a[href*="institute"]');
+      await expect(instituteLink).toHaveText('Institute');
+    });
+  }
+});
+
+test.describe('Bench → Institute redirect stubs', () => {
+  const redirects = [
+    { from: '/bench/',                    to: '/institute/' },
+    { from: '/bench/maturity-model.html', to: '/institute/maturity-model.html' },
+    { from: '/bench/assessment.html',     to: '/institute/assessment.html' },
+    { from: '/bench/essays/',             to: '/institute/journal/' },
+    { from: '/bench/tools/',              to: '/institute/tools/' },
+    { from: '/bench/reports/',            to: '/institute/reports/' },
+  ];
+
+  for (const { from, to } of redirects) {
+    test(`${from} serves a meta-refresh stub pointing to ${to}`, async ({ request, baseURL }) => {
+      // Use request.get() instead of page.goto() so we capture the stub HTML
+      // before the client-side meta-refresh fires.
+      const res = await request.get(`${baseURL}${from}`);
+      expect(res.status()).toBeLessThan(400);
+      const html = await res.text();
+      expect(html).toMatch(new RegExp(`<meta\\s+http-equiv="refresh"\\s+content="0;\\s*url=${to.replace(/\//g, '\\/')}"`));
+      expect(html).toMatch(new RegExp(`<link\\s+rel="canonical"\\s+href="https:\\/\\/gloxx\\.ai${to.replace(/\//g, '\\/')}"`));
+      expect(html).toMatch(/<meta\s+name="robots"\s+content="noindex/);
     });
   }
 });

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gloxx QA Institute — Methodology, workflows, and readiness audits</title>
+  <meta name="description" content="The Gloxx QA Institute is the published methodology behind the Gloxx Retainer. Six AI-QA workflows, the AI-QA Maturity Model, a free readiness self-assessment, and the Gloxx-conducted readiness audit.">
+
+  <link rel="canonical" href="https://gloxx.ai/institute/">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#08080a">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Gloxx QA Institute — Methodology, workflows, and readiness audits">
+  <meta property="og:description" content="The published methodology behind the Gloxx Retainer. Six AI-QA workflows, the Maturity Model, a free readiness self-assessment, and the Gloxx-conducted readiness audit.">
+  <meta property="og:url" content="https://gloxx.ai/institute/">
+  <meta property="og:image" content="/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gloxx QA Institute — Methodology, workflows, and readiness audits">
+  <meta name="twitter:description" content="Workflows, the Maturity Model, a readiness self-assessment, and the Gloxx readiness audit.">
+  <meta name="twitter:image" content="/og-image.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+  <style>
+    :root {
+      --bg: #08080a; --bg-2: #0f0f12; --bg-3: #141418;
+      --text: #ededed; --text-2: #898989; --text-3: #8a8f98;
+      --border: rgba(255,255,255,0.07); --surface: rgba(255,255,255,0.03);
+      --heading: 'Space Grotesk', -apple-system, sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --accent-3: #818cf8;
+
+      --gloxx-bg: var(--bg);
+      --gloxx-fg: var(--text);
+      --gloxx-muted: var(--text-2);
+      --gloxx-border: var(--border);
+      --gloxx-accent: #7cf9b5;
+      --gloxx-accent-ink: #0b0d10;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--gloxx-accent); color: var(--gloxx-accent-ink); }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      font-family: var(--body); background: var(--bg); color: var(--text-2);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; }
+    button { border: none; font-family: inherit; cursor: pointer; }
+
+    .grain { position: fixed; inset: 0; pointer-events: none; z-index: 9000; mix-blend-mode: overlay; will-change: transform; }
+    .grain svg { width: 100%; height: 100%; }
+
+    /* ═══════════ NAV ═══════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2.5rem; z-index: 8000;
+      background: rgba(8,8,10,.6);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--heading); font-size: 1.15rem; font-weight: 600; color: var(--text); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a {
+      font-family: var(--heading); font-size: .9rem;
+      color: var(--text-2); transition: color .2s;
+    }
+    .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--text); }
+    .nav-links a[aria-current="page"] { border-bottom: 1px solid var(--gloxx-accent); padding-bottom: 2px; }
+    .nav-cta-link {
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink) !important;
+      padding: .55rem 1.1rem; border-radius: 999px; font-weight: 500;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .nav-cta-link:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124,249,181,.18); }
+    .nav-ham {
+      display: none; flex-direction: column; gap: 5px;
+      padding: 4px; z-index: 8001;
+      background: none; border: none; cursor: pointer;
+    }
+    .nav-ham span {
+      display: block; width: 24px; height: 1.5px;
+      background: var(--text); transition: transform .3s, opacity .3s;
+    }
+    .nav-ham.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-ham.active span:nth-child(2) { opacity: 0; }
+    .nav-ham.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mob-menu {
+      position: fixed; inset: 0; background: rgba(8,8,10,.97);
+      z-index: 7999;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 2.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity .4s;
+    }
+    .mob-menu.active { opacity: 1; pointer-events: all; }
+    .mob-menu a {
+      font-family: var(--heading); font-size: 1.6rem; font-weight: 600;
+      color: var(--text-2); letter-spacing: .08em;
+      transition: color .3s;
+    }
+    .mob-menu a[aria-current="page"] { color: var(--gloxx-accent); }
+    .mob-menu a:hover { color: var(--text); }
+
+    /* ═══════════ LAYOUT ═══════════ */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2.5rem; }
+
+    /* ═══════════ HERO ═══════════ */
+    .bn-hero { padding: 9rem 0 3rem; }
+    .bn-hero .label {
+      font-family: var(--heading); font-size: .72rem; letter-spacing: .25em;
+      color: var(--gloxx-accent); text-transform: uppercase;
+      margin-bottom: 1.5rem; display: inline-block;
+    }
+    .bn-hero h1 {
+      font-family: var(--heading);
+      font-size: clamp(2.5rem, 6vw, 4.25rem);
+      font-weight: 500; line-height: 1.05;
+      color: var(--text); margin-bottom: 1.25rem;
+      letter-spacing: -.01em;
+    }
+    .bn-hero .tagline {
+      font-family: var(--heading);
+      font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+      color: var(--gloxx-accent); font-weight: 400;
+      letter-spacing: .01em; margin-bottom: 2rem;
+    }
+    .bn-hero .lead {
+      font-size: 1.1rem; line-height: 1.7;
+      color: var(--text-2); max-width: 60ch;
+    }
+    .bn-hero .lead strong { color: var(--text); font-weight: 500; }
+
+    /* ═══════════ FEATURED ANCHOR ═══════════ */
+    .featured {
+      margin: 3rem 0 5rem;
+      padding: 2.5rem 2.75rem;
+      border: 1px solid var(--gloxx-accent);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(124,249,181,.045), rgba(124,249,181,.01));
+      position: relative; overflow: hidden;
+    }
+    .featured::before {
+      content: ''; position: absolute;
+      top: 0; right: 0; width: 320px; height: 320px;
+      background: radial-gradient(circle at top right, rgba(124,249,181,.08), transparent 65%);
+      pointer-events: none;
+    }
+    .featured-meta {
+      display: inline-block;
+      font-family: var(--heading); font-size: .7rem;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gloxx-accent); margin-bottom: 1rem;
+    }
+    .featured h2 {
+      font-family: var(--heading);
+      font-size: clamp(1.65rem, 3.2vw, 2.25rem);
+      font-weight: 500; color: var(--text);
+      line-height: 1.2; margin-bottom: 1rem;
+      letter-spacing: -.005em;
+    }
+    .featured p {
+      font-size: 1.02rem; line-height: 1.65; color: var(--text-2);
+      margin-bottom: 1.75rem; max-width: 60ch;
+    }
+    .featured-actions { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: center; }
+    .featured-cta {
+      display: inline-block;
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink);
+      padding: .9rem 1.75rem;
+      font-family: var(--heading); font-weight: 500; font-size: .98rem;
+      border-radius: 999px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .featured-cta:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.22); }
+    .featured-secondary {
+      font-family: var(--heading); font-size: .92rem;
+      color: var(--text-2); border-bottom: 1px dashed var(--border);
+      padding-bottom: 2px; transition: color .2s, border-color .2s;
+    }
+    .featured-secondary:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+
+    /* ═══════════ PRODUCT LINES ═══════════ */
+    .lines-label {
+      font-family: var(--heading); font-size: .72rem;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 1.5rem;
+    }
+    .lines-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem; margin-bottom: 5rem;
+    }
+    .line-card {
+      padding: 2rem 1.75rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      transition: border-color .25s, transform .25s, background .25s;
+      display: flex; flex-direction: column;
+    }
+    .line-card:hover {
+      border-color: var(--gloxx-accent);
+      transform: translateY(-2px);
+      background: rgba(124,249,181,.025);
+    }
+    .line-num {
+      font-family: var(--mono); font-size: .78rem;
+      color: var(--gloxx-accent); letter-spacing: .1em;
+      margin-bottom: 1rem;
+    }
+    .line-card h3 {
+      font-family: var(--heading); font-size: 1.25rem;
+      color: var(--text); font-weight: 500;
+      margin-bottom: .75rem;
+    }
+    .line-card p {
+      font-size: .96rem; line-height: 1.6; color: var(--text-2);
+      margin-bottom: 1.5rem; flex: 1;
+    }
+    .line-card .line-link {
+      font-family: var(--heading); font-size: .85rem;
+      color: var(--text-2); border-bottom: 1px solid var(--border);
+      padding-bottom: 2px; align-self: flex-start;
+      transition: color .2s, border-color .2s;
+    }
+    .line-card:hover .line-link { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+
+    /* ═══════════ COMING-SOON LIST ═══════════ */
+    .roadmap {
+      padding: 2.5rem 2.75rem;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      margin-bottom: 5rem;
+    }
+    .roadmap-label {
+      font-family: var(--heading); font-size: .72rem;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 1.25rem;
+    }
+    .roadmap h2 {
+      font-family: var(--heading);
+      font-size: clamp(1.4rem, 2.8vw, 1.75rem);
+      color: var(--text); font-weight: 500;
+      margin-bottom: 1rem; line-height: 1.25;
+    }
+    .roadmap p {
+      font-size: 1rem; line-height: 1.65; color: var(--text-2);
+      margin-bottom: 1.5rem; max-width: 65ch;
+    }
+    .roadmap ul {
+      list-style: none; padding: 0;
+      display: grid; gap: .65rem;
+    }
+    .roadmap li {
+      display: grid; grid-template-columns: 8rem 1fr;
+      gap: 1.25rem; align-items: baseline;
+      padding: .65rem 0; border-bottom: 1px solid var(--border);
+      font-size: .95rem; color: var(--text-2);
+    }
+    .roadmap li:last-child { border-bottom: none; }
+    .roadmap li time {
+      font-family: var(--mono); font-size: .8rem;
+      color: var(--text-3); letter-spacing: .03em;
+    }
+    .roadmap li strong { color: var(--text); font-weight: 500; }
+
+    /* ═══════════ CTA ═══════════ */
+    .cta-section {
+      text-align: center;
+      padding: 6rem 0 7rem;
+      border-top: 1px solid var(--border);
+    }
+    .cta-section h2 {
+      font-family: var(--heading);
+      font-size: clamp(1.65rem, 3.2vw, 2.25rem);
+      font-weight: 500; color: var(--text);
+      margin-bottom: 1.25rem; line-height: 1.25;
+    }
+    .cta-section p {
+      color: var(--text-2); max-width: 50ch;
+      margin: 0 auto 1.75rem;
+      font-size: 1rem; line-height: 1.6;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--gloxx-accent); color: var(--gloxx-accent-ink);
+      padding: .9rem 1.75rem;
+      font-family: var(--heading); font-weight: 500;
+      border-radius: 999px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.2); }
+
+    /* ═══════════ FOOTER ═══════════ */
+    .footer-dogfood {
+      margin-top: 1.5rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 2.5rem; padding-right: 2.5rem;
+      font-family: var(--heading); font-size: .78rem; letter-spacing: .02em;
+      color: var(--text-3); text-align: center;
+    }
+    .footer-dogfood a {
+      color: var(--text-2);
+      border-bottom: 1px dashed var(--border);
+      transition: color .2s, border-color .2s;
+    }
+    .footer-dogfood a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+    footer { padding: 2.5rem 0; position: relative; }
+    footer::before {
+      content: ''; display: block;
+      height: 1px; margin-bottom: 2.5rem;
+      background: linear-gradient(90deg, transparent, var(--border) 50%, transparent);
+    }
+    .footer-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+      max-width: 1240px; margin: 0 auto;
+      padding: 0 clamp(1.5rem, 5vw, 3rem);
+    }
+    .footer-copy { font-size: .78rem; color: var(--text-3); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: .78rem; color: var(--text-3);
+      transition: color .3s; letter-spacing: .02em;
+    }
+    .footer-links a:hover { color: var(--text-2); }
+    .footer-tag {
+      font-size: .7rem; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--text-3);
+    }
+
+    /* ═══════════ RESPONSIVE ═══════════ */
+    @media (max-width: 900px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-ham { display: flex; }
+      .container { padding: 0 1.5rem; }
+      .bn-hero { padding: 7rem 0 2rem; }
+      .featured { padding: 1.75rem 1.5rem; margin: 2rem 0 3.5rem; }
+      .lines-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .roadmap { padding: 1.75rem 1.5rem; margin-bottom: 3.5rem; }
+      .roadmap li { grid-template-columns: 1fr; gap: .25rem; }
+      .roadmap li time { font-size: .72rem; }
+      .featured-actions { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/></filter>
+      <rect width="100%" height="100%" filter="url(#g)" opacity=".018"/>
+    </svg>
+  </div>
+
+  <header class="nav">
+    <a href="/index.html" class="nav-logo" aria-label="Gloxx home"><img src="/gloxx-logo-white-transparent-o-cutout.png" alt="Gloxx" height="32" style="display:block;width:auto"></a>
+    <div class="nav-links">
+      <a href="/services.html">Services</a>
+      <a href="/approach.html">Approach</a>
+      <a href="/institute/" aria-current="page">Institute</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="nav-cta-link">Book a call</a>
+    </div>
+    <button class="nav-ham" id="navHam" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mob-menu" id="mobMenu">
+    <a href="/index.html" class="mob-link">Home</a>
+    <a href="/services.html" class="mob-link">Services</a>
+    <a href="/approach.html" class="mob-link">Approach</a>
+    <a href="/institute/" class="mob-link" aria-current="page">Institute</a>
+    <a href="/about.html" class="mob-link">About</a>
+    <a href="/contact.html" class="mob-link">Contact</a>
+    <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="mob-link">Book a call</a>
+  </div>
+
+  <!-- ════════════ HERO ════════════ -->
+  <section class="bn-hero">
+    <div class="container">
+      <span class="label">Gloxx QA Institute</span>
+      <h1>The published methodology behind the retainer.</h1>
+      <p class="tagline">Six AI-QA workflows. The Maturity Model. A free readiness self-assessment.</p>
+      <p class="lead"><strong>The Institute is what Gloxx knows, written down.</strong> A documented methodology for testing AI-feature software — the workflows we run, the rubric we score by, and the readiness audit we deliver as a stand-alone product. The retainer is the same methodology, run on your code every week. Read it free; run the assessment in five minutes; book the audit when you want a written verdict.</p>
+    </div>
+  </section>
+
+  <!-- ════════════ FEATURED ANCHOR ════════════ -->
+  <section>
+    <div class="container">
+      <div class="featured">
+        <span class="featured-meta">Free tier · The Institute's diagnostic instrument</span>
+        <h2>The AI-QA Readiness Self-Assessment</h2>
+        <p>Thirty questions across the six workflows the Institute audits against. You'll get your AI-QA maturity level (Ad-hoc → Continuous), your weakest workflow flagged, and the next-level gap described in concrete artifacts. Five minutes. The same rubric the paid readiness audit anchors to.</p>
+        <div class="featured-actions">
+          <a href="/institute/assessment.html" class="featured-cta">Take the assessment &rarr;</a>
+          <a href="/institute/maturity-model.html" class="featured-secondary">Read the rubric first</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ WORKFLOWS ════════════ -->
+  <section>
+    <div class="container">
+      <p class="lines-label">The Institute's workflows</p>
+      <div class="lines-grid">
+
+        <a href="/institute/workflows/eval.html" class="line-card">
+          <span class="line-num">01 · Workflow</span>
+          <h3>Eval</h3>
+          <p>Eval-suite design, golden-set curation, and baseline tracking. The discipline that turns "did you try it?" into "did the suite pass and did the baseline hold?"</p>
+          <span class="line-link">Read the workflow &rarr;</span>
+        </a>
+
+        <a href="/institute/workflows/release-gate.html" class="line-card">
+          <span class="line-num">02 · Workflow</span>
+          <h3>Release-Gate</h3>
+          <p>Pre-deploy gate specification, threshold enforcement, and the documented override policy. The procedure that decides what's allowed to ship.</p>
+          <span class="line-link">Read the workflow &rarr;</span>
+        </a>
+
+        <a href="/institute/workflows/drift.html" class="line-card">
+          <span class="line-num">03 · Workflow</span>
+          <h3>Drift Monitoring</h3>
+          <p>Production sampling, online evals, and the paging integration. The procedure that catches model degradation before users do.</p>
+          <span class="line-link">Read the workflow &rarr;</span>
+        </a>
+
+        <a href="/institute/workflows/failure-taxonomy.html" class="line-card">
+          <span class="line-num">04 · Workflow</span>
+          <h3>Failure Taxonomy</h3>
+          <p>Tagged incident postmortems and the named-failure-mode catalog. The procedure that turns last quarter's pain into next quarter's eval coverage.</p>
+          <span class="line-link">Read the workflow &rarr;</span>
+        </a>
+
+        <a href="/institute/workflows/feedback-loop.html" class="line-card">
+          <span class="line-num">05 · Workflow</span>
+          <h3>Feedback Loops</h3>
+          <p>In-product user reports, the triage queue, and the time-to-coverage SLO. The procedure that closes the loop from production failure to eval suite.</p>
+          <span class="line-link">Read the workflow &rarr;</span>
+        </a>
+
+        <a href="/institute/workflows/refuse-policy.html" class="line-card">
+          <span class="line-num">06 · Workflow</span>
+          <h3>Refuse Policy</h3>
+          <p>Written refuse list, system-prompt enforcement, refusal-correctness evals, and the dated compliance review. The procedure that names what the AI must never do.</p>
+          <span class="line-link">Read the workflow &rarr;</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ ROADMAP ════════════ -->
+  <section>
+    <div class="container">
+      <div class="roadmap">
+        <p class="roadmap-label">Publication cadence</p>
+        <h2>What's shipping next.</h2>
+        <p>The Institute publishes weekly. Tools drop monthly. Reports are quarterly. Workflow documentation deepens on a rolling basis.</p>
+        <ul>
+          <li><time>Week of May 5</time><span><strong>Journal:</strong> Introducing the AI-QA Maturity Model — what each level looks like in practice</span></li>
+          <li><time>Week of May 12</time><span><strong>Journal:</strong> The L2 → L3 jump — how reactive teams become measured ones (and the four artifacts that prove it)</span></li>
+          <li><time>Week of May 19</time><span><strong>Tool:</strong> <span style="font-family: var(--mono); font-size: .85rem;">gloxxai/release-gate</span> — open-source release-gate checklist generator with CI templates</span></li>
+          <li><time>Week of May 26</time><span><strong>Journal:</strong> Why most "AI evals" don't gate releases — and what a real gate looks like</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ CTA ════════════ -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Want the Institute's methodology running on your release path?</h2>
+      <p>The Institute is the public methodology. The Gloxx Retainer is where a senior QA lead runs it on your code, every week, with accountability on the call when something breaks.</p>
+      <a href="/contact.html" class="cta-btn">Book a 30-minute call &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ════════════ FOOTER ════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 Gloxx</span>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/company/gloxxai" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/gloxxai" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
+      </div>
+      <span class="footer-tag">Methodology in practice.</span>
+    </div>
+    <div class="footer-dogfood">
+      Built and <a href="https://github.com/gloxxai/gloxx-web/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.
+    </div>
+  </footer>
+
+  <script>
+    const ham = document.getElementById('navHam');
+    const mob = document.getElementById('mobMenu');
+    ham.addEventListener('click', () => {
+      ham.classList.toggle('active');
+      mob.classList.toggle('active');
+      document.body.style.overflow = mob.classList.contains('active') ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mob-link').forEach(a => {
+      a.addEventListener('click', () => {
+        ham.classList.remove('active');
+        mob.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+</body>
+</html>

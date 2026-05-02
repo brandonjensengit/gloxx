@@ -90,7 +90,7 @@ test.describe('Main Site', () => {
     if (viewport.width <= 768) return;
     const links = page.locator('.nav-links a:not(.nav-cta-link)');
     const hrefs = await links.evaluateAll(els => els.map(el => el.getAttribute('href')));
-    expect(hrefs).toEqual(['services.html', 'approach.html', 'bench/', 'about.html', 'contact.html']);
+    expect(hrefs).toEqual(['services.html', 'approach.html', 'institute/', 'about.html', 'contact.html']);
   });
 
   // ─── MOBILE NAV ───
@@ -173,7 +173,7 @@ test.describe('Main Site', () => {
   });
 
   test('footer tagline shows', async ({ page }) => {
-    await expect(page.locator('.footer-tag')).toContainText('Wisdom engineered.');
+    await expect(page.locator('.footer-tag')).toContainText('Methodology in practice.');
   });
 
   // ─── CTA ROUTING ───
