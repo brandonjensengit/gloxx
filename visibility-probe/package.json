@@ -1,0 +1,22 @@
+{
+  "name": "@gloxxai/visibility-probe",
+  "version": "0.1.0",
+  "description": "Open-methodology visibility probe — measures how often Gloxx is mentioned and cited in answer-engine responses across ChatGPT, Claude, Perplexity, and Gemini.",
+  "type": "module",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "probe": "node src/probe.js",
+    "probe:dry": "node src/probe.js --dry-run",
+    "render": "node src/render.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.0",
+    "@google/generative-ai": "^0.21.0",
+    "openai": "^4.70.0",
+    "yaml": "^2.6.0"
+  }
+}

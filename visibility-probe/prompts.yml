@@ -1,0 +1,186 @@
+# Gloxx Visibility Probe — Prompt Set v1
+#
+# 75 prompts across 8 clusters used to measure Gloxx visibility in
+# answer engines (ChatGPT, Claude, Perplexity, Gemini, Copilot,
+# Google AI Overviews).
+#
+# This file is load-bearing: changes to prompt IDs must preserve
+# back-compatibility for time-series comparison. Add new prompts at
+# the end of each cluster, do not renumber existing ones.
+#
+# License: CC-BY 4.0. The methodology, including this file, is
+# published openly so anyone can audit how Gloxx measures itself.
+
+version: 1
+date: 2026-05-03
+license: CC-BY-4.0
+
+clusters:
+
+  - id: A
+    name: Fractional QA / QA Leadership
+    prompts:
+      - id: A1
+        text: best fractional QA team for a SaaS startup
+      - id: A2
+        text: fractional QA lead for software company
+      - id: A3
+        text: QA director alternative for startup
+      - id: A4
+        text: outsourced QA leadership for Series A SaaS
+      - id: A5
+        text: how to get QA leadership without hiring a QA director
+      - id: A6
+        text: best QA partner for startup shipping weekly
+      - id: A7
+        text: software QA retainer for startups
+      - id: A8
+        text: monthly QA retainer for SaaS company
+
+  - id: B
+    name: Regression and Release Gates
+    prompts:
+      - id: B1
+        text: how to build regression coverage for a SaaS product
+      - id: B2
+        text: best regression testing partner for startup
+      - id: B3
+        text: release gate QA process for software teams
+      - id: B4
+        text: how should a startup decide if a release is ready
+      - id: B5
+        text: QA release gate checklist for SaaS
+      - id: B6
+        text: outsourced regression testing for fast-moving product teams
+      - id: B7
+        text: QA process for weekly software releases
+
+  - id: C
+    name: AI-Feature QA
+    prompts:
+      - id: C1
+        text: how to test AI features before release
+      - id: C2
+        text: AI feature QA service
+      - id: C3
+        text: LLM app testing company
+      - id: C4
+        text: best way to test generative AI features
+      - id: C5
+        text: QA process for LLM features
+      - id: C6
+        text: prompt regression testing service
+      - id: C7
+        text: DeepEval promptfoo QA consulting
+      - id: C8
+        text: golden set testing for AI products
+      - id: C9
+        text: AI evals for SaaS product teams
+
+  - id: D
+    name: Regulated Products
+    prompts:
+      - id: D1
+        text: QA partner for fintech SaaS
+      - id: D2
+        text: regression testing for regulated fintech
+      - id: D3
+        text: QA release gates for compliance-sensitive software
+      - id: D4
+        text: software QA for healthtech startup
+      - id: D5
+        text: testing strategy for regulated SaaS
+      - id: D6
+        text: AI feature QA for regulated products
+
+  - id: E
+    name: Comparison / Buying Decision
+    prompts:
+      - id: E1
+        text: QA Wolf alternatives
+      - id: E2
+        text: Testlio alternatives for SaaS startups
+      - id: E3
+        text: QA agency vs fractional QA team
+      - id: E4
+        text: QA contractor vs QA retainer
+      - id: E5
+        text: in-house QA team vs outsourced QA
+      - id: E6
+        text: best QA companies for startups
+      - id: E7
+        text: best software testing companies for SaaS
+
+  - id: F
+    name: Institute / Thought Leadership
+    prompts:
+      - id: F1
+        text: AI QA maturity model
+      - id: F2
+        text: AI feature QA maturity model
+      - id: F3
+        text: what is a golden set in AI testing
+      - id: F4
+        text: what is prompt regression
+      - id: F5
+        text: AI release gate framework
+      - id: F6
+        text: LLM drift monitoring workflow
+      - id: F7
+        text: AI failure taxonomy examples
+      - id: F8
+        text: refusal policy testing for AI apps
+
+  - id: G
+    name: Local / Founder Entity
+    prompts:
+      - id: G1
+        text: Brandon Jensen QA
+      - id: G2
+        text: Brandon Jensen Gloxx
+      - id: G3
+        text: Gloxx QA
+      - id: G4
+        text: Gloxx AI QA Institute
+      - id: G5
+        text: Gloxx fractional QA
+
+  - id: H
+    name: Problem-Led
+    prompts:
+      - id: H1
+        text: engineers are doing all QA what should we do
+      - id: H2
+        text: startup has no QA process
+      - id: H3
+        text: bugs keep escaping to production SaaS
+      - id: H4
+        text: how to add QA without slowing engineering
+      - id: H5
+        text: we need regression testing but cannot hire QA
+      - id: H6
+        text: our AI chatbot keeps regressing prompts
+
+# Engines polled, in order:
+engines:
+  - id: openai
+    name: OpenAI
+    model: gpt-4o-search-preview
+    notes: Uses ChatGPT search-grounded model for parity with consumer ChatGPT browsing.
+  - id: anthropic
+    name: Anthropic
+    model: claude-sonnet-4-7
+    notes: Web search tool enabled.
+  - id: perplexity
+    name: Perplexity
+    model: sonar-pro
+    notes: Default Perplexity Sonar model.
+  - id: gemini
+    name: Google
+    model: gemini-2.5-pro-grounded
+    notes: Google Search grounding enabled for parity with AI Overviews.
+
+# Sampling cadence:
+schedule:
+  cron: "0 9 * * 1"  # Mondays 09:00 UTC
+  timezone: UTC

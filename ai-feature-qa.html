@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Feature QA — Gloxx</title>
+  <meta name="description" content="AI-feature QA done as discipline, not vibes. Eval suites, golden sets, prompt regression, drift monitoring, refusal-correctness testing, and the release gate that catches the AI failure modes your existing test suite was never built for.">
+
+  <link rel="canonical" href="https://gloxx.ai/ai-feature-qa.html">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#08080a">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AI-Feature QA — Gloxx">
+  <meta property="og:description" content="Eval suites, golden sets, prompt regression, drift monitoring, refuse-policy testing, and the release gate. AI-feature QA included in the Gloxx Retainer at no surcharge.">
+  <meta property="og:url" content="https://gloxx.ai/ai-feature-qa.html">
+  <meta property="og:image" content="/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI-Feature QA — Gloxx">
+  <meta name="twitter:description" content="Discipline for AI features: evals, prompt regression, drift monitoring, refusal-correctness, release gates.">
+  <meta name="twitter:image" content="/og-image.jpg">
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","@id":"https://gloxx.ai/#organization","name":"Gloxx","alternateName":"Gloxx QA Institute","url":"https://gloxx.ai","logo":"https://gloxx.ai/gloxx-logo-white-transparent-o-cutout.png","foundingDate":"2026","founder":{"@type":"Person","name":"Brandon Jensen"},"description":"A fractional QA team for software companies, with the Gloxx QA Institute as the published methodology behind the retainer.","email":"hello@gloxx.ai","sameAs":["https://github.com/gloxxai","https://www.linkedin.com/company/gloxxai"]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Service","@id":"https://gloxx.ai/ai-feature-qa.html#service","name":"AI-Feature QA","serviceType":"AI feature quality assurance","category":"Quality Assurance for AI features","description":"AI-feature QA service for software teams shipping LLM and generative AI features. Eval-suite design, golden-set curation, prompt regression, drift monitoring, refusal-correctness testing, failure-taxonomy maintenance, and AI-aware release gates. Included in the Gloxx Retainer at no surcharge when the roadmap calls for it.","provider":{"@id":"https://gloxx.ai/#organization"},"areaServed":"Worldwide","audience":{"@type":"Audience","audienceType":"AI-native product teams, SaaS startups shipping AI features, regulated fintech and healthtech with LLM features"},"offers":{"@id":"https://gloxx.ai/services.html#offer"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is AI-feature QA, and how is it different from regular QA?","acceptedAnswer":{"@type":"Answer","text":"AI-feature QA is the testing discipline applied to product features that use LLMs or other AI models. Regular QA verifies that deterministic code does what it's supposed to. AI-feature QA verifies that non-deterministic model output stays within named bounds — faithfulness, refusal-correctness, length, citation, on-topic — across versions of the model, the prompt, and the retrieval context. Different failure modes, different artifacts (eval suites, golden sets, prompt regression), different release-gate criteria."}},{"@type":"Question","name":"Do we need this if we already have a regular QA process?","acceptedAnswer":{"@type":"Answer","text":"If you ship AI features, yes. Your existing test suite catches deterministic regressions; it doesn't catch a model update that quietly drops faithfulness from 94% to 81%. AI-feature QA layers in alongside the discipline you already have — same release-gate spec, with AI-specific thresholds added."}},{"@type":"Question","name":"What tools do you use?","acceptedAnswer":{"@type":"Answer","text":"DeepEval is our default eval harness. promptfoo and LangSmith where they fit. Claude Code for prompt iteration and trace review. Playwright for AI flows that ship in browser-based products. We bring tooling to where your stack already is — no vendor lock-in."}},{"@type":"Question","name":"What's a golden set?","acceptedAnswer":{"@type":"Answer","text":"50 to 200 production traces per AI feature, version-controlled, with expected-output annotations. The golden set is the input side of every eval suite. New failure modes found in production get added to the golden set as part of incident response, not 'later when we have time.'"}},{"@type":"Question","name":"How do you charge for AI-feature QA?","acceptedAnswer":{"@type":"Answer","text":"It's included in the Gloxx Retainer ($15,000/month, month-to-month) at no surcharge when the roadmap calls for it. We don't sell AI-feature QA as a separate paid module because that incentive would push us to upsell teams that don't need it."}},{"@type":"Question","name":"How fast is the ramp?","acceptedAnswer":{"@type":"Answer","text":"Two-week ramp to coverage map and named failure modes for the AI features in scope. First eval suite live in CI by week three. The 90-day plan tells you which workflows from the Gloxx QA Institute we'll harden first based on your weakest dimension."}},{"@type":"Question","name":"Do you replace the engineers writing the AI features?","acceptedAnswer":{"@type":"Answer","text":"No. Engineers stay responsible for the code and the prompts they ship. We own the eval-suite, golden-set, drift-monitoring, and release-gate discipline that wraps it. Two responsibilities, one accountable lead."}},{"@type":"Question","name":"What if we're a regulated fintech or healthtech?","acceptedAnswer":{"@type":"Answer","text":"Refuse policy gets formal treatment — written list across out-of-scope, unsafe, and regulatory buckets, system-prompt enforcement, refusal-correctness evals, and dated legal review. Audit-friendly artifacts at every step. We don't issue certifications and we don't make compliance claims; we produce the methodology-based evidence your auditor wants to see."}}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Gloxx","item":"https://gloxx.ai/"},{"@type":"ListItem","position":2,"name":"AI-Feature QA","item":"https://gloxx.ai/ai-feature-qa.html"}]}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+  <style>
+    :root {
+      --bg: #08080a; --bg-2: #0f0f12; --bg-3: #141418;
+      --text: #ededed; --text-2: #898989; --text-3: #8a8f98;
+      --accent-1: #7cf9b5; --accent-2: #3ed8c1; --accent-3: #818cf8;
+      --border: rgba(255,255,255,0.07);
+      --surface: rgba(255,255,255,0.03);
+      --heading: 'Space Grotesk', -apple-system, sans-serif;
+      --body: 'Inter', -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --gloxx-bg: var(--bg);
+      --gloxx-fg: var(--text);
+      --gloxx-muted: var(--text-2);
+      --gloxx-border: var(--border);
+      --gloxx-accent: #7cf9b5;
+      --gloxx-accent-ink: #0b0d10;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    ::selection { background: var(--gloxx-accent); color: var(--gloxx-accent-ink); }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; scrollbar-width: thin; scrollbar-color: #333 var(--bg); overflow-x: hidden; }
+    html::-webkit-scrollbar { width: 5px; }
+    html::-webkit-scrollbar-track { background: var(--bg); }
+    html::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+    body { font-family: var(--body); background: var(--bg); color: var(--text-2); overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    a { color: inherit; text-decoration: none; }
+    button { border: none; background: none; font-family: inherit; cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--gloxx-accent); outline-offset: 3px; border-radius: 2px; }
+
+    .grain { position: fixed; inset: 0; pointer-events: none; z-index: 9000; isolation: isolate; mix-blend-mode: overlay; will-change: transform; }
+    .grain svg { width: 100%; height: 100%; }
+
+    .nav { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2.5rem; z-index: 8000; background: rgba(8,8,10,.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .nav-logo { display: inline-flex; align-items: center; gap: clamp(.7rem, 1.2vw, 1.1rem); color: var(--text); text-decoration: none; line-height: 1; }
+    .nav-logo img { display: block; width: auto; height: clamp(56px, 7vw, 80px); }
+    .nav-logo-sub { display: inline-block; padding-inline-start: clamp(.6rem, .9vw, .9rem); border-inline-start: 1px solid color-mix(in oklab, var(--gloxx-accent) 35%, transparent); font-family: var(--heading); font-size: clamp(.6rem, .72vw, .68rem); font-weight: 500; letter-spacing: .18em; line-height: 1.25; text-transform: uppercase; color: var(--gloxx-accent); max-width: 14ch; white-space: normal; }
+    @supports not (color: color-mix(in oklab, red, blue)) { .nav-logo-sub { border-inline-start-color: rgba(124, 249, 181, .35); } }
+    @media (max-width: 540px) { .nav-logo-sub { font-size: .56rem; max-width: 7ch; line-height: 1.2; padding-inline-start: .5rem; } }
+
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { font-family: var(--heading); font-size: .9rem; color: var(--text-2); transition: color .2s; }
+    .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--text); }
+    .nav-links a[aria-current="page"] { border-bottom: 1px solid var(--gloxx-accent); padding-bottom: 2px; }
+    .nav-cta-link { background: var(--gloxx-accent); color: var(--gloxx-accent-ink) !important; padding: .55rem 1.1rem; border-radius: 999px; font-weight: 500; transition: transform .2s, box-shadow .2s; }
+    .nav-cta-link:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124,249,181,.18); }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; padding: 4px; z-index: 8001; background: none; border: none; -webkit-appearance: none; appearance: none; cursor: pointer; }
+    .nav-ham span { display: block; width: 24px; height: 1.5px; background: var(--text); transition: transform .3s, opacity .3s; }
+    .nav-ham.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-ham.active span:nth-child(2) { opacity: 0; }
+    .nav-ham.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mob-menu { position: fixed; inset: 0; background: rgba(8,8,10,.97); z-index: 7999; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 2.5rem; opacity: 0; pointer-events: none; transition: opacity .4s; }
+    .mob-menu.active { opacity: 1; pointer-events: all; }
+    .mob-menu a { font-family: var(--heading); font-size: 1.6rem; font-weight: 600; color: var(--text-2); letter-spacing: .08em; transition: color .3s; }
+    .mob-menu a[aria-current="page"] { color: var(--gloxx-accent); }
+    .mob-menu a:hover { color: var(--text); }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
+    .section { padding: 7rem 0; position: relative; }
+    .section-label { font-family: var(--heading); font-size: .72rem; letter-spacing: .25em; color: var(--gloxx-accent); text-transform: uppercase; display: inline-block; margin-bottom: 1.25rem; }
+    .section-title { font-family: var(--heading); font-size: clamp(2rem, 4.5vw, 3.25rem); font-weight: 500; line-height: 1.1; color: var(--text); margin-bottom: 1.5rem; max-width: 22ch; }
+    .section-lead { font-size: 1.05rem; color: var(--text-2); max-width: 60ch; line-height: 1.65; }
+
+    .svc-hero { padding: 10rem 0 4rem; }
+    .svc-hero h1 { font-family: var(--heading); font-size: clamp(2.25rem, 5vw, 3.75rem); font-weight: 500; line-height: 1.05; color: var(--text); margin-bottom: 1.5rem; max-width: 22ch; }
+    .svc-hero .svc-hero-sub { font-size: 1.15rem; color: var(--text-2); max-width: 60ch; line-height: 1.6; }
+    .svc-hero .svc-hero-sub strong { color: var(--text); font-weight: 500; }
+    .svc-hero .svc-hero-sub a.inline { color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent); }
+    .svc-lead-rule { border-left: 2px solid var(--gloxx-accent); padding-left: 1.25rem; margin-top: 2.5rem; font-family: var(--heading); font-size: 1rem; color: var(--text); max-width: 60ch; line-height: 1.55; }
+
+    .tier-list { display: grid; gap: 1.5rem; margin-top: 1rem; }
+    .service-card { padding: 2.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; transition: border-color .3s, transform .3s, background .3s; display: grid; grid-template-columns: 1fr 2fr; gap: 2.5rem; align-items: start; }
+    .service-card:hover { border-color: var(--gloxx-accent); background: rgba(124, 249, 181, .025); }
+    .service-card .sc-num { font-family: var(--heading); font-size: 3.25rem; font-weight: 300; color: var(--gloxx-accent); line-height: 1; }
+    .service-card .sc-meta { display: inline-block; font-family: var(--heading); font-size: .72rem; letter-spacing: .15em; color: var(--gloxx-accent); text-transform: uppercase; margin-top: 1rem; margin-bottom: .75rem; }
+    .service-card h2 { font-family: var(--heading); font-size: 1.65rem; font-weight: 500; color: var(--text); margin-bottom: .75rem; }
+    .service-card p.sc-desc { color: var(--text-2); line-height: 1.65; font-size: 1rem; margin-bottom: 1.5rem; }
+    .service-card p.sc-desc strong { color: var(--text); font-weight: 500; }
+    .service-card p.sc-desc a.inline { color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent); }
+    .service-card .sc-scope { margin-top: .5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+    .service-card .sc-scope-label { font-family: var(--heading); font-size: .72rem; letter-spacing: .15em; color: var(--text-3); text-transform: uppercase; margin-bottom: .75rem; }
+    .service-card .sc-scope ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: .5rem 1.5rem; }
+    .service-card .sc-scope li { color: var(--text-2); font-size: .92rem; line-height: 1.5; padding-left: 1.1rem; position: relative; }
+    .service-card .sc-scope li::before { content: "→"; position: absolute; left: 0; color: var(--gloxx-accent); }
+    .service-card .sc-scope li strong { color: var(--text); font-weight: 500; }
+
+    /* FAQ block */
+    .faq-list { display: grid; gap: 1rem; margin-top: 1.5rem; max-width: 75ch; }
+    .faq-item { border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem 1.75rem; background: var(--surface); transition: border-color .25s, background .25s; }
+    .faq-item:hover { border-color: rgba(124, 249, 181, .25); }
+    .faq-item h3 { font-family: var(--heading); font-size: 1.05rem; font-weight: 500; color: var(--text); margin-bottom: .65rem; line-height: 1.35; }
+    .faq-item p { color: var(--text-2); font-size: .98rem; line-height: 1.6; }
+    .faq-item p strong { color: var(--text); font-weight: 500; }
+    .faq-item p a.inline { color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent); }
+
+    /* Cross-link to Institute */
+    .institute-link-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1.5rem; max-width: 1000px; }
+    .institute-link-grid a { padding: 1.1rem 1.25rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); transition: border-color .25s, transform .2s, background .25s; display: block; }
+    .institute-link-grid a:hover { border-color: var(--gloxx-accent); transform: translateY(-1px); background: rgba(124, 249, 181, .03); }
+    .institute-link-grid a .il-meta { display: block; font-family: var(--heading); font-size: .68rem; letter-spacing: .2em; color: var(--gloxx-accent); text-transform: uppercase; margin-bottom: .35rem; }
+    .institute-link-grid a .il-name { font-family: var(--heading); font-size: 1rem; color: var(--text); font-weight: 500; }
+    .institute-link-grid a .il-desc { font-size: .88rem; color: var(--text-2); line-height: 1.5; margin-top: .35rem; }
+
+    .cta-section { text-align: center; padding: 8rem 0; border-top: 1px solid var(--border); margin-top: 6rem; }
+    .cta-section h2 { font-family: var(--heading); font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 500; color: var(--text); margin-bottom: 1.5rem; line-height: 1.2; }
+    .cta-section .cta-btn { display: inline-block; background: var(--gloxx-accent); color: var(--gloxx-accent-ink); padding: .9rem 1.75rem; font-family: var(--heading); font-weight: 500; border-radius: 999px; margin-top: 1.5rem; transition: transform .2s, box-shadow .2s; }
+    .cta-section .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(124,249,181,.2); }
+    .cta-section .cta-btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); margin-left: .75rem; }
+
+    .footer-dogfood { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 2.5rem; padding-right: 2.5rem; font-family: var(--heading); font-size: .78rem; letter-spacing: .02em; color: var(--text-3); text-align: center; }
+    .footer-dogfood a { color: var(--text-2); border-bottom: 1px dashed var(--border); transition: color .2s, border-color .2s; }
+    .footer-dogfood a:hover { color: var(--gloxx-accent); border-color: var(--gloxx-accent); }
+    footer { padding: 2.5rem 0; position: relative; }
+    footer::before { content: ''; display: block; height: 1px; margin-bottom: 2.5rem; background: linear-gradient(90deg, transparent, var(--border) 50%, transparent); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-copy { font-size: .78rem; color: var(--text-3); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: .78rem; color: var(--text-3); transition: color .3s; letter-spacing: .02em; }
+    .footer-links a:hover { color: var(--text-2); }
+    .footer-tag { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-3); }
+    .footer-doctrine { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: clamp(1.5rem, 5vw, 3rem); padding-right: clamp(1.5rem, 5vw, 3rem); font-family: var(--heading); font-size: .82rem; letter-spacing: .02em; color: var(--text-2); text-align: center; }
+
+    @media (max-width: 900px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-ham { display: flex; }
+      .container { padding: 0 1.5rem; }
+      .section { padding: 5rem 0; }
+      .service-card { grid-template-columns: 1fr; gap: 1.5rem; padding: 2rem 1.5rem; }
+      .service-card .sc-scope ul { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .svc-hero { padding: 7rem 0 2rem; }
+      .cta-section .cta-btn.secondary { margin-left: 0; margin-top: .75rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+
+  <!-- Grain overlay -->
+  <div class="grain" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/></filter>
+      <rect width="100%" height="100%" filter="url(#g)" opacity=".018"/>
+    </svg>
+  </div>
+
+  <!-- Nav -->
+  <header class="nav">
+    <a href="index.html" class="nav-logo" aria-label="Gloxx — Quality Assurance Institute"><img src="/gloxx-logo-white-transparent-o-cutout.png" alt="Gloxx" height="88"><span class="nav-logo-sub" aria-hidden="true">Quality Assurance Institute</span></a>
+    <div class="nav-links">
+      <a href="services.html">Services</a>
+      <a href="approach.html">Approach</a>
+      <a href="institute/">Institute</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="nav-cta-link">Book a call</a>
+    </div>
+    <button class="nav-ham" id="navHam" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mob-menu" id="mobMenu">
+    <a href="index.html" class="mob-link">Home</a>
+    <a href="services.html" class="mob-link">Services</a>
+    <a href="approach.html" class="mob-link">Approach</a>
+    <a href="institute/" class="mob-link">Institute</a>
+    <a href="about.html" class="mob-link">About</a>
+    <a href="contact.html" class="mob-link">Contact</a>
+    <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="mob-link">Book a call</a>
+  </div>
+
+  <!-- Hero -->
+  <section class="svc-hero">
+    <div class="container">
+      <span class="section-label">AI-Feature QA</span>
+      <h1>AI-feature QA. Done as discipline, not vibes.</h1>
+      <p class="svc-hero-sub">We test the AI features your team is shipping. <strong>Eval suites, golden sets, prompt regression, drift monitoring, refusal-correctness</strong> — and the release gate that ties them all to a number you can ship against. The discipline that turns "did you try it?" into "did the suite pass and did the baseline hold?" The published methodology behind it lives at the <a href="institute/" class="inline">Gloxx QA Institute</a>.</p>
+
+      <div class="svc-lead-rule">
+        "Your existing test suite catches deterministic regressions. It does not catch a model update that quietly drops faithfulness from 94% to 81%. AI-feature QA is the layer that does."
+      </div>
+    </div>
+  </section>
+
+  <!-- Sections -->
+  <section class="section" style="padding-top: 2rem;">
+    <div class="container">
+      <div class="tier-list">
+
+        <!-- 01 What it is -->
+        <article class="service-card">
+          <div><span class="sc-num">01</span></div>
+          <div>
+            <span class="sc-meta">The discipline</span>
+            <h2>What AI-feature QA is.</h2>
+            <p class="sc-desc">Testing applied to product features that use LLMs or other AI models. Different failure modes than regular code, different artifacts, different release-gate criteria. We bring the discipline; your engineers stay responsible for the prompts and the code. <strong>One accountable lead.</strong></p>
+            <div class="sc-scope">
+              <div class="sc-scope-label">The six workflows that ship in every engagement</div>
+              <ul>
+                <li><strong>Eval</strong> — golden-set curation, suite design, baseline tracking. <a href="institute/workflows/eval.html" class="inline">workflow</a></li>
+                <li><strong>Release Gate</strong> — gate spec, threshold enforcement, override policy. <a href="institute/workflows/release-gate.html" class="inline">workflow</a></li>
+                <li><strong>Drift Monitoring</strong> — production sampling, online evals, paging. <a href="institute/workflows/drift.html" class="inline">workflow</a></li>
+                <li><strong>Failure Taxonomy</strong> — tagged postmortems, named-mode catalog. <a href="institute/workflows/failure-taxonomy.html" class="inline">workflow</a></li>
+                <li><strong>Feedback Loops</strong> — triage queue, time-to-coverage SLO. <a href="institute/workflows/feedback-loop.html" class="inline">workflow</a></li>
+                <li><strong>Refuse Policy</strong> — written list, enforcement, dated review. <a href="institute/workflows/refuse-policy.html" class="inline">workflow</a></li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- 02 Who this is for -->
+        <article class="service-card">
+          <div><span class="sc-num">02</span></div>
+          <div>
+            <span class="sc-meta">The fit</span>
+            <h2>Who this is for.</h2>
+            <p class="sc-desc">AI-feature QA is the specialty layer of the Gloxx Retainer — switched on when your roadmap calls for it. Some teams need it on day one; some teams shouldn't pay for it yet.</p>
+            <div class="sc-scope">
+              <div class="sc-scope-label">Strong fit</div>
+              <ul>
+                <li>Series A–B SaaS with AI features in production or pre-launch</li>
+                <li>AI-native products approaching their first paid users</li>
+                <li>Regulated fintech / healthtech with LLM features and compliance exposure</li>
+                <li>Teams shipping weekly where a quiet model regression is a real cost</li>
+                <li>Engineering orgs that already test their deterministic code well and feel a gap on the AI side</li>
+                <li>Teams where "we test in production by reading user complaints" is the current state of AI QA</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- 03 What's included -->
+        <article class="service-card">
+          <div><span class="sc-num">03</span></div>
+          <div>
+            <span class="sc-meta">In every retainer · no surcharge</span>
+            <h2>What's included.</h2>
+            <p class="sc-desc">When AI-feature QA is in scope, the deliverables are concrete artifacts on disk in your repo, not slides. Every artifact is yours to keep on day one.</p>
+            <div class="sc-scope">
+              <div class="sc-scope-label">Deliverables</div>
+              <ul>
+                <li>Coverage map of every AI feature in your product, with named failure modes per feature</li>
+                <li>Golden set per feature — 50–200 production traces, version-controlled</li>
+                <li>Eval suite per feature — DeepEval, promptfoo, or LangSmith depending on stack</li>
+                <li>Baseline scores per metric (faithfulness, refusal-correctness, length, citation, on-topic)</li>
+                <li>Release-gate spec extended with AI-specific thresholds and override policy</li>
+                <li>CI integration so the suite runs on every PR that touches AI-feature code</li>
+                <li>Drift-monitoring pipeline with sampling cadence and paging thresholds</li>
+                <li>Failure-mode catalog tied to your incident postmortems</li>
+                <li>Refuse-policy document with system-prompt enforcement and dated review cadence</li>
+                <li>Monthly QA scorecard tracking eval pass rates, drift incidents, and time-to-coverage</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- 04 The 90-day arc -->
+        <article class="service-card">
+          <div><span class="sc-num">04</span></div>
+          <div>
+            <span class="sc-meta">The 90-day arc</span>
+            <h2>How an engagement runs.</h2>
+            <p class="sc-desc">Two-week ramp, then a 90-day arc that maps to where you score weakest on the <a href="institute/maturity-model.html" class="inline">AI-QA Maturity Model</a>. The same model that anchors the free <a href="institute/assessment.html" class="inline">Readiness Self-Assessment</a> is the one we use to prioritize work in your engagement.</p>
+            <div class="sc-scope">
+              <div class="sc-scope-label">Engagement rhythm</div>
+              <ul>
+                <li><strong>Week 1–2:</strong> Coverage map + named failure modes per AI feature; readiness score per dimension</li>
+                <li><strong>Week 3–4:</strong> First golden set + eval suite live in CI; release-gate threshold proposed</li>
+                <li><strong>Week 5–6:</strong> Drift monitoring sampling-cadence live; first failure-taxonomy review</li>
+                <li><strong>Week 7–9:</strong> Refuse-policy formalized; legal review if regulated; second AI feature added</li>
+                <li><strong>Week 10–12:</strong> Time-to-coverage SLO measured against real production reports; second 90-day plan</li>
+                <li>Async PR review, weekly sync, monthly QA scorecard throughout</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- 05 What makes this different -->
+        <article class="service-card">
+          <div><span class="sc-num">05</span></div>
+          <div>
+            <span class="sc-meta">vs. agencies / vs. building internally</span>
+            <h2>What makes this different.</h2>
+            <p class="sc-desc">Most AI-feature QA today is one of two patterns: agencies that lift a generic eval template onto your stack and call it done, or in-house teams that learn the discipline by accumulating incidents over twelve months. Gloxx is neither.</p>
+            <div class="sc-scope">
+              <div class="sc-scope-label">The actually-different parts</div>
+              <ul>
+                <li><strong>Published methodology.</strong> The six workflows are documented at the <a href="institute/" class="inline">Institute</a>, not held as agency IP</li>
+                <li><strong>Founder-led.</strong> Brandon Jensen on every engagement — 15 years of QA leadership, not a junior pool</li>
+                <li><strong>Audited, not certified.</strong> Methodology-based assessments, dated, scoped, no warranty theater</li>
+                <li><strong>No surcharge.</strong> AI-feature QA is included in the $15k retainer when the roadmap calls for it</li>
+                <li><strong>Vendor-neutral tooling.</strong> DeepEval, promptfoo, LangSmith — whichever fits your stack. No lock-in</li>
+                <li><strong>Open methodology, open tools.</strong> The published workflows and tools at <a href="https://github.com/gloxxai" target="_blank" rel="noopener" class="inline">github.com/gloxxai</a></li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- 06 What we don't do -->
+        <article class="service-card">
+          <div><span class="sc-num">06</span></div>
+          <div>
+            <span class="sc-meta">The refuse list</span>
+            <h2>What we won't do.</h2>
+            <p class="sc-desc">Honest scoping is part of the offer. We turn down categories of AI-feature QA work even at retainer price — because saying yes would make us bad at the work we actually sell.</p>
+            <div class="sc-scope">
+              <div class="sc-scope-label">We will not</div>
+              <ul>
+                <li>Issue compliance certifications or regulatory attestations — that's not what an audit is</li>
+                <li>Sell you a 60-page test plan instead of artifacts that run in CI</li>
+                <li>Pretend a model is "safe" when the eval suite says it isn't</li>
+                <li>Replace your engineers' responsibility for the prompts and code they ship</li>
+                <li>Vendor-lock you into proprietary eval tooling — every artifact is yours</li>
+                <li>Recommend AI-feature QA when your product hasn't shipped any AI features yet</li>
+                <li>Quietly let a refuse-policy regression slip through to keep a release on schedule</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" style="padding-top: 2rem;">
+    <div class="container">
+      <span class="section-label">Common questions</span>
+      <h2 class="section-title">FAQ.</h2>
+
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <h3>What is AI-feature QA, and how is it different from regular QA?</h3>
+          <p>AI-feature QA is the testing discipline applied to product features that use LLMs or other AI models. Regular QA verifies that <strong>deterministic code does what it's supposed to</strong>. AI-feature QA verifies that <strong>non-deterministic model output stays within named bounds</strong> — faithfulness, refusal-correctness, length, citation, on-topic — across versions of the model, the prompt, and the retrieval context. Different failure modes, different artifacts (eval suites, golden sets, prompt regression), different release-gate criteria.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Do we need this if we already have a regular QA process?</h3>
+          <p>If you ship AI features, yes. Your existing test suite catches deterministic regressions; it doesn't catch a model update that quietly drops faithfulness from 94% to 81%. AI-feature QA layers in alongside the discipline you already have — same release-gate spec, with AI-specific thresholds added.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>What tools do you use?</h3>
+          <p><strong>DeepEval</strong> is our default eval harness. <strong>promptfoo</strong> and <strong>LangSmith</strong> where they fit. <strong>Claude Code</strong> for prompt iteration and trace review. <strong>Playwright</strong> for AI flows that ship in browser-based products. We bring tooling to where your stack already is — no vendor lock-in. Every artifact is yours to keep on day one.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>What's a golden set?</h3>
+          <p>50 to 200 production traces per AI feature, version-controlled, with expected-output annotations. The golden set is the input side of every eval suite. New failure modes found in production get added to the golden set as part of incident response, not "later when we have time." Full procedure documented in the <a href="institute/workflows/eval.html" class="inline">Eval workflow</a>.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>How do you charge for AI-feature QA?</h3>
+          <p>It's included in the <a href="services.html" class="inline">Gloxx Retainer</a> ($15,000/month, month-to-month) at no surcharge when the roadmap calls for it. We don't sell AI-feature QA as a separate paid module because that incentive would push us to upsell teams that don't need it.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>How fast is the ramp?</h3>
+          <p>Two-week ramp to coverage map and named failure modes for the AI features in scope. First eval suite live in CI by week three. The 90-day plan tells you which workflows from the <a href="institute/" class="inline">Gloxx QA Institute</a> we'll harden first based on your weakest dimension on the <a href="institute/maturity-model.html" class="inline">Maturity Model</a>.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Do you replace the engineers writing the AI features?</h3>
+          <p>No. Engineers stay responsible for the code and the prompts they ship. We own the eval-suite, golden-set, drift-monitoring, and release-gate discipline that wraps it. Two responsibilities, one accountable lead.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>What if we're a regulated fintech or healthtech?</h3>
+          <p>Refuse policy gets formal treatment — written list across out-of-scope, unsafe, and regulatory buckets, system-prompt enforcement, refusal-correctness evals, and dated legal review. Audit-friendly artifacts at every step. We don't issue certifications and we don't make compliance claims; we produce the methodology-based evidence your auditor wants to see. The full procedure is at the <a href="institute/workflows/refuse-policy.html" class="inline">Refuse Policy workflow</a>.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Institute cross-link grid -->
+  <section class="section" style="padding-top: 2rem;">
+    <div class="container">
+      <span class="section-label">The methodology behind it</span>
+      <h2 class="section-title">From the Gloxx QA Institute.</h2>
+      <p class="section-lead">The published procedures we run in every AI-feature QA engagement. Open methodology, dated, audit-friendly. Take the <a href="institute/assessment.html" style="color: var(--gloxx-accent); border-bottom: 1px dashed var(--gloxx-accent);">free 30-question Readiness Self-Assessment</a> to find your weakest dimension.</p>
+
+      <div class="institute-link-grid">
+        <a href="institute/maturity-model.html">
+          <span class="il-meta">Rubric</span>
+          <span class="il-name">AI-QA Maturity Model</span>
+          <span class="il-desc">Five levels × six dimensions. The rubric every engagement plans against.</span>
+        </a>
+        <a href="institute/workflows/eval.html">
+          <span class="il-meta">Workflow 01</span>
+          <span class="il-name">Eval</span>
+          <span class="il-desc">Golden-set curation, suite design, baseline tracking.</span>
+        </a>
+        <a href="institute/workflows/release-gate.html">
+          <span class="il-meta">Workflow 02</span>
+          <span class="il-name">Release Gate</span>
+          <span class="il-desc">Gate spec, threshold enforcement, override policy.</span>
+        </a>
+        <a href="institute/workflows/drift.html">
+          <span class="il-meta">Workflow 03</span>
+          <span class="il-name">Drift Monitoring</span>
+          <span class="il-desc">Production sampling, online evals, paging.</span>
+        </a>
+        <a href="institute/workflows/failure-taxonomy.html">
+          <span class="il-meta">Workflow 04</span>
+          <span class="il-name">Failure Taxonomy</span>
+          <span class="il-desc">Tagged postmortems, named-failure-mode catalog.</span>
+        </a>
+        <a href="institute/workflows/feedback-loop.html">
+          <span class="il-meta">Workflow 05</span>
+          <span class="il-name">Feedback Loops</span>
+          <span class="il-desc">Triage queue, time-to-coverage SLO.</span>
+        </a>
+        <a href="institute/workflows/refuse-policy.html">
+          <span class="il-meta">Workflow 06</span>
+          <span class="il-name">Refuse Policy</span>
+          <span class="il-desc">Written list, enforcement, dated compliance review.</span>
+        </a>
+        <a href="institute/assessment.html">
+          <span class="il-meta">Free · 5 min</span>
+          <span class="il-name">Readiness Self-Assessment</span>
+          <span class="il-desc">30 questions. Your maturity level + the weakest dimension to fix first.</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Shipping AI features?<br>Let's talk through where the gate should be.</h2>
+      <p style="color: var(--text-2); max-width: 50ch; margin: 0 auto;">A free 30-minute call. We'll talk through what you're shipping, what the failure modes are, and whether AI-feature QA at the retainer level is the right move now or later. No pitch, no slides, no pressure.</p>
+      <a href="https://cal.com/gloxx/30min" target="_blank" rel="noopener" class="cta-btn">Book the call →</a>
+      <a href="institute/assessment.html" class="cta-btn secondary">Or take the free assessment first →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <span class="footer-copy">&copy; 2026 Gloxx</span>
+      <div class="footer-links">
+        <a href="mailto:hello@gloxx.ai">hello@gloxx.ai</a>
+        <a href="index.html">Home</a>
+      </div>
+      <span class="footer-tag">Methodology in practice.</span>
+    </div>
+    <div class="footer-doctrine">
+      Audited, not certified. Methodology over warranties. Released artifacts over promises.
+    </div>
+    <div class="footer-dogfood">
+      Built and <a href="https://github.com/gloxxai/gloxx-web/tree/main/tests" target="_blank" rel="noopener">tested</a> with the same stack we sell.
+    </div>
+  </footer>
+
+  <script>
+    const ham = document.getElementById('navHam');
+    const mob = document.getElementById('mobMenu');
+    ham.addEventListener('click', () => {
+      ham.classList.toggle('active');
+      mob.classList.toggle('active');
+      document.body.style.overflow = mob.classList.contains('active') ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mob-link').forEach(a => {
+      a.addEventListener('click', () => {
+        ham.classList.remove('active');
+        mob.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+
+</body>
+</html>
