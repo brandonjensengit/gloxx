@@ -32,22 +32,22 @@ test.describe('Main Site', () => {
   test('hero title renders fractional-QA-team headline', async ({ page }) => {
     const hero = page.locator('.hero-title');
     await expect(hero).toBeVisible();
-    await expect(hero).toContainText('A QA team for any');
-    await expect(hero).toContainText('software company');
+    await expect(hero).toContainText('A fractional QA team');
+    await expect(hero).toContainText('software companies');
   });
 
-  test('hero primary CTA routes to Cal.com, secondary to approach', async ({ page }) => {
+  test('hero primary CTA routes to Cal.com, secondary to assessment', async ({ page }) => {
     const primary = page.locator('.hero-cta-primary');
     const secondary = page.locator('.hero-cta-secondary');
     await expect(primary).toBeVisible();
     await expect(primary).toHaveAttribute('href', 'https://cal.com/gloxx/30min');
     await expect(primary).toHaveAttribute('target', '_blank');
-    await expect(secondary).toHaveAttribute('href', 'approach.html');
+    await expect(secondary).toHaveAttribute('href', 'institute/assessment.html');
   });
 
-  test('hero tagline is visible', async ({ page }) => {
+  test('hero tagline shows the price', async ({ page }) => {
     await expect(page.locator('.hero-tag')).toBeVisible();
-    await expect(page.locator('.hero-tag')).toContainText('Fractional QA Team');
+    await expect(page.locator('.hero-tag')).toContainText('$15,000/mo');
   });
 
   test('hero subtitle is visible', async ({ page }) => {

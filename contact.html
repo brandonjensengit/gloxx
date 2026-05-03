@@ -157,6 +157,11 @@
     .field .hint {
       font-size: .82rem; color: var(--text-3); margin-top: -.25rem;
     }
+    .field label .opt {
+      font-family: var(--body); font-weight: 400; font-size: .78rem;
+      color: var(--text-3); letter-spacing: 0; text-transform: none;
+      margin-left: .35rem;
+    }
     .field input[type="text"],
     .field input[type="email"],
     .field textarea,
@@ -355,30 +360,30 @@
         </div>
 
         <div class="field">
-          <label for="f-company">Company or product</label>
-          <input type="text" id="f-company" name="company" required autocomplete="organization" placeholder="e.g. your company or product name">
-        </div>
-
-        <div class="field">
           <label for="f-email">Best email</label>
           <input type="email" id="f-email" name="email" required autocomplete="email">
         </div>
 
         <div class="field">
-          <label for="f-what">What are you building?</label>
-          <span class="hint">One or two sentences. What does the product do, and who is it for?</span>
-          <textarea id="f-what" name="what-building" required></textarea>
-        </div>
-
-        <div class="field">
-          <label for="f-qa">What's your current QA situation?</label>
-          <span class="hint">What's brittle, missing, or slowing you down? Engineers testing their own code? No regression suite? Bugs leaking to prod? Be honest — we can't help from a pretty picture.</span>
+          <label for="f-qa">What's brittle right now?</label>
+          <span class="hint">What's missing, slowing you down, or scaring you about the next release? Engineers testing their own code? No regression suite? Bugs leaking to prod? Be honest — we can't help from a pretty picture.</span>
           <textarea id="f-qa" name="current-qa" required></textarea>
         </div>
 
         <div class="field">
-          <label for="f-when">When are you shipping next?</label>
-          <select id="f-when" name="when-shipping" required>
+          <label for="f-company">Company or product <span class="opt">(optional)</span></label>
+          <input type="text" id="f-company" name="company" autocomplete="organization" placeholder="e.g. your company or product name">
+        </div>
+
+        <div class="field">
+          <label for="f-what">What are you building? <span class="opt">(optional)</span></label>
+          <span class="hint">One or two sentences. What does the product do, and who is it for?</span>
+          <textarea id="f-what" name="what-building"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="f-when">When are you shipping next? <span class="opt">(optional)</span></label>
+          <select id="f-when" name="when-shipping">
             <option value="">Select a timeframe...</option>
             <option value="this-week">This week</option>
             <option value="next-30">Next 30 days</option>
