@@ -101,11 +101,24 @@ npx serve .
 ## Testing
 
 ```bash
-npx playwright test           # full suite, desktop + mobile
-npx playwright test --ui      # interactive UI
+npm test            # full suite, desktop + mobile (preferred)
+npm run test:ui     # interactive UI
 ```
 
+`npm test` runs the local `playwright` binary from `node_modules/.bin`, gated by a `pretest` check that fails fast with a clear message if `node_modules/@playwright/test` is missing. Avoid `npx playwright test` — `npx` silently downloads to a global cache when the local binary is missing, which produces a long opaque hang instead of a useful error.
+
 Covers: page loads, hero rendering, navigation, scroll behavior, contact-form submission (with Apps Script POST + mailto fallback), responsive layout, horizontal-overflow regressions, archive page structure, axe-core WCAG 2.0+2.1 A/AA smoke check, and a polish audit (unique `<title>`/meta, one H1 per page, no skipped heading levels, internal links resolve <400, decorative SVGs hidden from AT).
+
+### Fresh git worktrees
+
+`.claude/worktrees/<name>/` checkouts start with no `node_modules` (it's gitignored). Before running anything in a fresh worktree:
+
+```bash
+npm install
+lsof -i :8080    # if a stale http.server from another directory is bound here, kill it
+```
+
+The Playwright config has `webServer.reuseExistingServer: true`, so a stale server bound to 8080 from a different working directory will silently serve the wrong files to test workers — pages will not match expectations and tests can hang without flushing log output. Either kill the stale server or skip ahead and let Playwright start its own fresh one against the worktree path.
 
 ## Deployment
 
